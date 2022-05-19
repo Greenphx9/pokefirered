@@ -128,11 +128,11 @@ static void HandleCreateYesNoMenu(u8 taskId, const struct YesNoFuncTable * ptrs)
 static u8 AddTMContextMenu(u8 * a0, u8 a1);
 static void RemoveTMContextMenu(u8 * a0);
 static u8 CreateTMSprite(u16 itemId);
-static void SetTMSpriteAnim(struct Sprite * sprite, u8 var);
-static void TintTMSpriteByType(u8 type);
-static void UpdateTMSpritePosition(struct Sprite * sprite, u8 var);
-static void InitSelectedTMSpriteData(u8 a0, u16 itemId);
-static void SpriteCB_MoveTMSpriteInCase(struct Sprite * sprite);
+//static void SetTMSpriteAnim(struct Sprite * sprite, u8 var);
+//static void TintTMSpriteByType(u8 type);
+//static void UpdateTMSpritePosition(struct Sprite * sprite, u8 var);
+//static void InitSelectedTMSpriteData(u8 a0, u16 itemId);
+//static void SpriteCB_MoveTMSpriteInCase(struct Sprite * sprite);
 static void LoadTMTypePalettes(void);
 static void DrawPartyMonIcons(void);
 static void TintPartyMonIcons(u8 tm);
@@ -561,7 +561,7 @@ static void TMCase_MoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMenu *
     if (onInit != TRUE)
     {
         PlaySE(SE_SELECT);
-        InitSelectedTMSpriteData(sTMCaseDynamicResources->tmSpriteId, itemId);
+        //InitSelectedTMSpriteData(sTMCaseDynamicResources->tmSpriteId, itemId);
     }
     TMCase_MoveCursor_UpdatePrintedDescription(itemIndex);
     TMCase_MoveCursor_UpdatePrintedTMInfo(itemId);
@@ -1437,7 +1437,7 @@ static void RemoveTMContextMenu(u8 * a0)
     *a0 = 0xFF;
 }
 
-static u8 CreateTMSprite(u16 itemId)
+/*static u8 CreateTMSprite(u16 itemId)
 {
     u8 spriteId = CreateSprite(&sTMSpriteTemplate, 0x29, 0x2E, 0);
     u8 r5;
@@ -1454,9 +1454,9 @@ static u8 CreateTMSprite(u16 itemId)
         UpdateTMSpritePosition(&gSprites[spriteId], r5);
         return spriteId;
     }
-}
+}*/
 
-static void SetTMSpriteAnim(struct Sprite * sprite, u8 idx)
+/*static void SetTMSpriteAnim(struct Sprite * sprite, u8 idx)
 {
     if (idx >= 50)
         StartSpriteAnim(sprite, 1);
@@ -1472,9 +1472,9 @@ static void TintTMSpriteByType(u8 type)
     {
         BlendPalettes(1 << (0x10 + palIndex), 4, RGB_BLACK);
     }
-}
+}*/
 
-static void UpdateTMSpritePosition(struct Sprite * sprite, u8 var)
+/*static void UpdateTMSpritePosition(struct Sprite * sprite, u8 var)
 {
     s32 x, y;
     if (var == 0xFF)
@@ -1494,16 +1494,16 @@ static void UpdateTMSpritePosition(struct Sprite * sprite, u8 var)
     }
     sprite->x = x;
     sprite->y = y;
-}
+}*/
 
-static void InitSelectedTMSpriteData(u8 spriteId, u16 itemId)
+/*static void InitSelectedTMSpriteData(u8 spriteId, u16 itemId)
 {
     gSprites[spriteId].data[0] = itemId;
     gSprites[spriteId].data[1] = 0;
     gSprites[spriteId].callback = SpriteCB_MoveTMSpriteInCase;
-}
+}*/
 
-static void SpriteCB_MoveTMSpriteInCase(struct Sprite * sprite)
+/*static void SpriteCB_MoveTMSpriteInCase(struct Sprite * sprite)
 {
     switch (sprite->data[1])
     {
@@ -1532,7 +1532,7 @@ static void SpriteCB_MoveTMSpriteInCase(struct Sprite * sprite)
         else
             sprite->y2 -= 10;
     }
-}
+}*/
 
 static void LoadTMTypePalettes(void)
 {
@@ -1632,12 +1632,11 @@ static void TintPartyMonIcons(u8 tm)
     for (i = 0; i < gPlayerPartyCount; i++)
     {
         species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
-        if (!CanSpeciesLearnTMHM(species, tm))
+        SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL);
+        SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(7, 11));
+        if (!CanSpeciesLearnTMHM(species, tm)) 
         {
-            gSprites[spriteIdData[i]].oam.priority = 1;
             gSprites[spriteIdData[i]].oam.objMode = ST_OAM_OBJ_BLEND;
-            gSprites[spriteIdData[i]].data[6] = 1;
-            gSprites[spriteIdData[i]].data[6] = 2;
         }
         else
         {
