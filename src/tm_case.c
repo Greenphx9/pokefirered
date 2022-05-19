@@ -22,6 +22,9 @@
 #include "menu_indicators.h"
 #include "constants/items.h"
 #include "constants/songs.h"
+#include "pokemon_icon.h"
+#include "pokemon.h"
+#include "gba/types.h"
 
 #define TM_CASE_TM_TAG 400
 
@@ -65,6 +68,10 @@ static EWRAM_DATA void * sTilemapBuffer = NULL; // tilemap buffer
 static EWRAM_DATA struct ListMenuItem * sListMenuItemsBuffer = NULL;
 static EWRAM_DATA u8 (* sListMenuStringsBuffer)[29] = NULL;
 static EWRAM_DATA u16 * sTMSpritePaletteBuffer = NULL;
+static EWRAM_DATA u8    spriteIdData[PARTY_SIZE] = {};
+static EWRAM_DATA u16   spriteIdPalette[PARTY_SIZE] = {};
+
+extern const struct SpritePalette gMonIconPaletteTable[6];
 
 static void CB2_SetUpTMCaseUI_Blocking(void);
 static bool8 DoSetUpTMCaseUI(void);
@@ -127,6 +134,10 @@ static void UpdateTMSpritePosition(struct Sprite * sprite, u8 var);
 static void InitSelectedTMSpriteData(u8 a0, u16 itemId);
 static void SpriteCB_MoveTMSpriteInCase(struct Sprite * sprite);
 static void LoadTMTypePalettes(void);
+static void DrawPartyMonIcons(void);
+static void TintPartyMonIcons(u8 tm);
+static void DestroyPartyMonIcons(void);
+
 
 static const struct BgTemplate sBGTemplates[] = {
     {
@@ -186,9 +197,9 @@ static const u8 sTextColors[][3] = {
 };
 
 static const struct WindowTemplate sWindowTemplates[] = {
-    {0x00, 0x0a, 0x01, 0x13, 0x0a, 0x0f, 0x0081},
+    {0x00, 0x0e, 0x01, 0x0f, 0x0a, 0x0f, 0x0081},
     {0x00, 0x0c, 0x0c, 0x12, 0x08, 0x0a, 0x013f},
-    {0x01, 0x05, 0x0f, 0x0f, 0x04, 0x0d, 0x01f9},
+    {0x01, 0x05, 0x0f, 0x0f, 0x04, 0x0f, 0x01f9},
     {0x00, 0x00, 0x01, 0x0a, 0x02, 0x0f, 0x0235},
     {0x00, 0x01, 0x0d, 0x05, 0x06, 0x0c, 0x0249},
     {0x00, 0x07, 0x0d, 0x05, 0x06, 0x0c, 0x0267},
@@ -363,6 +374,7 @@ static bool8 DoSetUpTMCaseUI(void)
         break;
     case 11:
         DrawMoveInfoUIMarkers();
+        DrawPartyMonIcons();
         gMain.state++;
         break;
     case 12:
@@ -387,7 +399,7 @@ static bool8 DoSetUpTMCaseUI(void)
         gMain.state++;
         break;
     case 16:
-        sTMCaseDynamicResources->tmSpriteId = CreateTMSprite(BagGetItemIdByPocketPosition(POCKET_TM_CASE, sTMCaseStaticResources.scrollOffset + sTMCaseStaticResources.selectedRow));
+        //sTMCaseDynamicResources->tmSpriteId = CreateTMSprite(BagGetItemIdByPocketPosition(POCKET_TM_CASE, sTMCaseStaticResources.scrollOffset + sTMCaseStaticResources.selectedRow));
         gMain.state++;
         break;
     case 17:
@@ -516,6 +528,7 @@ static void InitTMCaseListMenuItems(void)
 
 static void GetTMNumberAndMoveString(u8 * dest, u16 itemId)
 {
+    //StringAppend(gStringVar4, gText_BunchOfSpaces);
     StringCopy(gStringVar4, gText_FontSize0);
     if (itemId >= ITEM_HM01)
     {
@@ -574,9 +587,10 @@ static void TMCase_ItemPrintFunc(u8 windowId, u32 itemId, u8 y)
 static void TMCase_MoveCursor_UpdatePrintedDescription(s32 itemIndex)
 {
     const u8 * str;
+    u16 itemId = BagGetItemIdByPocketPosition(POCKET_TM_CASE, itemIndex);
     if (itemIndex != -2)
     {
-        str = ItemId_GetDescription(BagGetItemIdByPocketPosition(POCKET_TM_CASE, itemIndex));
+        str = ItemId_GetDescription(itemId);
     }
     else
     {
@@ -584,6 +598,9 @@ static void TMCase_MoveCursor_UpdatePrintedDescription(s32 itemIndex)
     }
     FillWindowPixelBuffer(1, 0);
     AddTextPrinterParameterized_ColorByIndex(1, 2, str, 2, 3, 1, 0, 0, 0);
+
+    // update icons
+    TintPartyMonIcons(itemId - ITEM_TM01);
 }
 
 static void FillBG2RowWithPalette_2timesNplus1(s32 a0)
@@ -1331,7 +1348,7 @@ static void TMCase_PrintMessageWithFollowupTask(u8 taskId, u8 windowId, const u8
 
 static void PrintStringTMCaseOnWindow3(void)
 {
-    u32 distance = 72 - GetStringWidth(1, gText_TMCase, 0);
+    u32 distance = 100 - GetStringWidth(1, gText_TMCase, 0);
     AddTextPrinterParameterized3(3, 1, distance / 2, 1, sTextColors[0], 0, gText_TMCase);
 }
 
@@ -1527,4 +1544,116 @@ static void LoadTMTypePalettes(void)
     spritePalette.data = sTMSpritePaletteBuffer + 0x110;
     spritePalette.tag = TM_CASE_TM_TAG;
     LoadSpritePalette(&spritePalette);
+}
+
+
+#define sMonIconStill data[3]
+static void SpriteCb_MonIcon(struct Sprite *sprite)
+{
+    if (!sprite->sMonIconStill)
+        UpdateMonIconFrame(sprite);
+}
+#undef sMonIconStill
+
+#define MON_ICON_START_X  0x10
+#define MON_ICON_START_Y  0x2a
+#define MON_ICON_PADDING  0x20
+
+
+void LoadMonIconPalettesTinted(void)
+{
+    u8 i;
+    for (i = 0; i < ARRAY_COUNT(gMonIconPaletteTable); i++)
+    {
+        LoadSpritePalette(&gMonIconPaletteTable[i]);
+        TintPalette_GrayScale2(&gPlttBufferUnfaded[0x170 + i*16], 16);
+    }
+}
+        
+
+static void DrawPartyMonIcons(void)
+{
+    u8 i;
+    u16 species;
+    u8 icon_x = 0;
+    u8 icon_y = 0;
+
+    LoadMonIconPalettesTinted();
+
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        //calc icon position (centered)
+        if (gPlayerPartyCount == 1)
+        {
+            icon_x = MON_ICON_START_X + MON_ICON_PADDING;
+            icon_y = MON_ICON_START_Y + MON_ICON_PADDING*0.5;
+        }
+        else if (gPlayerPartyCount == 2)
+        {
+            icon_x = i < 2 ? MON_ICON_START_X + MON_ICON_PADDING*0.5 + MON_ICON_PADDING * i : MON_ICON_START_X + MON_ICON_PADDING*0.5 + MON_ICON_PADDING * (i - 2);
+            icon_y = MON_ICON_START_Y + MON_ICON_PADDING*0.5;
+        }else if (gPlayerPartyCount == 3)
+        {
+            icon_x = i < 3 ? MON_ICON_START_X + MON_ICON_PADDING * i : MON_ICON_START_X + MON_ICON_PADDING * (i - 3);
+            icon_y = MON_ICON_START_Y + MON_ICON_PADDING*0.5;
+        }
+        else if (gPlayerPartyCount == 4)
+        {
+            icon_x = i < 2 ? MON_ICON_START_X + MON_ICON_PADDING*0.5 + MON_ICON_PADDING * i : MON_ICON_START_X + MON_ICON_PADDING*0.5 + MON_ICON_PADDING * (i - 2);
+            icon_y = i < 2 ? MON_ICON_START_Y : MON_ICON_START_Y + MON_ICON_PADDING;
+        }
+        else
+        {
+            icon_x = i < 3 ? MON_ICON_START_X + MON_ICON_PADDING * i : MON_ICON_START_X + MON_ICON_PADDING * (i - 3);
+            icon_y = i < 3 ? MON_ICON_START_Y : MON_ICON_START_Y + MON_ICON_PADDING;
+        }
+        //get species
+        species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+
+        //create icon sprite
+        #ifndef POKEMON_EXPANSION
+            spriteIdData[i] = CreateMonIcon(species, SpriteCb_MonIcon, icon_x, icon_y, 1, GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY), TRUE);
+        #else
+            spriteIdData[i] = CreateMonIcon(species, SpriteCb_MonIcon, icon_x, icon_y, 1, GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY));
+        #endif
+
+        //Set priority, stop movement and save original palette position
+        gSprites[spriteIdData[i]].oam.priority = 0;
+        StartSpriteAnim(&gSprites[spriteIdData[i]], 4); //full stop
+        spriteIdPalette[i] = gSprites[spriteIdData[i]].oam.paletteNum; //save correct palette number to array
+    }
+}
+
+static void TintPartyMonIcons(u8 tm)
+{
+    u8 i;
+    u16 species;
+
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+        if (!CanSpeciesLearnTMHM(species, tm))
+        {
+            gSprites[spriteIdData[i]].oam.priority = 1;
+            gSprites[spriteIdData[i]].oam.objMode = ST_OAM_OBJ_BLEND;
+            gSprites[spriteIdData[i]].data[6] = 1;
+            gSprites[spriteIdData[i]].data[6] = 2;
+        }
+        else
+        {
+            gSprites[spriteIdData[i]].oam.objMode = ST_OAM_OBJ_NORMAL;//gMonIconPaletteIndices[species];
+        }
+        
+    }
+    
+}
+
+static void DestroyPartyMonIcons(void)
+{
+    u8 i;
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        DestroyMonIcon(&gSprites[spriteIdData[i]]);
+        FreeMonIconPalettes();
+    }
 }
