@@ -1389,6 +1389,7 @@ extern const u8 gText_YourName[];
 extern const u8 gText_BoxName[];
 extern const u8 gText_PkmnsNickname[];
 extern const u8 gText_RivalsName[];
+extern const u8 gText_EnterPassword[];
 
 // pokemon_storage_system
 extern const u8 gText_WithdrawPokemon[];

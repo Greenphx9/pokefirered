@@ -771,6 +771,7 @@ const u8 gText_YourName[] = _("YOUR NAME?");
 const u8 gText_BoxName[] = _("BOX NAME?");
 const u8 gText_PkmnsNickname[] = _("'s nickname?");
 const u8 gText_RivalsName[] = _("RIVAL's NAME?");
+const u8 gText_EnterPassword[] = _("ENTER A PASSWORD");
 const u8 gText_MoveOkBack[] = _("{DPAD_ANY}MOVE {A_BUTTON}OK {B_BUTTON}BACK");
 const u8 gText_AlphabetUpperLower[] = _("");
 const u8 gText_RegionMap_Space[] = _(" ");

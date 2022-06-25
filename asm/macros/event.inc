@@ -1446,6 +1446,10 @@
 	.2byte \quantity
 	.endm
 
+	.macro mysterygift
+	.byte 0xd5
+	.endm
+
 
 @ Supplementary
 

@@ -404,6 +404,7 @@ PalletTown_Movement_SignLadyMoveOutOfWayLeft:: @ 816582C
 
 PalletTown_EventScript_FatMan:: @ 816582F
 	msgbox PalletTown_Text_CanStoreItemsAndMonsInPC, MSGBOX_NPC
+	mysterygift
 	end
 
 PalletTown_EventScript_OaksLabSign:: @ 8165838
