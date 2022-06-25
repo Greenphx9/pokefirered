@@ -21,7 +21,7 @@
     },
     {
       "direction": "down",
-      "offset": 0,
+      "offset": 2,
       "map": "MAP_PALLET_TOWN"
     }
   ],
