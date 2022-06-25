@@ -38,10 +38,11 @@
 void SetArgsForGiveMysteryGiftMon(u16 id);
 u16 GetMysteryGift();
 void ShowEnterPasswordScreen(void);
-u8 GiveMysteryGiftMon(u16 species, u16 item, u16 ivs, u16 move1, u16 move2, u16 move3, u16 move4, u8 level, u8 nature);
+u8 GiveMysteryGiftMon(u16 species, u16 item, u16 ivs, u16 move1, u16 move2, u16 move3, u16 move4, u8 level, u8 nature, u8 shiny, const u8* otName);
 
 
 const u8 gMewPassword[] = _("MEWPASSWORD");
+const u8 gMewOtName[] = _("MEW");
 
 const struct MysteryGiftMon gMysteryGiftMons[] =
 {
@@ -59,6 +60,8 @@ const struct MysteryGiftMon gMysteryGiftMons[] =
         },
         .level = 100,
         .nature = NATURE_HARDY,
+        .shiny = 1,
+        .otname = gMewOtName,
     },
 };
 
@@ -66,8 +69,9 @@ void SetArgsForGiveMysteryGiftMon(u16 id)
 {
     u16 species, item, ivs;
     u16 move1, move2, move3, move4;
-    u8 level, nature;
+    u8 level, nature, shiny;
     const struct MysteryGiftMon mGiftMon = gMysteryGiftMons[id];
+    const u8* otName = mGiftMon.otname;
     species = mGiftMon.species;
     item = mGiftMon.item;
     ivs = mGiftMon.ivs;
@@ -77,7 +81,8 @@ void SetArgsForGiveMysteryGiftMon(u16 id)
     move4 = mGiftMon.moves[3];
     level = mGiftMon.level;
     nature = mGiftMon.nature;
-    GiveMysteryGiftMon(species, item, ivs, move1, move2, move3, move4, level, nature);
+    shiny = mGiftMon.shiny;
+    GiveMysteryGiftMon(species, item, ivs, move1, move2, move3, move4, level, nature, shiny, otName);
 }
 
 u16 GetMysteryGift() 
@@ -109,7 +114,7 @@ void ShowEnterPasswordScreen(void)
 
 
 //CREDITS TO GHOULSLASH (customgivemon)
-u8 GiveMysteryGiftMon(u16 species, u16 item, u16 ivs, u16 move1, u16 move2, u16 move3, u16 move4, u8 level, u8 nature)
+u8 GiveMysteryGiftMon(u16 species, u16 item, u16 ivs, u16 move1, u16 move2, u16 move3, u16 move4, u8 level, u8 nature, u8 shiny, const u8* otName)
 {
     u8 heldItem[2];
     struct Pokemon mon;
@@ -117,16 +122,23 @@ u8 GiveMysteryGiftMon(u16 species, u16 item, u16 ivs, u16 move1, u16 move2, u16 
 
     if (nature == 25 || nature == 0xFF)
         nature = Random() % 25;
-    CreateMonWithNature(&mon, species, level, 32, nature);
+    if(shiny == 1)
+        CreateShinyMonWithNature(&mon, species, level, nature);
+    else
+        CreateMonWithNature(&mon, species, level, 32, nature);
     CalculateMonStats(&mon);
     SetMonMoveSlot(&mon, move1, 0);
     SetMonMoveSlot(&mon, move2, 1);
     SetMonMoveSlot(&mon, move3, 2);
     SetMonMoveSlot(&mon, move4, 3);
+    for (i = 0; i < NUM_STATS; i++)
+    {
+        SetMonData(&mon, MON_DATA_HP_IV + i, &ivs);
+    }
     heldItem[0] = item;
     heldItem[1] = item >> 8;
     SetMonData(&mon, MON_DATA_HELD_ITEM, heldItem);
-    SetMonData(&mon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
+    SetMonData(&mon, MON_DATA_OT_NAME, otName);
     SetMonData(&mon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
     for (i = 0; i < PARTY_SIZE; i++)
     {
