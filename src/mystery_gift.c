@@ -35,13 +35,13 @@
 #include "naming_screen.h"
 #include "mystery_gift.h"
 
-
-u16 GetMysteryGift(const u8* password);
+void SetArgsForGiveMysteryGiftMon(u16 id);
+u16 GetMysteryGift();
 void ShowEnterPasswordScreen(void);
 u8 GiveMysteryGiftMon(u16 species, u16 item, u16 ivs, u16 move1, u16 move2, u16 move3, u16 move4, u8 level, u8 nature);
 
 
-const u8 gMewPassword[] = _("A");
+const u8 gMewPassword[] = _("MEWPASSWORD");
 
 const struct MysteryGiftMon gMysteryGiftMons[] =
 {
@@ -62,16 +62,38 @@ const struct MysteryGiftMon gMysteryGiftMons[] =
     },
 };
 
-u16 GetMysteryGift(const u8* password) 
+void SetArgsForGiveMysteryGiftMon(u16 id)
+{
+    u16 species, item, ivs;
+    u16 move1, move2, move3, move4;
+    u8 level, nature;
+    const struct MysteryGiftMon mGiftMon = gMysteryGiftMons[id];
+    species = mGiftMon.species;
+    item = mGiftMon.item;
+    ivs = mGiftMon.ivs;
+    move1 = mGiftMon.moves[0];
+    move2 = mGiftMon.moves[1];
+    move3 = mGiftMon.moves[2];
+    move4 = mGiftMon.moves[3];
+    level = mGiftMon.level;
+    nature = mGiftMon.nature;
+    GiveMysteryGiftMon(species, item, ivs, move1, move2, move3, move4, level, nature);
+}
+
+u16 GetMysteryGift() 
 {
     u8 i;
+    const u8* password = gStringVar1;
     for(i = 0; i < ARRAY_COUNT(gMysteryGiftMons); i++)
     {
-        if(StringCompare(gMysteryGiftMons[i].password, password))
+        if(StringCompare(gMysteryGiftMons[i].password, password) == 0)
         {
+            SetArgsForGiveMysteryGiftMon(i);
+            SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
             return i;
         }
     }
+    SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
     return 0xFFFF;
 }
 
@@ -82,7 +104,7 @@ void ShowEnterPasswordScreen(void)
     u8 type;
     type = NAMING_SCREEN_ENTER_PASSWORD;
     gStringVar1[0] = EOS; //Empty input
-	DoNamingScreen(type, gStringVar1, 0, 0, 0, (void*) CB2_ReturnToFieldContinueScriptPlayMapMusic);
+	DoNamingScreen(type, gStringVar1, 0, 0, 0, (void*) GetMysteryGift);
 }
 
 

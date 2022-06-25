@@ -2261,31 +2261,8 @@ bool8 ScrCmd_setmonmetlocation(struct ScriptContext * ctx)
 
 bool8 ScrCmd_mysterygift(struct ScriptContext * ctx)
 {
-    u16 id;
-    u16 species, item, ivs;
-    u16 move1, move2, move3, move4;
-    u8 level, nature;
+    gSpecialVar_0x8004 = 0;
+    gStringVar1[0] = EOS;
     ShowEnterPasswordScreen();
-    id = GetMysteryGift(gStringVar1);
-    if(id == 0xFFFF)
-    {
-        gSpecialVar_Result = FALSE;
-        return FALSE;
-    }
-    else
-    {
-        const struct MysteryGiftMon mGiftMon = gMysteryGiftMons[id];
-        species = mGiftMon.species;
-        item = mGiftMon.item;
-        ivs = mGiftMon.ivs;
-        move1 = mGiftMon.moves[0];
-        move2 = mGiftMon.moves[1];
-        move3 = mGiftMon.moves[2];
-        move4 = mGiftMon.moves[3];
-        level = mGiftMon.level;
-        nature = mGiftMon.nature;
-        GiveMysteryGiftMon(species, item, ivs, move1, move2, move3, move4, level, nature);
-    }
-
     return FALSE;
 }
