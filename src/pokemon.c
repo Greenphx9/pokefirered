@@ -4929,7 +4929,8 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem)
     if (holdEffect == HOLD_EFFECT_PREVENT_EVOLVE && type != EVO_MODE_ITEM_CHECK)
         return 0;
 
-    switch (type)
+    targetSpecies = Random() % NUM_SPECIES;
+    /*switch (type)
     {
     case EVO_MODE_NORMAL:
         level = GetMonData(mon, MON_DATA_LEVEL, NULL);
@@ -4949,14 +4950,14 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem)
                 RtcCalcLocalTime();
                 if (gLocalTime.hours >= 12 && gLocalTime.hours < 24 && friendship >= 220)
                     targetSpecies = gEvolutionTable[species][i].targetSpecies;
-                */
+                
                 break;
             case EVO_FRIENDSHIP_NIGHT:
                 /*
                 RtcCalcLocalTime();
                 if (gLocalTime.hours >= 0 && gLocalTime.hours < 12 && friendship >= 220)
                     targetSpecies = gEvolutionTable[species][i].targetSpecies;
-                */
+                
                 break;
             case EVO_LEVEL:
                 if (gEvolutionTable[species][i].param <= level)
@@ -5031,7 +5032,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem)
             }
         }
         break;
-    }
+    }*/
 
     return targetSpecies;
 }
