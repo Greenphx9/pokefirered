@@ -50,11 +50,11 @@ for tileset_dir in tileset_dirs:
     layer_types = []
     meta_attributes = []
     with open(metatile_attributes_path, 'rb') as fileobj:
-        for chunk in iter(lambda: fileobj.read(2), ''):
+        for chunk in iter(lambda: fileobj.read(4), ''):
             if chunk == b'':
                 break
-            metatile_attribute = struct.unpack('<H', chunk)[0]
-            meta_attributes.append(metatile_attribute & 0x1FFF)
+            metatile_attribute = struct.unpack('<L', chunk)[0]
+            meta_attributes.append(metatile_attribute & 0x1FF)
             layer_types.append((metatile_attribute & layer_type_mask) >> layer_type_shift)
     i = 0
     new_metatile_data = []
