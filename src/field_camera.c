@@ -272,16 +272,16 @@ static void DrawMetatile(s32 metatileLayerType, const u16 *tiles, u16 offset)
         gBGTilemapBuffers3[offset + 0x21] = tiles[3];
 
         // Draw metatile's middle layer to the middle background layer.
-        gBGTilemapBuffers2[offset] = tiles[4];
-        gBGTilemapBuffers2[offset + 1] = tiles[5];
-        gBGTilemapBuffers2[offset + 0x20] = tiles[6];
-        gBGTilemapBuffers2[offset + 0x21] = tiles[7];
+        gBGTilemapBuffers1[offset] = tiles[4];
+        gBGTilemapBuffers1[offset + 1] = tiles[5];
+        gBGTilemapBuffers1[offset + 0x20] = tiles[6];
+        gBGTilemapBuffers1[offset + 0x21] = tiles[7];
 
         // Draw metatile's top layer to the top background layer, which covers object event sprites.
-        gBGTilemapBuffers1[offset] = tiles[8];
-        gBGTilemapBuffers1[offset + 1] = tiles[9];
-        gBGTilemapBuffers1[offset + 0x20] = tiles[10];
-        gBGTilemapBuffers1[offset + 0x21] = tiles[11];
+        gBGTilemapBuffers2[offset] = tiles[8];
+        gBGTilemapBuffers2[offset + 1] = tiles[9];
+        gBGTilemapBuffers2[offset + 0x20] = tiles[10];
+        gBGTilemapBuffers2[offset + 0x21] = tiles[11];
 
 
     }

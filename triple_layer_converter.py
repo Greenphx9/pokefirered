@@ -3,8 +3,8 @@ import io
 import argparse
 import struct
 
-layer_type_mask = 0x60000000
-layer_type_shift = 29
+layer_type_mask = 0xF000
+layer_type_shift = 12
 
 parser = argparse.ArgumentParser(description='Convert pokeemerald metatiles to use the triple layer system.' )
 parser.add_argument('--tsroot', required=True,
@@ -43,7 +43,7 @@ for tileset_dir in tileset_dirs:
     if not os.path.exists(metatile_attributes_path):
         print(f"[SKIP] {tileset_name} skipped because metatile_attributes.bin was not found.")
         continue
-    if os.path.getsize(metatiles_path) != 8*os.path.getsize(metatile_attributes_path):
+    if os.path.getsize(metatiles_path) != 4*os.path.getsize(metatile_attributes_path):
         print(f"[SKIP] {tileset_name} skipped because metatiles.bin is not eight times the size of metatile_attributes.bin (already converted?)")
         continue
 
@@ -54,17 +54,15 @@ for tileset_dir in tileset_dirs:
             if chunk == b'':
                 break
             metatile_attribute = struct.unpack('<H', chunk)[0]
-            meta_attributes.append(metatile_attribute & 0x0FFF)
+            meta_attributes.append(metatile_attribute & 0x1FFF)
             layer_types.append((metatile_attribute & layer_type_mask) >> layer_type_shift)
     i = 0
     new_metatile_data = []
-    with open(metatile_attributes_path, 'rb') as fileobj:
-        for chunk in iter(lambda: fileobj.read(4), ''):
+    with open(metatiles_path, 'rb') as fileobj:
+        for chunk in iter(lambda: fileobj.read(16), ''):
             if chunk == b'':
                 break
-            metatile_attribute = struct.unpack('<L', chunk)[0]
-            meta_attributes.append(metatile_attribute & 0x1FF)
-            layer_types.append((metatile_attribute & layer_type_mask) >> layer_type_shift)
+            metatile_data = struct.unpack('<HHHHHHHH', chunk)
             if layer_types[i] == 0:
                 new_metatile_data += [0]*4
                 new_metatile_data += metatile_data
