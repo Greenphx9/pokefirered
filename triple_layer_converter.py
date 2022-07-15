@@ -49,12 +49,16 @@ for tileset_dir in tileset_dirs:
 
     layer_types = []
     meta_attributes = []
+    terrain_type = []
+    encounter_type = []
     with open(metatile_attributes_path, 'rb') as fileobj:
         for chunk in iter(lambda: fileobj.read(4), ''):
             if chunk == b'':
                 break
             metatile_attribute = struct.unpack('<L', chunk)[0]
             meta_attributes.append(metatile_attribute & 0x1FF)
+            terrain_type.append(metatile_attribute & 0x3E00)
+            encounter_type.append(metatile_attribute & 0x7000000)
             layer_types.append((metatile_attribute & layer_type_mask) >> layer_type_shift)
     i = 0
     new_metatile_data = []
@@ -78,9 +82,13 @@ for tileset_dir in tileset_dirs:
             i += 1
 
     metatile_buffer = struct.pack(f'<{len(new_metatile_data)}H', *new_metatile_data)
-    metatile_attribute_buffer = struct.pack(f'<{len(meta_attributes)}H', *meta_attributes)
+    metatile_attribute_buffer = struct.pack(f'<{len(meta_attributes)}L', *meta_attributes)
+    terrain_type_buffer = struct.pack(f'<{len(terrain_type)}L', *terrain_type)
+    encounter_type_buffer = struct.pack(f'<{len(encounter_type)}L', *encounter_type)
     with open(metatiles_path, 'wb') as fileobj:
         fileobj.write(metatile_buffer)
     with open(metatile_attributes_path, 'wb') as fileobj:
         fileobj.write(metatile_attribute_buffer)
+        fileobj.write(terrain_type_buffer)
+        fileobj.write(encounter_type_buffer)
     print(f'[OK] Converted {tileset_name}')
