@@ -263,7 +263,7 @@ static void DrawMetatile(s32 metatileLayerType, const u16 *tiles, u16 offset)
         gBGTilemapBuffers1[offset + 0x21] = tiles[7];
 
     }
-    else
+    else 
     {
         // Draw metatile's bottom layer to the bottom background layer.
         gBGTilemapBuffers3[offset] = tiles[0];

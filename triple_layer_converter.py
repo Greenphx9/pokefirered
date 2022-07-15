@@ -3,8 +3,8 @@ import io
 import argparse
 import struct
 
-layer_type_mask = 0xF000
-layer_type_shift = 12
+layer_type_mask = 0x60000000
+layer_type_shift = 29
 
 parser = argparse.ArgumentParser(description='Convert pokeemerald metatiles to use the triple layer system.' )
 parser.add_argument('--tsroot', required=True,
