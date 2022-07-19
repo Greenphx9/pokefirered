@@ -830,14 +830,15 @@ void BtlController_EmitChooseItem(u8 bufferId, u8 *arg1)
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, 4);
 }
 
-void BtlController_EmitChoosePokemon(u8 bufferId, u8 caseId, u8 arg2, u8 abilityId, u8 *arg4)
+void BtlController_EmitChoosePokemon(u8 bufferId, u8 caseId, u8 arg2, u16 abilityId, u8 *arg4)
 {
     s32 i;
 
     sBattleBuffersTransferData[0] = CONTROLLER_CHOOSEPOKEMON;
     sBattleBuffersTransferData[1] = caseId;
     sBattleBuffersTransferData[2] = arg2;
-    sBattleBuffersTransferData[3] = abilityId;
+    sBattleBuffersTransferData[3] = abilityId & 0xFF;
+    sBattleBuffersTransferData[7] = (abilityId >> 8) & 0xFF;
     for (i = 0; i < 3; ++i)
         sBattleBuffersTransferData[4 + i] = arg4[i];
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, 8);  // Only 7 bytes were written.
