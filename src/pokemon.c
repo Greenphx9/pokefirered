@@ -3748,13 +3748,26 @@ u8 GetMonsStateToDoubles(void)
 
 u8 GetAbilityBySpecies(u16 species, bool8 abilityNum)
 {
-    if (abilityNum == 2)
-        gLastUsedAbility = gBaseStats[species].abilities[2];
-    else if (abilityNum == 1)
-        gLastUsedAbility = gBaseStats[species].abilities[1];
-    else
-        gLastUsedAbility = gBaseStats[species].abilities[0];
+    int i;
 
+    if (abilityNum < NUM_ABILITY_SLOTS)
+        gLastUsedAbility = gBaseStats[species].abilities[abilityNum];
+    else
+        gLastUsedAbility = ABILITY_NONE;
+    
+    if (abilityNum >= NUM_NORMAL_ABILITY_SLOTS) // if abilityNum is empty hidden ability, look for other hidden abilities
+    {
+        for (i = NUM_NORMAL_ABILITY_SLOTS; i < NUM_ABILITY_SLOTS && gLastUsedAbility == ABILITY_NONE; i++)
+        {
+            gLastUsedAbility = gBaseStats[species].abilities[i];
+        }
+    }
+    
+    for (i = 0; i < NUM_ABILITY_SLOTS && gLastUsedAbility == ABILITY_NONE; i++) // look for any non-empty ability
+    {
+        gLastUsedAbility = gBaseStats[species].abilities[i];
+    }
+    
     return gLastUsedAbility;
 }
 
