@@ -3180,7 +3180,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_EFFORT_RIBBON:
         retVal = substruct3->effortRibbon;
         break;
-    case MON_DATA_MARINE_RIBBON:
+    /*case MON_DATA_MARINE_RIBBON:
         retVal = substruct3->marineRibbon;
         break;
     case MON_DATA_LAND_RIBBON:
@@ -3188,7 +3188,7 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     case MON_DATA_SKY_RIBBON:
         retVal = substruct3->skyRibbon;
-        break;
+        break;*/
     case MON_DATA_COUNTRY_RIBBON:
         retVal = substruct3->countryRibbon;
         break;
@@ -3247,9 +3247,9 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
             retVal += substruct3->victoryRibbon;
             retVal += substruct3->artistRibbon;
             retVal += substruct3->effortRibbon;
-            retVal += substruct3->marineRibbon;
+            /*retVal += substruct3->marineRibbon;
             retVal += substruct3->landRibbon;
-            retVal += substruct3->skyRibbon;
+            retVal += substruct3->skyRibbon;*/
             retVal += substruct3->countryRibbon;
             retVal += substruct3->nationalRibbon;
             retVal += substruct3->earthRibbon;
@@ -3270,13 +3270,13 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 | (substruct3->victoryRibbon << 17)
                 | (substruct3->artistRibbon << 18)
                 | (substruct3->effortRibbon << 19)
-                | (substruct3->marineRibbon << 20)
+                /*| (substruct3->marineRibbon << 20)
                 | (substruct3->landRibbon << 21)
-                | (substruct3->skyRibbon << 22)
-                | (substruct3->countryRibbon << 23)
-                | (substruct3->nationalRibbon << 24)
-                | (substruct3->earthRibbon << 25)
-                | (substruct3->worldRibbon << 26);
+                | (substruct3->skyRibbon << 22)*/
+                | (substruct3->countryRibbon << 20)
+                | (substruct3->nationalRibbon << 21)
+                | (substruct3->earthRibbon << 22)
+                | (substruct3->worldRibbon << 23);
         }
         break;
     default:
@@ -3343,9 +3343,9 @@ void SetMonData(struct Pokemon *mon, s32 field, const void *dataArg)
     case MON_DATA_VICTORY_RIBBON:
     case MON_DATA_ARTIST_RIBBON:
     case MON_DATA_EFFORT_RIBBON:
-    case MON_DATA_MARINE_RIBBON:
+    /*case MON_DATA_MARINE_RIBBON:
     case MON_DATA_LAND_RIBBON:
-    case MON_DATA_SKY_RIBBON:
+    case MON_DATA_SKY_RIBBON:*/
     case MON_DATA_COUNTRY_RIBBON:
     case MON_DATA_NATIONAL_RIBBON:
     case MON_DATA_EARTH_RIBBON:
@@ -3583,7 +3583,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_EFFORT_RIBBON:
         SET8(substruct3->effortRibbon);
         break;
-    case MON_DATA_MARINE_RIBBON:
+    /*case MON_DATA_MARINE_RIBBON:
         SET8(substruct3->marineRibbon);
         break;
     case MON_DATA_LAND_RIBBON:
@@ -3591,7 +3591,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         break;
     case MON_DATA_SKY_RIBBON:
         SET8(substruct3->skyRibbon);
-        break;
+        break;*/
     case MON_DATA_COUNTRY_RIBBON:
         SET8(substruct3->countryRibbon);
         break;
@@ -3907,7 +3907,7 @@ static void CopyPlayerPartyMonToBattleData(u8 battlerId, u8 partyIndex)
     gBattleMons[battlerId].speed = GetMonData(&gPlayerParty[partyIndex], MON_DATA_SPEED, NULL);
     gBattleMons[battlerId].spAttack = GetMonData(&gPlayerParty[partyIndex], MON_DATA_SPATK, NULL);
     gBattleMons[battlerId].spDefense = GetMonData(&gPlayerParty[partyIndex], MON_DATA_SPDEF, NULL);
-    gBattleMons[battlerId].isEgg = GetMonData(&gPlayerParty[partyIndex], MON_DATA_IS_EGG, NULL);
+    //gBattleMons[battlerId].isEgg = GetMonData(&gPlayerParty[partyIndex], MON_DATA_IS_EGG, NULL);
     gBattleMons[battlerId].abilityNum = GetMonData(&gPlayerParty[partyIndex], MON_DATA_ABILITY_NUM, NULL);
     gBattleMons[battlerId].otId = GetMonData(&gPlayerParty[partyIndex], MON_DATA_OT_ID, NULL);
     gBattleMons[battlerId].type1 = gBaseStats[gBattleMons[battlerId].species].type1;
