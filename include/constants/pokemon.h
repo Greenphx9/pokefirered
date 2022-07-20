@@ -91,6 +91,8 @@
 #define MON_DATA_SPEED2            86
 #define MON_DATA_SPATK2            87
 #define MON_DATA_SPDEF2            88
+//NEW
+#define MON_DATA_HIDDEN_NATURE     89
 
 // Pokemon types
 #define TYPE_NORMAL   0x00

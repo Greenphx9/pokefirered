@@ -147,6 +147,8 @@ static void Task_ExitBuyMenu(u8 taskId);
 static void DebugFunc_PrintPurchaseDetails(u8 taskId);
 static void DebugFunc_PrintShopMenuHistoryBeforeClearMaybe(void);
 static void RecordQuestLogItemPurchase(void);
+//NEW
+static void Task_ReturnToSellListAfterTmPurchase(u8 taskId);
 
 static const struct MenuAction sShopMenuActions_BuySellQuit[] =
 {
@@ -583,6 +585,7 @@ static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, s
         PlaySE(SE_SELECT);
 
     if (item != INDEX_CANCEL)
+        //if (GetPocketByItemId(item) == POCKET_TM_CASE)
         description = ItemId_GetDescription(item);
     else
         description = gText_QuitShopping;
@@ -614,6 +617,16 @@ static void BuyMenuPrintPriceInList(u8 windowId, u32 item, u8 y)
 
     if (item != INDEX_CANCEL)
     {
+        
+        #ifdef REUSABLE_TMS
+            if (GetPocketByItemId(item) == POCKET_TM_CASE && CheckBagHasItem(item, 1))
+            {
+                static const u8 sText_Purchased[] = _("Purchased");
+                BuyMenuPrint(windowId, 0, sText_Purchased, 0x58, y, 0, 0, TEXT_SPEED_FF, 1);
+                return;
+            }
+        #endif
+        
         ConvertIntToDecimalStringN(gStringVar1, itemid_get_market_price(item), 0, 4);
         x = 4 - StringLength(gStringVar1);
         loc = gStringVar4;
@@ -626,9 +639,16 @@ static void BuyMenuPrintPriceInList(u8 windowId, u32 item, u8 y)
 
 static void LoadTmHmNameInMart(s32 item)
 {
+    u8 digits;
+    
     if (item != INDEX_CANCEL)
     {
-        ConvertIntToDecimalStringN(gStringVar1, item - ITEM_DEVON_SCOPE, 2, 2);
+        if (NUM_TECHNICAL_MACHINES >= 100)
+            digits = 3;
+        else
+            digits = 2;
+        
+        ConvertIntToDecimalStringN(gStringVar1, item - ITEM_TM01 + 1, 2, digits);
         StringCopy(gStringVar4, gOtherText_UnkF9_08_Clear_01);
         StringAppend(gStringVar4, gStringVar1);
         BuyMenuPrint(6, 0, gStringVar4, 0, 0, 0, 0, TEXT_SPEED_FF, 1);
@@ -907,13 +927,35 @@ static void Task_BuyMenu(u8 taskId)
             BuyMenuPrintCursor(tListTaskId, 2);
             RecolorItemDescriptionBox(1);
             gShopData.itemPrice = itemid_get_market_price(itemId);
+            
+        #ifdef REUSABLE_TMS
+            if (GetPocketByItemId(itemId) == POCKET_TM_CASE && CheckBagHasItem(itemId, 1))
+            {
+                static const u8 gText_AlreadyOwnTM[] = _("You already own that TM.{PAUSE_UNTIL_PRESS}");
+                BuyMenuDisplayMessage(taskId, gText_AlreadyOwnTM, BuyMenuReturnToItemList);
+                return;
+            }
+            else if (!IsEnoughMoney(&gSaveBlock1Ptr->money, gShopData.itemPrice))
+        #else
             if (!IsEnoughMoney(&gSaveBlock1Ptr->money, gShopData.itemPrice))
+        #endif
             {
                 BuyMenuDisplayMessage(taskId, gText_YouDontHaveMoney, BuyMenuReturnToItemList);
             }
             else
             {
                 CopyItemName(itemId, gStringVar1);
+                
+                #ifdef REUSABLE_TMS
+                if (GetPocketByItemId(itemId) == POCKET_TM_CASE)
+                {
+                    static const u8 sText_SingleTmBuy[] = _("{STR_VAR_1} {STR_VAR_3},\nThat will be ¥{STR_VAR_2}. Okay?");
+                    ConvertIntToDecimalStringN(gStringVar2, itemid_get_market_price(itemId), 3, MONEY_DIGITS);
+                    StringCopy(gStringVar3, gMoveNames[ItemIdToBattleMoveId(itemId)]);
+                    BuyMenuDisplayMessage(taskId, sText_SingleTmBuy, CreateBuyMenuConfirmPurchaseWindow);
+                    return;
+                }
+                #endif
                 BuyMenuDisplayMessage(taskId, gText_Var1CertainlyHowMany, Task_BuyHowManyDialogueInit);
             }
             break;
@@ -995,9 +1037,23 @@ static void BuyMenuTryMakePurchase(u8 taskId)
     s16 *data = gTasks[taskId].data;
 
     PutWindowTilemap(4);
+    
+	#ifdef REUSABLE_TMS
+    if (GetPocketByItemId(tItemId) == POCKET_TM_CASE)
+        tItemCount = 1; // reusable tms -> only add single copy
+	#endif
+    
     if (AddBagItem(tItemId, tItemCount) == TRUE)
     {
-        BuyMenuDisplayMessage(taskId, gText_HereYouGoThankYou, BuyMenuSubtractMoney);
+        #ifdef REUSABLE_TMS
+        if (GetPocketByItemId(tItemId) == POCKET_TM_CASE)
+            BuyMenuDisplayMessage(taskId, gText_HereYouGoThankYou, Task_ReturnToSellListAfterTmPurchase);
+        else
+            BuyMenuDisplayMessage(taskId, gText_HereYouGoThankYou, BuyMenuSubtractMoney);
+        #else
+            BuyMenuDisplayMessage(taskId, gText_HereYouGoThankYou, BuyMenuSubtractMoney);
+        #endif
+        
         DebugFunc_PrintPurchaseDetails(taskId);
         RecordItemPurchase(tItemId, tItemCount, 1);
     }
@@ -1148,5 +1204,21 @@ void CreateDecorationShop2Menu(const u16 *itemsForSale)
     SetShopItemsForSale(itemsForSale);
     CreateShopMenu(MART_TYPE_DECOR2);
     SetShopMenuCallback(EnableBothScriptContexts);
+}
+
+// NEW
+static void Task_ReturnToSellListAfterTmPurchase(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    if (gMain.newKeys & (A_BUTTON | B_BUTTON))
+    {
+        IncrementGameStat(GAME_STAT_SHOPPED);
+        RemoveMoney(&gSaveBlock1Ptr->money, gShopData.itemPrice);
+        PlaySE(SE_SHOP);
+        PrintMoneyAmountInMoneyBox(0, GetMoney(&gSaveBlock1Ptr->money), 0);
+        RedrawListMenu(tListTaskId);
+        BuyMenuReturnToItemList(taskId);
+    }
 }
 

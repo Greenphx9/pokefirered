@@ -519,17 +519,30 @@ static void GetTMNumberAndMoveString(u8 * dest, u16 itemId)
     StringCopy(gStringVar4, gText_FontSize0);
     if (itemId >= ITEM_HM01)
     {
+        #if NUM_HIDDEN_MACHINES < 10
+            u8 hmDigits = 1;
+        #else
+            u8 hmDigits = 2;
+        #endif
+        
         StringAppend(gStringVar4, sText_ClearTo18);
         StringAppend(gStringVar4, gOtherText_UnkF9_08_Clear_01);
-        ConvertIntToDecimalStringN(gStringVar1, itemId - ITEM_HM01 + 1, STR_CONV_MODE_LEADING_ZEROS, 1);
+        ConvertIntToDecimalStringN(gStringVar1, itemId - ITEM_HM01 + 1, STR_CONV_MODE_LEADING_ZEROS, hmDigits);
         StringAppend(gStringVar4, gStringVar1);
     }
     else
     {
+        #if NUM_TECHNICAL_MACHINES < 100
+            u8 tmDigits = 2;
+        #else
+            u8 tmDigits = 3;
+        #endif
+        
         StringAppend(gStringVar4, gOtherText_UnkF9_08_Clear_01);
-        ConvertIntToDecimalStringN(gStringVar1, itemId - ITEM_TM01 + 1, STR_CONV_MODE_LEADING_ZEROS, 2);
+        ConvertIntToDecimalStringN(gStringVar1, itemId - ITEM_TM01 + 1, STR_CONV_MODE_LEADING_ZEROS, tmDigits);
         StringAppend(gStringVar4, gStringVar1);
     }
+    
     StringAppend(gStringVar4, sText_SingleSpace);
     StringAppend(gStringVar4, gText_FontSize2);
     StringAppend(gStringVar4, gMoveNames[ItemIdToBattleMoveId(itemId)]);
@@ -556,13 +569,30 @@ static void TMCase_MoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMenu *
 
 static void TMCase_ItemPrintFunc(u8 windowId, u32 itemId, u8 y)
 {
+    bool8 isHm = FALSE;
+    bool8 showQuantity = TRUE;
+    
     if (itemId != -2)
     {
-        if (!itemid_is_unique(BagGetItemIdByPocketPosition(POCKET_TM_CASE, itemId)))
+        if (BagGetItemIdByPocketPosition(POCKET_TM_CASE, itemId) >= ITEM_HM01)
+            isHm = TRUE;
+        else
+            isHm = FALSE;
+        
+		#ifdef REUSABLE_TMS
+            showQuantity = FALSE;
+		#else
+            showQuantity = TRUE;
+		#endif
+        
+        if (!isHm)
         {
-            ConvertIntToDecimalStringN(gStringVar1, BagGetQuantityByPocketPosition(POCKET_TM_CASE, itemId), STR_CONV_MODE_RIGHT_ALIGN, 3);
-            StringExpandPlaceholders(gStringVar4, gText_TimesStrVar1);
-            AddTextPrinterParameterized_ColorByIndex(windowId, 0, gStringVar4, 0x7E, y, 0, 0, 0xFF, 1);
+            if (showQuantity)
+            {
+                ConvertIntToDecimalStringN(gStringVar1, BagGetQuantityByPocketPosition(POCKET_TM_CASE, itemId), STR_CONV_MODE_RIGHT_ALIGN, 3);
+                StringExpandPlaceholders(gStringVar4, gText_TimesStrVar1);
+                AddTextPrinterParameterized_ColorByIndex(windowId, 0, gStringVar4, 0x7E, y, 0, 0, 0xFF, 1);
+            }
         }
         else
         {
@@ -794,11 +824,13 @@ static void Task_SelectTMAction_FromFieldBag(u8 taskId)
     StringAppend(strbuf, gText_Var1IsSelected + 2); // +2 skips over the stringvar
     AddTextPrinterParameterized_ColorByIndex(2, 2, strbuf, 0, 2, 1, 0, 0, 1);
     Free(strbuf);
-    if (itemid_is_unique(gSpecialVar_ItemId))
+    
+    if (gSpecialVar_ItemId >= ITEM_HM01)
     {
         PlaceHMTileInWindow(2, 0, 2);
         CopyWindowToVram(2, COPYWIN_GFX);
     }
+    
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
     gTasks[taskId].func = Task_TMContextMenu_HandleInput;
@@ -966,7 +998,11 @@ static void Task_SelectTMAction_FromSellMenu(u8 taskId)
 {
     s16 * data = gTasks[taskId].data;
 
+    #ifdef REUSABLE_TMS
+    if (1)  //no tms/hms sellable
+    #else
     if (itemid_get_market_price(gSpecialVar_ItemId) == 0)
+    #endif
     {
         CopyItemName(gSpecialVar_ItemId, gStringVar1);
         StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThat);
@@ -1430,26 +1466,34 @@ static u8 CreateTMSprite(u16 itemId)
         return spriteId;
     }
     else
-    {
-        r5 = itemId - 33;
-        SetTMSpriteAnim(&gSprites[spriteId], r5);
+    {        
+        SetTMSpriteAnim(&gSprites[spriteId], itemId - ITEM_TM01);
         TintTMSpriteByType(gBattleMoves[ItemIdToBattleMoveId(itemId)].type);
-        UpdateTMSpritePosition(&gSprites[spriteId], r5);
+        UpdateTMSpritePosition(&gSprites[spriteId], itemId - ITEM_TM01);
         return spriteId;
     }
 }
 
 static void SetTMSpriteAnim(struct Sprite * sprite, u8 idx)
 {
-    if (idx >= 50)
+    if (idx > NUM_TECHNICAL_MACHINES)
         StartSpriteAnim(sprite, 1);
     else
         StartSpriteAnim(sprite, 0);
 }
 
+
+//static const u16 sFairyTmPalette[] = INCBIN_U16("graphics/tm_case/fairy_tm.gbapal"); 
 static void TintTMSpriteByType(u8 type)
 {
     u8 palIndex = IndexOfSpritePaletteTag(TM_CASE_TM_TAG) << 4;
+    
+    /*  if you have fairy-type tm/hms
+    if (type == TYPE_FAIRY)
+        LoadPalette(sFairyTmPalette, 0x100 | palIndex, 0x20);        
+    else
+    */
+
     LoadPalette(sTMSpritePaletteBuffer + sTMSpritePaletteOffsetByType[type], 0x100 | palIndex, 0x20);
     if (sTMCaseStaticResources.tmCaseMenuType == 4)
     {
@@ -1457,10 +1501,10 @@ static void TintTMSpriteByType(u8 type)
     }
 }
 
-static void UpdateTMSpritePosition(struct Sprite * sprite, u8 var)
+static void UpdateTMSpritePosition(struct Sprite * sprite, u8 tmId)
 {
     s32 x, y;
-    if (var == 0xFF)
+    if (tmId == 0xFF)    //end of tm case
     {
         x = 0x1B;
         y = 0x36;
@@ -1468,12 +1512,13 @@ static void UpdateTMSpritePosition(struct Sprite * sprite, u8 var)
     }
     else
     {
-        if (var >= 50)
-            var -= 50;
+        if (tmId > NUM_TECHNICAL_MACHINES)
+            tmId -= NUM_TECHNICAL_MACHINES;
         else
-            var += 8;
-        x = 0x29 - (((0xE00 * var) / 58) >> 8);
-        y = 0x2E + (((0x800 * var) / 58) >> 8);
+            tmId += NUM_HIDDEN_MACHINES;
+        
+        x = 0x29 - (((0xE00 * tmId) / NUM_TMHMS) >> 8);
+        y = 0x2E + (((0x800 * tmId) / NUM_TMHMS) >> 8);
     }
     sprite->x = x;
     sprite->y = y;

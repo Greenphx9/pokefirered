@@ -284,30 +284,6 @@ static const u8 sItemEffect_XSpecial[8] = {
     [7] = 1,
 };
 
-static const u8 sItemEffect_SunStone[6] = {
-    [4] = ITEM4_EVO_STONE,
-};
-
-static const u8 sItemEffect_MoonStone[6] = {
-    [4] = ITEM4_EVO_STONE,
-};
-
-static const u8 sItemEffect_FireStone[6] = {
-    [4] = ITEM4_EVO_STONE,
-};
-
-static const u8 sItemEffect_ThunderStone[6] = {
-    [4] = ITEM4_EVO_STONE,
-};
-
-static const u8 sItemEffect_WaterStone[6] = {
-    [4] = ITEM4_EVO_STONE,
-};
-
-static const u8 sItemEffect_LeafStone[6] = {
-    [4] = ITEM4_EVO_STONE,
-};
-
 static const u8 sItemEffect_CheriBerry[6] = {
     [3] = ITEM3_PARALYSIS,
 };
@@ -350,6 +326,125 @@ static const u8 sItemEffect_SitrusBerry[7] = {
     [4] = ITEM4_HEAL_HP,
     [6] = 30,
 };
+
+// NEW
+static const u8 sItemEffect_XSpecialDefense[8] = {
+    [2] = 1,
+    [5] = ITEM5_FRIENDSHIP_LOW | ITEM5_FRIENDSHIP_MID,
+    [6] = 1,
+    [7] = 1,
+};
+
+static const u8 sItemEffect_HpWing[11] = {
+    [4] = ITEM4_EV_HP,
+    [5] = ITEM5_FRIENDSHIP_ALL,
+    [6] = 1,
+    [7] = 3,
+    [8] = 2,
+    [9] = 1,
+    [10] = 0,
+};
+
+static const u8 sItemEffect_AtkWing[11] = {
+    [4] = ITEM4_EV_ATK,
+    [5] = ITEM5_FRIENDSHIP_ALL,
+    [6] = 1,
+    [7] = 3,
+    [8] = 2,
+    [9] = 1,
+    [10] = 0,
+};
+
+static const u8 sItemEffect_DefWing[11] = {
+    [5] = ITEM5_EV_DEF | ITEM5_FRIENDSHIP_ALL,
+    [6] = 1,
+    [7] = 3,
+    [8] = 2,
+    [9] = 1,
+    [10] = 0,
+};
+
+static const u8 sItemEffect_SpeedWing[11] = {
+    [5] = ITEM5_EV_SPEED | ITEM5_FRIENDSHIP_ALL,
+    [6] = 1,
+    [7] = 3,
+    [8] = 2,
+    [9] = 1,
+    [10] = 0,
+};
+
+static const u8 sItemEffect_SpatkWing[11] = {
+    [5] = ITEM5_EV_SPATK | ITEM5_FRIENDSHIP_ALL,
+    [6] = 1,
+    [7] = 3,
+    [8] = 2,
+    [9] = 1,
+    [10] = 0,
+};
+
+static const u8 sItemEffect_SpdefWing[11] = {
+    [5] = ITEM5_EV_SPDEF | ITEM5_FRIENDSHIP_ALL,
+    [6] = 1,
+    [7] = 3,
+    [8] = 2,
+    [9] = 1,
+    [10] = 0,
+};
+
+static const u8 sItemEffect_EvoStone[6] = {
+    [4] = ITEM4_EVO_STONE,
+};
+
+static const u8 sItemEffect_PomegBerry[10] = {
+    [4] = ITEM4_EV_HP,
+    [5] = ITEM5_FRIENDSHIP_ALL,
+    [6] = -10,
+    [7] = 10,
+    [8] = 5,
+    [9] = 2,
+};
+
+static const u8 sItemEffect_KelpsyBerry[10] = {
+    [4] = ITEM4_EV_ATK,
+    [5] = ITEM5_FRIENDSHIP_ALL,
+    [6] = -10,
+    [7] = 10,
+    [8] = 5,
+    [9] = 2,
+};
+
+static const u8 sItemEffect_QualotBerry[10] = {
+    [5] = ITEM5_EV_DEF | ITEM5_FRIENDSHIP_ALL,
+    [6] = -10,
+    [7] = 10,
+    [8] = 5,
+    [9] = 2,
+};
+
+static const u8 sItemEffect_HondewBerry[10] = {
+    [5] = ITEM5_EV_SPATK | ITEM5_FRIENDSHIP_ALL,
+    [6] = -10,
+    [7] = 10,
+    [8] = 5,
+    [9] = 2,
+};
+
+static const u8 sItemEffect_GrepaBerry[10] = {
+    [5] = ITEM5_EV_SPDEF | ITEM5_FRIENDSHIP_ALL,
+    [6] = -10,
+    [7] = 10,
+    [8] = 5,
+    [9] = 2,
+};
+
+static const u8 sItemEffect_TamatoBerry[10] = {
+    [5] = ITEM5_EV_SPEED | ITEM5_FRIENDSHIP_ALL,
+    [6] = -10,
+    [7] = 10,
+    [8] = 5,
+    [9] = 2,
+};
+
 
 const u8 *const gItemEffectTable[] =
 {
@@ -400,12 +495,30 @@ const u8 *const gItemEffectTable[] =
     [ITEM_X_SPEED - ITEM_POTION] = sItemEffect_XSpeed,
     [ITEM_X_ACCURACY - ITEM_POTION] = sItemEffect_XAccuracy,
     [ITEM_X_SPECIAL - ITEM_POTION] = sItemEffect_XSpecial,
-    [ITEM_SUN_STONE - ITEM_POTION] = sItemEffect_SunStone,
-    [ITEM_MOON_STONE - ITEM_POTION] = sItemEffect_MoonStone,
-    [ITEM_FIRE_STONE - ITEM_POTION] = sItemEffect_FireStone,
-    [ITEM_THUNDER_STONE - ITEM_POTION] = sItemEffect_ThunderStone,
-    [ITEM_WATER_STONE - ITEM_POTION] = sItemEffect_WaterStone,
-    [ITEM_LEAF_STONE - ITEM_POTION] = sItemEffect_LeafStone,
+    [ITEM_X_SPECIAL_DEFENSE - ITEM_POTION] = sItemEffect_XSpecialDefense,
+    [ITEM_SWEET_HEART - ITEM_POTION] = sItemEffect_Potion,
+    [ITEM_BIG_MALASADA - ITEM_POTION] = sItemEffect_FullHeal,
+    [ITEM_CASTELIACONE - ITEM_POTION] = sItemEffect_FullHeal,
+    [ITEM_LUMIOSE_GALETTE - ITEM_POTION] = sItemEffect_FullHeal,
+    [ITEM_RAGE_CANDY_BAR - ITEM_POTION] = sItemEffect_FullHeal,
+    [ITEM_SHALOUR_SABLE - ITEM_POTION] = sItemEffect_FullHeal,
+    [ITEM_OLD_GATEAU - ITEM_POTION] = sItemEffect_FullHeal,
+    [ITEM_SUN_STONE - ITEM_POTION] = sItemEffect_EvoStone,
+    [ITEM_MOON_STONE - ITEM_POTION] = sItemEffect_EvoStone,
+    [ITEM_FIRE_STONE - ITEM_POTION] = sItemEffect_EvoStone,
+    [ITEM_THUNDER_STONE - ITEM_POTION] = sItemEffect_EvoStone,
+    [ITEM_WATER_STONE - ITEM_POTION] = sItemEffect_EvoStone,
+    [ITEM_LEAF_STONE - ITEM_POTION] = sItemEffect_EvoStone,
+    [ITEM_DAWN_STONE - ITEM_POTION] = sItemEffect_EvoStone,
+    [ITEM_DUSK_STONE - ITEM_POTION] = sItemEffect_EvoStone,
+    [ITEM_SHINY_STONE - ITEM_POTION] = sItemEffect_EvoStone,
+    [ITEM_ICE_STONE - ITEM_POTION] = sItemEffect_EvoStone,
+    [ITEM_HEALTH_WING - ITEM_POTION] = sItemEffect_HpWing,
+    [ITEM_MUSCLE_WING - ITEM_POTION] = sItemEffect_AtkWing,
+    [ITEM_RESIST_WING - ITEM_POTION] = sItemEffect_DefWing,
+    [ITEM_GENIUS_WING - ITEM_POTION] = sItemEffect_SpatkWing,
+    [ITEM_CLEVER_WING - ITEM_POTION] = sItemEffect_SpdefWing,
+    [ITEM_SWIFT_WING - ITEM_POTION] = sItemEffect_SpeedWing,
     [ITEM_CHERI_BERRY - ITEM_POTION] = sItemEffect_CheriBerry,
     [ITEM_CHESTO_BERRY - ITEM_POTION] = sItemEffect_ChestoBerry,
     [ITEM_PECHA_BERRY - ITEM_POTION] = sItemEffect_PechaBerry,
@@ -416,5 +529,11 @@ const u8 *const gItemEffectTable[] =
     [ITEM_PERSIM_BERRY - ITEM_POTION] = sItemEffect_PersimBerry,
     [ITEM_LUM_BERRY - ITEM_POTION] = sItemEffect_LumBerry,
     [ITEM_SITRUS_BERRY - ITEM_POTION] = sItemEffect_SitrusBerry,
+    [ITEM_POMEG_BERRY - ITEM_POTION] = sItemEffect_PomegBerry,
+    [ITEM_KELPSY_BERRY - ITEM_POTION] = sItemEffect_KelpsyBerry,
+    [ITEM_QUALOT_BERRY - ITEM_POTION] = sItemEffect_QualotBerry,
+    [ITEM_HONDEW_BERRY - ITEM_POTION] = sItemEffect_HondewBerry,
+    [ITEM_GREPA_BERRY - ITEM_POTION] = sItemEffect_GrepaBerry,
+    [ITEM_TAMATO_BERRY - ITEM_POTION] = sItemEffect_TamatoBerry,
     [LAST_BERRY_INDEX - ITEM_POTION] = NULL,
 };

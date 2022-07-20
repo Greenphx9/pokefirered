@@ -292,7 +292,7 @@ static void HandleInputChooseAction(void)
             if (gBattleBufferA[gActiveBattler][1] == B_ACTION_USE_ITEM)
             {
                 // Add item to bag if it is a ball
-                if (itemId <= ITEM_PREMIER_BALL)
+                if (itemId < POKEBALL_COUNT)
                     AddBagItem(itemId, 1);
                 else
                     return;

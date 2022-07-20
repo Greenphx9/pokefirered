@@ -932,3 +932,17 @@ void ItemUse_SetQuestLogEvent(u8 eventId, struct Pokemon * pokemon, u16 itemId, 
     SetQuestLogEvent(eventId, (void *)questLog);
     Free(questLog);
 }
+
+// NEW
+void ItemUseOutOfBattle_AbilityCapsule(u8 taskId)
+{
+    gItemUseCB = ItemUseCB_AbilityCapsule;
+    Task_FadeOuFromBackToField(taskId);
+}
+
+void ItemUseOutOfBattle_Mints(u8 taskId)
+{
+    gItemUseCB = ItemUseCB_Mints;
+    Task_FadeOuFromBackToField(taskId);
+}
+

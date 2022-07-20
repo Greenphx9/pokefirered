@@ -84,4 +84,8 @@ void ShowPartyMenuToShowcaseMultiBattleParty(void);
 void ChooseMonForDaycare(void);
 void ChoosePartyMonByMenuType(u8 menuType);
 
+//NEW
+void ItemUseCB_AbilityCapsule(u8 taskId, TaskFunc task);
+void ItemUseCB_Mints(u8 taskId, TaskFunc task);
+
 #endif // GUARD_PARTY_MENU_H

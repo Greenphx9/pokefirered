@@ -685,3 +685,12 @@ u8 ItemId_GetSecondaryId(u16 itemId)
 {
     return gItems[SanitizeItemId(itemId)].secondaryId;
 }
+
+// NEW
+bool8 IsBall(u16 item)
+{
+    if (ItemId_GetPocket(item) == POCKET_POKE_BALLS)
+        return TRUE;
+    else
+        return FALSE;
+}

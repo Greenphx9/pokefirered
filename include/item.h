@@ -81,5 +81,8 @@ void SortAndCompactBagPocket(struct BagPocket * pocket);
 u8 CountItemsInPC(void);
 void ApplyNewEncryptionKeyToBagItems_(u32 newKey);
 bool8 HasAtLeastOneBerry(void);
+bool8 CheckHasAtLeastOneBerry(void);
+//NEW
+bool8 IsBall(u16 item);
 
 #endif // GUARD_ITEM_H
