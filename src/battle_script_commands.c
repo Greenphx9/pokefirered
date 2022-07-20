@@ -42,6 +42,7 @@
 #define DEFENDER_IS_PROTECTED ((gProtectStructs[gBattlerTarget].protected) && (gBattleMoves[gCurrentMove].flags & FLAG_PROTECT_AFFECTED))
 
 extern const u8 *const gBattleScriptsForMoveEffects[];
+extern struct Evolution gEvolutionTable[][EVOS_PER_MON];
 
 static bool8 IsTwoTurnsMove(u16 move);
 static void TrySetDestinyBondToHappen(void);
@@ -9078,8 +9079,6 @@ static void atkEF_handleballthrow(void)
                         ballMultiplier = 20;
                     break;
                 case ITEM_LURE_BALL:
-                    if (gIsFishingEncounter)
-                        ballMultiplier = 30;
                     break;
                 case ITEM_MOON_BALL:
                     for (i = 0; i < EVOS_PER_MON; i++)

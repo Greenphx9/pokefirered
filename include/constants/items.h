@@ -294,7 +294,7 @@
 #define ITEM_LUCKY_PUNCH              281
 #define ITEM_METAL_POWDER             282
 #define ITEM_THICK_CLUB               283
-#define ITEM_STICK                    284
+#define ITEM_LEEK                     284
 #define ITEM_ADAMANT_ORB              285
 #define ITEM_LUSTROUS_ORB             286
 #define ITEM_GRISEOUS_ORB             287

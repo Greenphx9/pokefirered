@@ -108,7 +108,7 @@ static const u16 sBattleTowerHeldItems[] = {
     ITEM_APICOT_BERRY,
     ITEM_STARF_BERRY,
     ITEM_LIECHI_BERRY,
-    ITEM_STICK,
+    ITEM_LEEK,
     ITEM_LAX_INCENSE,
     ITEM_AGUAV_BERRY,
     ITEM_FIGY_BERRY,

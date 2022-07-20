@@ -4546,7 +4546,7 @@
     },
     {
       "english": "STICK",
-      "itemId": "ITEM_STICK",
+      "itemId": "ITEM_LEEK",
       "price": 200,
       "holdEffect": "HOLD_EFFECT_STICK",
       "holdEffectParam": 0,

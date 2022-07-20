@@ -272,7 +272,7 @@ static const struct TrainerTowerFloor sTrainerTowerFloor_Single_7 = {
 				},
 				{
 					.species = SPECIES_FARFETCHD,
-					.heldItem = ITEM_STICK,
+					.heldItem = ITEM_LEEK,
 					.moves = {MOVE_KNOCK_OFF, MOVE_SWORDS_DANCE, MOVE_FLY, MOVE_SAND_ATTACK},
 					.hpEV = 100,
 					.attackEV = 100,
