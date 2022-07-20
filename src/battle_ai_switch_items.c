@@ -38,7 +38,7 @@ static bool8 ShouldSwitchIfWonderGuard(void)
 
     if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
         return FALSE;
-    if (gBattleMons[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)].ability == ABILITY_WONDER_GUARD)
+    if (gBattleMons[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)].ability == ABILITY_WONDERGUARD)
     {
         // Check if Pokemon has a super effective move.
         for (opposingBattler = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT), i = 0; i < MAX_MON_MOVES; ++i)
@@ -105,11 +105,11 @@ static bool8 FindMonThatAbsorbsOpponentsMove(void)
         battlerIn2 = gActiveBattler;
     }
     if (gBattleMoves[gLastLandedMoves[gActiveBattler]].type == TYPE_FIRE)
-        absorbingTypeAbility = ABILITY_FLASH_FIRE;
+        absorbingTypeAbility = ABILITY_FLASHFIRE;
     else if (gBattleMoves[gLastLandedMoves[gActiveBattler]].type == TYPE_WATER)
-        absorbingTypeAbility = ABILITY_WATER_ABSORB;
+        absorbingTypeAbility = ABILITY_WATERABSORB;
     else if (gBattleMoves[gLastLandedMoves[gActiveBattler]].type == TYPE_ELECTRIC)
-        absorbingTypeAbility = ABILITY_VOLT_ABSORB;
+        absorbingTypeAbility = ABILITY_VOLTABSORB;
     else
         return FALSE;
     if (gBattleMons[gActiveBattler].ability == absorbingTypeAbility)
@@ -146,7 +146,7 @@ static bool8 FindMonThatAbsorbsOpponentsMove(void)
 static bool8 ShouldSwitchIfNaturalCure(void)
 {
     if (!(gBattleMons[gActiveBattler].status1 & STATUS1_SLEEP)
-     || (gBattleMons[gActiveBattler].ability != ABILITY_NATURAL_CURE)
+     || (gBattleMons[gActiveBattler].ability != ABILITY_NATURALCURE)
      || (gBattleMons[gActiveBattler].hp < gBattleMons[gActiveBattler].maxHP / 2))
         return FALSE;
     if ((gLastLandedMoves[gActiveBattler] == MOVE_NONE || gLastLandedMoves[gActiveBattler] == 0xFFFF) && Random() & 1)
@@ -307,10 +307,10 @@ static bool8 ShouldSwitch(void)
 
     if ((gBattleMons[gActiveBattler].status2 & (STATUS2_WRAPPED | STATUS2_ESCAPE_PREVENTION))
      || (gStatuses3[gActiveBattler] & STATUS3_ROOTED)
-     || AbilityBattleEffects(ABILITYEFFECT_CHECK_OTHER_SIDE, gActiveBattler, ABILITY_SHADOW_TAG, 0, 0)
-     || AbilityBattleEffects(ABILITYEFFECT_CHECK_OTHER_SIDE, gActiveBattler, ABILITY_ARENA_TRAP, 0, 0))
+     || AbilityBattleEffects(ABILITYEFFECT_CHECK_OTHER_SIDE, gActiveBattler, ABILITY_SHADOWTAG, 0, 0)
+     || AbilityBattleEffects(ABILITYEFFECT_CHECK_OTHER_SIDE, gActiveBattler, ABILITY_ARENATRAP, 0, 0))
         return FALSE; // misses the flying or levitate check
-    if (AbilityBattleEffects(ABILITYEFFECT_FIELD_SPORT, 0, ABILITY_MAGNET_PULL, 0, 0))
+    if (AbilityBattleEffects(ABILITYEFFECT_FIELD_SPORT, 0, ABILITY_MAGNETPULL, 0, 0))
         if ((gBattleMons[gActiveBattler].type1 == TYPE_STEEL) || (gBattleMons[gActiveBattler].type2 == TYPE_STEEL))
             return FALSE;
     availableToSwitch = 0;

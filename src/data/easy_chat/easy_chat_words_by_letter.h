@@ -430,7 +430,7 @@ static const u16 sEasyChatWordsByLetter_E[] = {
     EC_WORD_EATS,
     EC_WORD_EEK,
     EC_POKEMON(EEVEE),
-    EC_WORD_EFFECT_SPORE,
+    EC_WORD_EFFECTSPORE,
     EC_WORD_EGG,
     EC_MOVE2(EGG_BOMB),
     EC_WORD_EH_QUES,

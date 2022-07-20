@@ -58,10 +58,10 @@ AI_CheckBadMove::
 AI_CBM_CheckIfNegatesType::
 	if_type_effectiveness AI_EFFECTIVENESS_x0, Score_Minus10
 	get_ability AI_TARGET
-	if_equal ABILITY_VOLT_ABSORB, CheckIfVoltAbsorbCancelsElectric
-	if_equal ABILITY_WATER_ABSORB, CheckIfWaterAbsorbCancelsWater
-	if_equal ABILITY_FLASH_FIRE, CheckIfFlashFireCancelsFire
-	if_equal ABILITY_WONDER_GUARD, CheckIfWonderGuardCancelsMove
+	if_equal ABILITY_VOLTABSORB, CheckIfVoltAbsorbCancelsElectric
+	if_equal ABILITY_WATERABSORB, CheckIfWaterAbsorbCancelsWater
+	if_equal ABILITY_FLASHFIRE, CheckIfFlashFireCancelsFire
+	if_equal ABILITY_WONDERGUARD, CheckIfWonderGuardCancelsMove
 	if_equal ABILITY_LEVITATE, CheckIfLevitateCancelsGroundMove
 	goto AI_CheckBadMove_CheckSoundproof
 
@@ -216,7 +216,7 @@ AI_CheckBadMove_CheckEffect::
 AI_CBM_Sleep::
 	get_ability AI_TARGET
 	if_equal ABILITY_INSOMNIA, Score_Minus10
-	if_equal ABILITY_VITAL_SPIRIT, Score_Minus10
+	if_equal ABILITY_VITALSPIRIT, Score_Minus10
 	if_status AI_TARGET, STATUS1_ANY, Score_Minus10
 @	if_side_affecting AI_TARGET, SIDE_STATUS_SAFEGUARD, Score_Minus10  @ Improvement in Emerald
 	end
@@ -278,7 +278,7 @@ AI_CBM_EvasionUp::
 AI_CBM_AttackDown::
 	if_stat_level_equal AI_TARGET, STAT_ATK, 0, Score_Minus10
 	get_ability AI_TARGET
-	if_equal ABILITY_HYPER_CUTTER, Score_Minus10
+	if_equal ABILITY_HYPERCUTTER, Score_Minus10
 	goto CheckIfAbilityBlocksStatChange
 
 AI_CBM_DefenseDown::
@@ -288,7 +288,7 @@ AI_CBM_DefenseDown::
 AI_CBM_SpeedDown::
 	if_stat_level_equal AI_TARGET, STAT_SPEED, 0, Score_Minus10
 @	get_ability AI_TARGET  @ Improvement in Emerald
-@	if_equal ABILITY_SPEED_BOOST, Score_Minus10
+@	if_equal ABILITY_SPEEDBOOST, Score_Minus10
 	goto CheckIfAbilityBlocksStatChange
 
 AI_CBM_SpAtkDown::
@@ -302,7 +302,7 @@ AI_CBM_SpDefDown::
 AI_CBM_AccDown::
 	if_stat_level_equal AI_TARGET, STAT_ACC, 0, Score_Minus10
 	get_ability AI_TARGET
-	if_equal ABILITY_KEEN_EYE, Score_Minus10
+	if_equal ABILITY_KEENEYE, Score_Minus10
 	goto CheckIfAbilityBlocksStatChange
 
 AI_CBM_EvasionDown::
@@ -310,8 +310,8 @@ AI_CBM_EvasionDown::
 
 CheckIfAbilityBlocksStatChange::
 	get_ability AI_TARGET
-	if_equal ABILITY_CLEAR_BODY, Score_Minus10
-	if_equal ABILITY_WHITE_SMOKE, Score_Minus10
+	if_equal ABILITY_CLEARBODY, Score_Minus10
+	if_equal ABILITY_WHITESMOKE, Score_Minus10
 	end
 
 AI_CBM_Haze::
@@ -338,7 +338,7 @@ AI_CBM_Roar::
 	count_alive_pokemon AI_TARGET
 	if_equal 0, Score_Minus10
 	get_ability AI_TARGET
-	if_equal ABILITY_SUCTION_CUPS, Score_Minus10
+	if_equal ABILITY_SUCTIONCUPS, Score_Minus10
 	end
 
 AI_CBM_Poison::
@@ -372,7 +372,7 @@ AI_CBM_Magnitude::
 AI_CBM_HighRiskForDamage::
 	if_type_effectiveness AI_EFFECTIVENESS_x0, Score_Minus10
 	get_ability AI_TARGET
-	if_not_equal ABILITY_WONDER_GUARD, AI_CBM_HighRiskForDamage_End
+	if_not_equal ABILITY_WONDERGUARD, AI_CBM_HighRiskForDamage_End
 	if_type_effectiveness AI_EFFECTIVENESS_x2, AI_CBM_HighRiskForDamage_End
 	goto Score_Minus10
 
@@ -390,7 +390,7 @@ AI_CBM_FocusEnergy::
 AI_CBM_Confuse::
 	if_status2 AI_TARGET, STATUS2_CONFUSION, Score_Minus5
 	get_ability AI_TARGET
-	if_equal ABILITY_OWN_TEMPO, Score_Minus10
+	if_equal ABILITY_OWNTEMPO, Score_Minus10
 @	if_side_affecting AI_TARGET, SIDE_STATUS_SAFEGUARD, Score_Minus10  @ Improvement in Emerald
 	end
 
@@ -534,7 +534,7 @@ AI_CBM_Torment::
 
 AI_CBM_WillOWisp::
 	get_ability AI_TARGET
-	if_equal ABILITY_WATER_VEIL, Score_Minus10
+	if_equal ABILITY_WATERVEIL, Score_Minus10
 	if_status AI_TARGET, STATUS1_ANY, Score_Minus10
 	if_type_effectiveness AI_EFFECTIVENESS_x0, Score_Minus10
 	if_type_effectiveness AI_EFFECTIVENESS_x0_5, Score_Minus10
@@ -548,7 +548,7 @@ AI_CBM_HelpingHand::
 
 AI_CBM_TrickAndKnockOff::
 	get_ability AI_TARGET
-	if_equal ABILITY_STICKY_HOLD, Score_Minus10
+	if_equal ABILITY_STICKYHOLD, Score_Minus10
 	end
 
 AI_CBM_Ingrain::
@@ -2159,7 +2159,7 @@ AI_CV_Pursuit_End::
 AI_CV_RainDance::
 	if_user_faster AI_CV_RainDance2
 	get_ability AI_USER
-	if_equal ABILITY_SWIFT_SWIM, AI_CV_RainDance3
+	if_equal ABILITY_SWIFTSWIM, AI_CV_RainDance3
 
 AI_CV_RainDance2::
 	if_hp_less_than AI_USER, 40, AI_CV_RainDance_ScoreDown1
@@ -2168,7 +2168,7 @@ AI_CV_RainDance2::
 	if_equal AI_WEATHER_SUN, AI_CV_RainDance3
 	if_equal AI_WEATHER_SANDSTORM, AI_CV_RainDance3
 	get_ability AI_USER
-	if_equal ABILITY_RAIN_DISH, AI_CV_RainDance3
+	if_equal ABILITY_RAINDISH, AI_CV_RainDance3
 	goto AI_CV_RainDance_End
 
 AI_CV_RainDance3::
@@ -2501,22 +2501,22 @@ AI_CV_ChangeSelfAbility_End::
 	end
 
 AI_CV_ChangeSelfAbility_AbilitiesToEncourage::
-	.byte ABILITY_SPEED_BOOST
-	.byte ABILITY_BATTLE_ARMOR
-	.byte ABILITY_SAND_VEIL
+	.byte ABILITY_SPEEDBOOST
+	.byte ABILITY_BATTLEARMOR
+	.byte ABILITY_SANDVEIL
 	.byte ABILITY_STATIC
-	.byte ABILITY_FLASH_FIRE
-	.byte ABILITY_WONDER_GUARD
-	.byte ABILITY_EFFECT_SPORE
-	.byte ABILITY_SWIFT_SWIM
-	.byte ABILITY_HUGE_POWER
-	.byte ABILITY_RAIN_DISH
-	.byte ABILITY_CUTE_CHARM
-	.byte ABILITY_SHED_SKIN
-	.byte ABILITY_MARVEL_SCALE
-	.byte ABILITY_PURE_POWER
+	.byte ABILITY_FLASHFIRE
+	.byte ABILITY_WONDERGUARD
+	.byte ABILITY_EFFECTSPORE
+	.byte ABILITY_SWIFTSWIM
+	.byte ABILITY_HUGEPOWER
+	.byte ABILITY_RAINDISH
+	.byte ABILITY_CUTECHARM
+	.byte ABILITY_SHEDSKIN
+	.byte ABILITY_MARVELSCALE
+	.byte ABILITY_PUREPOWER
 	.byte ABILITY_CHLOROPHYLL
-	.byte ABILITY_SHIELD_DUST
+	.byte ABILITY_SHIELDDUST
 	.byte -1
 
 AI_CV_Superpower::
@@ -3227,11 +3227,11 @@ AI_Roaming::
 	if_status2 AI_USER, STATUS2_WRAPPED, AI_Roaming_End
 	if_status2 AI_USER, STATUS2_ESCAPE_PREVENTION, AI_Roaming_End
 	get_ability AI_TARGET
-	if_equal ABILITY_SHADOW_TAG, AI_Roaming_End
+	if_equal ABILITY_SHADOWTAG, AI_Roaming_End
 	get_ability AI_USER
 	if_equal ABILITY_LEVITATE, AI_Roaming_Flee
 	get_ability AI_TARGET
-	if_equal ABILITY_ARENA_TRAP, AI_Roaming_End
+	if_equal ABILITY_ARENATRAP, AI_Roaming_End
 
 AI_Roaming_Flee::
 	flee

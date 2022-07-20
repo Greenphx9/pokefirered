@@ -1156,9 +1156,9 @@ static void Cmd_get_ability(void)
         }
 
         // abilities that prevent fleeing.
-        if (gBattleMons[battlerId].ability == ABILITY_SHADOW_TAG
-        || gBattleMons[battlerId].ability == ABILITY_MAGNET_PULL
-        || gBattleMons[battlerId].ability == ABILITY_ARENA_TRAP)
+        if (gBattleMons[battlerId].ability == ABILITY_SHADOWTAG
+        || gBattleMons[battlerId].ability == ABILITY_MAGNETPULL
+        || gBattleMons[battlerId].ability == ABILITY_ARENATRAP)
         {
             AI_THINKING_STRUCT->funcResult = gBattleMons[battlerId].ability;
             sAIScriptPtr += 2;
