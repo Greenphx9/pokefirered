@@ -9079,6 +9079,8 @@ static void atkEF_handleballthrow(void)
                         ballMultiplier = 20;
                     break;
                 case ITEM_LURE_BALL:
+                    if (gIsFishingEncounter)
+                        ballMultiplier = 30;
                     break;
                 case ITEM_MOON_BALL:
                     for (i = 0; i < EVOS_PER_MON; i++)
