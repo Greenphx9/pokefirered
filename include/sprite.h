@@ -4,6 +4,7 @@
 #include "global.h"
 
 #define MAX_SPRITES 64
+#define SPRITE_PLAYER_TAG 0xFFFE
 #define TAG_NONE 0xFFFF
 
 struct SpriteSheet
@@ -316,5 +317,6 @@ void ResetAffineAnimData(void);
 void FreeSpriteTilesIfNotUsingSheet(struct Sprite *sprite);
 s16 AllocSpriteTiles(u16 tileCount);
 void obj_pos2_update_enable(struct Sprite* sprite, s16 xmod, s16 ymod);
+void DoLoadSpritePalette(const u16 *src, u16 paletteOffset);
 
 #endif //GUARD_SPRITE_H
