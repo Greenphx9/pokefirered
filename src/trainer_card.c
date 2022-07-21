@@ -559,7 +559,6 @@ static void Task_TrainerCard(u8 taskId)
 
         if (JOY_NEW(A_BUTTON))
         {
-            SetHelpContext(HELPCONTEXT_TRAINER_CARD_BACK);
             FlipTrainerCard();
             PlaySE(SE_CARD_FLIP);
             sTrainerCardDataPtr->mainState = STATE_WAIT_FLIP_TO_BACK;
@@ -598,7 +597,6 @@ static void Task_TrainerCard(u8 taskId)
             }
             else
             {
-                SetHelpContext(HELPCONTEXT_TRAINER_CARD_FRONT);
                 FlipTrainerCard();
                 sTrainerCardDataPtr->mainState = STATE_WAIT_FLIP_TO_FRONT;
                 PlaySE(SE_CARD_FLIP);
@@ -1031,7 +1029,6 @@ static void InitBgsAndWindows(void)
 static void SetTrainerCardCB2(void)
 {
     SetMainCallback2(CB2_TrainerCard);
-    SetHelpContext(HELPCONTEXT_TRAINER_CARD_FRONT);
 }
 
 static void SetUpTrainerCardTask(void)

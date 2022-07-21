@@ -565,7 +565,6 @@ static bool8 ShowPartyMenu(void)
         ++gMain.state;
         break;
     case 19:
-        SetHelpContext(HELPCONTEXT_PARTY_MENU);
         ++gMain.state;
         break;
     case 20:

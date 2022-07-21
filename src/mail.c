@@ -501,10 +501,6 @@ static bool8 DoInitMailView(void)
         SetVBlankCallback(NULL);
         ScanlineEffect_Stop();
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
-        if (gPlayerPcMenuManager.notInRoom == FALSE)
-            SetHelpContext(HELPCONTEXT_BEDROOM_PC_MAILBOX);
-        else
-            SetHelpContext(HELPCONTEXT_PLAYERS_PC_MAILBOX);
         break;
     case 1:
         CpuFill16(0, (void *)OAM, OAM_SIZE);

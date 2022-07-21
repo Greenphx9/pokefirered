@@ -16,7 +16,6 @@ struct Fanfare
 
 // TODO: what are these
 extern u8 gDisableMapMusicChangeOnMapLoad;
-extern u8 gDisableHelpSystemVolumeReduce;
 
 // ewram
 EWRAM_DATA struct MusicPlayerInfo* gMPlay_PokemonCry = NULL;
@@ -632,12 +631,10 @@ bool8 IsSpecialSEPlaying(void)
 
 void SetBGMVolume_SuppressHelpSystemReduction(u16 volume)
 {
-    gDisableHelpSystemVolumeReduce = TRUE;
     m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, volume);
 }
 
 void BGMVolumeMax_EnableHelpSystemReduction(void)
 {
-    gDisableHelpSystemVolumeReduce = FALSE;
     m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 256);
 }

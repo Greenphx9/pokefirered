@@ -240,7 +240,6 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
     switch (task->data[0])
     {
     case 0:
-        SetHelpContext(HELPCONTEXT_BILLS_PC);
         PSS_CreatePCMenu(task->data[1], &task->data[15]);
         LoadStdWindowFrameGfx();
         DrawDialogueFrame(0, 0);

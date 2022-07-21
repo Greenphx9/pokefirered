@@ -378,7 +378,6 @@ void Cb2_EnterPSS(u8 boxOption)
         gUnknown_20397BA = 0;
         gPSSData->state = 0;
         gPSSData->taskId = CreateTask(Cb_InitPSS, 3);
-        SetHelpContext(HELPCONTEXT_BILLS_PC);
         sLastUsedBox = StorageGetCurrentBox();
         SetMainCallback2(Cb2_PSS);
     }
@@ -396,7 +395,6 @@ void Cb2_ReturnToPSS(void)
         gPSSData->isReshowingPSS = TRUE;
         gPSSData->state = 0;
         gPSSData->taskId = CreateTask(Cb_InitPSS, 3);
-        SetHelpContext(HELPCONTEXT_BILLS_PC);
         SetMainCallback2(Cb2_PSS);
     }
 }

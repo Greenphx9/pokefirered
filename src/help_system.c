@@ -16,7 +16,39 @@
 #include "constants/maps.h"
 #include "constants/songs.h"
 
-#define HELP_NONE  0
+//These functions have been nulled out instead of removed because they're used in the special list.
+//Removing them would mean updating the special index? (I think that's what its called) for every macro after the Help System Special.
+void HelpSystem_Disable()
+{
+
+}
+
+void HelpSystem_Enable()
+{
+
+}
+
+void Script_SetHelpContext()
+{
+
+}
+
+void SetHelpContextForMap()
+{
+
+}
+
+void BackupHelpContext()
+{
+    
+}
+
+void RestoreHelpContext()
+{
+    
+}
+
+/*#define HELP_NONE  0
 #define HELP_END   0xFF
 
 // Help Main Topics
@@ -1837,8 +1869,8 @@ static bool8 IsInDungeonMap(void)
             if (
                    sDungeonMaps[i][0] == gSaveBlock1Ptr->location.mapGroup
                 && sDungeonMaps[i][1] + j == gSaveBlock1Ptr->location.mapNum
-                && (i != 15 /* TANOBY */ || FlagGet(FLAG_SYS_UNLOCKED_TANOBY_RUINS) == TRUE)
-            )
+                && (i != 15 /* TANOBY */ //|| FlagGet(FLAG_SYS_UNLOCKED_TANOBY_RUINS) == TRUE)
+            /*)
                 return TRUE;
         }
     }
@@ -2478,3 +2510,4 @@ static void PrintHelpSystemTopicMouseoverDescription(struct HelpSystemListMenu *
         HelpSystem_PrintTopicMouseoverDescription(sHelpSystemTopicMouseoverDescriptionPtrs[index]);
     HS_ShowOrHideToplevelTooltipWindow(1);
 }
+*/

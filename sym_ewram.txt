@@ -110,7 +110,6 @@
 	.include "src/union_room_chat.o"
 	.include "src/union_room_chat_display.o"
 	.include "src/union_room_chat_objects.o"
-	.include "src/help_system.o"
 	.include "src/fame_checker.o"
 	.include "src/oak_speech.o"
 	.include "src/tm_case.o"

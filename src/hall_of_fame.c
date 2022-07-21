@@ -317,7 +317,6 @@ static bool8 InitHallOfFameScreen(void)
     switch (gMain.state)
     {
     case 0:
-        gHelpSystemEnabled = FALSE;
         SetVBlankCallback(NULL);
         ClearVramOamPltt_LoadHofPal();
         sHofGfxPtr = AllocZeroed(sizeof(struct HofGfx));
