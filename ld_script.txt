@@ -1025,7 +1025,6 @@ SECTIONS {
         data/multiboot_pokemon_colosseum.o(.rodata);
     } =0
 
-    . = 0x08D00000;
     gfx_data :
     ALIGN(4)
     {
