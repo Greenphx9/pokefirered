@@ -5815,7 +5815,10 @@ static bool8 MovementActionFunc_x0C_1(struct ObjectEvent *objectEvent, struct Sp
 
 static bool8 MovementActionFunc_x0E_0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    InitWalkSlow(objectEvent, sprite, DIR_WEST);
+    if (objectEvent->directionOverwrite)
+        InitWalkSlow(objectEvent, sprite, objectEvent->directionOverwrite);
+    else
+        InitWalkSlow(objectEvent, sprite, DIR_WEST);
     return MovementActionFunc_x0E_1(objectEvent, sprite);
 }
 
@@ -5831,7 +5834,10 @@ static bool8 MovementActionFunc_x0E_1(struct ObjectEvent *objectEvent, struct Sp
 
 static bool8 MovementActionFunc_x0F_0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    InitWalkSlow(objectEvent, sprite, DIR_EAST);
+    if (objectEvent->directionOverwrite)
+        InitWalkSlow(objectEvent, sprite, objectEvent->directionOverwrite);
+    else
+        InitWalkSlow(objectEvent, sprite, DIR_EAST);
     return MovementActionFunc_x0F_1(objectEvent, sprite);
 }
 

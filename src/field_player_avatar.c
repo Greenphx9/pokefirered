@@ -549,6 +549,15 @@ bool32 PlayerIsMovingOnRockStairs(u8 direction)
     case DIR_SOUTH:
         MoveCoords(DIR_SOUTH, &x, &y);
         return MetatileBehavior_IsRockStairs(MapGridGetMetatileBehaviorAt(x, y));
+    case DIR_WEST:
+    case DIR_EAST:
+    case DIR_NORTHEAST:
+    case DIR_NORTHWEST:
+    case DIR_SOUTHWEST:
+    case DIR_SOUTHEAST:
+        // directionOverwrite is only used for sideways stairs motion
+        if (objectEvent->directionOverwrite)
+            return TRUE;
     default:
         return FALSE;
     }
