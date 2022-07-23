@@ -216,7 +216,7 @@ AI_CheckBadMove_CheckEffect::
 AI_CBM_Sleep::
 	get_ability AI_TARGET
 	if_equal ABILITY_INSOMNIA, Score_Minus10
-	if_equal ABILITY_VITALSPIRIT, Score_Minus10
+	if_equal ABILITY_VITAL_SPIRIT, Score_Minus10
 	if_status AI_TARGET, STATUS1_ANY, Score_Minus10
 @	if_side_affecting AI_TARGET, SIDE_STATUS_SAFEGUARD, Score_Minus10  @ Improvement in Emerald
 	end
@@ -311,7 +311,7 @@ AI_CBM_EvasionDown::
 CheckIfAbilityBlocksStatChange::
 	get_ability AI_TARGET
 	if_equal ABILITY_CLEAR_BODY, Score_Minus10
-	if_equal ABILITY_WHITESMOKE, Score_Minus10
+	if_equal ABILITY_WHITE_SMOKE, Score_Minus10
 	end
 
 AI_CBM_Haze::
@@ -2514,7 +2514,7 @@ AI_CV_ChangeSelfAbility_AbilitiesToEncourage::
 	.byte ABILITY_CUTE_CHARM
 	.byte ABILITY_SHED_SKIN
 	.byte ABILITY_MARVEL_SCALE
-	.byte ABILITY_PUREPOWER
+	.byte ABILITY_PURE_POWER
 	.byte ABILITY_CHLOROPHYLL
 	.byte ABILITY_SHIELD_DUST
 	.byte -1
@@ -3231,7 +3231,7 @@ AI_Roaming::
 	get_ability AI_USER
 	if_equal ABILITY_LEVITATE, AI_Roaming_Flee
 	get_ability AI_TARGET
-	if_equal ABILITY_ARENATRAP, AI_Roaming_End
+	if_equal ABILITY_ARENA_TRAP, AI_Roaming_End
 
 AI_Roaming_Flee::
 	flee
