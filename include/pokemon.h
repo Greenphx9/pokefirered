@@ -289,27 +289,63 @@ enum
     BODY_COLOR_PINK
 };
 
-#define EVO_FRIENDSHIP       0x0001 // Pokémon levels up with friendship ≥ 220
-#define EVO_FRIENDSHIP_DAY   0x0002 // Pokémon levels up during the day with friendship ≥ 220
-#define EVO_FRIENDSHIP_NIGHT 0x0003 // Pokémon levels up at night with friendship ≥ 220
-#define EVO_LEVEL            0x0004 // Pokémon reaches the specified level
-#define EVO_TRADE            0x0005 // Pokémon is traded
-#define EVO_TRADE_ITEM       0x0006 // Pokémon is traded while it's holding the specified item
-#define EVO_ITEM             0x0007 // specified item is used on Pokémon
-#define EVO_LEVEL_ATK_GT_DEF 0x0008 // Pokémon reaches the specified level with attack > defense
-#define EVO_LEVEL_ATK_EQ_DEF 0x0009 // Pokémon reaches the specified level with attack = defense
-#define EVO_LEVEL_ATK_LT_DEF 0x000a // Pokémon reaches the specified level with attack < defense
-#define EVO_LEVEL_SILCOON    0x000b // Pokémon reaches the specified level with a Silcoon personality value
-#define EVO_LEVEL_CASCOON    0x000c // Pokémon reaches the specified level with a Cascoon personality value
-#define EVO_LEVEL_NINJASK    0x000d // Pokémon reaches the specified level (special value for Ninjask)
-#define EVO_LEVEL_SHEDINJA   0x000e // Pokémon reaches the specified level (special value for Shedinja)
-#define EVO_BEAUTY           0x000f // Pokémon levels up with beauty ≥ specified value
+enum EvolutionMethods
+{
+	EVO_NONE = 0,
+	EVO_FRIENDSHIP,
+	EVO_FRIENDSHIP_DAY,
+	EVO_FRIENDSHIP_NIGHT,
+	EVO_LEVEL,
+	EVO_TRADE,
+	EVO_TRADE_ITEM,
+	EVO_ITEM,		// for dawn stone, add MON_MALE(0x0) or MON_FEMALE(0xFF) to .unknown in evo table entry
+	EVO_LEVEL_ATK_GT_DEF,
+	EVO_LEVEL_ATK_EQ_DEF,
+	EVO_LEVEL_ATK_LT_DEF,
+	EVO_LEVEL_SILCOON,
+	EVO_LEVEL_CASCOON,
+	EVO_LEVEL_NINJASK,
+	EVO_LEVEL_SHEDINJA,
+	EVO_BEAUTY,
+	// new evolutions
+	EVO_RAINY_FOGGY_OW,		// raining or foggy in overworld
+	EVO_MOVE_TYPE,	// knows a move with a specific type (eg. sylveon: fairy type move). Param is the move type
+	EVO_TYPE_IN_PARTY,	//specific type (param) in party after given level (unknown).
+	EVO_MAP, 	// specific map evolution. bank in param, map in unknown
+	EVO_MALE_LEVEL,		// above given level if male
+	EVO_FEMALE_LEVEL,	// above given level if female	
+	EVO_LEVEL_NIGHT,	// above given level at night
+	EVO_LEVEL_DAY,		// above given level during day
+	EVO_HOLD_ITEM_NIGHT,	// level up holding item at night (eg. sneasel)
+	EVO_HOLD_ITEM_DAY,	// level up while holding a specific item during the day (eg. happiny)
+	EVO_MOVE,	// knows a given move
+	EVO_OTHER_PARTY_MON,	//another poke in the party, arg is a specific species
+	EVO_LEVEL_SPECIFIC_TIME_RANGE, // above given level with a range (unknown is [start][end]. eg lycanroc -> 1700-1800 hrs -> 0x1112)
+	EVO_FLAG_SET, //If a certain flag is set. Can be used for touching the Mossy/Icy Rock for Leafeon/Glaceon evolutions
+	EVO_CRITICAL_HIT, // successfully land 3 critical hits in one battle
+	EVO_NATURE_HIGH, // evolution based on high key nature at a certain level
+	EVO_NATURE_LOW, // evolution based on low key nature at a certain level
+	EVO_DAMAGE_LOCATION, // recieve 49+ damage in battle without fainting, walk to specific tile
+	EVO_ITEM_LOCATION, // Stand on a tile with a certain behaviour and use an item on a Pokemon
+};
+
+#define EVO_GIGANTAMAX 0xFD
+#define EVO_MEGA 0xFE
+
+enum MegaEvoVariants
+{
+	MEGA_VARIANT_STANDARD,
+	MEGA_VARIANT_PRIMAL,
+	MEGA_VARIANT_WISH, //Rayquaza
+	MEGA_VARIANT_ULTRA_BURST, //Necrozma
+};
 
 struct Evolution
 {
     u16 method;
     u16 param;
     u16 targetSpecies;
+	u16 unknown; // used for mega evo, Dawn Stone, level in EVO_TYPE_IN_PARTY, or time range in EVO_LEVEL_SPECIFIC_TIME_RANGE
 };
 
 #define EVOS_PER_MON 16
