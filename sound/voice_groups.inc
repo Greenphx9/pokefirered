@@ -1808,7 +1808,7 @@ gCryTable::
 	cry Cry_Goomy
 	cry Cry_Sliggoo
 	cry Cry_Goodra
-	cry Cry_Klefki
+	cry_uncomp Cry_Klefki
 	cry Cry_Phantump
 	cry Cry_Trevenant
 	cry Cry_Pumpkaboo
@@ -3077,7 +3077,7 @@ gCryTable2::
 	cry2 Cry_Goomy
 	cry2 Cry_Sliggoo
 	cry2 Cry_Goodra
-	cry2 Cry_Klefki
+	cry2_uncomp Cry_Klefki
 	cry2 Cry_Phantump
 	cry2 Cry_Trevenant
 	cry2 Cry_Pumpkaboo
