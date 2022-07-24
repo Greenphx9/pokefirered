@@ -8,7 +8,6 @@
 #include "constants/fanfares.h"
 #include "task.h"
 #include "data.h"
-#include "mgba.h"
 
 struct Fanfare
 {
@@ -455,13 +454,6 @@ void PlayCryInternal(u16 species, s8 pan, s8 volume, u8 priority, u8 mode)
         pitch = 15000;
         break;
     }
-
-    //if(species > 438)
-    //    species++;
-
-    MgbaPrintf(MGBA_LOG_INFO, "%d", species); // Print the species name
-    MgbaPrintf(MGBA_LOG_INFO, "%d", index); // Print the species name
-    MgbaPrintEncoded(MGBA_LOG_INFO, gSpeciesNames[species]); // Print the species name
 
     SetPokemonCryVolume(volume);
     SetPokemonCryPanpot(pan);
