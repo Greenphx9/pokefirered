@@ -3,6 +3,7 @@
 #include "mail_data.h"
 #include "pokemon_icon.h"
 #include "graphics.h"
+#include "wild_encounter.h"
 
 #define POKE_ICON_BASE_PAL_TAG 56000
 
@@ -2657,6 +2658,8 @@ u8 CreateMonIcon(u16 species, SpriteCallback callback, s16 x, s16 y, u8 subprior
     if (species > NUM_SPECIES)
         iconTemplate.paletteTag = POKE_ICON_BASE_PAL_TAG;
 
+    species = TryGetFemaleGenderedSpecies(species, personality);
+
     spriteId = CreateMonIconSprite(&iconTemplate, x, y, subpriority);
 
     UpdateMonIconFrame(&gSprites[spriteId]);
@@ -2687,26 +2690,26 @@ u8 CreateMonIcon_HandleDeoxys(u16 species, SpriteCallback callback, s16 x, s16 y
 
 u16 GetIconSpecies(u16 species, u32 personality)
 {
-    u16 result;
+	u16 result;
 
-    if (species == SPECIES_UNOWN)
-    {
-        u16 letter = GetUnownLetterByPersonality(personality);
-        if (letter == 0)
-            letter = SPECIES_UNOWN;
-        else
-            letter += (SPECIES_UNOWN_B - 1);
-        result = letter;
-    }
-    else
-    {
-        if (species > NUM_SPECIES)
-            result = SPECIES_NONE;
-        else
-            result = species;
-    }
+	if (species == SPECIES_UNOWN)
+	{
+		u16 letter = GetUnownLetterByPersonalityLoByte(personality);
+		if (letter == 0)
+			letter = SPECIES_UNOWN;
+		else
+			letter += (SPECIES_UNOWN_B - 1);
+		result = letter;
+	}
+	else
+	{
+		if (species > NUM_SPECIES)
+			result = 0;
+		else
+			result = TryGetFemaleGenderedSpecies(species, personality);
+	}
 
-    return result;
+	return result;
 }
 
 u16 GetUnownLetterByPersonality(u32 personality)

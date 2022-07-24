@@ -6020,16 +6020,17 @@ const u32 *GetMonFrontSpritePal(struct Pokemon *mon)
     return GetMonSpritePalFromSpeciesAndPersonality(species, otId, personality);
 }
 
-const u32 *GetMonSpritePalFromSpeciesAndPersonality(u16 species, u32 otId, u32 personality)
+const u32* GetMonSpritePalFromSpeciesAndPersonality(u16 species, u32 otId, u32 personality)
 {
-    u32 shinyValue;
-
-
+	u32 shinyValue;
+	
+	species = TryGetFemaleGenderedSpecies(species, personality);
+	
 	if (species > NUM_SPECIES)
 		return (u32*) gMonPaletteTable[0].data;
 
 	shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
-	if (shinyValue < SHINY_ODDS)
+	if (shinyValue < 8)
 		return (u32*) gMonShinyPaletteTable[species].data;
 	else
 		return (u32*) gMonPaletteTable[species].data;
@@ -6043,12 +6044,13 @@ const struct CompressedSpritePalette *GetMonSpritePalStruct(struct Pokemon *mon)
     return GetMonSpritePalStructFromOtIdPersonality(species, otId, personality);
 }
 
-const struct CompressedSpritePalette *GetMonSpritePalStructFromOtIdPersonality(u16 species, u32 otId , u32 personality)
+const struct CompressedSpritePalette* GetMonSpritePalStructFromOtIdPersonality(u16 species, u32 otId , u32 personality)
 {
-    u32 shinyValue;
+	u32 shinyValue;
+	species = TryGetFemaleGenderedSpecies(species, personality);
 
 	shinyValue = HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality);
-	if (shinyValue < SHINY_ODDS)
+	if (shinyValue < 8)
 		return &gMonShinyPaletteTable[species];
 	else
 		return &gMonPaletteTable[species];

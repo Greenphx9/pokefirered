@@ -2,6 +2,8 @@
 #include "pokedex.h"
 #include "pokedex_screen.h"
 
+extern const u16 gPokedexOrder_Regional[151];
+
 const u8 *sub_8088E20(u16 dexNum)
 {
     return gPokedexEntries[dexNum].categoryName;
@@ -47,26 +49,17 @@ u16 GetNationalPokedexCount(u8 caseID)
     return count;
 }
 
-u16 GetKantoPokedexCount(u8 caseID)
+u16 GetKantoPokedexCount(u8 caseId)
 {
-    u16 count = 0;
-    u16 i;
+	u16 i, count;
 
-    for (i = 0; i < KANTO_DEX_COUNT; i++)
-    {
-        switch (caseID)
-        {
-        case FLAG_GET_SEEN:
-            if (GetSetPokedexFlag(i + 1, FLAG_GET_SEEN))
-                count++;
-            break;
-        case FLAG_GET_CAUGHT:
-            if (GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
-                count++;
-            break;
-        }
-    }
-    return count;
+	for (i = 0, count = 0; i < ARRAY_COUNT(gPokedexOrder_Regional); ++i)
+	{
+		if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(gPokedexOrder_Regional[i]), caseId))
+			count++;
+	}
+
+	return count;
 }
 
 bool16 HasAllHoennMons(void)
@@ -83,34 +76,26 @@ bool16 HasAllHoennMons(void)
 
 bool16 HasAllKantoMons(void)
 {
-    u16 i;
+	u16 i;
 
-    for (i = 0; i < KANTO_DEX_COUNT - 1; i++)
-    {
-        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
-            return FALSE;
-    }
-    return TRUE;
+	for (i = 0; i < ARRAY_COUNT(gPokedexOrder_Regional); ++i)
+	{
+		if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(gPokedexOrder_Regional[i]), FLAG_GET_CAUGHT))
+			return FALSE;
+	}
+
+	return TRUE;
 }
 
 bool16 HasAllMons(void)
 {
-    u16 i;
+	u16 i;
 
-    for (i = 0; i < NATIONAL_DEX_MEWTWO; i++)
-    {
-        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
-            return FALSE;
-    }
-    for (i = NATIONAL_DEX_MEW; i < NATIONAL_DEX_TYRANITAR; i++)
-    {
-        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
-            return FALSE;
-    }
-    for (i = NATIONAL_DEX_CELEBI; i < NATIONAL_DEX_RAYQUAZA; i++)
-    {
-        if (!GetSetPokedexFlag(i + 1, FLAG_GET_CAUGHT))
-            return FALSE;
-    }
-    return TRUE;
+	for (i = 1; i <= 898; ++i)
+	{
+		if (!GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
+			return FALSE;
+	}
+
+	return TRUE;
 }

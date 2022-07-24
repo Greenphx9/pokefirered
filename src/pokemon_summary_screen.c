@@ -4119,6 +4119,8 @@ static void PokeSum_CreateMonIconSprite(void)
     species = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES2);
     personality = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_PERSONALITY);
 
+    species = TryGetFemaleGenderedSpecies(species, personality);
+
     SafeLoadMonIconPalette(species);
 
     if (sMonSummaryScreen->savedCallback == CB2_ReturnToTradeMenuFromSummary)
