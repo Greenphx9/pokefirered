@@ -1984,8 +1984,8 @@ static void CB2_SetUpPSS(void)
             PokeSum_ShowOrHideMonPicSprite(FALSE);
             PokeSum_ShowOrHideMonMarkingsSprite(FALSE);
             ShowOrHideBallIconObj(FALSE);
-            //ShowOrHideHpBarObjs(FALSE);
-            //ShowOrHideExpBarObjs(FALSE);
+            ShowOrHideHpBarObjs(TRUE);
+            ShowOrHideExpBarObjs(TRUE);
         }
 
         ShowOrHideStatusIcon(FALSE);
@@ -4459,7 +4459,7 @@ static void CreateHpBarObjs(u16 tileTag, u16 palTag)
             .callback = SpriteCallbackDummy,
         };
 
-        sHpBarObjs->xpos[i] = i * 8 + 172;
+        sHpBarObjs->xpos[i] = i * 8 + 70;
         spriteId = CreateSprite(&template, sHpBarObjs->xpos[i], 33, 0);
         sHpBarObjs->sprites[i] = &gSprites[spriteId];
         sHpBarObjs->sprites[i]->invisible = FALSE;
