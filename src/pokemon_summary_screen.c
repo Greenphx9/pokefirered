@@ -865,10 +865,10 @@ static const struct WindowTemplate sWindowTemplates_Moves[] =
     },
     [POKESUM_WIN_MOVES_4 - 3] = {
         .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 7,
+        .tilemapLeft = 14,
+        .tilemapTop = 5,
         .width = 15,
-        .height = 0,
+        .height = 18,
         .paletteNum = 6,
         .baseBlock = 0x00b5
     },
@@ -879,16 +879,16 @@ static const struct WindowTemplate sWindowTemplates_Moves[] =
         .width = 4,
         .height = 18,
         .paletteNum = 6,
-        .baseBlock = 0x0178
+        .baseBlock = 0x01C3
     },
     [POKESUM_WIN_MOVES_6 - 3] = {
         .bg = 0,
-        .tilemapLeft = 6,
-        .tilemapTop = 4,
+        .tilemapLeft = 20,
+        .tilemapTop = 3,
         .width = 9,
-        .height = 2,
+        .height = 4,
         .paletteNum = 6,
-        .baseBlock = 0x01d2
+        .baseBlock = 0x020B
     },
 };
 
@@ -2891,7 +2891,7 @@ static void PokeSum_PrintSelectedMoveStats(void)
                                      sMonSummaryScreen->summary.moveAccuracyStrBufs[sMoveSelectionCursorPos]);
 
         AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], 2,
-                                     7, 42,
+                                     9, 47,
                                      0, 0,
                                      sLevelNickTextColors[0], TEXT_SPEED_FF,
                                      gMoveDescriptionPointers[sMonSummaryScreen->moveIds[sMoveSelectionCursorPos] - 1]);
@@ -3395,10 +3395,10 @@ static void PokeSum_PrintMonTypeIcons(void)
         break;
     case PSS_PAGE_MOVES_INFO:
         FillWindowPixelBuffer(sMonSummaryScreen->windowIds[6], 0);
-        BlitMoveInfoIcon(sMonSummaryScreen->windowIds[6], sMonSummaryScreen->monTypes[0] + 1, 0, 3);
+        BlitMoveInfoIcon(sMonSummaryScreen->windowIds[6], sMonSummaryScreen->monTypes[0] + 1, 0, 6);
 
         if (sMonSummaryScreen->monTypes[0] != sMonSummaryScreen->monTypes[1])
-            BlitMoveInfoIcon(sMonSummaryScreen->windowIds[6], sMonSummaryScreen->monTypes[1] + 1, 36, 3);
+            BlitMoveInfoIcon(sMonSummaryScreen->windowIds[6], sMonSummaryScreen->monTypes[1] + 1, 34, 6);
 
         PutWindowTilemap(sMonSummaryScreen->windowIds[6]);
         break;
@@ -4169,16 +4169,16 @@ static void PokeSum_CreateMonIconSprite(void)
     if (sMonSummaryScreen->savedCallback == CB2_ReturnToTradeMenuFromSummary)
     {
         if (sMonSummaryScreen->isEnemyParty == TRUE)
-            sMonSummaryScreen->monIconSpriteId = CreateMonIcon(species, SpriteCallbackDummy, 24, 32, 0, personality, 0);
+            sMonSummaryScreen->monIconSpriteId = CreateMonIcon(species, SpriteCallbackDummy, 140, 29, 0, personality, 0);
         else
-            sMonSummaryScreen->monIconSpriteId = CreateMonIcon(species, SpriteCallbackDummy, 24, 32, 0, personality, 1);
+            sMonSummaryScreen->monIconSpriteId = CreateMonIcon(species, SpriteCallbackDummy, 140, 29, 0, personality, 1);
     }
     else
     {
         if (ShouldIgnoreDeoxysForm(DEOXYS_CHECK_TRADE_MAIN, sLastViewedMonIndex))
-            sMonSummaryScreen->monIconSpriteId = CreateMonIcon(species, SpriteCallbackDummy, 24, 32, 0, personality, 0);
+            sMonSummaryScreen->monIconSpriteId = CreateMonIcon(species, SpriteCallbackDummy, 140, 29, 0, personality, 0);
         else
-            sMonSummaryScreen->monIconSpriteId = CreateMonIcon(species, SpriteCallbackDummy, 24, 32, 0, personality, 1);
+            sMonSummaryScreen->monIconSpriteId = CreateMonIcon(species, SpriteCallbackDummy, 140, 29, 0, personality, 1);
     }
 
     if (!IsPokeSpriteNotFlipped(species))
