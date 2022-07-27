@@ -763,10 +763,10 @@ static const struct WindowTemplate sWindowTemplates_Permanent_Bg2[] =
     },
     {
         .bg = 2,
-        .tilemapLeft = 0,
+        .tilemapLeft = 19,
         .tilemapTop = 2,
         .width = 15,
-        .height = 2,
+        .height = 3,
         .paletteNum = 7,
         .baseBlock = 0x0288
     },
@@ -1634,10 +1634,10 @@ static void PokeSum_HideSpritesBeforePageFlip(void)
         {
             PokeSum_ShowOrHideMonPicSprite(TRUE);
             PokeSum_ShowOrHideMonMarkingsSprite(TRUE);
-            ShowOrHideBallIconObj(TRUE);
-            ShowOrHideStatusIcon(TRUE);
-            HideShowPokerusIcon(TRUE);
-            HideShowShinyStar(TRUE);
+            //ShowOrHideBallIconObj(TRUE);
+            //ShowOrHideStatusIcon(TRUE);
+            //HideShowPokerusIcon(TRUE);
+            //HideShowShinyStar(TRUE);
         }
 
         break;
