@@ -2223,7 +2223,7 @@ static void BufferMonSkills(void)
     if (level < 100)
     {
         species = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES);
-        expToNextLevel = gExperienceTables[gBaseStats[species].growthRate][level + 1] - exp;
+        expToNextLevel = gExperienceTables[gBaseStats[species].growthRate][level + 1];
     }
 
     ConvertIntToDecimalStringN(sMonSummaryScreen->summary.expToNextLevelStrBuf, expToNextLevel, STR_CONV_MODE_LEFT_ALIGN, 7);
