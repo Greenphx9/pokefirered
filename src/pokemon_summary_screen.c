@@ -732,10 +732,10 @@ static const struct WindowTemplate sWindowTemplates_Permanent_Bg1[] =
     },
     [POKESUM_WIN_LVL_NICK] = {
         .bg = 1,
-        .tilemapLeft = 15,
+        .tilemapLeft = 19,
         .tilemapTop = 2,
         .width = 15,
-        .height = 10,
+        .height = 3,
         .paletteNum = 7,
         .baseBlock = 0x0288
     }
@@ -818,7 +818,7 @@ static const struct WindowTemplate sWindowTemplates_Skills[] =
         .bg = 0,
         .tilemapLeft = 4,
         .tilemapTop = 2,
-        .width = 10,
+        .width = 12,
         .height = 14,
         .paletteNum = 6,
         .baseBlock = 0x0001
@@ -856,7 +856,7 @@ static const struct WindowTemplate sWindowTemplates_Moves[] =
 {
     [POKESUM_WIN_MOVES_3 - 3] = {
         .bg = 0,
-        .tilemapLeft = 20,
+        .tilemapLeft = 5,
         .tilemapTop = 2,
         .width = 10,
         .height = 18,
@@ -868,15 +868,15 @@ static const struct WindowTemplate sWindowTemplates_Moves[] =
         .tilemapLeft = 0,
         .tilemapTop = 7,
         .width = 15,
-        .height = 13,
+        .height = 0,
         .paletteNum = 6,
         .baseBlock = 0x00b5
     },
     [POKESUM_WIN_MOVES_5 - 3] = {
         .bg = 0,
-        .tilemapLeft = 15,
+        .tilemapLeft = 1,
         .tilemapTop = 2,
-        .width = 5,
+        .width = 4,
         .height = 18,
         .paletteNum = 6,
         .baseBlock = 0x0178
@@ -2428,14 +2428,15 @@ static void PrintMonLevelNickOnWindow2(const u8 * str)
     if (!sMonSummaryScreen->isEgg)
     {
         if (sMonSummaryScreen->curPageIndex != PSS_PAGE_MOVES_INFO)
-            AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_LVL_NICK], 2, 44, 13, sLevelNickTextColors[1], TEXT_SPEED_FF, sMonSummaryScreen->summary.levelStrBuf);
-
-        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_LVL_NICK], 2, 44, 2, sLevelNickTextColors[1], TEXT_SPEED_FF, sMonSummaryScreen->summary.nicknameStrBuf);
+        {
+            AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_LVL_NICK], 2, 12, 12, sLevelNickTextColors[1], TEXT_SPEED_FF, sMonSummaryScreen->summary.levelStrBuf);
+        }
+        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_LVL_NICK], 2, 12, 2, sLevelNickTextColors[1], TEXT_SPEED_FF, sMonSummaryScreen->summary.nicknameStrBuf);
 
         if (GetMonGender(&sMonSummaryScreen->currentMon) == MON_FEMALE)
-            AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_LVL_NICK], 2, 111, 2, sLevelNickTextColors[3], 0, sMonSummaryScreen->summary.genderSymbolStrBuf);
+            AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_LVL_NICK], 2, 79, 2, sLevelNickTextColors[3], 0, sMonSummaryScreen->summary.genderSymbolStrBuf);
         else
-            AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_LVL_NICK], 2, 111, 2, sLevelNickTextColors[2], 0, sMonSummaryScreen->summary.genderSymbolStrBuf);
+            AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_LVL_NICK], 2, 79, 2, sLevelNickTextColors[2], 0, sMonSummaryScreen->summary.genderSymbolStrBuf);
     }
 
     PutWindowTilemap(sMonSummaryScreen->windowIds[POKESUM_WIN_LVL_NICK]);
@@ -2538,7 +2539,7 @@ static void PokeSum_PrintMoveName(u8 i)
     if (i == 4)
         curPP = maxPP;
 
-    AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 3, GetMoveNamePrinterYpos(i), sPrintMoveTextColors[0], TEXT_SPEED_FF, sMonSummaryScreen->summary.moveNameStrBufs[i]);
+    AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 3, GetMoveNamePrinterYpos(i) - 2, sPrintMoveTextColors[0], TEXT_SPEED_FF, sMonSummaryScreen->summary.moveNameStrBufs[i]);
 
     if (sMonSummaryScreen->moveIds[i] == 0 || (curPP == maxPP))
       colorIdx = 0;
@@ -2564,14 +2565,14 @@ static void PokeSum_PrintMoveName(u8 i)
           colorIdx = 1;
     }
 
-    AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 36, GetMovePpPinterYpos(i), sPrintMoveTextColors[colorIdx], TEXT_SPEED_FF,
+    AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 26, GetMovePpPinterYpos(i), sPrintMoveTextColors[colorIdx], TEXT_SPEED_FF,
         gText_PokeSum_PP);
-    AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 46 + sMonSkillsPrinterXpos->curPp[i], GetMovePpPinterYpos(i), sPrintMoveTextColors[colorIdx], TEXT_SPEED_FF, sMonSummaryScreen->summary.moveCurPpStrBufs[i]);
+    AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 38 + sMonSkillsPrinterXpos->curPp[i], GetMovePpPinterYpos(i), sPrintMoveTextColors[colorIdx], TEXT_SPEED_FF, sMonSummaryScreen->summary.moveCurPpStrBufs[i]);
 
     if (sMonSummaryScreen->moveIds[i] != MOVE_NONE)
     {
-        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 58, GetMovePpPinterYpos(i), sPrintMoveTextColors[colorIdx], TEXT_SPEED_FF, gText_Slash);
-        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 64 + sMonSkillsPrinterXpos->maxPp[i], GetMovePpPinterYpos(i), sPrintMoveTextColors[colorIdx], TEXT_SPEED_FF, sMonSummaryScreen->summary.moveMaxPpStrBufs[i]);
+        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 50, GetMovePpPinterYpos(i), sPrintMoveTextColors[colorIdx], TEXT_SPEED_FF, gText_Slash);
+        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 56 + sMonSkillsPrinterXpos->maxPp[i], GetMovePpPinterYpos(i), sPrintMoveTextColors[colorIdx], TEXT_SPEED_FF, sMonSummaryScreen->summary.moveMaxPpStrBufs[i]);
     }
 }
 
@@ -2939,7 +2940,7 @@ static void PokeSum_DrawMoveTypeIcons(void)
         if (sMonSummaryScreen->moveIds[i] == MOVE_NONE)
             continue;
 
-        BlitMoveInfoIcon(sMonSummaryScreen->windowIds[5], sMonSummaryScreen->moveTypes[i] + 1, 3, GetMoveNamePrinterYpos(i));
+        BlitMoveInfoIcon(sMonSummaryScreen->windowIds[5], sMonSummaryScreen->moveTypes[i] + 1, 0, GetMoveNamePrinterYpos(i) - 1);
     }
 
     if (sMonSummaryScreen->mode == PSS_MODE_SELECT_MOVE)
