@@ -743,7 +743,7 @@ static const struct WindowTemplate sWindowTemplates_Permanent_Bg1[] =
 
 static const struct WindowTemplate sWindowTemplates_Permanent_Bg2[] = 
 {
-    {
+    [POKESUM_WIN_PAGE_NAME] = {
         .bg = 2,
         .tilemapLeft = 0,
         .tilemapTop = 0,
@@ -752,7 +752,7 @@ static const struct WindowTemplate sWindowTemplates_Permanent_Bg2[] =
         .paletteNum = 7,
         .baseBlock = 0x0258
     },
-    {
+    [POKESUM_WIN_CONTROLS] = {
         .bg = 2,
         .tilemapLeft = 19,
         .tilemapTop = 0,
@@ -761,7 +761,7 @@ static const struct WindowTemplate sWindowTemplates_Permanent_Bg2[] =
         .paletteNum = 7,
         .baseBlock = 0x0272
     },
-    {
+    [POKESUM_WIN_LVL_NICK] = {
         .bg = 2,
         .tilemapLeft = 19,
         .tilemapTop = 2,
@@ -769,7 +769,7 @@ static const struct WindowTemplate sWindowTemplates_Permanent_Bg2[] =
         .height = 3,
         .paletteNum = 7,
         .baseBlock = 0x0288
-    },
+    }
 };
 
 static const struct WindowTemplate sWindowTemplates_Info[] = 
@@ -866,7 +866,7 @@ static const struct WindowTemplate sWindowTemplates_Moves[] =
     [POKESUM_WIN_MOVES_4 - 3] = {
         .bg = 0,
         .tilemapLeft = 14,
-        .tilemapTop = 5,
+        .tilemapTop = 6,
         .width = 15,
         .height = 18,
         .paletteNum = 6,
@@ -1185,9 +1185,10 @@ static void Task_InputHandler_Info(u8 taskId)
                 else if (sMonSummaryScreen->curPageIndex == PSS_PAGE_MOVES)
                 {
                     PlaySE(SE_SELECT);
+                    ShowOrHideStatusIcon(TRUE);
                     sMonSummaryScreen->pageFlipDirection = 1;
                     PokeSum_RemoveWindows(sMonSummaryScreen->curPageIndex);
-                    sMonSummaryScreen->curPageIndex++;
+                    sMonSummaryScreen->curPageIndex = PSS_PAGE_MOVES_INFO;
                     sMonSummaryScreen->state3270 = PSS_STATE3270_FLIPPAGES;
                 }
                 return;
@@ -2493,7 +2494,7 @@ static void PrintInfoPage(void)
         if (sMonSummaryScreen->isBadEgg)
             hatchMsgIndex = 0;
 
-        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 7, 45, sLevelNickTextColors[0], TEXT_SPEED_FF, sEggHatchTimeTexts[hatchMsgIndex]);
+        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], 2, 7, 40, sLevelNickTextColors[0], TEXT_SPEED_FF, sEggHatchTimeTexts[hatchMsgIndex]);
     }
 }
 
@@ -2677,7 +2678,7 @@ static void PokeSum_PrintTrainerMemo_Mon_HeldByOT(void)
         }
     }
 
-    AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], 2, 0, 3, 0, 0, sLevelNickTextColors[0], TEXT_SPEED_FF, natureMetOrHatchedAtLevelStr);
+    AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], 2, 0, 4, 0, 254, sLevelNickTextColors[0], TEXT_SPEED_FF, natureMetOrHatchedAtLevelStr);
 }
 
 static void PokeSum_PrintTrainerMemo_Mon_NotHeldByOT(void)
@@ -2726,7 +2727,7 @@ static void PokeSum_PrintTrainerMemo_Mon_NotHeldByOT(void)
                 DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_PokeSum_MetInATrade);
         }
 
-        AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], 2, 0, 3, 0, 0, sLevelNickTextColors[0], TEXT_SPEED_FF, natureMetOrHatchedAtLevelStr);
+        AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], 2, 0, 4, 0, 254, sLevelNickTextColors[0], TEXT_SPEED_FF, natureMetOrHatchedAtLevelStr);
         return;
     }
 
@@ -2859,17 +2860,17 @@ static void PokeSum_PrintSelectedMoveStats(void)
             return;
 
         AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], 2,
-                                     74, 20,
+                                     74, 12,
                                      sLevelNickTextColors[0], TEXT_SPEED_FF,
                                      sMonSummaryScreen->summary.movePowerStrBufs[sMoveSelectionCursorPos]);
 
         AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], 2,
-                                     74, 32,
+                                     74, 24,
                                      sLevelNickTextColors[0], TEXT_SPEED_FF,
                                      sMonSummaryScreen->summary.moveAccuracyStrBufs[sMoveSelectionCursorPos]);
 
         AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], 2,
-                                     9, 47,
+                                     9, 39,
                                      0, 254,
                                      sLevelNickTextColors[0], TEXT_SPEED_FF,
                                      gMoveDescriptionPointers[sMonSummaryScreen->moveIds[sMoveSelectionCursorPos] - 1]);
