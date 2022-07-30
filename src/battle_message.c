@@ -1411,7 +1411,7 @@ static const u16 sGrammarMoveUsedTable[] = {
 
     MOVE_POUND,
     MOVE_SCRATCH,
-    MOVE_VICE_GRIP,
+    MOVE_VISE_GRIP,
     MOVE_WING_ATTACK,
     MOVE_FLY,
     MOVE_BIND,
