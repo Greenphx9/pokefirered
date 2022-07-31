@@ -2480,20 +2480,15 @@ static void GiveBoxMonInitialMoveset(struct BoxPokemon *boxMon)
     s32 level = GetLevelFromBoxMonExp(boxMon);
     s32 i;
 
-    for (i = 0; gLevelUpLearnsets[species][i] != LEVEL_UP_END; i++)
+    for (i = 0; gLevelUpLearnsets[species][i].level != 0xFF; i++)
     {
-        u16 moveLevel;
-        u16 move;
+        struct LevelUpMove levelUpMove = gLevelUpLearnsets[species][i];
 
-        moveLevel = (gLevelUpLearnsets[species][i] & 0xFE00);
-
-        if (moveLevel > (level << 9))
+        if (levelUpMove.level > level)
             break;
 
-        move = (gLevelUpLearnsets[species][i] & 0x1FF);
-
-        if (GiveMoveToBoxMon(boxMon, move) == 0xFFFF)
-            DeleteFirstMoveAndGiveMoveToBoxMon(boxMon, move);
+        if (GiveMoveToBoxMon(boxMon, levelUpMove.move) == 0xFFFF)
+            DeleteFirstMoveAndGiveMoveToBoxMon(boxMon, levelUpMove.move);
     }
 }
 
@@ -2511,17 +2506,17 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
     {
         sLearningMoveTableID = 0;
 
-        while ((gLevelUpLearnsets[species][sLearningMoveTableID] & 0xFE00) != (level << 9))
+        while (gLevelUpLearnsets[species][sLearningMoveTableID].level != level)
         {
             sLearningMoveTableID++;
-            if (gLevelUpLearnsets[species][sLearningMoveTableID] == LEVEL_UP_END)
+            if (gLevelUpLearnsets[species][sLearningMoveTableID].level == 0xFF)
                 return 0;
         }
     }
 
-    if ((gLevelUpLearnsets[species][sLearningMoveTableID] & 0xFE00) == (level << 9))
+    if (gLevelUpLearnsets[species][sLearningMoveTableID].level == level)
     {
-        gMoveToLearn = (gLevelUpLearnsets[species][sLearningMoveTableID] & 0x1FF);
+        gMoveToLearn = gLevelUpLearnsets[species][sLearningMoveTableID].move;
         sLearningMoveTableID++;
         retVal = GiveMoveToMon(mon, gMoveToLearn);
     }
@@ -5870,25 +5865,21 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
 
     for (i = 0; i < 20; i++)
     {
-        u16 moveLevel;
+        struct LevelUpMove levelUpMove = gLevelUpLearnsets[species][i];
 
-        if (gLevelUpLearnsets[species][i] == 0xFFFF)
+        if (levelUpMove.level == 0xFF)
             break;
 
-        moveLevel = gLevelUpLearnsets[species][i] & 0xFE00;
-
-        if (moveLevel <= (level << 9))
+        if (levelUpMove.level <= level)
         {
-            for (j = 0; j < 4 && learnedMoves[j] != (gLevelUpLearnsets[species][i] & 0x1FF); j++)
-                ;
+            for (j = 0; j < 4 && learnedMoves[j] != levelUpMove.move; j++) ;
 
             if (j == 4)
             {
-                for (k = 0; k < numMoves && moves[k] != (gLevelUpLearnsets[species][i] & 0x1FF); k++)
-                    ;
+                for (k = 0; k < numMoves && moves[k] != levelUpMove.move; k++) ;
 
                 if (k == numMoves)
-                    moves[numMoves++] = gLevelUpLearnsets[species][i] & 0x1FF;
+                    moves[numMoves++] = levelUpMove.move;
             }
         }
     }
@@ -5901,8 +5892,8 @@ u8 GetLevelUpMovesBySpecies(u16 species, u16 *moves)
     u8 numMoves = 0;
     int i;
 
-    for (i = 0; i < 20 && gLevelUpLearnsets[species][i] != 0xFFFF; i++)
-         moves[numMoves++] = gLevelUpLearnsets[species][i] & 0x1FF;
+    for (i = 0; i < 20 && gLevelUpLearnsets[species][i].level != 0xFF; i++)
+         moves[numMoves++] = gLevelUpLearnsets[species][i].move;
 
      return numMoves;
 }
@@ -5924,25 +5915,21 @@ u8 GetNumberOfRelearnableMoves(struct Pokemon *mon)
 
     for (i = 0; i < 20; i++)
     {
-        u16 moveLevel;
+        struct LevelUpMove levelUpMove = gLevelUpLearnsets[species][i];
 
-        if (gLevelUpLearnsets[species][i] == 0xFFFF)
+        if (levelUpMove.level == 0xFF)
             break;
 
-        moveLevel = gLevelUpLearnsets[species][i] & 0xFE00;
-
-        if (moveLevel <= (level << 9))
+        if (levelUpMove.level <= level)
         {
-            for (j = 0; j < 4 && learnedMoves[j] != (gLevelUpLearnsets[species][i] & 0x1FF); j++)
-                ;
+            for (j = 0; j < 4 && learnedMoves[j] != levelUpMove.move; j++) ;
 
             if (j == 4)
             {
-                for (k = 0; k < numMoves && moves[k] != (gLevelUpLearnsets[species][i] & 0x1FF); k++)
-                    ;
+                for (k = 0; k < numMoves && moves[k] != levelUpMove.move; k++) ;
 
                 if (k == numMoves)
-                    moves[numMoves++] = gLevelUpLearnsets[species][i] & 0x1FF;
+                    moves[numMoves++] = levelUpMove.move;
             }
         }
     }
