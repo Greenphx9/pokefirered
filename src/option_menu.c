@@ -319,7 +319,7 @@ static void OptionMenu_PickSwitchCancel(void)
     FillWindowPixelBuffer(2, PIXEL_FILL(15)); 
     AddTextPrinterParameterized3(2, 0, x, 0, sOptionMenuPickSwitchCancelTextColor, 0, gText_PickSwitchCancel);
     PutWindowTilemap(2);
-    CopyWindowToVram(2, COPYWIN_BOTH);
+    CopyWindowToVram(2, COPYWIN_FULL);
 }
 
 static void OptionMenu_ResetSpriteData(void)
@@ -360,7 +360,7 @@ static void Task_OptionMenu(u8 taskId)
     switch (sOptionMenuPtr->loadState)
     {
     case 0:
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0x10, 0, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK);
         OptionMenu_SetVBlankCallback();
         sOptionMenuPtr->loadState++;
         break;
@@ -393,7 +393,7 @@ static void Task_OptionMenu(u8 taskId)
         }
         break;
     case 3:
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
         sOptionMenuPtr->loadState++;
         break;
     case 4:
@@ -410,7 +410,7 @@ static void Task_OptionMenu(u8 taskId)
 static u8 OptionMenu_ProcessInput(void)
 { 
     u16 current;
-    u16* curr;
+    u16 *curr;
     if (JOY_REPT(DPAD_RIGHT))
     {
         current = sOptionMenuPtr->option[(sOptionMenuPtr->cursorPos)];
@@ -501,7 +501,7 @@ static void BufferOptionMenuString(u8 selection)
         break;
     }
     PutWindowTilemap(1);
-    CopyWindowToVram(1, COPYWIN_BOTH);
+    CopyWindowToVram(1, COPYWIN_FULL);
 }
 
 static void CloseAndSaveOptionMenu(u8 taskId)
@@ -523,9 +523,9 @@ static void CloseAndSaveOptionMenu(u8 taskId)
 static void PrintOptionMenuHeader(void)
 {
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
-    AddTextPrinterParameterized(WIN_TEXT_OPTION, 2, gText_MenuOption, 8, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(WIN_TEXT_OPTION, 2, gText_MenuOption, 8, 1, TEXT_SKIP_DRAW, NULL);
     PutWindowTilemap(0);
-    CopyWindowToVram(0, COPYWIN_BOTH);
+    CopyWindowToVram(0, COPYWIN_FULL);
 }
 
 static void DrawOptionMenuBg(void)
@@ -559,7 +559,7 @@ static void LoadOptionMenuItemNames(void)
     FillWindowPixelBuffer(1, PIXEL_FILL(1));
     for (i = 0; i < MENUITEM_COUNT; i++)
     {
-        AddTextPrinterParameterized(WIN_OPTIONS, 2, sOptionMenuItemsNames[i], 8, (u8)((i * (GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SPEED_FF, NULL);    
+        AddTextPrinterParameterized(WIN_OPTIONS, 2, sOptionMenuItemsNames[i], 8, (u8)((i * (GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SKIP_DRAW, NULL);    
     }
 }
 

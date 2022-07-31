@@ -880,6 +880,7 @@
 #define FIRST_BERRY_INDEX ITEM_CHERI_BERRY
 #define LAST_BERRY_INDEX ITEM_ENIGMA_BERRY
 #define ITEM_TO_BERRY(itemId)(((itemId - FIRST_BERRY_INDEX) + 1))
+#define MAIL_NONE 0xFF
 
 // Check if the item is one that can be used on a Pokemon.
 #define IS_POKEMON_ITEM(item) ((item) >= ITEM_POTION && (item) <= ITEM_ENIGMA_BERRY)
