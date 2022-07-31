@@ -622,7 +622,7 @@ static void BuyMenuPrintPriceInList(u8 windowId, u32 item, u8 y)
             if (GetPocketByItemId(item) == POCKET_TM_CASE && CheckBagHasItem(item, 1))
             {
                 static const u8 sText_Purchased[] = _("Purchased");
-                BuyMenuPrint(windowId, 0, sText_Purchased, 0x58, y, 0, 0, TEXT_SPEED_FF, 1);
+                BuyMenuPrint(windowId, 0, sText_Purchased, 0x58, y, 0, 0, TEXT_SKIP_DRAW, 1);
                 return;
             }
         #endif
