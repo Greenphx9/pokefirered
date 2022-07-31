@@ -5725,9 +5725,6 @@ static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
             return FALSE;
         break;
     case 1:
-        if (gSaveBlock2Ptr->battleTower.battleTowerLevelType == 0 // level 50
-         && GetMonData(mon, MON_DATA_LEVEL) > 50)
-            return FALSE;
         species = GetMonData(mon, MON_DATA_SPECIES);
         for (; gBattleTowerBannedSpecies[i] != 0xFFFF; ++i)
             if (gBattleTowerBannedSpecies[i] == species)

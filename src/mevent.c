@@ -580,7 +580,6 @@ void DestroyWonderCard(void)
     ClearRamScript();
     ResetMysteryEventFlags();
     ResetMysteryEventVars();
-    ClearEReaderTrainer(&gSaveBlock2Ptr->battleTower.ereaderTrainer);
 }
 
 bool32 OverwriteSavedWonderCardWithReceivedCard(const struct WonderCard * data)

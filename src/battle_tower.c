@@ -24,7 +24,106 @@
 #include "constants/pokemon.h"
 #include "constants/event_objects.h"
 
-static EWRAM_DATA u16 sSpecialVar_0x8004_Copy = 0;
+const u16 gBattleTowerBannedSpecies[] = {
+    SPECIES_MEW,
+    SPECIES_MEWTWO,
+    SPECIES_HO_OH,
+    SPECIES_LUGIA,
+    SPECIES_CELEBI,
+    SPECIES_KYOGRE,
+    SPECIES_GROUDON,
+    SPECIES_RAYQUAZA,
+    SPECIES_JIRACHI,
+    SPECIES_DEOXYS,
+    0xFFFF
+};
+
+void ValidateEReaderTrainer(void)
+{
+
+}
+
+void ChooseNextBattleTowerTrainer(void)
+{
+
+}
+
+void CheckPartyBattleTowerBanlist(void)
+{
+
+}
+
+void PrintBattleTowerTrainerGreeting(void)
+{
+
+}
+
+void BufferEReaderTrainerGreeting(void)
+{
+
+}
+
+void StartSpecialBattle(void)
+{
+
+}
+
+void SetBattleTowerProperty(void)
+{
+
+}
+
+void SaveBattleTowerProgress(void)
+{
+
+}
+
+void BattleTower_SoftReset(void)
+{
+
+}
+
+void DetermineBattleTowerPrize(void)
+{
+
+}
+
+void GiveBattleTowerPrize(void)
+{
+
+}
+
+void AwardBattleTowerRibbons(void)
+{
+
+}
+
+void SetEReaderTrainerGfxId(void)
+{
+
+}
+
+void Dummy_TryEnableBravoTrainerBattleTower(void)
+{
+
+}
+
+void BattleTowerMapScript2(void)
+{
+
+}
+
+void BattleTowerUtil(void)
+{
+    
+}
+
+void SetBattleTowerParty(void)
+{
+
+}
+
+/*static EWRAM_DATA u16 sSpecialVar_0x8004_Copy = 0;
 
 #define TakeBravoTrainerBattleTowerOffTheAir()
 #define ewram160FB (*((u8 *)&gBattleStruct->field_DA))
@@ -141,20 +240,6 @@ static const u8 sMaleTrainerGfx[] =
 static const u8 sFemaleTrainerGfx[] =
 {
 
-};
-
-const u16 gBattleTowerBannedSpecies[] = {
-    SPECIES_MEW,
-    SPECIES_MEWTWO,
-    SPECIES_HO_OH,
-    SPECIES_LUGIA,
-    SPECIES_CELEBI,
-    SPECIES_KYOGRE,
-    SPECIES_GROUDON,
-    SPECIES_RAYQUAZA,
-    SPECIES_JIRACHI,
-    SPECIES_DEOXYS,
-    0xFFFF
 };
 
 static const u16 sShortStreakPrizes[] = {
@@ -1349,37 +1434,6 @@ void CopyEReaderTrainerName5(u8 *trainerName)
     trainerName[i] = EOS;
 }
 
-// Checks if the saved E-Reader trainer is valid.
-void ValidateEReaderTrainer(void)
-{
-    u32 i;
-    u32 checksum;
-    struct BattleTowerEReaderTrainer *ereaderTrainer;
-
-    gSpecialVar_Result = 0;
-    ereaderTrainer = &gSaveBlock2Ptr->battleTower.ereaderTrainer;
-
-    checksum = 0;
-    for (i = 0; i < sizeof(struct BattleTowerEReaderTrainer) / sizeof(u32) - 1; i++)
-        checksum |= ((u32 *)ereaderTrainer)[i];
-
-    if (checksum == 0)
-    {
-        gSpecialVar_Result = 1;
-        return;
-    }
-
-    checksum = 0;
-    for (i = 0; i < sizeof(struct BattleTowerEReaderTrainer) / sizeof(u32) - 1; i++)
-        checksum += ((u32 *)ereaderTrainer)[i];
-
-    if (gSaveBlock2Ptr->battleTower.ereaderTrainer.checksum != checksum)
-    {
-        ClearEReaderTrainer(&gSaveBlock2Ptr->battleTower.ereaderTrainer);
-        gSpecialVar_Result = 1;
-    }
-}
-
 static void SetEReaderTrainerChecksum(struct BattleTowerEReaderTrainer *ereaderTrainer)
 {
     s32 i;
@@ -1422,3 +1476,4 @@ void Dummy_TryEnableBravoTrainerBattleTower(void)
             TakeBravoTrainerBattleTowerOffTheAir();
     }
 }
+*/

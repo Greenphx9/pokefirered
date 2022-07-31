@@ -309,36 +309,37 @@ struct BattleTowerData // Leftover from R/S
 
 struct SaveBlock2
 {
-    /*0x000*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
-    /*0x008*/ u8 playerGender; // MALE, FEMALE
-    /*0x009*/ u8 specialSaveWarpFlags;
-    /*0x00A*/ u8 playerTrainerId[TRAINER_ID_LENGTH];
-    /*0x00E*/ u16 playTimeHours;
-    /*0x010*/ u8 playTimeMinutes;
-    /*0x011*/ u8 playTimeSeconds;
-    /*0x012*/ u8 playTimeVBlanks;
-    /*0x013*/ u8 optionsButtonMode;  // OPTIONS_BUTTON_MODE_[NORMAL/LR/L_EQUALS_A]
-    /*0x014*/ u16 optionsTextSpeed:3; // OPTIONS_TEXT_SPEED_[SLOW/MID/FAST]
-              u16 optionsWindowFrameType:5; // Specifies one of the 20 decorative borders for text boxes
-    /*0x15*/  u16 optionsSound:1; // OPTIONS_SOUND_[MONO/STEREO]
-              u16 optionsBattleStyle:1; // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
-              u16 optionsBattleSceneOff:1; // whether battle animations are disabled
-              u16 regionMapZoom:1; // whether the map is zoomed in
-    /*0x018*/ struct Pokedex pokedex;
-    /*0x090*/ u8 filler_90[0x8];
-    /*0x098*/ struct Time localTimeOffset;
-    /*0x0A0*/ struct Time lastBerryTreeUpdate;
-    /*0x0A8*/ u32 gcnLinkFlags; // Read by Pokemon Colosseum/XD
+	/*0x000*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
+	/*0x008*/ u8 playerGender; // MALE, FEMALE
+	/*0x009*/ u8 specialSaveWarpFlags;
+	/*0x00A*/ u8 playerTrainerId[4];
+	/*0x00E*/ u16 playTimeHours;
+	/*0x010*/ u8 playTimeMinutes;
+	/*0x011*/ u8 playTimeSeconds;
+	/*0x012*/ u8 playTimeVBlanks;
+	/*0x013*/ u8 optionsButtonMode;  // OPTIONS_BUTTON_MODE_[NORMAL/LR/L_EQUALS_A]
+	/*0x014*/ u16 optionsTextSpeed:3; // OPTIONS_TEXT_SPEED_[SLOW/MID/FAST]
+			  u16 optionsWindowFrameType:5; // Specifies one of the 20 decorative borders for text boxes
+	/*0x15*/  u16 optionsSound:1; // OPTIONS_SOUND_[MONO/STEREO]
+			  u16 optionsBattleStyle:1; // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
+			  u16 optionsBattleSceneOff:1; // whether battle animations are disabled
+			  u16 regionMapZoom:1; // whether the map is zoomed in
+	/*0x018*/ struct Pokedex pokedex;
+	/*0x028*/ u8 filler_28[0x70];
+	/*0x098*/ struct Time localTimeOffset;
+	/*0x0A0*/ struct Time lastBerryTreeUpdate;
+	/*0x0A8*/ u32 gcnLinkFlags; // Read by Pokemon Colosseum/XD
     /*0x0AC*/ bool8 unkFlag1; // Set TRUE, never read
     /*0x0AD*/ bool8 unkFlag2; // Set FALSE, never read
-    /*0x0B0*/ struct BattleTowerData battleTower;
-    /*0x898*/ u16 mapView[0x100];
-    /*0xA98*/ struct LinkBattleRecords linkBattleRecords;
-    /*0xAF0*/ struct BerryCrush berryCrush;
-    /*0xB00*/ struct PokemonJumpRecords pokeJump;
-    /*0xB10*/ struct BerryPickingResults berryPick;
-    /*0xB20*/ u8 filler_B20[0x400];
-    /*0xF20*/ u32 encryptionKey;
+	/*0x0B0*/ u8 box25[0x6CC];
+	/*0x77C*/ u8 filler_77C[0x11C];
+	/*0x898*/ u16 mapView[0x100];
+	/*0xA98*/ struct LinkBattleRecords linkBattleRecords;
+	/*0xAF0*/ struct BerryCrush berryCrush;
+	/*0xB00*/ struct PokemonJumpRecords pokeJump;
+	/*0xB10*/ struct BerryPickingResults berryPick;
+	/*0xB20*/ u8 filler_B20[0x400];
+	/*0xF20*/ u32 encryptionKey;
 }; // size: 0xF24
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
