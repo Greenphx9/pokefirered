@@ -53,6 +53,7 @@ PalletTown_PlayersHouse_1F_EventScript_TVScreen::
 	end
 
 PalletTown_PlayersHouse_1F_EventScript_TVScreenMale::
+	callnative CheckSaveblockSizes
 	msgbox PalletTown_PlayersHouse_1F_Text_MovieOnTVFourBoysOnRailroad
 	return
 

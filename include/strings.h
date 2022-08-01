@@ -642,12 +642,14 @@ extern const u8 gStartMenuDesc_Option[];
 extern const u8 gStartMenuDesc_Exit[];
 extern const u8 gStartMenuDesc_Retire[];
 extern const u8 gStartMenuDesc_Player[];
+extern const u8 gStartMenuDesc_DexNav[];
 extern const u8 gText_SaveError_PleaseExchangeBackupMemory[];
 extern const u8 gText_SavingDontTurnOffThePower2[];
 extern const u8 gSaveStatName_Player[];
 extern const u8 gSaveStatName_Badges[];
 extern const u8 gSaveStatName_Pokedex[];
 extern const u8 gSaveStatName_Time[];
+extern const u8 gStartMenuText_DexNav[];
 
 // mail
 extern const u8 gText_From[];
@@ -1547,5 +1549,24 @@ extern const u8 gText_PokeSum_EggOrigin_Trade[];
 extern const u8 gText_PokeSum_EggOrigin_NicePlace[];
 extern const u8 gText_PokeSum_EggOrigin_Spa[];
 extern const u8 gText_PokeSum_EggOrigin_Trade[];
+
+// Dexnav
+extern const u8 gText_DexNavInstructions[];
+extern const u8 gText_DexNavWater[];
+extern const u8 gText_DexNavLand[];
+extern const u8 gText_GotAway[];
+extern const u8 gText_LostSignal[];
+extern const u8 gText_GotAwayShouldSneak[];
+extern const u8 gText_CannotBeFound[];
+extern const u8 gText_NotFoundNearby[];
+extern const u8 gText_TooDarkForDexNav[];
+extern const u8 gText_DexNavBack[];
+extern const u8 gText_DexNav_NoInfo[];
+extern const u8 gText_DexNav_CaptureToSee[];
+extern const u8 gText_DexNav_ChooseMon[];
+extern const u8 gText_DexNav_Invalid[];
+extern const u8 gText_DexNav_NoDataForSlot[];
+extern const u8 gText_DexNav_Locked[];
+extern const u8 gText_DexNav_TooDark[];
 
 #endif //GUARD_STRINGS_H

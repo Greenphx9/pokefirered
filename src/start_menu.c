@@ -34,6 +34,7 @@
 #include "option_menu.h"
 #include "save_menu_util.h"
 #include "help_system.h"
+#include "dexnav.h"
 #include "constants/songs.h"
 #include "constants/field_weather.h"
 
@@ -48,6 +49,7 @@ enum StartMenuOption
     STARTMENU_EXIT,
     STARTMENU_RETIRE,
     STARTMENU_PLAYER2,
+    STARTMENU_DEXNAV,
     MAX_STARTMENU_ITEMS
 };
 
@@ -121,7 +123,8 @@ static const struct MenuAction sStartMenuActionTable[] = {
     { gStartMenuText_Option, {.u8_void = StartMenuOptionCallback} },
     { gStartMenuText_Exit, {.u8_void = StartMenuExitCallback} },
     { gStartMenuText_Retire, {.u8_void = StartMenuSafariZoneRetireCallback} },
-    { gStartMenuText_Player, {.u8_void = StartMenuLinkPlayerCallback} }
+    { gStartMenuText_Player, {.u8_void = StartMenuLinkPlayerCallback} },
+    { gStartMenuText_DexNav, {.u8_void = StartMenuDexNavCallback} }
 };
 
 static const struct WindowTemplate sSafariZoneStatsWindowTemplate = {
@@ -143,7 +146,8 @@ static const u8 *const sStartMenuDescPointers[] = {
     gStartMenuDesc_Option,
     gStartMenuDesc_Exit,
     gStartMenuDesc_Retire,
-    gStartMenuDesc_Player
+    gStartMenuDesc_Player,
+    gStartMenuDesc_DexNav
 };
 
 static const struct BgTemplate sBGTemplates_AfterLinkSaveMessage[] = {
@@ -212,6 +216,8 @@ static void SetUpStartMenu_NormalField(void)
     AppendToStartMenuItems(STARTMENU_PLAYER);
     AppendToStartMenuItems(STARTMENU_SAVE);
     AppendToStartMenuItems(STARTMENU_OPTION);
+    if (FlagGet(FLAG_SYS_DEXNAV_GET) == FALSE)
+        AppendToStartMenuItems(STARTMENU_DEXNAV);
     AppendToStartMenuItems(STARTMENU_EXIT);
 }
 

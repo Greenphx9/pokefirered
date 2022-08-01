@@ -4934,4 +4934,21 @@ extern const u16 gUnknown_8E9C418[];
 extern const u16 gDexScreen_TopMenuIconPals_AtoZ[];
 extern const u32 gDexScreen_TopMenuIconTiles_AtoZ[];
 
+// Dexnav
+extern const u32 gInterfaceGfx_dexnavGuiTiles[];
+extern const u32 gInterfaceGfx_dexnavGuiMap[];
+extern const u32 gInterfaceGfx_dexnavGuiPal[];
+extern const u32 gInterfaceGfx_dexnavStarsTiles[];
+extern const u16 gInterfaceGfx_dexnavStarsPal[];
+extern const u32 DexNavCursorTiles[];
+extern const u32 DexNavCursorPal[];
+extern const u32 gInterfaceGfx_emptyTiles[];
+extern const u16 gInterfaceGfx_emptyPal[];
+extern const u32 gInterfaceGfx_CapturedAllPokemonTiles[];
+extern const u16 gInterfaceGfx_CapturedAllPokemonPal[];
+extern const u32 gInterfaceGfx_DexNavNoDataSymbolTiles[];
+extern const u32 DexNavBarTiles[];
+extern const u32 DexNavSightTiles[];
+extern const u32 DexNavBButtonTiles[];
+
 #endif //GUARD_GRAPHICS_H

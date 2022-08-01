@@ -160,6 +160,7 @@ const u8 gStartMenuText_Pokedex[] = _("POKéDEX");
 const u8 gStartMenuText_Bag[] = _("BAG");
 const u8 gUnknown_8416289[] = _("ポケナビ");
 const u8 gStartMenuText_Player[] = _("{PLAYER}");
+const u8 gStartMenuText_DexNav[] = _("DEXNAV");
 const u8 gStartMenuText_Save[] = _("SAVE");
 const u8 gStartMenuText_Option[] = _("OPTION");
 const u8 gStartMenuText_Exit[] = _("EXIT");
@@ -904,6 +905,7 @@ const u8 gStartMenuDesc_Save[] = _("Save your game with a complete record\nof yo
 const u8 gStartMenuDesc_Option[] = _("Adjust various game settings such as text\nspeed, game rules, etc.");
 const u8 gStartMenuDesc_Exit[] = _("Close this MENU window.");
 const u8 gStartMenuDesc_Retire[] = _("Retire from the SAFARI GAME and return to\nthe registration counter.");
+const u8 gStartMenuDesc_DexNav[] = _("Search for wild POKéMON in the area\nwith potential special qualities!");
 
 #include "data/text/quest_log.h"
 
@@ -1333,3 +1335,22 @@ const u8 gText_Receive[] = _("RECEIVE");
 const u8 gText_Send[] = _("SEND");
 const u8 gText_Toss[] = _("TOSS");
 const u8 gUnknown_841EE2B[] = _("DEL. ALL{CLEAR_TO 0x57}CANCEL{CLEAR_TO 0xA4}OK");
+
+//Dexnav
+const u8 gText_DexNavInstructions[] = _("{R_BUTTON}Register {B_BUTTON}Cancel");
+const u8 gText_DexNavWater[] = _("Water");
+const u8 gText_DexNavLand[] = _("Land");
+const u8 gText_GotAway[] = _("{STR_VAR_1} got away!");
+const u8 gText_LostSignal[] = _("There is no reaction.\nThe signal was lost!");
+const u8 gText_GotAwayShouldSneak[] = _("{STR_VAR_1} got away!\nTry moving more slowly.");
+const u8 gText_CannotBeFound[] = _("{STR_VAR_1} cannot be found here.");
+const u8 gText_NotFoundNearby[] = _("{STR_VAR_1} couldn't be found nearby.\nTry looking in a different area!");
+const u8 gText_TooDarkForDexNav[] = _("It's too dark to search for\na Pokémon!");
+const u8 gText_DexNavBack[] = _(" Back  ");
+const u8 gText_DexNav_NoInfo[] = _("--------");
+const u8 gText_DexNav_CaptureToSee[] = _("Capture first!");
+const u8 gText_DexNav_ChooseMon[] = _("Choose a Pokémon.");
+const u8 gText_DexNav_Invalid[] = _("That Pokémon can't be searched yet!");
+const u8 gText_DexNav_NoDataForSlot[] = _("There's no data for that Pokémon...");
+const u8 gText_DexNav_Locked[] = _("Pokémon searchable via {R_BUTTON}!");
+const u8 gText_DexNav_TooDark[] = _("It's too dark to search for a Pokémon!");

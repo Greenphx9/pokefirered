@@ -22,10 +22,7 @@ PalletTown_PlayersHouse_1F_Text_LookingGreatTakeCare::
     .string "Take care now!$"
 
 PalletTown_PlayersHouse_1F_Text_MovieOnTVFourBoysOnRailroad::
-    .string "There's a movie on TV.\n"
-    .string "Four boys are walking on railroad\l"
-    .string "tracks.\p"
-    .string "…I better go, too.$"
+    .string "SaveBlock1 is {STR_VAR_1} bytes long.\nSaveBlock2 is {STR_VAR_2} bytes long.\lPokemonStorage is {STR_VAR_3} bytes long.$"
 
 PalletTown_PlayersHouse_1F_Text_MovieOnTVGirlOnBrickRoad::
     .string "There's a movie on TV.\n"

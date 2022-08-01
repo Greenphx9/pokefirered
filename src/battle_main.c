@@ -34,6 +34,7 @@
 #include "trig.h"
 #include "vs_seeker.h"
 #include "util.h"
+#include "dexnav.h"
 #include "constants/abilities.h"
 #include "constants/battle_move_effects.h"
 #include "constants/battle_setup.h"
@@ -3755,6 +3756,14 @@ static void HandleEndTurn_FinishBattle(void)
     {
         gBattleScriptingCommandsTable[gBattlescriptCurrInstr[0]]();
     }
+
+    if (gDexNavStartedBattle
+	&& gCurrentDexNavChain < 100
+	&& (gBattleOutcome == B_OUTCOME_WON || gBattleOutcome == B_OUTCOME_CAUGHT))
+		++gCurrentDexNavChain;
+	else
+		gCurrentDexNavChain = 0;
+	gDexNavStartedBattle = FALSE;
 }
 
 static void FreeResetData_ReturnToOvOrDoEvolutions(void)

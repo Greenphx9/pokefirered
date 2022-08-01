@@ -13,6 +13,7 @@ bool8 FieldEffectActiveListContains(u8 id);
 void CreateTeleportFieldEffectTask(void);
 void FieldEffectActiveListRemove(u8 id);
 void StartEscapeRopeFieldEffect(void);
+void FieldEffectFreeGraphicsResources(struct Sprite * sprite);
 void FieldEffectStop(struct Sprite *sprite, u8 id);
 u8 CreateTrainerSprite(u8 trainerSpriteID, s16 x, s16 y, u8 subpriority, u8 *buffer);
 void FieldCB_FallWarpExit(void);

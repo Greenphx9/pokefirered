@@ -1418,3 +1418,21 @@ const u16 gBerryCrush_Crusher_Pal[] = INCBIN_U16("graphics/berry_crush/berry_cru
 const u16 gUnknown_8EAFF60[] = INCBIN_U16("graphics/unknown/unknown_EAFF60.gbapal");
 const u32 gBerryCrush_Crusher_Gfx[] = INCBIN_U32("graphics/berry_crush/berry_crush.4bpp.lz");
 const u32 gBerryCrush_Crusher_Tilemap[] = INCBIN_U32("graphics/berry_crush/data_EB0ADC.bin.lz");
+
+//Dexnav
+
+const u32 gInterfaceGfx_dexnavGuiTiles[] = INCBIN_U32("graphics/dexnav/dexnav_gui.4bpp.lz");
+const u32 gInterfaceGfx_dexnavGuiMap[] = INCBIN_U32("graphics/dexnav/dexnav_gui.bin.lz");
+const u32 gInterfaceGfx_dexnavGuiPal[] = INCBIN_U32("graphics/dexnav/dexnav_gui.gbapal.lz");
+const u32 gInterfaceGfx_dexnavStarsTiles[] = INCBIN_U32("graphics/dexnav/dexnav_stars.8bpp");
+const u16 gInterfaceGfx_dexnavStarsPal[] = INCBIN_U16("graphics/dexnav/dexnav_stars.gbapal");
+const u32 DexNavCursorTiles[] = INCBIN_U32("graphics/dexnav/dexnav_cursor.4bpp.lz");
+const u32 DexNavCursorPal[] = INCBIN_U32("graphics/dexnav/dexnav_cursor.gbapal");
+const u32 gInterfaceGfx_emptyTiles[] = INCBIN_U32("graphics/dexnav/dexnav_empty.4bpp.lz");
+const u16 gInterfaceGfx_emptyPal[] = INCBIN_U16("graphics/dexnav/dexnav_empty.gbapal");
+const u32 gInterfaceGfx_CapturedAllPokemonTiles[] = INCBIN_U32("graphics/dexnav/captured_all_mons.4bpp.lz");
+const u16 gInterfaceGfx_CapturedAllPokemonPal[] = INCBIN_U16("graphics/dexnav/captured_all_mons.gbapal");
+const u32 gInterfaceGfx_DexNavNoDataSymbolTiles[] = INCBIN_U32("graphics/dexnav/dexnav_no_data.4bpp.lz");
+const u32 DexNavBarTiles[] = INCBIN_U32("graphics/dexnav/dexnav_bar.4bpp.lz");
+const u32 DexNavSightTiles[] = INCBIN_U32("graphics/dexnav/dexnav_sight.8bpp.lz");
+const u32 DexNavBButtonTiles[] = INCBIN_U32("graphics/dexnav/dexnav_b_button.8bpp.lz");

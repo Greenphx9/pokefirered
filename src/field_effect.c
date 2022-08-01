@@ -484,7 +484,7 @@ static void FieldEffectScript_CallNative(const u8 **script, u32 *result)
     *script += sizeof(u32);
 }
 
-static void FieldEffectFreeGraphicsResources(struct Sprite * sprite)
+void FieldEffectFreeGraphicsResources(struct Sprite * sprite)
 {
     u16 tileStart = sprite->sheetTileStart;
     u8 paletteNum = sprite->oam.paletteNum;
