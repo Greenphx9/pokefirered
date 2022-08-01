@@ -29,6 +29,7 @@
 #include "wild_encounter.h"
 #include "event_object_movement.h"
 #include "field_effect.h"
+#include "field_effect_helpers.h"
 #include "metatile_behavior.h"
 #include "script.h"
 #include "pokemon_icon.h"
@@ -586,7 +587,7 @@ static bool8 ShakingGrass(u8 environment, u8 xSize, u8 ySize, bool8 smallScan)
 		//Get spriteId of shaking grass
 		for (i = 0; i < MAX_SPRITES; ++i)
 		{
-			if (gSprites[i].callback == (void*) 0x080DCD1D)
+			if (gSprites[i].callback == WaitFieldEffectSpriteAnim)
 			{
 				sDexNavHudPtr->spriteIdShakingGrass = i;
 				return TRUE;
@@ -701,7 +702,7 @@ static void DexNavFreeHUD(void)
 	}
 
 	//FreeSpriteTilesByTag(0x4736);
-	FreeSpriteTilesByTag(0x61);
+	/*FreeSpriteTilesByTag(0x61);
 	FreeSpriteTilesByTag(0x2613);
 	FreeSpriteTilesByTag(0x5424);
 	FreeSpriteTilesByTag(0x5425);
@@ -710,7 +711,7 @@ static void DexNavFreeHUD(void)
 	FreeSpriteTilesByTag(0xFDF1); //Black Bars
 	FreeSpriteTilesByTag(0x3039);
 	FreeSpritePaletteByTag(0x8472);
-	FreeSpritePaletteByTag(0x3039);
+	FreeSpritePaletteByTag(0x3039);*/
 
 	Free(sDexNavHudPtr);
 	DisableInterrupts(2);
@@ -1004,8 +1005,6 @@ static void DexNavIconsVisionUpdate(u8 proximity, u8 searchLevel)
 extern const u8 SystemScript_StartDexNavBattle[];
 static void Task_ManageDexNavHUD(u8 taskId)
 {
-	DexNavFreeHUD();
-	return;
 	//Check for out of range
 	if (sDexNavHudPtr->proximity > 20)
 	{
