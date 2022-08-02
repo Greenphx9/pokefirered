@@ -1,13 +1,11 @@
 SystemScript_StartDexNavBattle::
-	lockall
-	waitse
+	lock
 	playse 0x15
-	applymovement 0xFF, Movement_ExclamationMark
-	waitmovement 0x0
+	applymovement OBJ_EVENT_ID_PLAYER Movement_ExclamationMark
+	waitmovement 0
 	waitse
-	delay 0x10
-	dowildbattle
-	releaseall
+	dowildbattle    
+	release
 	end
 
 SystemScript_DexNav_CannotBeFound::

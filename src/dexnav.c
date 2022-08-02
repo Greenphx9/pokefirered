@@ -45,6 +45,8 @@
 #include "scanline_effect.h"
 #include "field_weather.h"
 #include "start_menu.h"
+#include "script_pokemon_util.h"
+#include "constants/map_types.h"
 #include "constants/game_stat.h"
 #include "constants/daycare.h"
 #include "constants/items.h"
@@ -119,7 +121,7 @@ struct DexNavHudData
 
 EWRAM_DATA struct DexNavHudData *sDexNavHudPtr = NULL;
 EWRAM_DATA struct DexNavGuiData *sDexNavGuiPtr = NULL;
-EWRAM_DATA u8 sSearchLevels[NATIONAL_DEX_COUNT] = { };
+static EWRAM_DATA u8 sSearchLevels[NATIONAL_DEX_COUNT] = { };
 EWRAM_DATA u8 gCurrentDexNavChain = 0;
 EWRAM_DATA bool8 gDexNavStartedBattle = FALSE;
 static EWRAM_DATA u16 gLastDexNavSpecies = 0;
@@ -133,7 +135,7 @@ static EWRAM_DATA bool8 gDexNavCooldown = FALSE;
 //This file's functions:
 static void DexNavGetMon(u16 species, u8 potential, u8 level, u8 ability, u16* moves, u8 searchLevel, u8 chain);
 static u8 FindHeaderIndexWithLetter(u16 species, u8 letter);
-static u8 PickTileScreen(u8 targetBehaviour, u8 areaX, u8 areaY, s16 *xBuff, s16 *yBuff, u8 smallScan);
+static u8 PickTileScreen(u8 environment, u8 areaX, u8 areaY, s16 *xBuff, s16 *yBuff, u8 smallScan);
 static u8 DexNavPickTile(u8 environment, u8 xSize, u8 ySize, bool8 smallScan);
 static u8 ShakingGrass(u8 environment, u8 xSize, u8 ySize, bool8 smallScan);
 //static void DexHUDHBlank(void);
@@ -280,7 +282,11 @@ void GiveMonNatureAndAbility(struct Pokemon* mon, u8 nature, u8 abilityNum, bool
 	|| (keepGender && GetGenderFromSpeciesAndPersonality(species, personality) != gender)
 	|| (keepLetterCore && species == SPECIES_UNOWN && GetUnownLetterByPersonalityLoByte(personality) != letter)); //Make sure the Unown letter doesn't change
 
+	#ifdef REMOVED_MON_ECRYPTION
 	SetMonData(mon, MON_DATA_PERSONALITY, &personality);
+	#else
+	SetMonData(mon, MON_DATA_ABILITY_NUM, &abilityNum);
+	#endif
 }
 
 // ===================================== //
@@ -296,6 +302,7 @@ void DexNavGetMon(u16 species, u8 potential, u8 level, u8 ability, u16* moves, u
 	u32 i, otherValue, numChecks, charmBonus, chainBonus, randBonus;
     u8 iv[3];
     u8 perfectIv = 0x1F;
+	u8 abilityNum = (gBaseStats[species].abilities[1] == ability) ? 1 : 0;
 	otherValue = 0;
 	#ifdef ITEM_SHINY_CHARM
 	charmBonus = (CheckBagHasItem(ITEM_SHINY_CHARM, 1) > 0) ? 2 : 0;
@@ -355,8 +362,8 @@ void DexNavGetMon(u16 species, u8 potential, u8 level, u8 ability, u16* moves, u
     #ifdef HIDDEN_ABILITY
 	if (gBaseStats[species].abilities[2] == ability)
 		mon->hiddenAbility = TRUE;
-    #endif
 	else if (gBaseStats[species].abilities[1] != ABILITY_NONE) //Helps fix a bug where Unown would crash the game in the below function
+	#endif
 		GiveMonNatureAndAbility(mon, GetNature(mon), (gBaseStats[species].abilities[1] == ability) ? 1 : 0, IsMonShiny(mon), TRUE, TRUE); //Make sure details match what was on the HUD
 
 	//Set moves
@@ -435,83 +442,109 @@ u8 GetPlayerDistance(s16 x, s16 y)
 	return deltaX + deltaY;
 }
 
-
-static bool8 PickTileScreen(u8 targetBehaviour, u8 areaX, u8 areaY, s16 *xBuff, s16 *yBuff, u8 smallScan)
+//Ported from ghoulslash's dexnav.
+static bool8 PickTileScreen(u8 environment, u8 areaX, u8 areaY, s16 *xBuff, s16 *yBuff, u8 smallScan)
 {
-	// area of map to cover starting from camera position {-7, -7}
-	s16 topX = gSaveBlock1Ptr->pos.x - SCANSTART_X + (smallScan * 5);
-	s16 topY = gSaveBlock1Ptr->pos.y - SCANSTART_Y + (smallScan * 5);
-	s16 botX = topX + areaX;
-	s16 botY = topY + areaY;
-    bool8 goNext = FALSE;
+    s16 topX = gSaveBlock1Ptr->pos.x - SCANSTART_X + (smallScan * 5);
+    s16 topY = gSaveBlock1Ptr->pos.y - SCANSTART_Y + (smallScan * 5);
+    s16 botX = topX + areaX;
+    s16 botY = topY + areaY;
     u8 i;
+    bool8 nextIter;
+    u8 scale = 0;
+    u8 weight = 0;
+    u8 currMapType = GetCurrentMapType();
+    u8 tileBehaviour;
+    u8 tileBuffer = 2;
+    
+    // loop through every tile in area and evaluate
+    while (topY < botY)
+    {
+        while (topX < botX)
+        {
+            tileBehaviour = MapGridGetMetatileBehaviorAt(topX, topY);
+            
+            //gSpecialVar_0x8005 = tileBehaviour;
+            
+            //Check for objects
+            nextIter = FALSE;
+            if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_BIKE))
+                tileBuffer = SNEAKING_PROXIMITY + 3;
+            else if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_DASH))
+                tileBuffer = SNEAKING_PROXIMITY + 1;
+            
+            if (GetPlayerDistance(topX, topY) <= tileBuffer)
+            {
+                // tile too close to player
+                topX++;
+                continue;
+            }
+            
+            for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
+            {
+                if (gObjectEvents[i].currentCoords.x == topX && gObjectEvents[i].currentCoords.y == topY)
+                {
+                    // cannot be on a tile where an object exists
+                    nextIter = TRUE;
+                    break;
+                }
+            }
+            
+            if (nextIter)
+            {
+                topX++;
+                continue;
+            }
+            
+            switch (environment)
+            {
+            case ENCOUNTER_TYPE_LAND:
+                if (MetatileBehavior_IsLandWildEncounter(tileBehaviour))
+                {
+                    if (currMapType == MAP_TYPE_UNDERGROUND)
+                    { // inside (cave)
+                        if (IsZCoordMismatchAt(gObjectEvents[gPlayerAvatar.spriteId].currentElevation, topX, topY))
+                            break; //occurs at same z coord
+                        
+                        scale = 440 - (smallScan * 200) - (GetPlayerDistance(topX, topY) / 2)  - (2 * (topX + topY));
+                        weight = ((Random() % scale) < 1) && !MapGridIsImpassableAt(topX, topY);
+                    }
+                    else
+                    { // outdoors: grass
+                        scale = 100 - (GetPlayerDistance(topX, topY) * 2);
+                        weight = (Random() % scale <= 5) && !MapGridIsImpassableAt(topX, topY);
+                    }
+                }
+                break;
+            case ENCOUNTER_TYPE_WATER:
+                if (MetatileBehavior_IsWaterWildEncounter(tileBehaviour))
+                {
+                    u8 scale = 320 - (smallScan * 200) - (GetPlayerDistance(topX, topY) / 2);
+                    if (IsZCoordMismatchAt(gObjectEvents[gPlayerAvatar.spriteId].currentElevation, topX, topY))
+                        break;
 
-	// loop through every tile in area and evaluate
-	while (topY < botY)
-	{
-		while (topX < botX)
-		{
-			u32 tileBehaviour = MapGridGetMetatileAttributeAt(topX, topY, 0xFF);
-			u8 blockProperties = ExtractMetatileAttribute(tileBehaviour, METATILE_ATTRIBUTE_ENCOUNTER_TYPE);
+                    weight = (Random() % scale <= 1) && !MapGridIsImpassableAt(topX, topY);
+                }
+                break;
+            default:
+                break;
+            }
+            
+            if (weight > 0)
+            {
+                sDexNavHudPtr->tileX = topX;
+                sDexNavHudPtr->tileY = topY;
+                return TRUE;
+            }
+            
+            topX++;
+        }
+        
+        topY++;
+        topX = gSaveBlock1Ptr->pos.x - SCANSTART_X + (smallScan * 5);
+    }
 
-			gSpecialVar_0x8005 = tileBehaviour;	//020370c2
-
-			//Check NPCs on tile
-			for (i = 0; i < 16; ++i)
-			{
-				if (gObjectEvents[i].currentCoords.x == topX && gObjectEvents[i].currentCoords.y == topY)
-				{
-					goNext = TRUE;
-					break;
-				}
-			}
-			if (goNext)
-			{
-				topX += 1;
-				continue;
-			}
-
-			//Tile must be target behaviour (wild tile) and must be passable
-			if (blockProperties & targetBehaviour)
-			{
-				//Caves and water need to have their encounter values scaled higher
-				u8 weight = 0;
-				if (targetBehaviour == TILE_FLAG_SURFABLE)
-				{
-					//Water
-					u8 scale = 320 - (smallScan * 200) - (GetPlayerDistance(topX, topY) / 2);
-					u8 elevDiff = (IsZCoordMismatchAt((gObjectEvents[gPlayerAvatar.spriteId].previousElevation << 4
-						| gObjectEvents[gPlayerAvatar.spriteId].currentElevation), topX, topY));
-
-					weight = (Random() % scale <= 1) && elevDiff && !MapGridIsImpassableAt(topX, topY);
-				}
-				else if (!IsMapTypeOutdoors(GetCurrentMapType()))
-				{
-					//Cave basically needs another check to see if the tile is passable
-					u8 scale = 440 - (smallScan * 200) - (GetPlayerDistance(topX, topY) / 2)  - (2 * (topX + topY));
-					gSpecialVar_0x8002 = scale;
-					weight = ((Random() % scale) < 1) && !MapGridIsImpassableAt(topX, topY);
-				}
-				else //Grass land
-				{
-					u8 scale = 100 - (GetPlayerDistance(topX, topY) * 2);
-					weight = (Random() % scale <= 5) && !MapGridIsImpassableAt(topX, topY);
-				}
-
-				if (weight > 0)
-				{
-					*xBuff = topX;
-					*yBuff = topY;
-					return TRUE;
-				}
-			}
-			topX += 1;
-		}
-		topY += 1;
-		topX = gSaveBlock1Ptr->pos.x - SCANSTART_X + (smallScan * 5);
-	}
-
-	return FALSE;
+    return FALSE;
 }
 
 
@@ -532,7 +565,7 @@ static bool8 DexNavPickTile(u8 environment, u8 xSize, u8 ySize, bool8 smallScan)
 
 	//u8 searchLevel = sDexNavHudPtr->searchLevel / 5;
 	//u8 chance = searchLevel + 1;
-	return PickTileScreen(targetBehaviour, xSize, ySize, &sDexNavHudPtr->tileX, &sDexNavHudPtr->tileY, smallScan);
+	return PickTileScreen(environment, xSize, ySize, &sDexNavHudPtr->tileX, &sDexNavHudPtr->tileY, smallScan);
 }
 
 
@@ -768,7 +801,7 @@ static void OutlinedFontDraw(u8 spriteId, u8 tileNum, u16 size)
 		return;
 
 	tile = gSprites[spriteId].oam.tileNum + tileNum;
-	toWrite = (u8*)((tile * TILE_SIZE) + SPRITE_RAM);
+	toWrite = (u8*)((tile * TILE_SIZE));
 	originalDst = dst = AllocZeroed(size + TILE_SIZE);
 	strPtr = gStringVar4;
 
@@ -1089,19 +1122,19 @@ static void Task_ManageDexNavHUD(u8 taskId)
         u16 dexNum;
 		DexNavGetMon(sDexNavHudPtr->species, sDexNavHudPtr->potential, sDexNavHudPtr->pokemonLevel,
 					sDexNavHudPtr->ability, sDexNavHudPtr->moveId, sDexNavHudPtr->searchLevel, gCurrentDexNavChain);
-		DestroyTask(taskId);
 
 		// increment the search level
 		dexNum = SpeciesToNationalPokedexNum(sDexNavHudPtr->species);
 		if (sSearchLevels[dexNum] < 255)
 			sSearchLevels[dexNum] += 1;
-
-		// Freeing only the state, objects and hblank cleared on battle start.
-		Free(sDexNavHudPtr);
+		
 
 		gDexNavStartedBattle = TRUE;
 		DismissMapNamePopup();
 		ScriptContext1_SetupScript(SystemScript_StartDexNavBattle);
+		// Freeing only the state, objects and hblank cleared on battle start.
+		Free(sDexNavHudPtr);
+		DestroyTask(taskId);
 /*
 		// exclamation point animation over the player
 		PlaySE(SE_EXCLAIM);
@@ -1672,7 +1705,7 @@ void InitDexNavHUD(u16 species, u8 environment)
 
 	// draw shaking grass
 	//extern u8 ShakingGrass(u8, u8, u8, bool8);
-	if (gDexNavCooldown || !ShakingGrass(environment, 12, 12, 0))
+	if (!ShakingGrass(environment, 12, 12, 0))
 	{
 		Free(sDexNavHudPtr);
 		gDexNavCooldown = TRUE; //A Pokemon can't be found until the player takes at least one step or searches for another Pokemon manually

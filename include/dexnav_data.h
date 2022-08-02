@@ -502,6 +502,9 @@ static const struct SpriteTemplate sHeldItemTemplate =
 	.callback = SpriteCallbackDummy,
 };
 
+static const u32 sHeldItemGfx[] = INCBIN_U32("graphics/dexnav/dexnav_held_icons.4bpp");
+static const u16 sDexNavHudPalette[] = INCBIN_U16("graphics/dexnav/dexnav_stars.gbapal");
+
 static const struct CompressedSpriteSheet sBlackBarTiles = {DexNavBarTiles, (64 * 32) / 2, 0xFDF1};
 static const struct CompressedSpriteSheet sSightSpriteSheet = {DexNavSightTiles, (16 * 8 * 3) / 2, 0x5424};
 static const struct CompressedSpriteSheet sBButtonSpriteSheet = {DexNavBButtonTiles, (32 * 8) / 2, 0x5425};
@@ -509,7 +512,7 @@ static const struct CompressedSpriteSheet sMoveCanvasSpriteSheet = {gInterfaceGf
 static const struct CompressedSpriteSheet sAbilityCanvasSpriteSheet = {gInterfaceGfx_emptyTiles, (64 * 32) / 2, 0x1EE7};
 static const struct SpriteSheet sStarLitSpriteSheet = {&gInterfaceGfx_dexnavStarsTiles[19 * 4 * 32], (8 * 8) / 2, 0x61}; //19 tiles per row, stars are on the 4th row. 1 tile is 32 bytes. Hence 19 * 4 *32
 static const struct SpriteSheet sStarDullSpriteSheet = {&gInterfaceGfx_dexnavStarsTiles[((19 * 4) + 1)*32], (8 * 8) / 2, 0x2613};
-static const struct SpriteSheet sHeldItemSpriteSheet = {(const u8*) 0x845A3AC, (8 * 16) / 2, 0x8472};
-static const struct SpritePalette sHeldItemSpritePalette = {(const u16*) 0x0845A3EC, 0x8472};
+static const struct SpriteSheet sHeldItemSpriteSheet = {sHeldItemGfx, (8 * 16) / 2, 0x8472};
+static const struct SpritePalette sHeldItemSpritePalette = {sDexNavHudPalette, 0x8472};
 
 #endif // GUARD_DEXNAV_DATA_H
