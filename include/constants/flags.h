@@ -35,12 +35,12 @@
 #define FLAG_TEMP_1E             0x01E
 #define FLAG_TEMP_1F             0x01F
 
-#define FLAG_0x020               0x020
-#define FLAG_0x021               0x021
-#define FLAG_0x022               0x022
-#define FLAG_0x023               0x023
-#define FLAG_0x024               0x024
-#define FLAG_0x025               0x025
+#define FLAG_SYS_NO_COLLISION       0x020
+#define FLAG_SYS_NO_ENCOUNTER       0x021
+#define FLAG_SYS_NO_TRAINER_SEE     0x022
+#define FLAG_SYS_NO_BAG_USE         0x023
+#define FLAG_SYS_NO_CATCHING        0x024
+#define FLAG_SYS_PC_FROM_DEBUG_MENU 0x025
 #define FLAG_0x026               0x026
 #define FLAG_0x027               0x027
 

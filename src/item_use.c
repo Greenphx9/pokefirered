@@ -5,6 +5,7 @@
 #include "berry_powder.h"
 #include "bike.h"
 #include "coins.h"
+#include "debug.h"
 #include "event_data.h"
 #include "field_effect.h"
 #include "field_fadetransition.h"
@@ -736,6 +737,15 @@ void Task_ItemUse_CloseMessageBoxAndReturnToField_VsSeeker(u8 taskId)
 
 void BattleUseFunc_PokeBallEtc(u8 taskId)
 {
+    #ifdef TX_DEBUGGING
+    if (FlagGet(FLAG_SYS_NO_CATCHING))
+	{
+        static const u8 sText_BallsCannotBeUsed[] = _("Poké Balls cannot be used\nright now!\p");
+        DisplayItemMessageInBag(taskId, 1, sText_BallsCannotBeUsed, Task_ReturnToBagFromContextMenu);
+        return;
+    }
+    #endif
+
     if (!IsPlayerPartyAndPokemonStorageFull())
     {
         RemoveBagItem(gSpecialVar_ItemId, 1);
