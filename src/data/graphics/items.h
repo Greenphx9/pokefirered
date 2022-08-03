@@ -289,6 +289,48 @@ const u32 gItemIconPalette_WhippedDream[] = INCBIN_U32("graphics/items/icon_pale
 const u32 gItemIcon_Sachet[] = INCBIN_U32("graphics/items/icons/sachet.4bpp.lz");
 const u32 gItemIconPalette_Sachet[] = INCBIN_U32("graphics/items/icon_palettes/sachet.gbapal.lz");
 
+const u32 gItemIcon_LinkStone[] = INCBIN_U32("graphics/items/icons/link_stone.4bpp.lz");
+const u32 gItemIconPalette_LinkStone[] = INCBIN_U32("graphics/items/icon_palettes/link_stone.gbapal.lz");
+
+const u32 gItemIcon_TartApple[] = INCBIN_U32("graphics/items/icons/tart_apple.4bpp.lz");
+const u32 gItemIconPalette_TartApple[] = INCBIN_U32("graphics/items/icon_palettes/tart_apple.gbapal.lz");
+
+const u32 gItemIcon_SweetApple[] = INCBIN_U32("graphics/items/icons/sweet_apple.4bpp.lz");
+const u32 gItemIconPalette_SweetApple[] = INCBIN_U32("graphics/items/icon_palettes/sweet_apple.gbapal.lz");
+
+const u32 gItemIcon_CrackedPot[] = INCBIN_U32("graphics/items/icons/cracked_pot.4bpp.lz");
+const u32 gItemIconPalette_CrackedPot[] = INCBIN_U32("graphics/items/icon_palettes/cracked_pot.gbapal.lz");
+
+const u32 gItemIcon_StrawberrySweet[] = INCBIN_U32("graphics/items/icons/strawberry_sweet.4bpp.lz");
+const u32 gItemIconPalette_StrawberrySweet[] = INCBIN_U32("graphics/items/icon_palettes/strawberry_sweet.gbapal.lz");
+
+const u32 gItemIcon_BerrySweet[] = INCBIN_U32("graphics/items/icons/berry_sweet.4bpp.lz");
+const u32 gItemIconPalette_BerrySweet[] = INCBIN_U32("graphics/items/icon_palettes/berry_sweet.gbapal.lz");
+
+const u32 gItemIcon_LoveSweet[] = INCBIN_U32("graphics/items/icons/love_sweet.4bpp.lz");
+const u32 gItemIconPalette_LoveSweet[] = INCBIN_U32("graphics/items/icon_palettes/love_sweet.gbapal.lz");
+
+const u32 gItemIcon_CloverSweet[] = INCBIN_U32("graphics/items/icons/clover_sweet.4bpp.lz");
+const u32 gItemIconPalette_CloverSweet[] = INCBIN_U32("graphics/items/icon_palettes/clover_sweet.gbapal.lz");
+
+const u32 gItemIcon_FlowerSweet[] = INCBIN_U32("graphics/items/icons/flower_sweet.4bpp.lz");
+const u32 gItemIconPalette_FlowerSweet[] = INCBIN_U32("graphics/items/icon_palettes/flower_sweet.gbapal.lz");
+
+const u32 gItemIcon_RibbonSweet[] = INCBIN_U32("graphics/items/icons/ribbon_sweet.4bpp.lz");
+const u32 gItemIconPalette_RibbonSweet[] = INCBIN_U32("graphics/items/icon_palettes/ribbon_sweet.gbapal.lz");
+
+const u32 gItemIcon_StarSweet[] = INCBIN_U32("graphics/items/icons/star_sweet.4bpp.lz");
+const u32 gItemIconPalette_StarSweet[] = INCBIN_U32("graphics/items/icon_palettes/star_sweet.gbapal.lz");
+
+const u32 gItemIcon_ChippedPot[] = INCBIN_U32("graphics/items/icons/chipped_pot.4bpp.lz");
+const u32 gItemIconPalette_ChippedPot[] = INCBIN_U32("graphics/items/icon_palettes/chipped_pot.gbapal.lz");
+
+const u32 gItemIcon_GalaricaCuff[] = INCBIN_U32("graphics/items/icons/galarica_cuff.4bpp.lz");
+const u32 gItemIconPalette_GalaricaCuff[] = INCBIN_U32("graphics/items/icon_palettes/galarica_cuff.gbapal.lz");
+
+const u32 gItemIcon_GalaricaWreath[] = INCBIN_U32("graphics/items/icons/galarica_wreath.4bpp.lz");
+const u32 gItemIconPalette_GalaricaWreath[] = INCBIN_U32("graphics/items/icon_palettes/galarica_wreath.gbapal.lz");
+
 //// Apricorns
 const u32 gItemIcon_RedApricorn[] = INCBIN_U32("graphics/items/icons/red_apricorn.4bpp.lz");
 const u32 gItemIconPalette_RedApricorn[] = INCBIN_U32("graphics/items/icon_palettes/red_apricorn.gbapal.lz");
