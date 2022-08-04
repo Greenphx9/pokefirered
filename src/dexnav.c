@@ -662,6 +662,7 @@ static void NullSubHBlank(void)
 
 static void DexNavFreeHUD(void)
 {
+	ScriptContext2_Disable();
 	switch (sDexNavHudPtr->environment)
 	{
 		case 0:
