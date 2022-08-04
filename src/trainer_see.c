@@ -1,5 +1,7 @@
 #include "global.h"
 #include "battle_setup.h"
+#include "debug.h"
+#include "event_data.h"
 #include "event_object_movement.h"
 #include "field_effect.h"
 #include "field_player_avatar.h"
@@ -88,6 +90,12 @@ static const TrainerSeeFunc sTrainerSeeFuncList2[] = {
 bool8 CheckForTrainersWantingBattle(void)
 {
     u8 i;
+
+    #ifdef TX_DEBUGGING
+    if (FlagGet(FLAG_SYS_NO_TRAINER_SEE))
+        return FALSE;
+    #endif
+
     if (sub_8111C2C() == TRUE)
         return FALSE;
 

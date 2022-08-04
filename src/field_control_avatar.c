@@ -3,6 +3,7 @@
 #include "bike.h"
 #include "coord_event_weather.h"
 #include "daycare.h"
+#include "debug.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
@@ -153,6 +154,36 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
         else if (heldKeys & DPAD_RIGHT)
             input->dpadDirection = DIR_EAST;
     }
+
+    #ifdef TX_DEBUGGING
+    if (!TX_DEBUG_MENU_OPTION)
+    {
+        if (heldKeys & R_BUTTON) 
+        {
+            if (input->pressedSelectButton)
+            {
+                input->input_field_1_0 = TRUE;
+                input->pressedSelectButton = FALSE;
+            } else if (input->pressedStartButton) 
+            {
+                input->input_field_1_2 = TRUE;
+                input->pressedStartButton = FALSE;
+            }
+        }
+        if (heldKeys & L_BUTTON) 
+        {
+            if (input->pressedSelectButton)
+            {
+                input->input_field_1_1 = TRUE;
+                input->pressedSelectButton = FALSE;
+            } else if (input->pressedStartButton) 
+            {
+                input->input_field_1_3 = TRUE;
+                input->pressedStartButton = FALSE;
+            }
+        }
+    }
+    #endif
 }
 
 static void QuestLogOverrideJoyVars(struct FieldInput *input, u16 *newKeys, u16 *heldKeys)
@@ -294,6 +325,18 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         gInputToStoreInQuestLogMaybe.pressedSelectButton = TRUE;
         return TRUE;
     }
+
+    #ifdef TX_DEBUGGING
+    if (!TX_DEBUG_MENU_OPTION)
+    {
+        if (input->input_field_1_2)
+        {
+            PlaySE(SE_WIN_OPEN);
+            Debug_ShowMainMenu();
+            return TRUE;
+        }
+    }
+    #endif
 
     return FALSE;
 }
@@ -739,6 +782,11 @@ void RestartWildEncounterImmunitySteps(void)
 
 static bool8 CheckStandardWildEncounter(u32 metatileAttributes)
 {
+    #ifdef TX_DEBUGGING
+    if (FlagGet(FLAG_SYS_NO_ENCOUNTER))
+        return FALSE;
+    #endif
+
     return TryStandardWildEncounter(metatileAttributes);
 }
 
