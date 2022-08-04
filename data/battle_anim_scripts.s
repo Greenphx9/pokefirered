@@ -402,6 +402,564 @@ gBattleAnims_Moves::
 	.4byte Move_WATER_PULSE
 	.4byte Move_DOOM_DESIRE
 	.4byte Move_PSYCHO_BOOST
+	.4byte Move_LEECH_FANG
+	.4byte Move_AIR_SLASH
+	.4byte Move_AQUA_JET
+	.4byte Move_AQUA_TAIL
+	.4byte Move_AURA_SPHERE
+	.4byte Move_AVALANCHE
+	.4byte Move_BRAVE_BIRD
+	.4byte Move_BUG_BUZZ
+	.4byte Move_BULLET_PUNCH
+	.4byte Move_CHARGE_BEAM
+	.4byte Move_CLOSE_COMBAT
+	.4byte Move_CROSS_POISON
+	.4byte Move_DARK_PULSE
+	.4byte Move_DISCHARGE
+	.4byte Move_DRACO_METEOR
+	.4byte Move_DRAGON_PULSE
+	.4byte Move_DRAIN_PUNCH
+	.4byte Move_EARTH_POWER
+	.4byte Move_ENERGY_BALL
+	.4byte Move_FOCUS_BLAST
+	.4byte Move_FORCE_PALM
+	.4byte Move_GIGA_IMPACT
+	.4byte Move_GRASS_KNOT
+	.4byte Move_GUNK_SHOT
+	.4byte Move_HAMMER_ARM
+	.4byte Move_HEAD_SMASH
+	.4byte Move_ICE_SHARD
+	.4byte Move_IRON_HEAD
+	.4byte Move_LAVA_PLUME
+	.4byte Move_MAGNET_BOMB
+	.4byte Move_MUD_BOMB
+	.4byte Move_NASTY_PLOT
+	.4byte Move_NIGHT_SLASH
+	.4byte Move_OMINOUS_WIND
+	.4byte Move_POWER_GEM
+	.4byte Move_POWER_WHIP
+	.4byte Move_PSYCHO_CUT
+	.4byte Move_ROCK_CLIMB
+	.4byte Move_ROCK_POLISH
+	.4byte Move_ROCK_WRECKER
+	.4byte Move_ROOST
+	.4byte Move_SEED_BOMB
+	.4byte Move_SHADOW_CLAW
+	.4byte Move_SHADOW_SNEAK
+	.4byte Move_VACUUM_WAVE
+	.4byte Move_X_SCISSOR
+	.4byte Move_ZEN_HEADBUTT
+	.4byte Move_SWITCHEROO
+	.4byte Move_DRILL_RUN
+	.4byte Move_BULLDOZE
+	.4byte Move_ELECTRO_WEB
+	.4byte Move_FLAME_CHARGE
+	.4byte Move_FROST_BREATH
+	.4byte Move_HEART_STAMP
+	.4byte Move_HONE_CLAWS
+	.4byte Move_HORN_LEECH
+	.4byte Move_COIL
+	.4byte Move_HURRICANE
+	.4byte Move_ICICLE_CRASH
+	.4byte Move_WORK_UP
+	.4byte Move_QUIVER_DANCE
+	.4byte Move_LEAF_TORNADO
+	.4byte Move_LOW_SWEEP
+	.4byte Move_SNARL
+	.4byte Move_STRUGGLE_BUG
+	.4byte Move_STEAMROLLER
+	.4byte Move_STORM_THROW
+	.4byte Move_VENOSHOCK
+	.4byte Move_WILD_CHARGE
+	.4byte Move_POISON_JAB
+	.4byte Move_ACID_SPRAY
+	.4byte Move_FIERY_DANCE
+	.4byte Move_CLEAR_SMOG
+	.4byte Move_LEAF_STORM
+	.4byte Move_STONE_EDGE
+	.4byte Move_PAYBACK
+	.4byte Move_FIRE_FANG
+	.4byte Move_ICE_FANG
+	.4byte Move_THUNDER_FANG
+	.4byte Move_FLARE_BLITZ
+	.4byte Move_INFERNO
+	.4byte Move_HEX
+	.4byte Move_DUAL_CHOP
+	.4byte Move_DOUBLE_HIT
+	.4byte Move_COTTON_GUARD
+	.4byte Move_ACROBATICS
+	.4byte Move_FLAME_BURST
+	.4byte Move_U_TURN
+	.4byte Move_VOLT_SWITCH
+	.4byte Move_DRAGON_TAIL
+	.4byte Move_CIRCLE_THROW
+	.4byte Move_MIRROR_SHOT
+	.4byte Move_WOOD_HAMMER
+	.4byte Move_HEAL_PULSE
+	.4byte Move_FLASH_CANNON
+	.4byte Move_BUG_BITE
+	.4byte Move_PLUCK
+	.4byte Move_SHELL_SMASH
+	.4byte Move_RAGE_POWDER
+	.4byte Move_WAKE_UP_SLAP
+	.4byte Move_RAZOR_SHELL
+	.4byte Move_COPYCAT
+	.4byte Move_MIRACLE_EYE
+	.4byte Move_SUCKER_PUNCH
+	.4byte Move_SCALD
+	.4byte Move_BRINE
+	.4byte Move_FAIRY_WIND
+	.4byte Move_BABY_DOLL_EYES
+	.4byte Move_PLAY_ROUGH
+	.4byte Move_MOON_BLAST
+	.4byte Move_DRAINING_KISS
+	.4byte Move_DAZZLING_GLEAM
+	.4byte Move_DISARMING_VOICE
+	.4byte Move_STEALTH_ROCK
+	.4byte Move_TOXIC_SPIKES
+	.4byte Move_HEALING_WISH
+	.4byte Move_LUNAR_DANCE
+	.4byte Move_TAILWIND
+	.4byte Move_BOOMBURST
+	.4byte Move_INCINERATE
+	.4byte Move_WORRY_SEED
+	.4byte Move_GASTRO_ACID
+	.4byte Move_GEOMANCY
+	.4byte Move_FLOWER_SHIELD
+	.4byte Move_ROTOTILLER
+	.4byte Move_SHIFT_GEAR
+	.4byte Move_STICKY_WEB
+	.4byte Move_STORED_POWER
+	.4byte Move_ACUPRESSURE
+	.4byte Move_PUNISHMENT
+	.4byte Move_ASSURANCE
+	.4byte Move_DRAGON_RUSH
+	.4byte Move_DARK_VOID
+	.4byte Move_FEINT
+	.4byte Move_PHANTOM_FORCE
+	.4byte Move_PETAL_BLIZZARD
+	.4byte Move_PLAY_NICE
+	.4byte Move_ROAR_OF_TIME
+	.4byte Move_SPACIAL_REND
+	.4byte Move_MAGMA_STORM
+	.4byte Move_FINAL_GAMBIT
+	.4byte Move_SHADOW_FORCE
+	.4byte Move_NUZZLE
+	.4byte Move_RETALIATE
+	.4byte Move_STEELY_HIT
+	.4byte Move_JUDGMENT
+	.4byte Move_FREEZE_DRY
+	.4byte Move_PSYSHOCK
+	.4byte Move_ROUND
+	.4byte Move_TAIL_SLAP
+	.4byte Move_GEAR_GRIND
+	.4byte Move_NATURAL_GIFT
+	.4byte Move_CHIP_AWAY
+	.4byte Move_SMACK_DOWN
+	.4byte Move_HYPERSPACE_HOLE
+	.4byte Move_GYRO_BALL
+	.4byte Move_HYPERSPACE_FURY
+	.4byte Move_ATTACK_ORDER
+	.4byte Move_DEFEND_ORDER
+	.4byte Move_HEAL_ORDER
+	.4byte Move_CAPTIVATE
+	.4byte Move_DEFOG
+	.4byte Move_ORIGIN_PULSE
+	.4byte Move_PRECIPICE_BLADES
+	.4byte Move_GUARD_SWAP
+	.4byte Move_STEAM_ERUPTION
+	.4byte Move_METAL_BURST
+	.4byte Move_ME_FIRST
+	.4byte Move_POWER_SWAP
+	.4byte Move_POWER_TRICK
+	.4byte Move_PSYCHO_SHIFT
+	.4byte Move_WRING_OUT
+	.4byte Move_KINGS_SHIELD
+	.4byte Move_PSYSTRIKE
+	.4byte Move_AUTOTOMIZE
+	.4byte Move_DIAMOND_STORM
+	.4byte Move_SLUDGE_WAVE
+	.4byte Move_HEAVY_SLAM
+	.4byte Move_SYNCHRONOISE
+	.4byte Move_ELECTRO_BALL
+	.4byte Move_FOUL_PLAY
+	.4byte Move_ENTRAINMENT
+	.4byte Move_NIGHT_DAZE
+	.4byte Move_ECHOED_VOICE
+	.4byte Move_LANDS_WRATH
+	.4byte Move_OBLIVION_WING
+	.4byte Move_HEART_SWAP
+	.4byte Move_CRUSH_GRIP
+	.4byte Move_SACRED_SWORD
+	.4byte Move_HEAT_CRASH
+	.4byte Move_HEAD_CHARGE
+	.4byte Move_TECHNO_BLAST
+	.4byte Move_RELIC_SONG
+	.4byte Move_SECRET_SWORD
+	.4byte Move_GLACIATE
+	.4byte Move_BOLT_STRIKE
+	.4byte Move_BLUE_FLARE
+	.4byte Move_FREEZE_SHOCK
+	.4byte Move_ICE_BURN
+	.4byte Move_V_CREATE
+	.4byte Move_FUSION_FLARE
+	.4byte Move_FUSION_BOLT
+	.4byte Move_FELL_STINGER
+	.4byte Move_NOBLE_ROAR
+	.4byte Move_DRAGON_ASCENT
+	.4byte Move_PARTING_SHOT
+	.4byte Move_TOPSY_TURVY
+	.4byte Move_CORE_ENFORCER
+	.4byte Move_CHATTER
+	.4byte Move_CONFIDE
+	.4byte Move_WATER_SHURIKEN
+	.4byte Move_MYSTICAL_FIRE
+	.4byte Move_SPIKY_SHIELD
+	.4byte Move_EERIE_IMPULSE
+	.4byte Move_HOLD_BACK
+	.4byte Move_INFESTATION
+	.4byte Move_POWER_UP_PUNCH
+	.4byte Move_THOUSAND_ARROWS
+	.4byte Move_THOUSAND_WAVES
+	.4byte Move_PARABOLIC_CHARGE
+	.4byte Move_SEARING_SHOT
+	.4byte Move_SEED_FLARE
+	.4byte Move_ACCELEROCK
+	.4byte Move_ANCHOR_SHOT
+	.4byte Move_AURORA_VEIL
+	.4byte Move_BANEFUL_BUNKER
+	.4byte Move_BEAK_BLAST
+	.4byte Move_BRUTAL_SWING
+	.4byte Move_BURN_UP
+	.4byte Move_CLANGING_SCALES
+	.4byte Move_DARKEST_LARIAT
+	.4byte Move_DRAGON_HAMMER
+	.4byte Move_FIRE_LASH
+	.4byte Move_FIRST_IMPRESSION
+	.4byte Move_FLEUR_CANNON
+	.4byte Move_FLORAL_HEALING
+	.4byte Move_GEAR_UP
+	.4byte Move_HIGH_HORSEPOWER
+	.4byte Move_ICE_HAMMER
+	.4byte Move_LASER_FOCUS
+	.4byte Move_LEAFAGE
+	.4byte Move_LIQUIDATION
+	.4byte Move_LUNGE
+	.4byte Move_MOONGEIST_BEAM
+	.4byte Move_MULTI_ATTACK
+	.4byte Move_NATURES_MADNESS
+	.4byte Move_POLLEN_PUFF
+	.4byte Move_POWER_TRIP
+	.4byte Move_PRISMATIC_LASER
+	.4byte Move_PSYCHIC_FANGS
+	.4byte Move_PURIFY
+	.4byte Move_REVELATION_DANCE
+	.4byte Move_SHADOW_BONE
+	.4byte Move_SHELL_TRAP
+	.4byte Move_SHORE_UP
+	.4byte Move_SMART_STRIKE
+	.4byte Move_SOLAR_BLADE
+	.4byte Move_SPARKLING_ARIA
+	.4byte Move_SPECTRAL_THIEF
+	.4byte Move_SPEED_SWAP
+	.4byte Move_SPIRIT_SHACKLE
+	.4byte Move_SPOTLIGHT
+	.4byte Move_STOMPING_TANTRUM
+	.4byte Move_STRENGTH_SAP
+	.4byte Move_SUNSTEEL_STRIKE
+	.4byte Move_TEARFUL_LOOK
+	.4byte Move_THROAT_CHOP
+	.4byte Move_TOXIC_THREAD
+	.4byte Move_TROP_KICK
+	.4byte Move_ZINGZAP
+	.4byte Move_ELECTRIC_TERRAIN
+	.4byte Move_GRASSY_TERRAIN
+	.4byte Move_MISTYT_ERRAIN
+	.4byte Move_PSYCHIC_TERRAIN
+	.4byte Move_GRASS_PLEDGE
+	.4byte Move_FIRE_PLEDGE
+	.4byte Move_WATER_PLEDGE
+	.4byte Move_TRICK_ROOM
+	.4byte Move_MAGIC_ROOM
+	.4byte Move_WONDER_ROOM
+	.4byte Move_CRAFTY_SHIELD
+	.4byte Move_MAT_BLOCK
+	.4byte Move_QUICK_GUARD
+	.4byte Move_WIDE_GUARD
+	.4byte Move_AQUA_RING
+	.4byte Move_AROMATIC_MIST
+	.4byte Move_BELCH
+	.4byte Move_BESTOW
+	.4byte Move_FLING
+	.4byte Move_FLYING_PRESS
+	.4byte Move_GRAVITY
+	.4byte Move_GUARD_SPLIT
+	.4byte Move_HEAL_BLOCK
+	.4byte Move_ION_DELUGE
+	.4byte Move_LUCKY_CHANT
+	.4byte Move_MAGNET_RISE
+	.4byte Move_MAGNETIC_FLUX
+	.4byte Move_POWDER
+	.4byte Move_POWER_SPLIT
+	.4byte Move_REFLECT_TYPE
+	.4byte Move_SIMPLE_BEAM
+	.4byte Move_SOAK
+	.4byte Move_TELEKINESIS
+	.4byte Move_TRICK_OR_TREAT
+	.4byte Move_VENOM_DRENCH
+	.4byte Move_FORESTS_CURSE
+	.4byte Move_MIND_BLOWN
+	.4byte Move_PHOTON_GEYSER
+	.4byte Move_PLASMA_FISTS
+	.4byte Move_ELECTRIFY
+	.4byte Move_EMBARGO
+	.4byte Move_FAIRY_LOCK
+	.4byte Move_LIGHT_OF_RUIN
+	.4byte Move_TRUMP_CARD
+	.4byte Move_AFTER_YOU
+	.4byte Move_INSTRUCT
+	.4byte Move_QUASH
+	.4byte Move_HAPPY_HOUR
+	.4byte Move_DOUBLE_IRON_BASH
+	.4byte Move_LAST_RESORT
+	.4byte Move_SKY_DROP
+	.4byte Move_CELEBRATE
+	.4byte Move_HOLD_HANDS
+	.4byte Move_DYNAMAX_CANNON
+	.4byte Move_SNIPE_SHOT
+	.4byte Move_JAW_LOCK
+	.4byte Move_STUFF_CHEEKS
+	.4byte Move_NO_RETREAT
+	.4byte Move_TAR_SHOT
+	.4byte Move_MAGIC_POWDER
+	.4byte Move_DRAGON_DARTS
+	.4byte Move_TEATIME
+	.4byte Move_OCTOLOCK
+	.4byte Move_BOLT_BEAK
+	.4byte Move_FISHIOUS_REND
+	.4byte Move_COURT_CHANGE
+	.4byte Move_CLANGOROUS_SOUL
+	.4byte Move_BODY_PRESS
+	.4byte Move_DECORATE
+	.4byte Move_DRUM_BEATING
+	.4byte Move_SNAP_TRAP
+	.4byte Move_PYRO_BALL
+	.4byte Move_BEHEMOTH_BLADE
+	.4byte Move_BEHEMOTH_BASH
+	.4byte Move_AURA_WHEEL
+	.4byte Move_BREAKING_SWIPE
+	.4byte Move_BRANCH_POKE
+	.4byte Move_OVERDRIVE
+	.4byte Move_APPLE_ACID
+	.4byte Move_GRAV_APPLE
+	.4byte Move_SPIRIT_BREAK
+	.4byte Move_STRANGE_STEAM
+	.4byte Move_LIFE_DEW
+	.4byte Move_OBSTRUCT
+	.4byte Move_FALSE_SURRENDER
+	.4byte Move_METEOR_ASSAULT
+	.4byte Move_ETERNA_BEAM
+	.4byte Move_STEEL_BEAM
+	.4byte Move_EXPANDING_FORCE
+	.4byte Move_STEEL_ROLLER
+	.4byte Move_SCALE_SHOT
+	.4byte Move_METEOR_BEAM
+	.4byte Move_SHELL_SIDE_ARM
+	.4byte Move_MISTY_EXPLOSION
+	.4byte Move_GRASSY_GLIDE
+	.4byte Move_RISING_VOLTAGE
+	.4byte Move_TERRAIN_PULSE
+	.4byte Move_SKITTER_SMACK
+	.4byte Move_BURNING_JEALOUSY
+	.4byte Move_LASH_OUT
+	.4byte Move_POLTERGEIST
+	.4byte Move_CORROSIVE_GAS
+	.4byte Move_COACHING
+	.4byte Move_FLIP_TURN
+	.4byte Move_TRIPLE_AXEL
+	.4byte Move_DUAL_WINGBEAT
+	.4byte Move_SCORCHING_SANDS
+	.4byte Move_JUNGLE_HEALING
+	.4byte Move_WICKED_BLOW
+	.4byte Move_SURGING_STRIKES
+	.4byte Move_FREEZING_GLARE
+	.4byte Move_THUNDEROUS_KICK
+	.4byte Move_FIERY_WRATH
+	.4byte Move_THUNDER_CAGE
+	.4byte Move_DRAGON_ENERGY
+	.4byte Move_ALLY_SWITCH
+	.4byte Move_ZIPPY_ZAP
+	.4byte Move_SPLISHY_SPLASH
+	.4byte Move_FLOATY_FALL
+	.4byte Move_PIKA_PAPOW
+	.4byte Move_BOUNCY_BUBBLE
+	.4byte Move_BUZZY_BUZZ
+	.4byte Move_SIZZLY_SLIDE
+	.4byte Move_GLITZY_GLOW
+	.4byte Move_BADDY_BAD
+	.4byte Move_SAPPY_SEED
+	.4byte Move_FREEZY_FROST
+	.4byte Move_SPARKLY_SWIRL
+	.4byte Move_VEEVEE_VOLLEY
+	.4byte Move_GLACIAL_LANCE
+	.4byte Move_ASTRAL_BARRAGE
+	.4byte Move_EERIE_SPELL
+	.4byte Move_BREAKNECK_BLITZ_P
+	.4byte Move_BREAKNECK_BLITZ_S
+	.4byte Move_ALL_OUT_PUMMELING_P
+	.4byte Move_ALL_OUT_PUMMELING_S
+	.4byte Move_SUPERSONIC_SKYSTRIKE_P
+	.4byte Move_SUPERSONIC_SKYSTRIKE_S
+	.4byte Move_ACID_DOWNPOUR_P
+	.4byte Move_ACID_DOWNPOUR_S
+	.4byte Move_TECTONIC_RAGE_P
+	.4byte Move_TECTONIC_RAGE_S
+	.4byte Move_CONTINENTAL_CRUSH_P
+	.4byte Move_CONTINENTAL_CRUSH_S
+	.4byte Move_SAVAGE_SPIN_OUT_P
+	.4byte Move_SAVAGE_SPIN_OUT_S
+	.4byte Move_NEVER_ENDING_NIGHTMARE_P
+	.4byte Move_NEVER_ENDING_NIGHTMARE_S
+	.4byte Move_CORKSCREW_CRASH_P
+	.4byte Move_CORKSCREW_CRASH_S
+	.4byte Move_INFERNO_OVERDRIVE_P
+	.4byte Move_INFERNO_OVERDRIVE_S
+	.4byte Move_HYDRO_VORTEX_P
+	.4byte Move_HYDRO_VORTEX_S
+	.4byte Move_BLOOM_DOOM_P
+	.4byte Move_BLOOM_DOOM_S
+	.4byte Move_GIGAVOLT_HAVOC_P
+	.4byte Move_GIGAVOLT_HAVOC_S
+	.4byte Move_SHATTERED_PSYCHE_P
+	.4byte Move_SHATTERED_PSYCHE_S
+	.4byte Move_SUBZERO_SLAMMER_P
+	.4byte Move_SUBZERO_SLAMMER_S
+	.4byte Move_DEVASTATING_DRAKE_P
+	.4byte Move_DEVASTATING_DRAKE_S
+	.4byte Move_BLACK_HOLE_ECLIPSE_P
+	.4byte Move_BLACK_HOLE_ECLIPSE_S
+	.4byte Move_TWINKLE_TACKLE_P
+	.4byte Move_TWINKLE_TACKLE_S
+	.4byte Move_CATASTROPIKA
+	.4byte Move_10000000_VOLT_THUNDERBOLT
+	.4byte Move_STOKED_SPARKSURFER
+	.4byte Move_EXTREME_EVOBOOST
+	.4byte Move_PULVERIZING_PANCAKE
+	.4byte Move_GENESIS_SUPERNOVA
+	.4byte Move_SINISTER_ARROW_RAID
+	.4byte Move_MALICIOUS_MOONSAULT
+	.4byte Move_OCEANIC_OPERETTA
+	.4byte Move_SPLINTERED_STORMSHARDS
+	.4byte Move_LETS_SNUGGLE_FOREVER
+	.4byte Move_CLANGOROUS_SOULBLAZE
+	.4byte Move_GUARDIAN_OF_ALOLA
+	.4byte Move_SEARING_SUNRAZE_SMASH
+	.4byte Move_MENACING_MOONRAZE_MAELSTROM
+	.4byte Move_LIGHT_THAT_BURNS_THE_SKY
+	.4byte Move_SOUL_STEALING_7_STAR_STRIKE
+	.4byte Move_MAX_GUARD
+	.4byte Move_MAX_STRIKE_P
+	.4byte Move_MAX_STRIKE_S
+	.4byte Move_MAX_KNUCKLE_P
+	.4byte Move_MAX_KNUCKLE_S
+	.4byte Move_MAX_AIRSTREAM_P
+	.4byte Move_MAX_AIRSTREAM_S
+	.4byte Move_MAX_OOZE_P
+	.4byte Move_MAX_OOZE_S
+	.4byte Move_MAX_QUAKE_P
+	.4byte Move_MAX_QUAKE_S
+	.4byte Move_MAX_ROCKFALL_P
+	.4byte Move_MAX_ROCKFALL_S
+	.4byte Move_MAX_FLUTTERBY_P
+	.4byte Move_MAX_FLUTTERBY_S
+	.4byte Move_MAX_PHANTASM_P
+	.4byte Move_MAX_PHANTASM_S
+	.4byte Move_MAX_STEELSPIKE_P
+	.4byte Move_MAX_STEELSPIKE_S
+	.4byte Move_MAX_FLARE_P
+	.4byte Move_MAX_FLARE_S
+	.4byte Move_MAX_GEYSER_P
+	.4byte Move_MAX_GEYSER_S
+	.4byte Move_MAX_OVERGROWTH_P
+	.4byte Move_MAX_OVERGROWTH_S
+	.4byte Move_MAX_LIGHTNING_P
+	.4byte Move_MAX_LIGHTNING_S
+	.4byte Move_MAX_MINDSTORM_P
+	.4byte Move_MAX_MINDSTORM_S
+	.4byte Move_MAX_HAILSTORM_P
+	.4byte Move_MAX_HAILSTORM_S
+	.4byte Move_MAX_WYRMWIND_P
+	.4byte Move_MAX_WYRMWIND_S
+	.4byte Move_MAX_DARKNESS_P
+	.4byte Move_MAX_DARKNESS_S
+	.4byte Move_MAX_STARFALL_P
+	.4byte Move_MAX_STARFALL_S
+	.4byte Move_G_MAX_VINE_LASH_P
+	.4byte Move_G_MAX_VINE_LASH_S
+	.4byte Move_G_MAX_WILDFIRE_P
+	.4byte Move_G_MAX_WILDFIRE_S
+	.4byte Move_G_MAX_CANNONADE_P
+	.4byte Move_G_MAX_CANNONADE_S
+	.4byte Move_G_MAX_BEFUDDLE_P
+	.4byte Move_G_MAX_BEFUDDLE_S
+	.4byte Move_G_MAX_VOLT_CRASH_P
+	.4byte Move_G_MAX_VOLT_CRASH_S
+	.4byte Move_G_MAX_GOLD_RUSH_P
+	.4byte Move_G_MAX_GOLD_RUSH_S
+	.4byte Move_G_MAX_CHI_STRIKE_P
+	.4byte Move_G_MAX_CHI_STRIKE_S
+	.4byte Move_G_MAX_TERROR_P
+	.4byte Move_G_MAX_TERROR_S
+	.4byte Move_G_MAX_FOAM_BURST_P
+	.4byte Move_G_MAX_FOAM_BURST_S
+	.4byte Move_G_MAX_RESONANCE_P
+	.4byte Move_G_MAX_RESONANCE_S
+	.4byte Move_G_MAX_CUDDLE_P
+	.4byte Move_G_MAX_CUDDLE_S
+	.4byte Move_G_MAX_REPLENISH_P
+	.4byte Move_G_MAX_REPLENISH_S
+	.4byte Move_G_MAX_MALODOR_P
+	.4byte Move_G_MAX_MALODOR_S
+	.4byte Move_G_MAX_MELTDOWN_P
+	.4byte Move_G_MAX_MELTDOWN_S
+	.4byte Move_G_MAX_DRUM_SOLO_P
+	.4byte Move_G_MAX_DRUM_SOLO_S
+	.4byte Move_G_MAX_FIREBALL_P
+	.4byte Move_G_MAX_FIREBALL_S
+	.4byte Move_G_MAX_HYDROSNIPE_P
+	.4byte Move_G_MAX_HYDROSNIPE_S
+	.4byte Move_G_MAX_WIND_RAGE_P
+	.4byte Move_G_MAX_WIND_RAGE_S
+	.4byte Move_G_MAX_GRAVITAS_P
+	.4byte Move_G_MAX_GRAVITAS_S
+	.4byte Move_G_MAX_STONESURGE_P
+	.4byte Move_G_MAX_STONESURGE_S
+	.4byte Move_G_MAX_VOLCALITH_P
+	.4byte Move_G_MAX_VOLCALITH_S
+	.4byte Move_G_MAX_TARTNESS_P
+	.4byte Move_G_MAX_TARTNESS_S
+	.4byte Move_G_MAX_SWEETNESS_P
+	.4byte Move_G_MAX_SWEETNESS_S
+	.4byte Move_G_MAX_SANDBLAST_P
+	.4byte Move_G_MAX_SANDBLAST_S
+	.4byte Move_G_MAX_STUN_SHOCK_P
+	.4byte Move_G_MAX_STUN_SHOCK_S
+	.4byte Move_G_MAX_CENTIFERNO_P
+	.4byte Move_G_MAX_CENTIFERNO_S
+	.4byte Move_G_MAX_SMITE_P
+	.4byte Move_G_MAX_SMITE_S
+	.4byte Move_G_MAX_SNOOZE_P
+	.4byte Move_G_MAX_SNOOZE_S
+	.4byte Move_G_MAX_FINALE_P
+	.4byte Move_G_MAX_FINALE_S
+	.4byte Move_G_MAX_STEELSURGE_P
+	.4byte Move_G_MAX_STEELSURGE_S
+	.4byte Move_G_MAX_DEPLETION_P
+	.4byte Move_G_MAX_DEPLETION_S
+	.4byte Move_G_MAX_ONE_BLOW_P
+	.4byte Move_G_MAX_ONE_BLOW_S
+	.4byte Move_G_MAX_RAPID_FLOW_P
+	.4byte Move_G_MAX_RAPID_FLOW_S
 	.4byte Move_COUNT
 
 gBattleAnims_StatusConditions::
@@ -11100,3 +11658,1677 @@ Special_SubstituteToMon::
 Special_MonToSubstitute::
 	createvisualtask AnimTask_SwapMonSpriteToFromSubstitute, 2, 0
 	end
+
+Move_LEECH_FANG::
+	goto Move_SPLASH
+
+Move_AIR_SLASH::
+	goto Move_SPLASH
+
+Move_AQUA_JET::
+	goto Move_SPLASH
+
+Move_AQUA_TAIL::
+	goto Move_SPLASH
+
+Move_AURA_SPHERE::
+	goto Move_SPLASH
+
+Move_AVALANCHE::
+	goto Move_SPLASH
+
+Move_BRAVE_BIRD::
+	goto Move_SPLASH
+
+Move_BUG_BUZZ::
+	goto Move_SPLASH
+
+Move_BULLET_PUNCH::
+	goto Move_SPLASH
+
+Move_CHARGE_BEAM::
+	goto Move_SPLASH
+
+Move_CLOSE_COMBAT::
+	goto Move_SPLASH
+
+Move_CROSS_POISON::
+	goto Move_SPLASH
+
+Move_DARK_PULSE::
+	goto Move_SPLASH
+
+Move_DISCHARGE::
+	goto Move_SPLASH
+
+Move_DRACO_METEOR::
+	goto Move_SPLASH
+
+Move_DRAGON_PULSE::
+	goto Move_SPLASH
+
+Move_DRAIN_PUNCH::
+	goto Move_SPLASH
+
+Move_EARTH_POWER::
+	goto Move_SPLASH
+
+Move_ENERGY_BALL::
+	goto Move_SPLASH
+
+Move_FOCUS_BLAST::
+	goto Move_SPLASH
+
+Move_FORCE_PALM::
+	goto Move_SPLASH
+
+Move_GIGA_IMPACT::
+	goto Move_SPLASH
+
+Move_GRASS_KNOT::
+	goto Move_SPLASH
+
+Move_GUNK_SHOT::
+	goto Move_SPLASH
+
+Move_HAMMER_ARM::
+	goto Move_SPLASH
+
+Move_HEAD_SMASH::
+	goto Move_SPLASH
+
+Move_ICE_SHARD::
+	goto Move_SPLASH
+
+Move_IRON_HEAD::
+	goto Move_SPLASH
+
+Move_LAVA_PLUME::
+	goto Move_SPLASH
+
+Move_MAGNET_BOMB::
+	goto Move_SPLASH
+
+Move_MUD_BOMB::
+	goto Move_SPLASH
+
+Move_NASTY_PLOT::
+	goto Move_SPLASH
+
+Move_NIGHT_SLASH::
+	goto Move_SPLASH
+
+Move_OMINOUS_WIND::
+	goto Move_SPLASH
+
+Move_POWER_GEM::
+	goto Move_SPLASH
+
+Move_POWER_WHIP::
+	goto Move_SPLASH
+
+Move_PSYCHO_CUT::
+	goto Move_SPLASH
+
+Move_ROCK_CLIMB::
+	goto Move_SPLASH
+
+Move_ROCK_POLISH::
+	goto Move_SPLASH
+
+Move_ROCK_WRECKER::
+	goto Move_SPLASH
+
+Move_ROOST::
+	goto Move_SPLASH
+
+Move_SEED_BOMB::
+	goto Move_SPLASH
+
+Move_SHADOW_CLAW::
+	goto Move_SPLASH
+
+Move_SHADOW_SNEAK::
+	goto Move_SPLASH
+
+Move_VACUUM_WAVE::
+	goto Move_SPLASH
+
+Move_X_SCISSOR::
+	goto Move_SPLASH
+
+Move_ZEN_HEADBUTT::
+	goto Move_SPLASH
+
+Move_SWITCHEROO::
+	goto Move_SPLASH
+
+Move_DRILL_RUN::
+	goto Move_SPLASH
+
+Move_BULLDOZE::
+	goto Move_SPLASH
+
+Move_ELECTRO_WEB::
+	goto Move_SPLASH
+
+Move_FLAME_CHARGE::
+	goto Move_SPLASH
+
+Move_FROST_BREATH::
+	goto Move_SPLASH
+
+Move_HEART_STAMP::
+	goto Move_SPLASH
+
+Move_HONE_CLAWS::
+	goto Move_SPLASH
+
+Move_HORN_LEECH::
+	goto Move_SPLASH
+
+Move_COIL::
+	goto Move_SPLASH
+
+Move_HURRICANE::
+	goto Move_SPLASH
+
+Move_ICICLE_CRASH::
+	goto Move_SPLASH
+
+Move_WORK_UP::
+	goto Move_SPLASH
+
+Move_QUIVER_DANCE::
+	goto Move_SPLASH
+
+Move_LEAF_TORNADO::
+	goto Move_SPLASH
+
+Move_LOW_SWEEP::
+	goto Move_SPLASH
+
+Move_SNARL::
+	goto Move_SPLASH
+
+Move_STRUGGLE_BUG::
+	goto Move_SPLASH
+
+Move_STEAMROLLER::
+	goto Move_SPLASH
+
+Move_STORM_THROW::
+	goto Move_SPLASH
+
+Move_VENOSHOCK::
+	goto Move_SPLASH
+
+Move_WILD_CHARGE::
+	goto Move_SPLASH
+
+Move_POISON_JAB::
+	goto Move_SPLASH
+
+Move_ACID_SPRAY::
+	goto Move_SPLASH
+
+Move_FIERY_DANCE::
+	goto Move_SPLASH
+
+Move_CLEAR_SMOG::
+	goto Move_SPLASH
+
+Move_LEAF_STORM::
+	goto Move_SPLASH
+
+Move_STONE_EDGE::
+	goto Move_SPLASH
+
+Move_PAYBACK::
+	goto Move_SPLASH
+
+Move_FIRE_FANG::
+	goto Move_SPLASH
+
+Move_ICE_FANG::
+	goto Move_SPLASH
+
+Move_THUNDER_FANG::
+	goto Move_SPLASH
+
+Move_FLARE_BLITZ::
+	goto Move_SPLASH
+
+Move_INFERNO::
+	goto Move_SPLASH
+
+Move_HEX::
+	goto Move_SPLASH
+
+Move_DUAL_CHOP::
+	goto Move_SPLASH
+
+Move_DOUBLE_HIT::
+	goto Move_SPLASH
+
+Move_COTTON_GUARD::
+	goto Move_SPLASH
+
+Move_ACROBATICS::
+	goto Move_SPLASH
+
+Move_FLAME_BURST::
+	goto Move_SPLASH
+
+Move_U_TURN::
+	goto Move_SPLASH
+
+Move_VOLT_SWITCH::
+	goto Move_SPLASH
+
+Move_DRAGON_TAIL::
+	goto Move_SPLASH
+
+Move_CIRCLE_THROW::
+	goto Move_SPLASH
+
+Move_MIRROR_SHOT::
+	goto Move_SPLASH
+
+Move_WOOD_HAMMER::
+	goto Move_SPLASH
+
+Move_HEAL_PULSE::
+	goto Move_SPLASH
+
+Move_FLASH_CANNON::
+	goto Move_SPLASH
+
+Move_BUG_BITE::
+	goto Move_SPLASH
+
+Move_PLUCK::
+	goto Move_SPLASH
+
+Move_SHELL_SMASH::
+	goto Move_SPLASH
+
+Move_RAGE_POWDER::
+	goto Move_SPLASH
+
+Move_WAKE_UP_SLAP::
+	goto Move_SPLASH
+
+Move_RAZOR_SHELL::
+	goto Move_SPLASH
+
+Move_COPYCAT::
+	goto Move_SPLASH
+
+Move_MIRACLE_EYE::
+	goto Move_SPLASH
+
+Move_SUCKER_PUNCH::
+	goto Move_SPLASH
+
+Move_SCALD::
+	goto Move_SPLASH
+
+Move_BRINE::
+	goto Move_SPLASH
+
+Move_FAIRY_WIND::
+	goto Move_SPLASH
+
+Move_BABY_DOLL_EYES::
+	goto Move_SPLASH
+
+Move_PLAY_ROUGH::
+	goto Move_SPLASH
+
+Move_MOON_BLAST::
+	goto Move_SPLASH
+
+Move_DRAINING_KISS::
+	goto Move_SPLASH
+
+Move_DAZZLING_GLEAM::
+	goto Move_SPLASH
+
+Move_DISARMING_VOICE::
+	goto Move_SPLASH
+
+Move_STEALTH_ROCK::
+	goto Move_SPLASH
+
+Move_TOXIC_SPIKES::
+	goto Move_SPLASH
+
+Move_HEALING_WISH::
+	goto Move_SPLASH
+
+Move_LUNAR_DANCE::
+	goto Move_SPLASH
+
+Move_TAILWIND::
+	goto Move_SPLASH
+
+Move_BOOMBURST::
+	goto Move_SPLASH
+
+Move_INCINERATE::
+	goto Move_SPLASH
+
+Move_WORRY_SEED::
+	goto Move_SPLASH
+
+Move_GASTRO_ACID::
+	goto Move_SPLASH
+
+Move_GEOMANCY::
+	goto Move_SPLASH
+
+Move_FLOWER_SHIELD::
+	goto Move_SPLASH
+
+Move_ROTOTILLER::
+	goto Move_SPLASH
+
+Move_SHIFT_GEAR::
+	goto Move_SPLASH
+
+Move_STICKY_WEB::
+	goto Move_SPLASH
+
+Move_STORED_POWER::
+	goto Move_SPLASH
+
+Move_ACUPRESSURE::
+	goto Move_SPLASH
+
+Move_PUNISHMENT::
+	goto Move_SPLASH
+
+Move_ASSURANCE::
+	goto Move_SPLASH
+
+Move_DRAGON_RUSH::
+	goto Move_SPLASH
+
+Move_DARK_VOID::
+	goto Move_SPLASH
+
+Move_FEINT::
+	goto Move_SPLASH
+
+Move_PHANTOM_FORCE::
+	goto Move_SPLASH
+
+Move_PETAL_BLIZZARD::
+	goto Move_SPLASH
+
+Move_PLAY_NICE::
+	goto Move_SPLASH
+
+Move_ROAR_OF_TIME::
+	goto Move_SPLASH
+
+Move_SPACIAL_REND::
+	goto Move_SPLASH
+
+Move_MAGMA_STORM::
+	goto Move_SPLASH
+
+Move_FINAL_GAMBIT::
+	goto Move_SPLASH
+
+Move_SHADOW_FORCE::
+	goto Move_SPLASH
+
+Move_NUZZLE::
+	goto Move_SPLASH
+
+Move_RETALIATE::
+	goto Move_SPLASH
+
+Move_STEELY_HIT::
+	goto Move_SPLASH
+
+Move_JUDGMENT::
+	goto Move_SPLASH
+
+Move_FREEZE_DRY::
+	goto Move_SPLASH
+
+Move_PSYSHOCK::
+	goto Move_SPLASH
+
+Move_ROUND::
+	goto Move_SPLASH
+
+Move_TAIL_SLAP::
+	goto Move_SPLASH
+
+Move_GEAR_GRIND::
+	goto Move_SPLASH
+
+Move_NATURAL_GIFT::
+	goto Move_SPLASH
+
+Move_CHIP_AWAY::
+	goto Move_SPLASH
+
+Move_SMACK_DOWN::
+	goto Move_SPLASH
+
+Move_HYPERSPACE_HOLE::
+	goto Move_SPLASH
+
+Move_GYRO_BALL::
+	goto Move_SPLASH
+
+Move_HYPERSPACE_FURY::
+	goto Move_SPLASH
+
+Move_ATTACK_ORDER::
+	goto Move_SPLASH
+
+Move_DEFEND_ORDER::
+	goto Move_SPLASH
+
+Move_HEAL_ORDER::
+	goto Move_SPLASH
+
+Move_CAPTIVATE::
+	goto Move_SPLASH
+
+Move_DEFOG::
+	goto Move_SPLASH
+
+Move_ORIGIN_PULSE::
+	goto Move_SPLASH
+
+Move_PRECIPICE_BLADES::
+	goto Move_SPLASH
+
+Move_GUARD_SWAP::
+	goto Move_SPLASH
+
+Move_STEAM_ERUPTION::
+	goto Move_SPLASH
+
+Move_METAL_BURST::
+	goto Move_SPLASH
+
+Move_ME_FIRST::
+	goto Move_SPLASH
+
+Move_POWER_SWAP::
+	goto Move_SPLASH
+
+Move_POWER_TRICK::
+	goto Move_SPLASH
+
+Move_PSYCHO_SHIFT::
+	goto Move_SPLASH
+
+Move_WRING_OUT::
+	goto Move_SPLASH
+
+Move_KINGS_SHIELD::
+	goto Move_SPLASH
+
+Move_PSYSTRIKE::
+	goto Move_SPLASH
+
+Move_AUTOTOMIZE::
+	goto Move_SPLASH
+
+Move_DIAMOND_STORM::
+	goto Move_SPLASH
+
+Move_SLUDGE_WAVE::
+	goto Move_SPLASH
+
+Move_HEAVY_SLAM::
+	goto Move_SPLASH
+
+Move_SYNCHRONOISE::
+	goto Move_SPLASH
+
+Move_ELECTRO_BALL::
+	goto Move_SPLASH
+
+Move_FOUL_PLAY::
+	goto Move_SPLASH
+
+Move_ENTRAINMENT::
+	goto Move_SPLASH
+
+Move_NIGHT_DAZE::
+	goto Move_SPLASH
+
+Move_ECHOED_VOICE::
+	goto Move_SPLASH
+
+Move_LANDS_WRATH::
+	goto Move_SPLASH
+
+Move_OBLIVION_WING::
+	goto Move_SPLASH
+
+Move_HEART_SWAP::
+	goto Move_SPLASH
+
+Move_CRUSH_GRIP::
+	goto Move_SPLASH
+
+Move_SACRED_SWORD::
+	goto Move_SPLASH
+
+Move_HEAT_CRASH::
+	goto Move_SPLASH
+
+Move_HEAD_CHARGE::
+	goto Move_SPLASH
+
+Move_TECHNO_BLAST::
+	goto Move_SPLASH
+
+Move_RELIC_SONG::
+	goto Move_SPLASH
+
+Move_SECRET_SWORD::
+	goto Move_SPLASH
+
+Move_GLACIATE::
+	goto Move_SPLASH
+
+Move_BOLT_STRIKE::
+	goto Move_SPLASH
+
+Move_BLUE_FLARE::
+	goto Move_SPLASH
+
+Move_FREEZE_SHOCK::
+	goto Move_SPLASH
+
+Move_ICE_BURN::
+	goto Move_SPLASH
+
+Move_V_CREATE::
+	goto Move_SPLASH
+
+Move_FUSION_FLARE::
+	goto Move_SPLASH
+
+Move_FUSION_BOLT::
+	goto Move_SPLASH
+
+Move_FELL_STINGER::
+	goto Move_SPLASH
+
+Move_NOBLE_ROAR::
+	goto Move_SPLASH
+
+Move_DRAGON_ASCENT::
+	goto Move_SPLASH
+
+Move_PARTING_SHOT::
+	goto Move_SPLASH
+
+Move_TOPSY_TURVY::
+	goto Move_SPLASH
+
+Move_CORE_ENFORCER::
+	goto Move_SPLASH
+
+Move_CHATTER::
+	goto Move_SPLASH
+
+Move_CONFIDE::
+	goto Move_SPLASH
+
+Move_WATER_SHURIKEN::
+	goto Move_SPLASH
+
+Move_MYSTICAL_FIRE::
+	goto Move_SPLASH
+
+Move_SPIKY_SHIELD::
+	goto Move_SPLASH
+
+Move_EERIE_IMPULSE::
+	goto Move_SPLASH
+
+Move_HOLD_BACK::
+	goto Move_SPLASH
+
+Move_INFESTATION::
+	goto Move_SPLASH
+
+Move_POWER_UP_PUNCH::
+	goto Move_SPLASH
+
+Move_THOUSAND_ARROWS::
+	goto Move_SPLASH
+
+Move_THOUSAND_WAVES::
+	goto Move_SPLASH
+
+Move_PARABOLIC_CHARGE::
+	goto Move_SPLASH
+
+Move_SEARING_SHOT::
+	goto Move_SPLASH
+
+Move_SEED_FLARE::
+	goto Move_SPLASH
+
+Move_ACCELEROCK::
+	goto Move_SPLASH
+
+Move_ANCHOR_SHOT::
+	goto Move_SPLASH
+
+Move_AURORA_VEIL::
+	goto Move_SPLASH
+
+Move_BANEFUL_BUNKER::
+	goto Move_SPLASH
+
+Move_BEAK_BLAST::
+	goto Move_SPLASH
+
+Move_BRUTAL_SWING::
+	goto Move_SPLASH
+
+Move_BURN_UP::
+	goto Move_SPLASH
+
+Move_CLANGING_SCALES::
+	goto Move_SPLASH
+
+Move_DARKEST_LARIAT::
+	goto Move_SPLASH
+
+Move_DRAGON_HAMMER::
+	goto Move_SPLASH
+
+Move_FIRE_LASH::
+	goto Move_SPLASH
+
+Move_FIRST_IMPRESSION::
+	goto Move_SPLASH
+
+Move_FLEUR_CANNON::
+	goto Move_SPLASH
+
+Move_FLORAL_HEALING::
+	goto Move_SPLASH
+
+Move_GEAR_UP::
+	goto Move_SPLASH
+
+Move_HIGH_HORSEPOWER::
+	goto Move_SPLASH
+
+Move_ICE_HAMMER::
+	goto Move_SPLASH
+
+Move_LASER_FOCUS::
+	goto Move_SPLASH
+
+Move_LEAFAGE::
+	goto Move_SPLASH
+
+Move_LIQUIDATION::
+	goto Move_SPLASH
+
+Move_LUNGE::
+	goto Move_SPLASH
+
+Move_MOONGEIST_BEAM::
+	goto Move_SPLASH
+
+Move_MULTI_ATTACK::
+	goto Move_SPLASH
+
+Move_NATURES_MADNESS::
+	goto Move_SPLASH
+
+Move_POLLEN_PUFF::
+	goto Move_SPLASH
+
+Move_POWER_TRIP::
+	goto Move_SPLASH
+
+Move_PRISMATIC_LASER::
+	goto Move_SPLASH
+
+Move_PSYCHIC_FANGS::
+	goto Move_SPLASH
+
+Move_PURIFY::
+	goto Move_SPLASH
+
+Move_REVELATION_DANCE::
+	goto Move_SPLASH
+
+Move_SHADOW_BONE::
+	goto Move_SPLASH
+
+Move_SHELL_TRAP::
+	goto Move_SPLASH
+
+Move_SHORE_UP::
+	goto Move_SPLASH
+
+Move_SMART_STRIKE::
+	goto Move_SPLASH
+
+Move_SOLAR_BLADE::
+	goto Move_SPLASH
+
+Move_SPARKLING_ARIA::
+	goto Move_SPLASH
+
+Move_SPECTRAL_THIEF::
+	goto Move_SPLASH
+
+Move_SPEED_SWAP::
+	goto Move_SPLASH
+
+Move_SPIRIT_SHACKLE::
+	goto Move_SPLASH
+
+Move_SPOTLIGHT::
+	goto Move_SPLASH
+
+Move_STOMPING_TANTRUM::
+	goto Move_SPLASH
+
+Move_STRENGTH_SAP::
+	goto Move_SPLASH
+
+Move_SUNSTEEL_STRIKE::
+	goto Move_SPLASH
+
+Move_TEARFUL_LOOK::
+	goto Move_SPLASH
+
+Move_THROAT_CHOP::
+	goto Move_SPLASH
+
+Move_TOXIC_THREAD::
+	goto Move_SPLASH
+
+Move_TROP_KICK::
+	goto Move_SPLASH
+
+Move_ZINGZAP::
+	goto Move_SPLASH
+
+Move_ELECTRIC_TERRAIN::
+	goto Move_SPLASH
+
+Move_GRASSY_TERRAIN::
+	goto Move_SPLASH
+
+Move_MISTYT_ERRAIN::
+	goto Move_SPLASH
+
+Move_PSYCHIC_TERRAIN::
+	goto Move_SPLASH
+
+Move_GRASS_PLEDGE::
+	goto Move_SPLASH
+
+Move_FIRE_PLEDGE::
+	goto Move_SPLASH
+
+Move_WATER_PLEDGE::
+	goto Move_SPLASH
+
+Move_TRICK_ROOM::
+	goto Move_SPLASH
+
+Move_MAGIC_ROOM::
+	goto Move_SPLASH
+
+Move_WONDER_ROOM::
+	goto Move_SPLASH
+
+Move_CRAFTY_SHIELD::
+	goto Move_SPLASH
+
+Move_MAT_BLOCK::
+	goto Move_SPLASH
+
+Move_QUICK_GUARD::
+	goto Move_SPLASH
+
+Move_WIDE_GUARD::
+	goto Move_SPLASH
+
+Move_AQUA_RING::
+	goto Move_SPLASH
+
+Move_AROMATIC_MIST::
+	goto Move_SPLASH
+
+Move_BELCH::
+	goto Move_SPLASH
+
+Move_BESTOW::
+	goto Move_SPLASH
+
+Move_FLING::
+	goto Move_SPLASH
+
+Move_FLYING_PRESS::
+	goto Move_SPLASH
+
+Move_GRAVITY::
+	goto Move_SPLASH
+
+Move_GUARD_SPLIT::
+	goto Move_SPLASH
+
+Move_HEAL_BLOCK::
+	goto Move_SPLASH
+
+Move_ION_DELUGE::
+	goto Move_SPLASH
+
+Move_LUCKY_CHANT::
+	goto Move_SPLASH
+
+Move_MAGNET_RISE::
+	goto Move_SPLASH
+
+Move_MAGNETIC_FLUX::
+	goto Move_SPLASH
+
+Move_POWDER::
+	goto Move_SPLASH
+
+Move_POWER_SPLIT::
+	goto Move_SPLASH
+
+Move_REFLECT_TYPE::
+	goto Move_SPLASH
+
+Move_SIMPLE_BEAM::
+	goto Move_SPLASH
+
+Move_SOAK::
+	goto Move_SPLASH
+
+Move_TELEKINESIS::
+	goto Move_SPLASH
+
+Move_TRICK_OR_TREAT::
+	goto Move_SPLASH
+
+Move_VENOM_DRENCH::
+	goto Move_SPLASH
+
+Move_FORESTS_CURSE::
+	goto Move_SPLASH
+
+Move_MIND_BLOWN::
+	goto Move_SPLASH
+
+Move_PHOTON_GEYSER::
+	goto Move_SPLASH
+
+Move_PLASMA_FISTS::
+	goto Move_SPLASH
+
+Move_ELECTRIFY::
+	goto Move_SPLASH
+
+Move_EMBARGO::
+	goto Move_SPLASH
+
+Move_FAIRY_LOCK::
+	goto Move_SPLASH
+
+Move_LIGHT_OF_RUIN::
+	goto Move_SPLASH
+
+Move_TRUMP_CARD::
+	goto Move_SPLASH
+
+Move_AFTER_YOU::
+	goto Move_SPLASH
+
+Move_INSTRUCT::
+	goto Move_SPLASH
+
+Move_QUASH::
+	goto Move_SPLASH
+
+Move_HAPPY_HOUR::
+	goto Move_SPLASH
+
+Move_DOUBLE_IRON_BASH::
+	goto Move_SPLASH
+
+Move_LAST_RESORT::
+	goto Move_SPLASH
+
+Move_SKY_DROP::
+	goto Move_SPLASH
+
+Move_CELEBRATE::
+	goto Move_SPLASH
+
+Move_HOLD_HANDS::
+	goto Move_SPLASH
+
+Move_DYNAMAX_CANNON::
+	goto Move_SPLASH
+
+Move_SNIPE_SHOT::
+	goto Move_SPLASH
+
+Move_JAW_LOCK::
+	goto Move_SPLASH
+
+Move_STUFF_CHEEKS::
+	goto Move_SPLASH
+
+Move_NO_RETREAT::
+	goto Move_SPLASH
+
+Move_TAR_SHOT::
+	goto Move_SPLASH
+
+Move_MAGIC_POWDER::
+	goto Move_SPLASH
+
+Move_DRAGON_DARTS::
+	goto Move_SPLASH
+
+Move_TEATIME::
+	goto Move_SPLASH
+
+Move_OCTOLOCK::
+	goto Move_SPLASH
+
+Move_BOLT_BEAK::
+	goto Move_SPLASH
+
+Move_FISHIOUS_REND::
+	goto Move_SPLASH
+
+Move_COURT_CHANGE::
+	goto Move_SPLASH
+
+Move_CLANGOROUS_SOUL::
+	goto Move_SPLASH
+
+Move_BODY_PRESS::
+	goto Move_SPLASH
+
+Move_DECORATE::
+	goto Move_SPLASH
+
+Move_DRUM_BEATING::
+	goto Move_SPLASH
+
+Move_SNAP_TRAP::
+	goto Move_SPLASH
+
+Move_PYRO_BALL::
+	goto Move_SPLASH
+
+Move_BEHEMOTH_BLADE::
+	goto Move_SPLASH
+
+Move_BEHEMOTH_BASH::
+	goto Move_SPLASH
+
+Move_AURA_WHEEL::
+	goto Move_SPLASH
+
+Move_BREAKING_SWIPE::
+	goto Move_SPLASH
+
+Move_BRANCH_POKE::
+	goto Move_SPLASH
+
+Move_OVERDRIVE::
+	goto Move_SPLASH
+
+Move_APPLE_ACID::
+	goto Move_SPLASH
+
+Move_GRAV_APPLE::
+	goto Move_SPLASH
+
+Move_SPIRIT_BREAK::
+	goto Move_SPLASH
+
+Move_STRANGE_STEAM::
+	goto Move_SPLASH
+
+Move_LIFE_DEW::
+	goto Move_SPLASH
+
+Move_OBSTRUCT::
+	goto Move_SPLASH
+
+Move_FALSE_SURRENDER::
+	goto Move_SPLASH
+
+Move_METEOR_ASSAULT::
+	goto Move_SPLASH
+
+Move_ETERNA_BEAM::
+	goto Move_SPLASH
+
+Move_STEEL_BEAM::
+	goto Move_SPLASH
+
+Move_EXPANDING_FORCE::
+	goto Move_SPLASH
+
+Move_STEEL_ROLLER::
+	goto Move_SPLASH
+
+Move_SCALE_SHOT::
+	goto Move_SPLASH
+
+Move_METEOR_BEAM::
+	goto Move_SPLASH
+
+Move_SHELL_SIDE_ARM::
+	goto Move_SPLASH
+
+Move_MISTY_EXPLOSION::
+	goto Move_SPLASH
+
+Move_GRASSY_GLIDE::
+	goto Move_SPLASH
+
+Move_RISING_VOLTAGE::
+	goto Move_SPLASH
+
+Move_TERRAIN_PULSE::
+	goto Move_SPLASH
+
+Move_SKITTER_SMACK::
+	goto Move_SPLASH
+
+Move_BURNING_JEALOUSY::
+	goto Move_SPLASH
+
+Move_LASH_OUT::
+	goto Move_SPLASH
+
+Move_POLTERGEIST::
+	goto Move_SPLASH
+
+Move_CORROSIVE_GAS::
+	goto Move_SPLASH
+
+Move_COACHING::
+	goto Move_SPLASH
+
+Move_FLIP_TURN::
+	goto Move_SPLASH
+
+Move_TRIPLE_AXEL::
+	goto Move_SPLASH
+
+Move_DUAL_WINGBEAT::
+	goto Move_SPLASH
+
+Move_SCORCHING_SANDS::
+	goto Move_SPLASH
+
+Move_JUNGLE_HEALING::
+	goto Move_SPLASH
+
+Move_WICKED_BLOW::
+	goto Move_SPLASH
+
+Move_SURGING_STRIKES::
+	goto Move_SPLASH
+
+Move_FREEZING_GLARE::
+	goto Move_SPLASH
+
+Move_THUNDEROUS_KICK::
+	goto Move_SPLASH
+
+Move_FIERY_WRATH::
+	goto Move_SPLASH
+
+Move_THUNDER_CAGE::
+	goto Move_SPLASH
+
+Move_DRAGON_ENERGY::
+	goto Move_SPLASH
+
+Move_ALLY_SWITCH::
+	goto Move_SPLASH
+
+Move_ZIPPY_ZAP::
+	goto Move_SPLASH
+
+Move_SPLISHY_SPLASH::
+	goto Move_SPLASH
+
+Move_FLOATY_FALL::
+	goto Move_SPLASH
+
+Move_PIKA_PAPOW::
+	goto Move_SPLASH
+
+Move_BOUNCY_BUBBLE::
+	goto Move_SPLASH
+
+Move_BUZZY_BUZZ::
+	goto Move_SPLASH
+
+Move_SIZZLY_SLIDE::
+	goto Move_SPLASH
+
+Move_GLITZY_GLOW::
+	goto Move_SPLASH
+
+Move_BADDY_BAD::
+	goto Move_SPLASH
+
+Move_SAPPY_SEED::
+	goto Move_SPLASH
+
+Move_FREEZY_FROST::
+	goto Move_SPLASH
+
+Move_SPARKLY_SWIRL::
+	goto Move_SPLASH
+
+Move_VEEVEE_VOLLEY::
+	goto Move_SPLASH
+
+Move_GLACIAL_LANCE::
+	goto Move_SPLASH
+
+Move_ASTRAL_BARRAGE::
+	goto Move_SPLASH
+
+Move_EERIE_SPELL::
+	goto Move_SPLASH
+
+Move_BREAKNECK_BLITZ_P::
+	goto Move_SPLASH
+
+Move_BREAKNECK_BLITZ_S::
+	goto Move_SPLASH
+
+Move_ALL_OUT_PUMMELING_P::
+	goto Move_SPLASH
+
+Move_ALL_OUT_PUMMELING_S::
+	goto Move_SPLASH
+
+Move_SUPERSONIC_SKYSTRIKE_P::
+	goto Move_SPLASH
+
+Move_SUPERSONIC_SKYSTRIKE_S::
+	goto Move_SPLASH
+
+Move_ACID_DOWNPOUR_P::
+	goto Move_SPLASH
+
+Move_ACID_DOWNPOUR_S::
+	goto Move_SPLASH
+
+Move_TECTONIC_RAGE_P::
+	goto Move_SPLASH
+
+Move_TECTONIC_RAGE_S::
+	goto Move_SPLASH
+
+Move_CONTINENTAL_CRUSH_P::
+	goto Move_SPLASH
+
+Move_CONTINENTAL_CRUSH_S::
+	goto Move_SPLASH
+
+Move_SAVAGE_SPIN_OUT_P::
+	goto Move_SPLASH
+
+Move_SAVAGE_SPIN_OUT_S::
+	goto Move_SPLASH
+
+Move_NEVER_ENDING_NIGHTMARE_P::
+	goto Move_SPLASH
+
+Move_NEVER_ENDING_NIGHTMARE_S::
+	goto Move_SPLASH
+
+Move_CORKSCREW_CRASH_P::
+	goto Move_SPLASH
+
+Move_CORKSCREW_CRASH_S::
+	goto Move_SPLASH
+
+Move_INFERNO_OVERDRIVE_P::
+	goto Move_SPLASH
+
+Move_INFERNO_OVERDRIVE_S::
+	goto Move_SPLASH
+
+Move_HYDRO_VORTEX_P::
+	goto Move_SPLASH
+
+Move_HYDRO_VORTEX_S::
+	goto Move_SPLASH
+
+Move_BLOOM_DOOM_P::
+	goto Move_SPLASH
+
+Move_BLOOM_DOOM_S::
+	goto Move_SPLASH
+
+Move_GIGAVOLT_HAVOC_P::
+	goto Move_SPLASH
+
+Move_GIGAVOLT_HAVOC_S::
+	goto Move_SPLASH
+
+Move_SHATTERED_PSYCHE_P::
+	goto Move_SPLASH
+
+Move_SHATTERED_PSYCHE_S::
+	goto Move_SPLASH
+
+Move_SUBZERO_SLAMMER_P::
+	goto Move_SPLASH
+
+Move_SUBZERO_SLAMMER_S::
+	goto Move_SPLASH
+
+Move_DEVASTATING_DRAKE_P::
+	goto Move_SPLASH
+
+Move_DEVASTATING_DRAKE_S::
+	goto Move_SPLASH
+
+Move_BLACK_HOLE_ECLIPSE_P::
+	goto Move_SPLASH
+
+Move_BLACK_HOLE_ECLIPSE_S::
+	goto Move_SPLASH
+
+Move_TWINKLE_TACKLE_P::
+	goto Move_SPLASH
+
+Move_TWINKLE_TACKLE_S::
+	goto Move_SPLASH
+
+Move_CATASTROPIKA::
+	goto Move_SPLASH
+
+Move_10000000_VOLT_THUNDERBOLT::
+	goto Move_SPLASH
+
+Move_STOKED_SPARKSURFER::
+	goto Move_SPLASH
+
+Move_EXTREME_EVOBOOST::
+	goto Move_SPLASH
+
+Move_PULVERIZING_PANCAKE::
+	goto Move_SPLASH
+
+Move_GENESIS_SUPERNOVA::
+	goto Move_SPLASH
+
+Move_SINISTER_ARROW_RAID::
+	goto Move_SPLASH
+
+Move_MALICIOUS_MOONSAULT::
+	goto Move_SPLASH
+
+Move_OCEANIC_OPERETTA::
+	goto Move_SPLASH
+
+Move_SPLINTERED_STORMSHARDS::
+	goto Move_SPLASH
+
+Move_LETS_SNUGGLE_FOREVER::
+	goto Move_SPLASH
+
+Move_CLANGOROUS_SOULBLAZE::
+	goto Move_SPLASH
+
+Move_GUARDIAN_OF_ALOLA::
+	goto Move_SPLASH
+
+Move_SEARING_SUNRAZE_SMASH::
+	goto Move_SPLASH
+
+Move_MENACING_MOONRAZE_MAELSTROM::
+	goto Move_SPLASH
+
+Move_LIGHT_THAT_BURNS_THE_SKY::
+	goto Move_SPLASH
+
+Move_SOUL_STEALING_7_STAR_STRIKE::
+	goto Move_SPLASH
+
+Move_MAX_GUARD::
+	goto Move_SPLASH
+
+Move_MAX_STRIKE_P::
+	goto Move_SPLASH
+
+Move_MAX_STRIKE_S::
+	goto Move_SPLASH
+
+Move_MAX_KNUCKLE_P::
+	goto Move_SPLASH
+
+Move_MAX_KNUCKLE_S::
+	goto Move_SPLASH
+
+Move_MAX_AIRSTREAM_P::
+	goto Move_SPLASH
+
+Move_MAX_AIRSTREAM_S::
+	goto Move_SPLASH
+
+Move_MAX_OOZE_P::
+	goto Move_SPLASH
+
+Move_MAX_OOZE_S::
+	goto Move_SPLASH
+
+Move_MAX_QUAKE_P::
+	goto Move_SPLASH
+
+Move_MAX_QUAKE_S::
+	goto Move_SPLASH
+
+Move_MAX_ROCKFALL_P::
+	goto Move_SPLASH
+
+Move_MAX_ROCKFALL_S::
+	goto Move_SPLASH
+
+Move_MAX_FLUTTERBY_P::
+	goto Move_SPLASH
+
+Move_MAX_FLUTTERBY_S::
+	goto Move_SPLASH
+
+Move_MAX_PHANTASM_P::
+	goto Move_SPLASH
+
+Move_MAX_PHANTASM_S::
+	goto Move_SPLASH
+
+Move_MAX_STEELSPIKE_P::
+	goto Move_SPLASH
+
+Move_MAX_STEELSPIKE_S::
+	goto Move_SPLASH
+
+Move_MAX_FLARE_P::
+	goto Move_SPLASH
+
+Move_MAX_FLARE_S::
+	goto Move_SPLASH
+
+Move_MAX_GEYSER_P::
+	goto Move_SPLASH
+
+Move_MAX_GEYSER_S::
+	goto Move_SPLASH
+
+Move_MAX_OVERGROWTH_P::
+	goto Move_SPLASH
+
+Move_MAX_OVERGROWTH_S::
+	goto Move_SPLASH
+
+Move_MAX_LIGHTNING_P::
+	goto Move_SPLASH
+
+Move_MAX_LIGHTNING_S::
+	goto Move_SPLASH
+
+Move_MAX_MINDSTORM_P::
+	goto Move_SPLASH
+
+Move_MAX_MINDSTORM_S::
+	goto Move_SPLASH
+
+Move_MAX_HAILSTORM_P::
+	goto Move_SPLASH
+
+Move_MAX_HAILSTORM_S::
+	goto Move_SPLASH
+
+Move_MAX_WYRMWIND_P::
+	goto Move_SPLASH
+
+Move_MAX_WYRMWIND_S::
+	goto Move_SPLASH
+
+Move_MAX_DARKNESS_P::
+	goto Move_SPLASH
+
+Move_MAX_DARKNESS_S::
+	goto Move_SPLASH
+
+Move_MAX_STARFALL_P::
+	goto Move_SPLASH
+
+Move_MAX_STARFALL_S::
+	goto Move_SPLASH
+
+Move_G_MAX_VINE_LASH_P::
+	goto Move_SPLASH
+
+Move_G_MAX_VINE_LASH_S::
+	goto Move_SPLASH
+
+Move_G_MAX_WILDFIRE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_WILDFIRE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_CANNONADE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_CANNONADE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_BEFUDDLE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_BEFUDDLE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_VOLT_CRASH_P::
+	goto Move_SPLASH
+
+Move_G_MAX_VOLT_CRASH_S::
+	goto Move_SPLASH
+
+Move_G_MAX_GOLD_RUSH_P::
+	goto Move_SPLASH
+
+Move_G_MAX_GOLD_RUSH_S::
+	goto Move_SPLASH
+
+Move_G_MAX_CHI_STRIKE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_CHI_STRIKE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_TERROR_P::
+	goto Move_SPLASH
+
+Move_G_MAX_TERROR_S::
+	goto Move_SPLASH
+
+Move_G_MAX_FOAM_BURST_P::
+	goto Move_SPLASH
+
+Move_G_MAX_FOAM_BURST_S::
+	goto Move_SPLASH
+
+Move_G_MAX_RESONANCE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_RESONANCE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_CUDDLE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_CUDDLE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_REPLENISH_P::
+	goto Move_SPLASH
+
+Move_G_MAX_REPLENISH_S::
+	goto Move_SPLASH
+
+Move_G_MAX_MALODOR_P::
+	goto Move_SPLASH
+
+Move_G_MAX_MALODOR_S::
+	goto Move_SPLASH
+
+Move_G_MAX_MELTDOWN_P::
+	goto Move_SPLASH
+
+Move_G_MAX_MELTDOWN_S::
+	goto Move_SPLASH
+
+Move_G_MAX_DRUM_SOLO_P::
+	goto Move_SPLASH
+
+Move_G_MAX_DRUM_SOLO_S::
+	goto Move_SPLASH
+
+Move_G_MAX_FIREBALL_P::
+	goto Move_SPLASH
+
+Move_G_MAX_FIREBALL_S::
+	goto Move_SPLASH
+
+Move_G_MAX_HYDROSNIPE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_HYDROSNIPE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_WIND_RAGE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_WIND_RAGE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_GRAVITAS_P::
+	goto Move_SPLASH
+
+Move_G_MAX_GRAVITAS_S::
+	goto Move_SPLASH
+
+Move_G_MAX_STONESURGE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_STONESURGE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_VOLCALITH_P::
+	goto Move_SPLASH
+
+Move_G_MAX_VOLCALITH_S::
+	goto Move_SPLASH
+
+Move_G_MAX_TARTNESS_P::
+	goto Move_SPLASH
+
+Move_G_MAX_TARTNESS_S::
+	goto Move_SPLASH
+
+Move_G_MAX_SWEETNESS_P::
+	goto Move_SPLASH
+
+Move_G_MAX_SWEETNESS_S::
+	goto Move_SPLASH
+
+Move_G_MAX_SANDBLAST_P::
+	goto Move_SPLASH
+
+Move_G_MAX_SANDBLAST_S::
+	goto Move_SPLASH
+
+Move_G_MAX_STUN_SHOCK_P::
+	goto Move_SPLASH
+
+Move_G_MAX_STUN_SHOCK_S::
+	goto Move_SPLASH
+
+Move_G_MAX_CENTIFERNO_P::
+	goto Move_SPLASH
+
+Move_G_MAX_CENTIFERNO_S::
+	goto Move_SPLASH
+
+Move_G_MAX_SMITE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_SMITE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_SNOOZE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_SNOOZE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_FINALE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_FINALE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_STEELSURGE_P::
+	goto Move_SPLASH
+
+Move_G_MAX_STEELSURGE_S::
+	goto Move_SPLASH
+
+Move_G_MAX_DEPLETION_P::
+	goto Move_SPLASH
+
+Move_G_MAX_DEPLETION_S::
+	goto Move_SPLASH
+
+Move_G_MAX_ONE_BLOW_P::
+	goto Move_SPLASH
+
+Move_G_MAX_ONE_BLOW_S::
+	goto Move_SPLASH
+
+Move_G_MAX_RAPID_FLOW_P::
+	goto Move_SPLASH
+
+Move_G_MAX_RAPID_FLOW_S::
+	goto Move_SPLASH

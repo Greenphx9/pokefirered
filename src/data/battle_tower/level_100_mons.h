@@ -72,7 +72,7 @@ const struct BattleTowerPokemonTemplate gBattleTowerLevel100Mons[] =
 		.moves = {
 			MOVE_BULLET_SEED,
 			MOVE_RAZOR_WIND,
-			MOVE_FAINT_ATTACK,
+			MOVE_FEINT_ATTACK,
 			MOVE_GROWTH
 		},
 		.evSpread = F_EV_SPREAD_SP_ATTACK | F_EV_SPREAD_ATTACK,
@@ -148,7 +148,7 @@ const struct BattleTowerPokemonTemplate gBattleTowerLevel100Mons[] =
 		.heldItem = BATTLE_TOWER_ITEM_METAL_COAT,
 		.teamFlags = 0x03,
 		.moves = {
-			MOVE_VICE_GRIP,
+			MOVE_VISE_GRIP,
 			MOVE_SWEET_SCENT,
 			MOVE_ASTONISH,
 			MOVE_STRENGTH
