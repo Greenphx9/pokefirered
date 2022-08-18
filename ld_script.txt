@@ -309,6 +309,8 @@ SECTIONS {
         src/mgba.o(.text);
         src/mini_printf.o(.text);
         src/debug.o(.text);
+        src/siirtc.o(.text);
+        src/rtc.o(.text);
     } =0
 
     script_data :
@@ -608,6 +610,7 @@ SECTIONS {
         src/trainer_tower_sets.o(.rodata);
         src/move_descriptions.o(.rodata);
         src/debug.o(.rodata);
+        src/rtc.o(.rodata);
 
         /* These should not be moved to C files */
         src/mystery_event_msg.o(.rodata);
