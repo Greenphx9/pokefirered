@@ -1541,18 +1541,26 @@ void SetSeenMon(void)
 void ResetContextNpcTextColor(void)
 {
     gSelectedObjectEvent = 0;
-    gSpecialVar_TextColor = 0xFF;
+    gSpecialVar_TextColor = NPC_TEXT_COLOR_DEFAULT;
 }
 
 u8 ContextNpcGetTextColor(void)
 {
     u8 gfxId;
-    if (gSpecialVar_TextColor != 0xFF)
+    if (gSpecialVar_TextColor != NPC_TEXT_COLOR_DEFAULT)
+    {
+        // A text color has been specified, use that
         return gSpecialVar_TextColor;
+    }
     else if (gSelectedObjectEvent == 0)
-        return 3;
+    {
+        // No text color specified and no object selected, use neutral
+        return NPC_TEXT_COLOR_NEUTRAL;
+    }
     else
     {
+        // An object is selected and no color has been specified.
+        // Use the text color normally associated with this object's sprite.
         gfxId = gObjectEvents[gSelectedObjectEvent].graphicsId;
         if (gfxId >= OBJ_EVENT_GFX_VAR_0)
             gfxId = VarGetObjectEventGraphicsId(gfxId - OBJ_EVENT_GFX_VAR_0);
@@ -1630,7 +1638,7 @@ void ChangeBoxPokemonNickname(void)
     species = GetBoxMonData(pokemon, MON_DATA_SPECIES, NULL);
     gender = GetBoxMonGender(pokemon);
     personality = GetBoxMonData(pokemon, MON_DATA_PERSONALITY, NULL);
-    DoNamingScreen(NAMING_SCREEN_NAME_RATER, gStringVar2, species, gender, personality, ChangeBoxPokemonNickname_CB);
+    DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, species, gender, personality, ChangeBoxPokemonNickname_CB);
 }
 
 static void ChangeBoxPokemonNickname_CB(void)
@@ -1650,7 +1658,7 @@ void ChangePokemonNickname(void)
     species = GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPECIES, NULL);
     gender = GetMonGender(&gPlayerParty[gSpecialVar_0x8004]);
     personality = GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_PERSONALITY, NULL);
-    DoNamingScreen(NAMING_SCREEN_NAME_RATER, gStringVar2, species, gender, personality, ChangePokemonNickname_CB);
+    DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, species, gender, personality, ChangePokemonNickname_CB);
 }
 
 static void ChangePokemonNickname_CB(void)
@@ -2418,7 +2426,7 @@ static void MoveDeoxysObject(u8 num)
     else
         gFieldEffectArguments[5] = 5;
     FieldEffectStart(FLDEFF_MOVE_DEOXYS_ROCK);
-    Overworld_SetMapObjTemplateCoords(1, sDeoxysCoords[num][0], sDeoxysCoords[num][1]);
+    SetObjEventTemplateCoords(1, sDeoxysCoords[num][0], sDeoxysCoords[num][1]);
 }
 
 static void Task_WaitDeoxysFieldEffect(u8 taskId)

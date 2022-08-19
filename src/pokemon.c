@@ -1690,8 +1690,8 @@ const struct SpriteTemplate gSpriteTemplates_Battlers[] =
         .paletteTag = 0,
         .oam = &gOamData_BattlerPlayer,
         .anims = NULL, 
-        .images = gSpriteImages_BattlerPlayerLeft,
-        .affineAnims = gSpriteAffineAnimTable_BattlerPlayer,
+        .images = gBattlerPicTable_PlayerLeft,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_AllyMon,
     },
     [B_POSITION_OPPONENT_LEFT] = {
@@ -1699,8 +1699,8 @@ const struct SpriteTemplate gSpriteTemplates_Battlers[] =
         .paletteTag = 0,
         .oam = &gOamData_BattlerOpponent,
         .anims = NULL, 
-        .images = gSpriteImages_BattlerOpponentLeft,
-        .affineAnims = gSpriteAffineAnimTable_BattlerOpponent,
+        .images = gBattlerPicTable_OpponentLeft,
+        .affineAnims = gAffineAnims_BattleSpriteOpponentSide,
         .callback = SpriteCB_EnemyMon,
     },
     [B_POSITION_PLAYER_RIGHT] = {
@@ -1708,8 +1708,8 @@ const struct SpriteTemplate gSpriteTemplates_Battlers[] =
         .paletteTag = 0,
         .oam = &gOamData_BattlerPlayer,
         .anims = NULL, 
-        .images = gSpriteImages_BattlerPlayerRight,
-        .affineAnims = gSpriteAffineAnimTable_BattlerPlayer,
+        .images = gBattlerPicTable_PlayerRight,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_AllyMon,
     },
     [B_POSITION_OPPONENT_RIGHT] = {
@@ -1717,8 +1717,8 @@ const struct SpriteTemplate gSpriteTemplates_Battlers[] =
         .paletteTag = 0,
         .oam = &gOamData_BattlerOpponent,
         .anims = NULL, 
-        .images = gSpriteImages_BattlerOpponentRight,
-        .affineAnims = gSpriteAffineAnimTable_BattlerOpponent,
+        .images = gBattlerPicTable_OpponentRight,
+        .affineAnims = gAffineAnims_BattleSpriteOpponentSide,
         .callback = SpriteCB_EnemyMon,
     },
 };
@@ -1731,7 +1731,7 @@ const struct SpriteTemplate gSpriteTemplates_TrainerBackpics[] =
         .oam = &gOamData_BattlerPlayer,
         .anims = NULL, 
         .images = gTrainerBackPicTable_Red,
-        .affineAnims = gSpriteAffineAnimTable_BattlerPlayer,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_AllyMon,
     },
     {
@@ -1740,7 +1740,7 @@ const struct SpriteTemplate gSpriteTemplates_TrainerBackpics[] =
         .oam = &gOamData_BattlerPlayer,
         .anims = NULL, 
         .images = gTrainerBackPicTable_Leaf,
-        .affineAnims = gSpriteAffineAnimTable_BattlerPlayer,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_AllyMon,
     },
     {
@@ -1749,7 +1749,7 @@ const struct SpriteTemplate gSpriteTemplates_TrainerBackpics[] =
         .oam = &gOamData_BattlerPlayer,
         .anims = NULL, 
         .images = gTrainerBackPicTable_RSBrendan,
-        .affineAnims = gSpriteAffineAnimTable_BattlerPlayer,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_AllyMon,
     },
     {
@@ -1758,7 +1758,7 @@ const struct SpriteTemplate gSpriteTemplates_TrainerBackpics[] =
         .oam = &gOamData_BattlerPlayer,
         .anims = NULL, 
         .images = gTrainerBackPicTable_RSMay,
-        .affineAnims = gSpriteAffineAnimTable_BattlerPlayer,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_AllyMon,
     },
     {
@@ -1767,7 +1767,7 @@ const struct SpriteTemplate gSpriteTemplates_TrainerBackpics[] =
         .oam = &gOamData_BattlerPlayer,
         .anims = NULL, 
         .images = gTrainerBackPicTable_Pokedude,
-        .affineAnims = gSpriteAffineAnimTable_BattlerPlayer,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_AllyMon,
     },
     {
@@ -1776,7 +1776,7 @@ const struct SpriteTemplate gSpriteTemplates_TrainerBackpics[] =
         .oam = &gOamData_BattlerPlayer,
         .anims = NULL, 
         .images = gTrainerBackPicTable_OldMan,
-        .affineAnims = gSpriteAffineAnimTable_BattlerPlayer,
+        .affineAnims = gAffineAnims_BattleSpritePlayerSide,
         .callback = SpriteCB_AllyMon,
     },
 };
@@ -2088,7 +2088,7 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
 {
     u32 personality;
 
-    if ((u8)(unownLetter - 1) < 28)
+    if ((u8)(unownLetter - 1) < NUM_UNOWN_FORMS)
     {
         u16 actualLetter;
 
@@ -2974,7 +2974,7 @@ void SetMultiuseSpriteTemplateToPokemon(u16 speciesTag, u8 battlerPosition)
         }
     }
     gMultiuseSpriteTemplate.paletteTag = speciesTag;
-    gMultiuseSpriteTemplate.anims = gSpriteAnimTable_82349BC;
+    gMultiuseSpriteTemplate.anims = gAnims_MonPic;
 }
 
 void SetMultiuseSpriteTemplateToTrainerBack(u16 trainerSpriteId, u8 battlerPosition)
@@ -4167,7 +4167,7 @@ static void CopyPlayerPartyMonToBattleData(u8 battlerId, u8 partyIndex)
     *hpSwitchout = gBattleMons[battlerId].hp;
 
     for (i = 0; i < 8; i++)
-        gBattleMons[battlerId].statStages[i] = 6;
+        gBattleMons[battlerId].statStages[i] = DEFAULT_STAT_STAGE;
 
     gBattleMons[battlerId].status2 = 0;
     UpdateSentPokesToOpponentValue(battlerId);
@@ -6403,7 +6403,7 @@ static void OakSpeechNidoranFSetupTemplateDummy(struct OakSpeechNidoranFStruct *
         for (j = 0; j < structPtr->frameCount; ++j)
             structPtr->frameImages[i * structPtr->spriteCount + j].data = &structPtr->bufferPtrs[i][j * 0x800];
         structPtr->templates[i].images = &structPtr->frameImages[i * structPtr->spriteCount]; // should be frameCount logically
-        structPtr->templates[i].anims = gSpriteAnimTable_82349BC;
+        structPtr->templates[i].anims = gAnims_MonPic;
         structPtr->templates[i].paletteTag = i;
     }
 }
