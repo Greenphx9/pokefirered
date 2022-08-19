@@ -13,13 +13,6 @@
 
 #define DROUGHT_COLOR_INDEX(color) ((((color) >> 1) & 0xF) | (((color) >> 2) & 0xF0) | (((color) >> 3) & 0xF00))
 
-enum
-{
-    GAMMA_NONE,
-    GAMMA_NORMAL,
-    GAMMA_ALT,
-};
-
 struct RGBColor
 {
     u16 r:5;
@@ -90,7 +83,7 @@ static void (*const sWeatherPalStateFuncs[])(void) = {
     DoNothing
 };
 
-static const u8 sBasePaletteGammaTypes[32] = {
+EWRAM_DATA u8 sBasePaletteGammaTypes[32] = {
     // background palettes
     GAMMA_NORMAL,
     GAMMA_NORMAL,
@@ -270,6 +263,10 @@ static void BuildGammaShiftTables(void)
     u32 v10;
     u16 v11;
     s16 dunno;
+    int i;
+
+    for (i = 0; i <= 12; i++)
+        sBasePaletteGammaTypes[i] = GAMMA_NORMAL;
 
     sPaletteGammaTypes = sBasePaletteGammaTypes;
     for (v0 = 0; v0 <= 1; v0++)
@@ -1169,4 +1166,10 @@ void SlightlyDarkenPalsInWeather(u16 *palbuf, u16 *unused, u32 size)
         BlendPalettesAt(palbuf, RGB_BLACK, 3, size);
         break;
     }
+}
+
+void UpdatePaletteGammaType(u8 index, u8 gammaType)
+{
+    if (index != 0xFF)
+        sBasePaletteGammaTypes[index + 16] = gammaType;
 }

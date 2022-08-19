@@ -8,6 +8,7 @@
 #include "field_effect.h"
 #include "field_effect_helpers.h"
 #include "field_player_avatar.h"
+#include "field_weather.h"
 #include "fieldmap.h"
 #include "metatile_behavior.h"
 #include "overworld.h"
@@ -482,7 +483,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Meteorite,               OBJ_EVENT_PAL_TAG_METEORITE},
     {gObjectEventPal_SSAnne,                  OBJ_EVENT_PAL_TAG_SS_ANNE},
     {gObjectEventPal_Seagallop,               OBJ_EVENT_PAL_TAG_SEAGALLOP},
-    {},
+    {NULL,                                    OBJ_EVENT_PAL_TAG_NONE},
 };
 
 static const u16 sPlayerReflectionPaletteTags[] = {
@@ -1543,10 +1544,13 @@ void RemoveObjectEventByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup)
 
 static void RemoveObjectEventInternal(struct ObjectEvent *objectEvent)
 {
+    u8 paletteSlot;
     struct SpriteFrameImage image;
     image.size = GetObjectEventGraphicsInfo(objectEvent->graphicsId)->size;
     gSprites[objectEvent->spriteId].images = &image;
+    paletteSlot = gSprites[objectEvent->spriteId].oam.paletteNum;
     DestroySprite(&gSprites[objectEvent->spriteId]);
+    FreeSpritePaletteIfUnused(paletteSlot);
 }
 
 void Unref_RemoveAllObjectEventsExceptPlayer(void)
@@ -1574,14 +1578,7 @@ static u8 TrySetupObjectEventSprite(struct ObjectEventTemplate *objectEventTempl
 
     objectEvent = &gObjectEvents[objectEventId];
     graphicsInfo = GetObjectEventGraphicsInfo(objectEvent->graphicsId);
-    if (graphicsInfo->paletteSlot == 0)
-    {
-        LoadPlayerObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
-    }
-    else if (graphicsInfo->paletteSlot == 10)
-    {
-        LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
-    }
+    LoadObjectEventPalette(graphicsInfo->paletteTag);
 
     if (objectEvent->movementType == MOVEMENT_TYPE_INVISIBLE)
         objectEvent->invisible = TRUE;
@@ -1600,7 +1597,7 @@ static u8 TrySetupObjectEventSprite(struct ObjectEventTemplate *objectEventTempl
     sprite->centerToCornerVecY = -(graphicsInfo->height >> 1);
     sprite->x += 8;
     sprite->y += 16 + sprite->centerToCornerVecY;
-    sprite->oam.paletteNum = graphicsInfo->paletteSlot;
+    sprite->oam.paletteNum = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
     sprite->coordOffsetEnabled = TRUE;
     sprite->data[0] = objectEventId;
     objectEvent->spriteId = spriteId;
@@ -1740,7 +1737,7 @@ u8 CreateVirtualObject(u8 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     MakeObjectTemplateFromObjectEventGraphicsInfo(graphicsId, UpdateObjectEventSpriteSubpriorityAndVisibility, &spriteTemplate, &subspriteTables);
-    *(u16 *)&spriteTemplate.paletteTag = TAG_NONE;
+    LoadObjectEventPalette(graphicsInfo->paletteTag);
     x += 7;
     y += 7;
     SetSpritePosToOffsetMapCoords(&x, &y, 8, 16);
@@ -1751,14 +1748,10 @@ u8 CreateVirtualObject(u8 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
         sprite->centerToCornerVecX = -(graphicsInfo->width >> 1);
         sprite->centerToCornerVecY = -(graphicsInfo->height >> 1);
         sprite->y += sprite->centerToCornerVecY;
-        sprite->oam.paletteNum = graphicsInfo->paletteSlot;
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
         sprite->coordOffsetEnabled = TRUE;
         sprite->data[0] = a1;
         sprite->data[1] = z;
-        if (graphicsInfo->paletteSlot == 10)
-        {
-            LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
-        }
 
         if (subspriteTables != NULL)
         {
@@ -1782,7 +1775,7 @@ u8 sub_805EB44(u8 graphicsId, u8 a1, s16 x, s16 y)
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     MakeObjectTemplateFromObjectEventGraphicsInfo(graphicsId, SpriteCallbackDummy, &spriteTemplate, &subspriteTables);
-    *(u16 *)&spriteTemplate.paletteTag = TAG_NONE;
+    LoadObjectEventPalette(graphicsInfo->paletteTag);
 
     spriteId = CreateSpriteAtEnd(&spriteTemplate, x, y, 0);
     if (spriteId != MAX_SPRITES)
@@ -1790,12 +1783,8 @@ u8 sub_805EB44(u8 graphicsId, u8 a1, s16 x, s16 y)
         sprite = &gSprites[spriteId];
         sprite->centerToCornerVecY = -(graphicsInfo->height >> 1);
         sprite->y += sprite->centerToCornerVecY;
-        sprite->oam.paletteNum = graphicsInfo->paletteSlot;
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
         sprite->data[0] = a1;
-        if (graphicsInfo->paletteSlot == 10)
-        {
-            LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
-        }
 
         if (subspriteTables != NULL)
         {
@@ -1914,16 +1903,7 @@ static void ReloadMapObjectWithOffset(u8 objectEventId, s16 x, s16 y)
     spriteFrameImage.size = graphicsInfo->size;
     MakeObjectTemplateFromObjectEventGraphicsInfoWithCallbackIndex(objectEvent->graphicsId, objectEvent->movementType, &spriteTemplate, &subspriteTables);
     spriteTemplate.images = &spriteFrameImage;
-    *(u16 *)&spriteTemplate.paletteTag = TAG_NONE;
-    if (graphicsInfo->paletteSlot == 0)
-    {
-        LoadPlayerObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
-    }
-    if (graphicsInfo->paletteSlot > 9)
-    {
-        LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
-    }
-    *(u16 *)&spriteTemplate.paletteTag = TAG_NONE;
+    LoadObjectEventPalette(graphicsInfo->paletteTag);
     spriteId = CreateSprite(&spriteTemplate, 0, 0, 0);
     if (spriteId != MAX_SPRITES)
     {
@@ -1943,7 +1923,7 @@ static void ReloadMapObjectWithOffset(u8 objectEventId, s16 x, s16 y)
         {
             SetSubspriteTables(sprite, subspriteTables);
         }
-        sprite->oam.paletteNum = graphicsInfo->paletteSlot;
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
         sprite->coordOffsetEnabled = TRUE;
         sprite->data[0] = objectEventId;
         objectEvent->spriteId = spriteId;
@@ -1986,14 +1966,7 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u8 graphicsId)
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     sprite = &gSprites[objectEvent->spriteId];
-    if (graphicsInfo->paletteSlot == 0)
-    {
-        PatchObjectPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
-    }
-    if (graphicsInfo->paletteSlot == 10)
-    {
-        LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
-    }
+    LoadObjectEventPalette(graphicsInfo->paletteTag);
     
     var = sprite->images->size / TILE_SIZE_4BPP;
     if (!sprite->usingSheet)
@@ -2005,7 +1978,7 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u8 graphicsId)
     sprite->images = graphicsInfo->images;
     sprite->anims = graphicsInfo->anims;
     sprite->subspriteTables = graphicsInfo->subspriteTables;
-    sprite->oam.paletteNum = graphicsInfo->paletteSlot;
+    sprite->oam.paletteNum = IndexOfSpritePaletteTag(graphicsInfo->paletteTag);
     if (!sprite->usingSheet)
     {
         s32 var2;
@@ -2163,15 +2136,21 @@ void FreeAndReserveObjectSpritePalettes(void)
 
 static void LoadObjectEventPalette(u16 paletteTag)
 {
-    u16 i = FindObjectEventPaletteIndexByTag(paletteTag);
-
-#ifdef BUGFIX
-    if (sObjectEventSpritePalettes[i].tag != OBJ_EVENT_PAL_TAG_NONE)
-#else
-    if (i != OBJ_EVENT_PAL_TAG_NONE) // always true
-#endif
+    if (paletteTag != 0xFFFF && IndexOfSpritePaletteTag(paletteTag) == 0xFF)
     {
-        TryLoadObjectPalette(&sObjectEventSpritePalettes[i]);
+        u8 newPalSlot;
+        u16 i = FindObjectEventPaletteIndexByTag(paletteTag);
+        struct SpritePalette spritePal = sObjectEventSpritePalettes[i];
+
+        if (spritePal.tag != OBJ_EVENT_PAL_TAG_NONE)
+            TryLoadObjectPalette(&spritePal);
+
+        newPalSlot = IndexOfSpritePaletteTag(paletteTag);
+        if (IndexOfSpritePaletteTag(paletteTag) == 0xFF)
+            return;
+
+        ApplyGlobalFieldPaletteTint(newPalSlot);
+        UpdatePaletteGammaType(IndexOfSpritePaletteTag(paletteTag), GAMMA_ALT);
     }
 }
 
@@ -9315,7 +9294,7 @@ void RfuUnionObjectSetFacingDirection(u8 objectEventId, u8 direction)
         baseBlock = sprite->oam.tileNum;
         sprite->oam = *info->oam;
         sprite->oam.tileNum = baseBlock;
-        sprite->oam.paletteNum = info->paletteSlot;
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(info->paletteTag);
         sprite->images = info->images;
         if (info->subspriteTables == NULL)
         {
