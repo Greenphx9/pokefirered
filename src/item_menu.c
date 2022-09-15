@@ -1780,7 +1780,7 @@ static void GoToBerryPouch_PCBox(void)
 
 static void ReturnToBagMenuFromSubmenu_PCBox(void)
 {
-    GoToBagMenu(ITEMMENULOCATION_PCBOX, OPEN_BAG_LAST, Cb2_ReturnToPSS);
+    GoToBagMenu(ITEMMENULOCATION_PCBOX, OPEN_BAG_LAST, CB2_ReturnToPokeStorage);
 }
 
 static void Task_ItemContext_Sell(u8 taskId)
@@ -2031,7 +2031,7 @@ bool8 UseRegisteredKeyItemOnField(void)
     {
         if (CheckBagHasItem(gSaveBlock1Ptr->registeredItem, 1) == TRUE)
         {
-            ScriptContext2_Enable();
+            LockPlayerFieldControls();
             FreezeObjectEvents();
             HandleEnforcedLookDirectionOnPlayerStopMoving();
             StopPlayerAvatar();
@@ -2042,7 +2042,7 @@ bool8 UseRegisteredKeyItemOnField(void)
         }
         gSaveBlock1Ptr->registeredItem = ITEM_NONE;
     }
-    ScriptContext1_SetupScript(EventScript_BagItemCanBeRegistered);
+    ScriptContext_SetupScript(EventScript_BagItemCanBeRegistered);
     return TRUE;
 }
 

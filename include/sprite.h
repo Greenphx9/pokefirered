@@ -5,6 +5,7 @@
 
 #define MAX_SPRITES 64
 #define SPRITE_PLAYER_TAG 0xFFFE
+#define SPRITE_NONE 0xFF
 #define TAG_NONE 0xFFFF
 
 struct SpriteSheet

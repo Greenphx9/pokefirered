@@ -98,7 +98,7 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
     u8 tileTransitionState = gPlayerAvatar.tileTransitionState;
     bool8 forcedMove = MetatileBehavior_IsForcedMovementTile(GetPlayerCurMetatileBehavior());
 
-    if (!ScriptContext1_IsScriptSetUp() && IsQuestLogInputDpad() == TRUE)
+    if (!ScriptContext_IsEnabled() && IsQuestLogInputDpad() == TRUE)
     {
         QuestLogOverrideJoyVars(input, &newKeys, &heldKeys);
     }
@@ -231,7 +231,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     ResetFacingNpcOrSignPostVars();
     playerDirection = GetPlayerFacingDirection();
     GetPlayerPosition(&position);
-    metatileAttributes = MapGridGetMetatileAttributeAt(position.x, position.y, 0xFF);
+    metatileAttributes = MapGridGetMetatileAttributeAt(position.x, position.y, METATILE_ATTRIBUTES_ALL);
     metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
 
     FieldClearPlayerInput(&gInputToStoreInQuestLogMaybe);
@@ -343,7 +343,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
 void FieldInput_HandleCancelSignpost(struct FieldInput * input)
 {
-    if (ScriptContext1_IsScriptSetUp() == TRUE)
+    if (ScriptContext_IsEnabled() == TRUE)
     {
         if (gWalkAwayFromSignInhibitTimer != 0)
             gWalkAwayFromSignInhibitTimer--;
@@ -361,13 +361,13 @@ void FieldInput_HandleCancelSignpost(struct FieldInput * input)
                     RegisterQuestLogInput(QL_INPUT_LEFT);
                 else if (input->dpadDirection == DIR_EAST)
                     RegisterQuestLogInput(QL_INPUT_RIGHT);
-                ScriptContext1_SetupScript(EventScript_CancelMessageBox);
-                ScriptContext2_Enable();
+                ScriptContext_SetupScript(EventScript_CancelMessageBox);
+                LockPlayerFieldControls();
             }
             else if (input->pressedStartButton)
             {
-                ScriptContext1_SetupScript(EventScript_CancelMessageBox);
-                ScriptContext2_Enable();
+                ScriptContext_SetupScript(EventScript_CancelMessageBox);
+                LockPlayerFieldControls();
                 if (!FuncIsActiveTask(Task_QuestLogPlayback_OpenStartMenu))
                     CreateTask(Task_QuestLogPlayback_OpenStartMenu, 8);
             }
@@ -377,7 +377,7 @@ void FieldInput_HandleCancelSignpost(struct FieldInput * input)
 
 static void Task_QuestLogPlayback_OpenStartMenu(u8 taskId)
 {
-    if (!ScriptContext2_IsEnabled())
+    if (!ArePlayerFieldControlsLocked())
     {
         PlaySE(SE_WIN_OPEN);
         ShowStartMenu();
@@ -397,7 +397,7 @@ static void GetInFrontOfPlayerPosition(struct MapPosition *position)
 
     GetXYCoordsOneStepInFrontOfPlayer(&position->x, &position->y);
     PlayerGetDestCoords(&x, &y);
-    if (MapGridGetZCoordAt(x, y) != 0)
+    if (MapGridGetElevationAt(x, y) != 0)
         position->height = PlayerGetZCoord();
     else
         position->height = 0;
@@ -422,7 +422,7 @@ static bool8 TryStartInteractionScript(struct MapPosition *position, u16 metatil
         && script != EventScript_PC)
         PlaySE(SE_SELECT);
 
-    ScriptContext1_SetupScript(script);
+    ScriptContext_SetupScript(script);
     return TRUE;
 }
 
@@ -679,7 +679,7 @@ static bool8 TryStartCoordEventScript(struct MapPosition *position)
 
     if (script == NULL)
         return FALSE;
-    ScriptContext1_SetupScript(script);
+    ScriptContext_SetupScript(script);
     return TRUE;
 }
 
@@ -702,18 +702,18 @@ static bool8 TryStartStepCountScript(u16 metatileBehavior)
     {
         if (UpdateVsSeekerStepCounter() == TRUE)
         {
-            ScriptContext1_SetupScript(EventScript_VsSeekerChargingDone);
+            ScriptContext_SetupScript(EventScript_VsSeekerChargingDone);
             return TRUE;
         }
         else if (UpdatePoisonStepCounter() == TRUE)
         {
-            ScriptContext1_SetupScript(EventScript_FieldPoison);
+            ScriptContext_SetupScript(EventScript_FieldPoison);
             return TRUE;
         }
         else if (ShouldEggHatch())
         {
             IncrementGameStat(GAME_STAT_HATCHED_EGGS);
-            ScriptContext1_SetupScript(EventScript_EggHatch);
+            ScriptContext_SetupScript(EventScript_EggHatch);
             return TRUE;
         }
     }
@@ -855,7 +855,7 @@ static u8 GetFacingSignpostType(u16 metatileBehavior, u8 playerDirection)
 static void SetUpWalkIntoSignScript(const u8 *script, u8 playerDirection)
 {
     gSpecialVar_Facing = playerDirection;
-    ScriptContext1_SetupScript(script);
+    ScriptContext_SetupScript(script);
     SetWalkingIntoSignVars();
     MsgSetSignPost();
 }
@@ -937,7 +937,7 @@ static bool8 TryStartWarpEventScript(struct MapPosition *position, u16 metatileB
         if (MetatileBehavior_IsFallWarp(metatileBehavior) == TRUE)
         {
             ResetInitialPlayerAvatarState();
-            ScriptContext1_SetupScript(EventScript_1C1361);
+            ScriptContext_SetupScript(EventScript_1C1361);
             return TRUE;
         }
         DoWarp();
@@ -1081,7 +1081,7 @@ static const u8 *TryRunCoordEventScript(struct CoordEvent *coordEvent)
         }
         if (coordEvent->trigger == 0)
         {
-            ScriptContext2_RunNewScript(coordEvent->script);
+            RunScriptImmediately(coordEvent->script);
             return NULL;
         }
         if (VarGet(coordEvent->trigger) == (u8)coordEvent->index)
@@ -1134,8 +1134,8 @@ void HandleBoulderActivateVictoryRoadSwitch(u16 x, u16 y)
             if (events[i].x + 7 == x && events[i].y + 7 == y)
             {
                 QuestLog_CutRecording();
-                ScriptContext1_SetupScript(events[i].script);
-                ScriptContext2_Enable();
+                ScriptContext_SetupScript(events[i].script);
+                LockPlayerFieldControls();
             }
         }
     }

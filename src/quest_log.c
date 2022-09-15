@@ -256,7 +256,7 @@ static void QLogCB_Playback(void)
         else
         {
             sQuestLogCurrentScene.sceneEndMode = 2;
-            ScriptContext2_Enable();
+            LockPlayerFieldControls();
             QuestLog_BeginFadeAtEndOfScene(0);
         }
     }
@@ -790,7 +790,7 @@ static void QuestLog_AdvancePlayhead(void)
 {
     if (!gPaletteFade.active)
     {
-        ScriptContext2_Enable();
+        LockPlayerFieldControls();
         if (++sCurrentSceneNum < QUEST_LOG_SCENE_COUNT && gSaveBlock1Ptr->questLog[sCurrentSceneNum].startType != 0)
         {
             sNumScenes--;
@@ -1050,7 +1050,7 @@ static void QuestLog_WaitFadeAndCancelPlayback(void)
 {
     if (!gPaletteFade.active)
     {
-        ScriptContext2_Enable();
+        LockPlayerFieldControls();
         for (sCurrentSceneNum = sCurrentSceneNum; sCurrentSceneNum < QUEST_LOG_SCENE_COUNT; sCurrentSceneNum++)
         {
             if (gSaveBlock1Ptr->questLog[sCurrentSceneNum].startType == 0)
@@ -1086,12 +1086,12 @@ static void Task_FinalScene_WaitFade(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    if (ScriptContext2_IsEnabled() != TRUE)
+    if (ArePlayerFieldControlsLocked() != TRUE)
     {
         FreezeObjectEvents();
         HandleEnforcedLookDirectionOnPlayerStopMoving();
         StopPlayerAvatar();
-        ScriptContext2_Enable();
+        LockPlayerFieldControls();
         task->func = Task_QuestLogScene_SavedGame;
     }
 }
@@ -1112,7 +1112,7 @@ static void Task_QuestLogScene_SavedGame(u8 taskId)
         task->data[1] = 0;
         task->func = Task_WaitAtEndOfQuestLog;
         FreezeObjectEvents();
-        ScriptContext2_Enable();
+        LockPlayerFieldControls();
     }
 }
 
@@ -1178,7 +1178,7 @@ static void Task_EndQuestLog(u8 taskId)
         Free(sPalettesBackup);
         sQuestLogCurrentScene = (struct UnkStruct_203AE94){};
         ClearPlayerHeldMovementAndUnfreezeObjectEvents();
-        ScriptContext2_Disable();
+        UnlockPlayerFieldControls();
         gTextFlags.autoScroll = FALSE;
         gGlobalFieldTintMode = QL_TINT_NONE;
         DisableWildEncounters(FALSE);
@@ -1415,7 +1415,7 @@ void sub_81127F8(struct FieldInput * a0)
         sCurQuestLogEntry[sQuestLogCursor].mapGroup = r2 >> 16;
         sCurQuestLogEntry[sQuestLogCursor].animId = r2 >> 24; // always 0
         sQuestLogCursor++;
-        if (ScriptContext2_IsEnabled())
+        if (ArePlayerFieldControlsLocked())
             sNextStepDelay = TRUE;
         else
             sNextStepDelay = FALSE;
@@ -1588,7 +1588,7 @@ void sub_8112B3C(void)
         }
         break;
     case 2:
-        if (ScriptContext2_IsEnabled() != TRUE)
+        if (ArePlayerFieldControlsLocked() != TRUE)
         {
             sNextStepDelay++;
             if (sQuestLogCursor >= sNumEventsInLogEntry)
@@ -1625,7 +1625,7 @@ u8 sub_8112CAC(void)
 
 static bool8 RecordHeadAtEndOfEntryOrScriptContext2Enabled(void)
 {
-    if (sQuestLogCursor >= sNumEventsInLogEntry || ScriptContext2_IsEnabled() == TRUE)
+    if (sQuestLogCursor >= sNumEventsInLogEntry || ArePlayerFieldControlsLocked() == TRUE)
         return TRUE;
     return FALSE;
 }

@@ -198,7 +198,7 @@ static void Task_ItemUse_CloseMessageBoxAndReturnToField(u8 taskId)
     ClearDialogWindowAndFrame(0, 1);
     DestroyTask(taskId);
     ClearPlayerHeldMovementAndUnfreezeObjectEvents();
-    ScriptContext2_Disable();
+    UnlockPlayerFieldControls();
 }
 
 u8 CheckIfItemIsTMHMOrEvolutionStone(u16 itemId)
@@ -219,7 +219,7 @@ static void sub_80A1184(void)
 static bool8 sub_80A1194(void)
 {
     FreezeObjectEvents();
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
     FadeInFromBlack();
     CreateTask(sub_80A11C0, 10);
     gExitStairsMovementDisabled = FALSE;
@@ -231,7 +231,7 @@ static void sub_80A11C0(u8 taskId)
     if (IsWeatherNotFadingIn() == TRUE)
     {
         UnfreezeObjectEvents();
-        ScriptContext2_Disable();
+        UnlockPlayerFieldControls();
         DestroyTask(taskId);
     }
 }
@@ -279,7 +279,7 @@ static void ItemUseOnFieldCB_Bicycle(u8 taskId)
         PlaySE(SE_BIKE_BELL);
     GetOnOffBike(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE);
     ClearPlayerHeldMovementAndUnfreezeObjectEvents();
-    ScriptContext2_Disable();
+    UnlockPlayerFieldControls();
     DestroyTask(taskId);
 }
 
@@ -313,7 +313,7 @@ static bool8 ItemUseCheckFunc_Rod(void)
     }
     else
     {
-        if (MetatileBehavior_IsSurfable(behavior) && !MapGridIsImpassableAt(x, y))
+        if (MetatileBehavior_IsSurfable(behavior) && MapGridGetCollisionAt(x, y) == 0)
             return TRUE;
         if (MetatileBehavior_IsBridge(behavior) == TRUE)
             return TRUE;

@@ -91,7 +91,7 @@ void ShowDiploma(void)
 {
     QuestLog_CutRecording();
     SetMainCallback2(CB2_ShowDiploma);
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
 }
 
 void ForcePlayerOntoBike(void)
@@ -280,7 +280,7 @@ static void PcTurnOnUpdateMetatileId(bool16 flickerOff)
         else if (gSpecialVar_0x8004 == 2)
             metatileId = METATILE_GenericBuilding1_PlayersPCOn;
     }
-    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + 7, gSaveBlock1Ptr->pos.y + deltaY + 7, metatileId | METATILE_COLLISION_MASK);
+    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + MAP_OFFSET, gSaveBlock1Ptr->pos.y + deltaY + MAP_OFFSET, metatileId | MAPGRID_COLLISION_MASK);
 }
 
 void AnimatePcTurnOff()
@@ -311,13 +311,13 @@ void AnimatePcTurnOff()
         metatileId = METATILE_GenericBuilding1_PlayersPCOff;
     else if (gSpecialVar_0x8004 == 2)
         metatileId = METATILE_GenericBuilding1_PlayersPCOff;
-    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + 7, gSaveBlock1Ptr->pos.y + deltaY + 7, metatileId | METATILE_COLLISION_MASK);
+    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + MAP_OFFSET, gSaveBlock1Ptr->pos.y + deltaY + MAP_OFFSET, metatileId | MAPGRID_COLLISION_MASK);
     DrawWholeMapView();
 }
 
 void SpawnCameraObject(void)
 {
-    u8 objectEventId = SpawnSpecialObjectEventParameterized(OBJ_EVENT_GFX_YOUNGSTER, 8, OBJ_EVENT_ID_CAMERA, gSaveBlock1Ptr->pos.x + 7, gSaveBlock1Ptr->pos.y + 7, 3);
+    u8 objectEventId = SpawnSpecialObjectEventParameterized(OBJ_EVENT_GFX_YOUNGSTER, 8, OBJ_EVENT_ID_CAMERA, gSaveBlock1Ptr->pos.x + MAP_OFFSET, gSaveBlock1Ptr->pos.y + MAP_OFFSET, 3);
     gObjectEvents[objectEventId].invisible = TRUE;
     CameraObjectSetFollowedObjectId(gObjectEvents[objectEventId].spriteId);
 }
@@ -497,7 +497,7 @@ static void Task_ShakeScreen(u8 taskId)
 static void Task_EndScreenShake(u8 taskId)
 {
     DestroyTask(taskId);
-    EnableBothScriptContexts();
+    ScriptContext_Enable();
 }
 
 #undef tYtrans
@@ -1083,7 +1083,7 @@ static void Task_ElevatorShake(u8 taskId)
         {
             PlaySE(SE_DING_DONG);
             DestroyTask(taskId);
-            EnableBothScriptContexts();
+            ScriptContext_Enable();
             InstallCameraPanAheadCallback();
         }
     }
@@ -1139,9 +1139,7 @@ static void Task_AnimateElevatorWindowView(u8 taskId)
             for (i = 0; i < 3; i++)
             {
                 for (j = 0; j < 3; j++)
-                {
-                    MapGridSetMetatileIdAt(j + 8, i + 7, sElevatorWindowMetatilesGoingUp[i][data[0] % 3] | METATILE_COLLISION_MASK);
-                }
+                    MapGridSetMetatileIdAt(j + 1 + MAP_OFFSET, i + MAP_OFFSET, sElevatorWindowMetatilesGoingUp[i][data[0] % 3] | MAPGRID_COLLISION_MASK);
             }
         }
         else
@@ -1149,9 +1147,7 @@ static void Task_AnimateElevatorWindowView(u8 taskId)
             for (i = 0; i < 3; i++)
             {
                 for (j = 0; j < 3; j++)
-                {
-                    MapGridSetMetatileIdAt(j + 8, i + 7, sElevatorWindowMetatilesGoingDown[i][data[0] % 3] | METATILE_COLLISION_MASK);
-                }
+                    MapGridSetMetatileIdAt(j + 1 + MAP_OFFSET, i + MAP_OFFSET, sElevatorWindowMetatilesGoingDown[i][data[0] % 3] | MAPGRID_COLLISION_MASK);
             }
         }
         DrawWholeMapView();
@@ -1336,7 +1332,7 @@ static void Task_CreateScriptListMenu(u8 taskId)
     s32 mwidth;
     struct Task *task = &gTasks[taskId];
     u8 windowId;
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
     if (gSpecialVar_0x8004 == LISTMENU_SILPHCO_FLOORS)
         sListMenuLastScrollPosition = sElevatorScroll;
     else
@@ -1432,7 +1428,7 @@ static void Task_ListMenuHandleInput(u8 taskId)
         {
             Task_ListMenuRemoveScrollIndicatorArrowPair(taskId);
             task->func = Task_SuspendListMenu;
-            EnableBothScriptContexts();
+            ScriptContext_Enable();
         }
         break;
     }
@@ -1450,7 +1446,7 @@ static void Task_DestroyListMenu(u8 taskId)
     CopyWindowToVram(task->data[13], COPYWIN_GFX);
     RemoveWindow(task->data[13]);
     DestroyTask(taskId);
-    EnableBothScriptContexts();
+    ScriptContext_Enable();
 }
 
 static void Task_SuspendListMenu(u8 taskId)
@@ -1470,14 +1466,14 @@ void ReturnToListMenu(void)
 {
     u8 taskId = FindTaskIdByFunc(Task_SuspendListMenu);
     if (taskId == 0xFF)
-        EnableBothScriptContexts();
+        ScriptContext_Enable();
     else
         gTasks[taskId].data[6]++;
 }
 
 static void Task_RedrawScrollArrowsAndWaitInput(u8 taskId)
 {
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
     Task_CreateMenuRemoveScrollIndicatorArrowPair(taskId);
     gTasks[taskId].func = Task_ListMenuHandleInput;
 }
@@ -1670,7 +1666,7 @@ static void ChangePokemonNickname_CB(void)
 void BufferMonNickname(void)
 {
     GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar1);
-    StringGetEnd10(gStringVar1);
+    StringGet_Nickname(gStringVar1);
 }
 
 void IsMonOTIDNotPlayers(void)
@@ -2152,7 +2148,7 @@ void DoPokemonLeagueLightingEffect(void)
             LoadPalette(sEliteFourLightingPalettes[0], 0x70, 0x20);
         }
         data[1] = 0;
-        Fieldmap_ApplyGlobalTintToPaletteSlot(7, 1);
+        ApplyGlobalTintToPaletteSlot(7, 1);
     }
 }
 
@@ -2179,7 +2175,7 @@ static void Task_RunPokemonLeagueLightingEffect(u8 taskId)
             data[0] = sEliteFourLightingTimers[data[1]];
             LoadPalette(sEliteFourLightingPalettes[data[1]], 0x70, 0x20);
         }
-        Fieldmap_ApplyGlobalTintToPaletteSlot(7, 1);
+        ApplyGlobalTintToPaletteSlot(7, 1);
     }
 }
 
@@ -2196,7 +2192,7 @@ static void Task_CancelPokemonLeagueLightingEffect(u8 taskId)
         {
             LoadPalette(sEliteFourLightingPalettes[11], 0x70, 0x20);
         }
-        Fieldmap_ApplyGlobalTintToPaletteSlot(7, 1);
+        ApplyGlobalTintToPaletteSlot(7, 1);
         if (gPaletteFade.active)
         {
             BlendPalettes(0x00000080, 16, RGB_BLACK);
@@ -2316,7 +2312,7 @@ void CutMoveOpenDottedHoleDoor(void)
     DrawWholeMapView();
     PlaySE(SE_BANG);
     FlagSet(FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE);
-    ScriptContext2_Disable();
+    UnlockPlayerFieldControls();
 }
 
 static const u16 sDeoxysObjectPals[][16] = {
@@ -2372,7 +2368,7 @@ static void Task_DoDeoxysTriangleInteraction(u8 taskId)
     if (FlagGet(FLAG_SYS_DEOXYS_AWAKENED) == TRUE)
     {
         gSpecialVar_Result = 3;
-        EnableBothScriptContexts();
+        ScriptContext_Enable();
         DestroyTask(taskId);
     }
     else
@@ -2391,7 +2387,7 @@ static void Task_DoDeoxysTriangleInteraction(u8 taskId)
         {
             FlagSet(FLAG_SYS_DEOXYS_AWAKENED);
             gSpecialVar_Result = 2;
-            EnableBothScriptContexts();
+            ScriptContext_Enable();
             DestroyTask(taskId);
         }
         else
@@ -2433,7 +2429,7 @@ static void Task_WaitDeoxysFieldEffect(u8 taskId)
 {
     if (!FieldEffectActiveListContains(FLDEFF_MOVE_DEOXYS_ROCK))
     {
-        EnableBothScriptContexts();
+        ScriptContext_Enable();
         DestroyTask(taskId);
     }
 }

@@ -767,7 +767,7 @@ static void CB2_ReturnFromLinkTrade2(void)
                 gMain.state++;
             }
             if (gWirelessCommType == 0)
-                CreateTask(Task_WaitForReceivedRemoteLinkPlayers5SecondTimeout, 1);
+                CreateTask(Task_WaitForLinkPlayerConnection, 1);
         }
         else
         {
@@ -1346,9 +1346,7 @@ static bool8 shedinja_maker_maybe(void)
         break;
     case 3:
         if (id == 0)
-        {
-            Link_PrepareCmd0xCCCC_Rfu0xA100(1);
-        }
+            SendBlockRequest(BLOCK_REQ_SIZE_200);
         sTradeMenuResourcesPtr->state++;
         break;
     case 4:
@@ -1365,9 +1363,7 @@ static bool8 shedinja_maker_maybe(void)
         break;
     case 7:
         if (id == 0)
-        {
-            Link_PrepareCmd0xCCCC_Rfu0xA100(1);
-        }
+            SendBlockRequest(BLOCK_REQ_SIZE_200);
         sTradeMenuResourcesPtr->state++;
         break;
     case 8:
@@ -1384,9 +1380,7 @@ static bool8 shedinja_maker_maybe(void)
         break;
     case 11:
         if (id == 0)
-        {
-            Link_PrepareCmd0xCCCC_Rfu0xA100(1);
-        }
+            SendBlockRequest(BLOCK_REQ_SIZE_200);
         sTradeMenuResourcesPtr->state++;
         break;
     case 12:
@@ -1403,9 +1397,7 @@ static bool8 shedinja_maker_maybe(void)
         break;
     case 15:
         if (id == 0)
-        {
-            Link_PrepareCmd0xCCCC_Rfu0xA100(3);
-        }
+            SendBlockRequest(BLOCK_REQ_SIZE_220);
         sTradeMenuResourcesPtr->state++;
         break;
     case 16:
@@ -1422,9 +1414,7 @@ static bool8 shedinja_maker_maybe(void)
         break;
     case 19:
         if (id == 0)
-        {
-            Link_PrepareCmd0xCCCC_Rfu0xA100(4);
-        }
+            SendBlockRequest(BLOCK_REQ_SIZE_40);
         sTradeMenuResourcesPtr->state++;
         break;
     case 20:
@@ -1692,7 +1682,7 @@ static void CommunicatePlayerSelectedMonForTrade(void)
     {
         sTradeMenuResourcesPtr->linkData[0] = 0xAABB;
         sTradeMenuResourcesPtr->linkData[1] = sTradeMenuResourcesPtr->tradeMenuCursorPosition;
-        SendBlock(bitmask_all_link_players_but_self(), sTradeMenuResourcesPtr->linkData, 20);
+        SendBlock(BitmaskAllOtherLinkPlayers(), sTradeMenuResourcesPtr->linkData, 20);
     }
     else
     {
@@ -1751,7 +1741,7 @@ static void TradeMenuCB_0(void)
     {
         for (i = 0; i < 10; i++)
             sTradeMenuResourcesPtr->linkData[i] = i;
-        SendBlock(bitmask_all_link_players_but_self(), sTradeMenuResourcesPtr->linkData, 20);
+        SendBlock(BitmaskAllOtherLinkPlayers(), sTradeMenuResourcesPtr->linkData, 20);
     }
 }
 
@@ -1864,7 +1854,7 @@ static void CommunicateWhetherMonCanBeTraded(void)
         sTradeMenuResourcesPtr->linkData[0] = 0xBBBB;
         if (IsLinkTaskFinished())
         {
-            SendBlock(bitmask_all_link_players_but_self(), sTradeMenuResourcesPtr->linkData, 20);
+            SendBlock(BitmaskAllOtherLinkPlayers(), sTradeMenuResourcesPtr->linkData, 20);
         }
         break;
     case 2:
@@ -1890,7 +1880,7 @@ static void TradeMenuCB_3(void)
         if (IsLinkTaskFinished())
         {
             sTradeMenuResourcesPtr->linkData[0] = 0xBBCC;
-            SendBlock(bitmask_all_link_players_but_self(), sTradeMenuResourcesPtr->linkData, 20);
+            SendBlock(BitmaskAllOtherLinkPlayers(), sTradeMenuResourcesPtr->linkData, 20);
         }
         sTradeMenuResourcesPtr->tradeMenuCBnum = 100;
         PutWindowTilemap(17);
@@ -2140,7 +2130,7 @@ static void HandleRedrawTradeMenuOnSide(u8 side)
         gSprites[sTradeMenuResourcesPtr->partyIcons[0][partyIdx + (whichParty * PARTY_SIZE)]].data[4] = (sTradeMonSpriteCoords[whichParty * PARTY_SIZE][1] * 8) - 12;
         StoreSpriteCallbackInData6(&gSprites[sTradeMenuResourcesPtr->partyIcons[0][partyIdx + (whichParty * PARTY_SIZE)]], SpriteCB_MonIcon);
         sTradeMenuResourcesPtr->menuRedrawState[side]++;
-        StartSpriteLinearTranslationFromCurrentPos(&gSprites[sTradeMenuResourcesPtr->partyIcons[0][partyIdx + (whichParty * PARTY_SIZE)]]);
+        TradeMenuBouncePartySprites(&gSprites[sTradeMenuResourcesPtr->partyIcons[0][partyIdx + (whichParty * PARTY_SIZE)]]);
         CopyToBgTilemapBufferRect_ChangePalette(1, sTradePartyBoxTilemap, side * 15, 0, 15, 17, 0);
         CopyBgTilemapBufferToVram(1);
         CopyBgTilemapBufferToVram(0);
@@ -2410,7 +2400,7 @@ static void RunScheduledLinkTasks(void)
                 switch (sTradeMenuResourcesPtr->cron[i].kind)
                 {
                 case 0:
-                    SendBlock(bitmask_all_link_players_but_self(), sTradeMenuResourcesPtr->linkData, 20);
+                    SendBlock(BitmaskAllOtherLinkPlayers(), sTradeMenuResourcesPtr->linkData, 20);
                     break;
                 case 1:
                     PrintTradeErrorOrStatusMessage(TRADESTATMSG_COMMSTANDBY);

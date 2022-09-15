@@ -300,7 +300,7 @@ static void Task_DisplayHPRestoredMessage(u8 taskId);
 static void SetSelectedMoveForPPItem(u8 taskId);
 static void ReturnToUseOnWhichMon(u8 taskId);
 static void TryUsePPItem(u8 taskId);
-static void ItemUseCB_LearnedMove(u8 taskId, UNUSED TaskFunc func);
+static void ItemUseCB_LearnedMove(u8 taskId, TaskFunc func);
 static void Task_LearnedMove(u8 taskId);
 static void Task_ReplaceMoveYesNo(u8 taskId);
 static void Task_DoLearnedMoveFanfareAfterText(u8 taskId);
@@ -317,7 +317,7 @@ static void Task_PartyMenuReplaceMove(u8 taskId);
 static void Task_StopLearningMoveYesNo(u8 taskId);
 static void Task_HandleStopLearningMoveYesNoInput(u8 taskId);
 static void Task_TryLearningNextMoveAfterText(u8 taskId);
-static void ItemUseCB_RareCandyStep(u8 taskId, UNUSED TaskFunc func);
+static void ItemUseCB_RareCandyStep(u8 taskId, TaskFunc func);
 static void Task_DisplayLevelUpStatsPg1(u8 taskId);
 static void Task_DisplayLevelUpStatsPg2(u8 taskId);
 static void UpdateMonDisplayInfoAfterRareCandy(u8 slot, struct Pokemon *mon);
@@ -376,8 +376,8 @@ static void SetUsedFieldMoveQuestLogEvent(struct Pokemon *mon, u8 fieldMove);
 static void sub_8124DE0(void);
 static void sub_8124E48(void);
 static void sub_812580C(u8 taskId);
-static void sub_8125898(u8 taskId, UNUSED TaskFunc func);
-static void sub_8125F4C(u8 taskId, UNUSED TaskFunc func);
+static void sub_8125898(u8 taskId, TaskFunc func);
+static void sub_8125F4C(u8 taskId, TaskFunc func);
 static void sub_8125F5C(u8 taskId);
 static void sub_8126BD4(void);
 static bool8 MonCanEvolve(void);
@@ -894,7 +894,7 @@ static void DisplayPartyPokemonDataForMultiBattle(u8 slot)
     {
         menuBox->infoRects->blitFunc(menuBox->windowId, 0, 0, 0, 0, FALSE);
         StringCopy(gStringVar1, gMultiPartnerParty[actualSlot].nickname);
-        StringGetEnd10(gStringVar1);
+        StringGet_Nickname(gStringVar1);
         if (StringLength(gStringVar1) <= 5)
             ConvertInternationalString(gStringVar1, 1);
         DisplayPartyPokemonBarDetail(menuBox->windowId, gStringVar1, 0, menuBox->infoRects->dimensions);
@@ -1529,7 +1529,7 @@ static s8 GetNewSlotDoubleLayout(s8 slotId, s8 movementDir)
 u8 *GetMonNickname(struct Pokemon *mon, u8 *dest)
 {
     GetMonData(mon, MON_DATA_NICKNAME, dest);
-    return StringGetEnd10(dest);
+    return StringGet_Nickname(dest);
 }
 
 #define tKeepOpen  data[0]
@@ -4626,7 +4626,7 @@ static void Task_HandleWhichMoveInput(u8 taskId)
     }
 }
 
-void ItemUseCB_PPRecovery(u8 taskId, UNUSED TaskFunc func)
+void ItemUseCB_PPRecovery(u8 taskId, TaskFunc func)
 {
     const u8 *effect;
     u16 item = gSpecialVar_ItemId;
@@ -4692,7 +4692,7 @@ static void sub_812580C(u8 taskId)
     }
 }
 
-static void sub_8125898(u8 taskId, UNUSED TaskFunc func)
+static void sub_8125898(u8 taskId, TaskFunc func)
 {
     u16 move;
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
@@ -4742,7 +4742,7 @@ static void TryUsePPItem(u8 taskId)
     }
 }
 
-void ItemUseCB_PPUp(u8 taskId, UNUSED TaskFunc func)
+void ItemUseCB_PPUp(u8 taskId, TaskFunc func)
 {
     PlaySE(SE_SELECT);
     DisplayPartyMenuStdMessage(PARTY_MSG_BOOST_PP_WHICH_MOVE);
@@ -4792,7 +4792,7 @@ static void DisplayLearnMoveMessageAndClose(u8 taskId, const u8 *str)
     gTasks[taskId].func = Task_ClosePartyMenuAfterText;
 }
 
-void ItemUseCB_TMHM(u8 taskId, UNUSED TaskFunc func)
+void ItemUseCB_TMHM(u8 taskId, TaskFunc func)
 {
     struct Pokemon *mon;
     s16 *move;
@@ -4828,7 +4828,7 @@ void ItemUseCB_TMHM(u8 taskId, UNUSED TaskFunc func)
     }
 }
 
-static void ItemUseCB_LearnedMove(u8 taskId, UNUSED TaskFunc func)
+static void ItemUseCB_LearnedMove(u8 taskId, TaskFunc func)
 {
     Task_LearnedMove(taskId);
 }
@@ -4949,7 +4949,7 @@ static void Task_ReturnToPartyMenuWhileLearningMove(u8 taskId)
     }
 }
 
-static void sub_8125F4C(u8 taskId, UNUSED TaskFunc func)
+static void sub_8125F4C(u8 taskId, TaskFunc func)
 {
     sub_8125F5C(taskId);
 }
@@ -5077,7 +5077,7 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc func)
     }
 }
 
-static void ItemUseCB_RareCandyStep(u8 taskId, UNUSED TaskFunc func)
+static void ItemUseCB_RareCandyStep(u8 taskId, TaskFunc func)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
     struct PartyMenuInternal *ptr = sPartyMenuInternal;
@@ -5244,7 +5244,7 @@ static void DisplayMonLearnedMove(u8 taskId, u16 move)
 #define tHadEffect    data[1]
 #define tLastSlotUsed data[2]
 
-void ItemUseCB_SacredAsh(u8 taskId, UNUSED TaskFunc func)
+void ItemUseCB_SacredAsh(u8 taskId, TaskFunc func)
 {
     sPartyMenuInternal->tUsedOnSlot = FALSE;
     sPartyMenuInternal->tHadEffect = FALSE;
@@ -6370,8 +6370,8 @@ static void Task_PartyMenuWaitForFade(u8 taskId)
     if (IsWeatherNotFadingIn())
     {
         DestroyTask(taskId);
-        ScriptContext2_Disable();
-        EnableBothScriptContexts();
+        UnlockPlayerFieldControls();
+        ScriptContext_Enable();
     }
 }
 
