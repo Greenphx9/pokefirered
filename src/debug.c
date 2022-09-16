@@ -684,7 +684,7 @@ static void Debug_DestroyMenu(u8 taskId)
 static void DebugAction_Cancel(u8 taskId)
 {
     Debug_DestroyMenu(taskId);
-    EnableBothScriptContexts();
+    ScriptContext_Enable();
 }
 static void DebugAction_DestroyExtraWindow(u8 taskId)
 {
@@ -695,7 +695,7 @@ static void DebugAction_DestroyExtraWindow(u8 taskId)
     RemoveWindow(gTasks[taskId].data[2]);
 
     DestroyTask(taskId);
-    EnableBothScriptContexts();
+    ScriptContext_Enable();
 }
 
 
@@ -716,7 +716,7 @@ static void DebugTask_HandleMenuInput_Main(u8 taskId)
     {
         PlaySE(SE_SELECT);
         Debug_DestroyMenu(taskId);
-        EnableBothScriptContexts();
+        ScriptContext_Enable();
     }
 }
 static void DebugTask_HandleMenuInput_Utilities(u8 taskId)
@@ -868,7 +868,7 @@ static void DebugAction_Util_HealParty(u8 taskId)
 {
     PlaySE(SE_USE_ITEM);
     HealPlayerParty();
-    EnableBothScriptContexts();
+    ScriptContext_Enable();
     Debug_DestroyMenu(taskId);
 }
 static void DebugAction_Util_Fly(u8 taskId)
@@ -1122,8 +1122,8 @@ static void DebugAction_Util_CheckSaveBlock(u8 taskId)
     StringExpandPlaceholders(gStringVar4, gDebugText_SaveBlockSize);
 
     Debug_DestroyMenu(taskId);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(Debug_ShowFieldMessageStringVar4);
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(Debug_ShowFieldMessageStringVar4);
 }
 static void DebugAction_Util_CheckWallClock(u8 taskId)
 {
@@ -1139,9 +1139,9 @@ static void DebugAction_Util_CheckWeekDay(u8 taskId)
 {
     //StringCopy(gStringVar4, GetDayOfWeekString(gLocalTime.dayOfWeek));
     Debug_DestroyMenu(taskId);
-    //ScriptContext2_Enable();
-    //ScriptContext1_SetupScript(Debug_ShowFieldMessageStringVar4);
-    EnableBothScriptContexts();
+    //LockPlayerFieldControls();
+    //ScriptContext_SetupScript(Debug_ShowFieldMessageStringVar4);
+    ScriptContext_Enable();
 }
 static void DebugAction_Util_WatchCredits(u8 taskId)
 {
@@ -1155,7 +1155,7 @@ static void DebugAction_Util_Trainer_Gender(u8 taskId)
         gSaveBlock2Ptr->playerGender = 1;
     else
         gSaveBlock2Ptr->playerGender = 0;
-    EnableBothScriptContexts();
+    ScriptContext_Enable();
     Debug_DestroyMenu(taskId);
 }
 static void DebugAction_Util_Trainer_Id(u8 taskId)
@@ -1163,7 +1163,7 @@ static void DebugAction_Util_Trainer_Id(u8 taskId)
     u32 trainerId = ((Random() << 16) | Random());
     SetTrainerId(trainerId, gSaveBlock2Ptr->playerTrainerId);
     Debug_DestroyMenu(taskId);
-    EnableBothScriptContexts();
+    ScriptContext_Enable();
 }
 
 // *******************************
@@ -1171,50 +1171,50 @@ static void DebugAction_Util_Trainer_Id(u8 taskId)
 static void DebugAction_Util_Script_1(u8 taskId)
 {
     Debug_DestroyMenu(taskId);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(Debug_Script_1);
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(Debug_Script_1);
 }
 static void DebugAction_Util_Script_2(u8 taskId)
 {
     Debug_DestroyMenu(taskId);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(Debug_Script_2);
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(Debug_Script_2);
 }
 static void DebugAction_Util_Script_3(u8 taskId)
 {
     Debug_DestroyMenu(taskId);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(Debug_Script_3);
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(Debug_Script_3);
 }
 static void DebugAction_Util_Script_4(u8 taskId)
 {
     Debug_DestroyMenu(taskId);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(Debug_Script_4);
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(Debug_Script_4);
 }
 static void DebugAction_Util_Script_5(u8 taskId)
 {
     Debug_DestroyMenu(taskId);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(Debug_Script_5);
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(Debug_Script_5);
 }
 static void DebugAction_Util_Script_6(u8 taskId)
 {
     Debug_DestroyMenu(taskId);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(Debug_Script_6);
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(Debug_Script_6);
 }
 static void DebugAction_Util_Script_7(u8 taskId)
 {
     Debug_DestroyMenu(taskId);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(Debug_Script_7);
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(Debug_Script_7);
 }
 static void DebugAction_Util_Script_8(u8 taskId)
 {
     Debug_DestroyMenu(taskId);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(Debug_Script_8);
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(Debug_Script_8);
 }
 
 // *******************************
@@ -1320,7 +1320,7 @@ static void DebugAction_Flags_SetPokedexFlags(u8 taskId)
         GetSetPokedexFlag(i + 1, FLAG_SET_SEEN);
     }
     Debug_DestroyMenu(taskId);
-    EnableBothScriptContexts();
+    ScriptContext_Enable();
 }
 static void DebugAction_Flags_SwitchDex(u8 taskId)
 {
@@ -1753,7 +1753,7 @@ static void DebugAction_Give_Item_SelectId(u8 taskId)
 //     RemoveWindow(gTasks[taskId].data[2]);
 
 //     DestroyTask(taskId);
-//     EnableBothScriptContexts();
+//     ScriptContext_Enable();
 // }
 
 
@@ -1842,7 +1842,7 @@ static void DebugAction_Give_AllTMs(u8 taskId)
         if(!CheckBagHasItem(i, 1))
             AddBagItem(i, 1);
     Debug_DestroyMenu(taskId);
-    EnableBothScriptContexts();
+    ScriptContext_Enable();
 }
 
 //Pokemon
@@ -2698,8 +2698,8 @@ static void DebugAction_Give_FillPC(u8 taskId) //Credit: Sierraffinity
 static void DebugAction_Give_CHEAT(u8 taskId)
 {
     Debug_DestroyMenu(taskId);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(Debug_CheatStart);
+    LockPlayerFieldControls();
+    ScriptContext_SetupScript(Debug_CheatStart);
 }
 
 

@@ -98,7 +98,7 @@ static void LoadSpecialReflectionPalette(struct Sprite *sprite)
     LoadSpritePalette(&reflectionPalette);
     sprite->oam.paletteNum = IndexOfSpritePaletteTag(reflectionPalette.tag);
 
-    UpdatePaletteGammaType(sprite->oam.paletteNum, GAMMA_NORMAL);
+    UpdatePaletteGammaType(sprite->oam.paletteNum, 1);
     UpdateSpritePaletteWithWeather(sprite->oam.paletteNum);
 }
 

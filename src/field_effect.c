@@ -462,7 +462,7 @@ static void FieldEffectScript_LoadFadedPal(const u8 **script)
     const struct SpritePalette * spritePalette = (const struct SpritePalette * )FieldEffectScript_ReadWord(script);
     u8 idx = IndexOfSpritePaletteTag(spritePalette->tag);
     LoadSpritePalette(spritePalette);
-    UpdatePaletteGammaType(IndexOfSpritePaletteTag(spritePalette->tag), GAMMA_NORMAL);
+    UpdatePaletteGammaType(IndexOfSpritePaletteTag(spritePalette->tag), 1);
     if (idx == 0xFF)
         ApplyGlobalFieldPaletteTint(IndexOfSpritePaletteTag(spritePalette->tag));
     UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(spritePalette->tag));

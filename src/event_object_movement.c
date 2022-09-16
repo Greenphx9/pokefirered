@@ -2150,7 +2150,7 @@ static void LoadObjectEventPalette(u16 paletteTag)
             return;
 
         ApplyGlobalFieldPaletteTint(newPalSlot);
-        UpdatePaletteGammaType(IndexOfSpritePaletteTag(paletteTag), GAMMA_ALT);
+        UpdatePaletteGammaType(IndexOfSpritePaletteTag(paletteTag), 2);
     }
 }
 

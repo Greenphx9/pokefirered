@@ -422,7 +422,6 @@ void EnterPokeStorage(u8 boxOption)
         sMovingItemId = 0;
         gStorage->state = 0;
         gStorage->taskId = CreateTask(Task_InitPokeStorage, 3);
-        SetHelpContext(HELPCONTEXT_BILLS_PC);
         sLastUsedBox = StorageGetCurrentBox();
         SetMainCallback2(CB2_PokeStorage);
     }
@@ -440,7 +439,6 @@ void CB2_ReturnToPokeStorage(void)
         gStorage->isReopening = TRUE;
         gStorage->state = 0;
         gStorage->taskId = CreateTask(Task_InitPokeStorage, 3);
-        SetHelpContext(HELPCONTEXT_BILLS_PC);
         SetMainCallback2(CB2_PokeStorage);
     }
 }
