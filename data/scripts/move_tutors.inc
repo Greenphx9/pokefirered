@@ -293,7 +293,7 @@ EventScript_CounterTutor::
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_CounterDeclined
 	msgbox Text_CounterWhichMon
-	setvar VAR_0x8005, MOVE_RAZOR_SHELL
+	setvar VAR_0x8005, MOVE_COUNTER
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_CounterDeclined
 	setflag FLAG_TUTOR_COUNTER
