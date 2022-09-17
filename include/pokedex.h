@@ -3,7 +3,7 @@
 
 #define KANTO_DEX_COUNT 151
 #define HOENN_DEX_COUNT 202
-#define NATIONAL_DEX_COUNT 898
+#define NATIONAL_DEX_COUNT 899 //final dex entry + 1
 
 enum
 {
