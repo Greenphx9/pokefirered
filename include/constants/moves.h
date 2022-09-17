@@ -406,7 +406,7 @@
 #define MOVE_SWITCHEROO                  402
 #define MOVE_DRILL_RUN                   403
 #define MOVE_BULLDOZE                    404
-#define MOVE_ELECTROWEB                 405
+#define MOVE_ELECTROWEB                  405
 #define MOVE_FLAME_CHARGE                406
 #define MOVE_FROST_BREATH                407
 #define MOVE_HEART_STAMP                 408
@@ -465,7 +465,7 @@
 #define MOVE_FAIRY_WIND                  461
 #define MOVE_BABY_DOLL_EYES              462
 #define MOVE_PLAY_ROUGH                  463
-#define MOVE_MOONBLAST                  464
+#define MOVE_MOONBLAST                   464
 #define MOVE_DRAINING_KISS               465
 #define MOVE_DAZZLING_GLEAM              466
 #define MOVE_DISARMING_VOICE             467
@@ -625,7 +625,7 @@
 #define MOVE_THROAT_CHOP                 621
 #define MOVE_TOXIC_THREAD                622
 #define MOVE_TROP_KICK                   623
-#define MOVE_ZING_ZAP                     624
+#define MOVE_ZING_ZAP                    624
 #define MOVE_ELECTRIC_TERRAIN            625
 #define MOVE_GRASSY_TERRAIN              626
 #define MOVE_MISTY_TERRAIN               627
@@ -712,7 +712,7 @@
 #define MOVE_OBSTRUCT                    708
 #define MOVE_FALSE_SURRENDER             709
 #define MOVE_METEOR_ASSAULT              710
-#define MOVE_ETERNABEAM                 711
+#define MOVE_ETERNABEAM                  711
 #define MOVE_STEEL_BEAM                  712
 #define MOVE_EXPANDING_FORCE             713
 #define MOVE_STEEL_ROLLER                714
