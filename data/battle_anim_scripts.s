@@ -425,7 +425,7 @@ gBattleAnims_Moves::
 	.4byte Move_SWITCHEROO
 	.4byte Move_DRILL_RUN
 	.4byte Move_BULLDOZE
-	.4byte Move_ELECTRO_WEB
+	.4byte MOVE_ELECTROWEB
 	.4byte Move_FLAME_CHARGE
 	.4byte Move_FROST_BREATH
 	.4byte Move_HEART_STAMP
@@ -484,7 +484,7 @@ gBattleAnims_Moves::
 	.4byte Move_FAIRY_WIND
 	.4byte Move_BABY_DOLL_EYES
 	.4byte Move_PLAY_ROUGH
-	.4byte Move_MOON_BLAST
+	.4byte MOVE_MOONBLAST
 	.4byte Move_DRAINING_KISS
 	.4byte Move_DAZZLING_GLEAM
 	.4byte Move_DISARMING_VOICE
@@ -644,10 +644,10 @@ gBattleAnims_Moves::
 	.4byte Move_THROAT_CHOP
 	.4byte Move_TOXIC_THREAD
 	.4byte Move_TROP_KICK
-	.4byte Move_ZINGZAP
+	.4byte MOVE_ZING_ZAP
 	.4byte Move_ELECTRIC_TERRAIN
 	.4byte Move_GRASSY_TERRAIN
-	.4byte Move_MISTYT_ERRAIN
+	.4byte MOVE_MISTY_TERRAIN
 	.4byte Move_PSYCHIC_TERRAIN
 	.4byte Move_GRASS_PLEDGE
 	.4byte Move_FIRE_PLEDGE
@@ -731,7 +731,7 @@ gBattleAnims_Moves::
 	.4byte Move_OBSTRUCT
 	.4byte Move_FALSE_SURRENDER
 	.4byte Move_METEOR_ASSAULT
-	.4byte Move_ETERNA_BEAM
+	.4byte MOVE_ETERNABEAM
 	.4byte Move_STEEL_BEAM
 	.4byte Move_EXPANDING_FORCE
 	.4byte Move_STEEL_ROLLER
@@ -11806,7 +11806,7 @@ Move_DRILL_RUN::
 Move_BULLDOZE::
 	goto Move_SPLASH
 
-Move_ELECTRO_WEB::
+Move_ELECTROWEB::
 	goto Move_SPLASH
 
 Move_FLAME_CHARGE::
@@ -11983,7 +11983,7 @@ Move_BABY_DOLL_EYES::
 Move_PLAY_ROUGH::
 	goto Move_SPLASH
 
-Move_MOON_BLAST::
+Move_MOONBLAST::
 	goto Move_SPLASH
 
 Move_DRAINING_KISS::
@@ -12463,7 +12463,7 @@ Move_TOXIC_THREAD::
 Move_TROP_KICK::
 	goto Move_SPLASH
 
-Move_ZINGZAP::
+Move_ZING_ZAP::
 	goto Move_SPLASH
 
 Move_ELECTRIC_TERRAIN::
@@ -12472,7 +12472,7 @@ Move_ELECTRIC_TERRAIN::
 Move_GRASSY_TERRAIN::
 	goto Move_SPLASH
 
-Move_MISTYT_ERRAIN::
+Move_MISTY_TERRAIN::
 	goto Move_SPLASH
 
 Move_PSYCHIC_TERRAIN::
@@ -12723,8 +12723,8 @@ Move_FALSE_SURRENDER::
 
 Move_METEOR_ASSAULT::
 	goto Move_SPLASH
-
-Move_ETERNA_BEAM::
+	
+Move_ETERNABEAM::
 	goto Move_SPLASH
 
 Move_STEEL_BEAM::

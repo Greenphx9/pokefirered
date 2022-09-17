@@ -1594,16 +1594,17 @@ static const s8 sNatureStatTable[][5] =
     {    0,  0,  0,     0,     0}, // Quirky
 };
 
-#include "data/pokemon/tmhm_learnsets.h"
 #include "data/pokemon/trainer_class_lookups.h"
 #include "data/pokemon/cry_ids.h"
 #include "data/pokemon/experience_tables.h"
 #include "data/pokemon/base_stats.h"
 #include "data/pokemon/level_up_learnsets.h"
+#include "data/pokemon/teachable_learnsets.h"
 #include "constants/region_map_sections.h"
 #include "constants/metatile_behaviors.h"
 #include "data/pokemon/evolution.h"
 #include "data/pokemon/level_up_learnset_pointers.h"
+#include "data/pokemon/teachable_learnset_pointers.h"
 
 static const s8 sPokeblockFlavorCompatibilityTable[] =
 {
@@ -5830,24 +5831,22 @@ bool8 TryIncrementMonLevel(struct Pokemon *mon)
     }
 }
 
-u32 CanMonLearnTMHM(struct Pokemon *mon, u8 tm)
+u8 CanLearnTeachableMove(u16 species, u16 move)
 {
-    u16 species = GetMonData(mon, MON_DATA_SPECIES2, 0);
-    const u8 *learnableMoves;
-    
     if (species == SPECIES_EGG)
-        return 0;
-
-    learnableMoves = gTMHMLearnsets[species];
-    while(*learnableMoves != 0xFF)
     {
-        if(*learnableMoves == tm)
-            return TRUE;
-        
-        learnableMoves++;
+        return FALSE;
     }
-    
-    return FALSE;
+    else
+    {
+        u8 i;
+        for (i = 0; gTeachableLearnsets[species][i] != MOVE_UNAVAILABLE; i++)
+        {
+            if (gTeachableLearnsets[species][i] == move)
+                return TRUE;
+        }
+        return FALSE;
+    }
 }
 
 u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)

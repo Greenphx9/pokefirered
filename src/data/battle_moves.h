@@ -5265,7 +5265,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .flags = 0,
     },
 
-    [MOVE_ELECTRO_WEB] =
+    [MOVE_ELECTROWEB] =
     {
         .effect = EFFECT_SPLASH,
         .power = 0,
@@ -6032,7 +6032,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .flags = 0,
     },
 
-    [MOVE_MOON_BLAST] =
+    [MOVE_MOONBLAST] =
     {
         .effect = EFFECT_SPLASH,
         .power = 0,
@@ -8112,7 +8112,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .flags = 0,
     },
 
-    [MOVE_ZINGZAP] =
+    [MOVE_ZING_ZAP] =
     {
         .effect = EFFECT_SPLASH,
         .power = 0,
@@ -8151,7 +8151,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .flags = 0,
     },
 
-    [MOVE_MISTYT_ERRAIN] =
+    [MOVE_MISTY_TERRAIN] =
     {
         .effect = EFFECT_SPLASH,
         .power = 0,
@@ -9243,7 +9243,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
         .flags = 0,
     },
 
-    [MOVE_ETERNA_BEAM] =
+    [MOVE_ETERNABEAM] =
     {
         .effect = EFFECT_SPLASH,
         .power = 0,
