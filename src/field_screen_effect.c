@@ -154,7 +154,7 @@ static void sub_807EF7C(u8 taskId)
 {
     if (!FuncIsActiveTask(UpdateFlashLevelEffect))
     {
-        EnableBothScriptContexts();
+        ScriptContext_Enable();
         DestroyTask(taskId);
     }
 }
@@ -198,7 +198,7 @@ void AnimateFlash(u8 flashLevel)
         value = TRUE;
     sub_807EFC8(120, 80, sFlashLevelPixelRadii[curFlashLevel], sFlashLevelPixelRadii[flashLevel], value, 2);
     sub_807EFA4();
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
 }
 
 void WriteFlashScanlineEffectBuffer(u8 flashLevel)
@@ -221,7 +221,7 @@ static void Task_EnableScriptAfterMusicFade(u8 taskId)
     if (BGMusicStopped() == TRUE)
     {
         DestroyTask(taskId);
-        EnableBothScriptContexts();
+        ScriptContext_Enable();
     }
 }
 
@@ -367,7 +367,7 @@ static bool8 PrintWhiteOutRecoveryMessage(u8 taskId, const u8 *text, u8 x, u8 y)
     case 0:
         FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
         StringExpandPlaceholders(gStringVar4, text);
-        AddTextPrinterParameterized4(windowId, 2, x, y, 1, 0, gUnknown_83C68EC, 1, gStringVar4);
+        AddTextPrinterParameterized4(windowId, FONT_2, x, y, 1, 0, gUnknown_83C68EC, 1, gStringVar4);
         gTextFlags.canABSpeedUpPrint = FALSE;
         gTasks[taskId].data[2] = 1;
         break;
@@ -396,7 +396,7 @@ static void Task_RushInjuredPokemonToCenter(u8 taskId)
         Menu_LoadStdPalAt(0xF0);
         FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
         PutWindowTilemap(windowId);
-        CopyWindowToVram(windowId, COPYWIN_BOTH);
+        CopyWindowToVram(windowId, COPYWIN_FULL);
         loc = GetHealLocation(1);
         if (gSaveBlock1Ptr->lastHealLocation.mapGroup == loc->group
          && gSaveBlock1Ptr->lastHealLocation.mapNum == loc->map
@@ -435,14 +435,14 @@ static void Task_RushInjuredPokemonToCenter(u8 taskId)
         if (FieldFadeTransitionBackgroundEffectIsFinished() == TRUE)
         {
             DestroyTask(taskId);
-            ScriptContext1_SetupScript(EventScript_AfterWhiteOutHeal);
+            ScriptContext_SetupScript(EventScript_AfterWhiteOutHeal);
         }
         break;
     case 6:
         if (FieldFadeTransitionBackgroundEffectIsFinished() == TRUE)
         {
             DestroyTask(taskId);
-            ScriptContext1_SetupScript(EventScript_AfterWhiteOutMomHeal);
+            ScriptContext_SetupScript(EventScript_AfterWhiteOutMomHeal);
         }
         break;
     }
@@ -452,7 +452,7 @@ void FieldCB_RushInjuredPokemonToCenter(void)
 {
     u8 taskId;
 
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
     palette_bg_faded_fill_black();
     taskId = CreateTask(Task_RushInjuredPokemonToCenter, 10);
     gTasks[taskId].data[0] = 0;

@@ -3,6 +3,12 @@
 
 #include "global.h"
 
+#define CARD_STAT_BATTLES_WON   0
+#define CARD_STAT_BATTLES_LOST  1
+#define CARD_STAT_NUM_TRADES    2
+#define CARD_STAT_NUM_STAMPS    3
+#define CARD_STAT_MAX_STAMPS    4
+
 struct MEventClientHeaderStruct
 {
     u32 unk_00;
@@ -25,7 +31,7 @@ struct MEvent_Str_1
 {
     u16 status;
     size_t size;
-    const void * data;
+    const void *data;
 };
 
 struct MEvent_Str_2
@@ -63,8 +69,8 @@ void MEvent_WonderCardResetUnk08_6(struct WonderCard * buffer);
 bool32 MEvent_ReceiveDistributionMon(const u16 * data);
 void BuildMEventClientHeader(struct MEventClientHeaderStruct * data);
 bool32 ValidateMEventClientHeader(const struct MEventClientHeaderStruct * data);
-u32 sub_8144418(const u16 * a0, const struct MEventClientHeaderStruct * a1, void * unused);
-u32 MEvent_CanPlayerReceiveDistributionMon(const u16 * a0, const struct MEventClientHeaderStruct * a1, void * unused);
+u32 sub_8144418(const u16 * a0, const struct MEventClientHeaderStruct * a1, void *unused);
+u32 MEvent_CanPlayerReceiveDistributionMon(const u16 * a0, const struct MEventClientHeaderStruct * a1, void *unused);
 bool32 sub_8144474(const struct MEventClientHeaderStruct * a0, const u16 * a1);
 u16 sub_81444B0(const struct MEventClientHeaderStruct * a0, u32 command);
 bool32 InitWonderCardResources(struct WonderCard * r5, struct WonderCardMetadata * r6);
@@ -85,7 +91,7 @@ bool32 WonderCard_Test_Unk_08_6(void);
 u32 MENews_GetInput(u16 input);
 void InitMEventData(void);
 u16 MEvent_GetBattleCardCount(u32 command);
-void MEvent_RecordIdOfWonderCardSenderByEventType(u32 eventId, u32 trainerId);
+void MysteryGift_TryIncrementStat(u32 eventId, u32 trainerId);
 u16 *GetMEventProfileECWordsMaybe(void);
 void ResetReceivedWonderCardFlag(void);
 bool32 MEventHandleReceivedWonderCard(u16 flagId);

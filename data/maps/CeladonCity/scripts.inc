@@ -36,7 +36,7 @@ CeladonCity_EventScript_FatMan::
 	faceplayer
 	msgbox CeladonCity_Text_MyTrustedPalPoliwrath
 	closemessage
-	applymovement LOCALID_FAT_MAN, Movement_FaceOriginalDirection
+	applymovement LOCALID_FAT_MAN, Common_Movement_FaceOriginalDirection
 	waitmovement 0
 	release
 	end
@@ -45,11 +45,11 @@ CeladonCity_EventScript_Poliwrath::
 	lock
 	faceplayer
 	waitse
-	playmoncry SPECIES_POLIWRATH, 0
+	playmoncry SPECIES_POLIWRATH, CRY_MODE_NORMAL
 	msgbox CeladonCity_Text_Poliwrath
 	closemessage
 	waitmoncry
-	applymovement LOCALID_POLIWRATH, Movement_FaceOriginalDirection
+	applymovement LOCALID_POLIWRATH, Common_Movement_FaceOriginalDirection
 	waitmovement 0
 	release
 	end

@@ -1,5 +1,5 @@
 PokemonLeague_EventScript_OpenDoor::
-	applymovement OBJ_EVENT_ID_PLAYER, Movement_Delay32
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_Delay32
 	waitmovement 0
 	playse SE_RS_DOOR
 	call PokemonLeague_EventScript_SetDoorOpen
@@ -8,7 +8,7 @@ PokemonLeague_EventScript_OpenDoor::
 	return
 
 PokemonLeague_EventScript_EnterRoom::
-	applymovement OBJ_EVENT_ID_PLAYER, Movement_WalkUp5
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkUp5
 	waitmovement 0
 	setflag FLAG_TEMP_2
 	playse SE_UNLOCK
@@ -23,7 +23,7 @@ PokemonLeague_EventScript_SetDoorOpen::
 
 PokemonLeague_EventScript_PreventExit::
 	lockall
-	textcolor 0
+	textcolor NPC_TEXT_COLOR_MALE
 	msgbox Text_VoiceRangOutDontRunAway
 	closemessage
 	applymovement OBJ_EVENT_ID_PLAYER, PokemonLeague_Movement_ForcePlayerIn
@@ -32,7 +32,7 @@ PokemonLeague_EventScript_PreventExit::
 	end
 
 PokemonLeague_EventScript_OpenDoorLance::
-	applymovement OBJ_EVENT_ID_PLAYER, Movement_Delay32
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_Delay32
 	waitmovement 0
 	playse SE_RS_DOOR
 	setmetatile 6, 4, METATILE_PokemonLeague_Door_Top_Open, 1

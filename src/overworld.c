@@ -47,9 +47,11 @@
 #include "trainer_pokemon_sprites.h"
 #include "vs_seeker.h"
 #include "wild_encounter.h"
+#include "constants/cable_club.h"
 #include "constants/maps.h"
 #include "constants/region_map_sections.h"
 #include "constants/songs.h"
+#include "constants/sound.h"
 
 #define PLAYER_LINK_STATE_IDLE 0x80
 #define PLAYER_LINK_STATE_BUSY 0x81
@@ -209,7 +211,7 @@ static void MovementStatusHandler_EnterFreeMode(struct LinkPlayerObjectEvent *, 
 static void MovementStatusHandler_TryAdvanceScript(struct LinkPlayerObjectEvent *, struct ObjectEvent *);
 static u8 FlipVerticalAndClearForced(u8 newFacing, u8 oldFacing);
 static u8 LinkPlayerDetectCollision(u8 selfObjEventId, u8 a2, s16 x, s16 y);
-static void SpriteCB_LinkPlayer(struct Sprite * sprite);
+static void SpriteCB_LinkPlayer(struct Sprite *sprite);
 
 extern const struct MapLayout * gMapLayouts[];
 extern const struct MapHeader *const *gMapGroups[];
@@ -241,7 +243,7 @@ static const u16 sWhiteOutMoneyLossBadgeFlagIDs[] = {
 
 static void DoWhiteOut(void)
 {
-    ScriptContext2_RunNewScript(EventScript_ResetEliteFourEnd);
+    RunScriptImmediately(EventScript_ResetEliteFourEnd);
     RemoveMoney(&gSaveBlock1Ptr->money, ComputeWhiteOutMoneyLoss());
     HealPlayerParty();
     Overworld_ResetStateAfterWhitingOut();
@@ -437,7 +439,7 @@ static void LoadSaveblockObjEventScripts(void)
     }
 }
 
-void Overworld_SetMapObjTemplateCoords(u8 localId, s16 x, s16 y)
+void SetObjEventTemplateCoords(u8 localId, s16 x, s16 y)
 {
     int i;
     struct ObjectEventTemplate * savObjTemplates = gSaveBlock1Ptr->objectEventTemplates;
@@ -452,7 +454,7 @@ void Overworld_SetMapObjTemplateCoords(u8 localId, s16 x, s16 y)
     }
 }
 
-void Overworld_SetObjEventTemplateMovementType(u8 localId, u8 movementType)
+void SetObjEventTemplateMovementType(u8 localId, u8 movementType)
 {
     s32 i;
 
@@ -755,7 +757,7 @@ void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum)
     ResetCyclingRoadChallengeData();
     RestartWildEncounterImmunitySteps();
     MapResetTrainerRematches(mapGroup, mapNum);
-    SetSav1WeatherFromCurrMapHeader();
+    SetSavedWeatherFromCurrMapHeader();
     ChooseAmbientCrySpecies();
     SetDefaultFlashLevel();
     Overworld_ClearSavedMusic();
@@ -790,7 +792,7 @@ static void LoadMapFromWarp(bool32 unused)
     ResetCyclingRoadChallengeData();
     RestartWildEncounterImmunitySteps();
     MapResetTrainerRematches(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
-    SetSav1WeatherFromCurrMapHeader();
+    SetSavedWeatherFromCurrMapHeader();
     ChooseAmbientCrySpecies();
     if (isOutdoors)
         FlagClear(FLAG_SYS_FLASH_ACTIVE);
@@ -812,7 +814,7 @@ static void sub_80559A8(void)
     LoadObjEventTemplatesFromHeader();
     isOutdoors = IsMapTypeOutdoors(gMapHeader.mapType);
     TrySetMapSaveWarpStatus();
-    SetSav1WeatherFromCurrMapHeader();
+    SetSavedWeatherFromCurrMapHeader();
     ChooseAmbientCrySpecies();
     SetDefaultFlashLevel();
     sub_8110920();
@@ -955,7 +957,7 @@ static void SetDefaultFlashLevel(void)
         gSaveBlock1Ptr->flashLevel = gMaxFlashLevel;
 }
 
-void Overworld_SetFlashLevel(s32 flashLevel)
+void SetFlashLevel(s32 flashLevel)
 {
     if (flashLevel < 0 || flashLevel > gMaxFlashLevel)
         flashLevel = 0;
@@ -1141,7 +1143,7 @@ static void PlayAmbientCry(void)
     if (gDisableMapMusicChangeOnMapLoad == MUSIC_DISABLE_KEEP)
         return;
 
-    PlayCry2(sAmbientCrySpecies, pan, volume, 1);
+    PlayCry_NormalNoDucking(sAmbientCrySpecies, pan, volume, CRY_PRIORITY_AMBIENT);
 }
 
 void UpdateAmbientCry(s16 *state, u16 *delayCounter)
@@ -1392,13 +1394,13 @@ static void DoCB1_Overworld(u16 newKeys, u16 heldKeys)
     FieldClearPlayerInput(&fieldInput);
     FieldGetPlayerInput(&fieldInput, newKeys, heldKeys);
     FieldInput_HandleCancelSignpost(&fieldInput);
-    if (!ScriptContext2_IsEnabled())
+    if (!ArePlayerFieldControlsLocked())
     {
         if (ProcessPlayerFieldInput(&fieldInput) == TRUE)
         {
             if (gQuestLogPlaybackState == 2)
                 sub_81127F8(&gInputToStoreInQuestLogMaybe);
-            ScriptContext2_Enable();
+            LockPlayerFieldControls();
             DismissMapNamePopup();
         }
         else
@@ -1419,11 +1421,11 @@ static void DoCB1_Overworld_QuestLogPlayback(void)
     FieldClearPlayerInput(&fieldInput);
     fieldInput = gQuestLogFieldInput;
     FieldInput_HandleCancelSignpost(&fieldInput);
-    if (!ScriptContext2_IsEnabled())
+    if (!ArePlayerFieldControlsLocked())
     {
         if (ProcessPlayerFieldInput(&fieldInput) == TRUE)
         {
-            ScriptContext2_Enable();
+            LockPlayerFieldControls();
             DismissMapNamePopup();
         }
         else
@@ -1451,7 +1453,7 @@ void CB1_Overworld(void)
 
 static void OverworldBasic(void)
 {
-    ScriptContext2_RunScript();
+    ScriptContext_RunScript();
     RunTasks();
     AnimateSprites();
     CameraUpdate();
@@ -1517,8 +1519,8 @@ void CB2_NewGame(void)
     NewGameInitData();
     ResetInitialPlayerAvatarState();
     PlayTimeCounter_Start();
-    ScriptContext1_Init();
-    ScriptContext2_Disable();
+    ScriptContext_Init();
+    UnlockPlayerFieldControls();
     gFieldCallback = FieldCB_WarpExitFadeFromBlack;
     gFieldCallback2 = NULL;
     DoMapLoadLoop(&gMain.state);
@@ -1538,8 +1540,8 @@ void CB2_WhiteOut(void)
         ResetSafariZoneFlag_();
         DoWhiteOut();
         SetInitialPlayerAvatarStateWithDirection(DIR_NORTH);
-        ScriptContext1_Init();
-        ScriptContext2_Disable();
+        ScriptContext_Init();
+        UnlockPlayerFieldControls();
         gFieldCallback = FieldCB_RushInjuredPokemonToCenter;
         val = 0;
         DoMapLoadLoop(&val);
@@ -1553,8 +1555,8 @@ void CB2_WhiteOut(void)
 void CB2_LoadMap(void)
 {
     FieldClearVBlankHBlankCallbacks();
-    ScriptContext1_Init();
-    ScriptContext2_Disable();
+    ScriptContext_Init();
+    UnlockPlayerFieldControls();
     SetMainCallback1(NULL);
     SetMainCallback2(CB2_DoChangeMap);
     gMain.savedCallback = CB2_LoadMap2;
@@ -1633,8 +1635,8 @@ void CB2_ReturnToFieldFromMultiplayer(void)
     else
         gFieldCallback = FieldCB_ReturnToFieldCableLink;
 
-    ScriptContext1_Init();
-    ScriptContext2_Disable();
+    ScriptContext_Init();
+    UnlockPlayerFieldControls();
     CB2_ReturnToField();
 }
 
@@ -1684,8 +1686,8 @@ void CB2_ContinueSavedGame(void)
     Overworld_ResetStateOnContinue();
     InitMapFromSavedGame();
     PlayTimeCounter_Start();
-    ScriptContext1_Init();
-    ScriptContext2_Disable();
+    ScriptContext_Init();
+    UnlockPlayerFieldControls();
     gFieldCallback2 = NULL;
     gExitStairsMovementDisabled = TRUE;
     if (UseContinueGameWarp() == TRUE)
@@ -1759,8 +1761,8 @@ static bool32 LoadMapInStepsLink(u8 *state)
     {
     case 0:
         InitOverworldBgs();
-        ScriptContext1_Init();
-        ScriptContext2_Disable();
+        ScriptContext_Init();
+        UnlockPlayerFieldControls();
         (*state)++;
         break;
     case 1:
@@ -2196,8 +2198,8 @@ void CB2_SetUpOverworldForQLPlaybackWithWarpExit(void)
 {
     FieldClearVBlankHBlankCallbacks();
     gGlobalFieldTintMode = QL_TINT_GRAYSCALE;
-    ScriptContext1_Init();
-    ScriptContext2_Disable();
+    ScriptContext_Init();
+    UnlockPlayerFieldControls();
     SetMainCallback1(NULL);
     SetMainCallback2(CB2_DoChangeMap);
     gMain.savedCallback = CB2_LoadMapForQLPlayback;
@@ -2208,8 +2210,8 @@ void CB2_SetUpOverworldForQLPlayback(void)
     FieldClearVBlankHBlankCallbacks();
     gGlobalFieldTintMode = QL_TINT_GRAYSCALE;
     LoadSaveblockMapHeader();
-    ScriptContext1_Init();
-    ScriptContext2_Disable();
+    ScriptContext_Init();
+    UnlockPlayerFieldControls();
     SetMainCallback1(NULL);
     SetMainCallback2(CB2_LoadMapForQLPlayback);
 }
@@ -2316,7 +2318,7 @@ void CB2_EnterFieldFromQuestLog(void)
     Overworld_ResetStateOnContinue();
     InitMapFromSavedGame();
     PlayTimeCounter_Start();
-    ScriptContext1_Init();
+    ScriptContext_Init();
     gExitStairsMovementDisabled = TRUE;
     if (UseContinueGameWarp() == TRUE)
     {
@@ -2387,8 +2389,8 @@ static bool32 SetUpScrollSceneForCredits(u8 *state, u8 unused)
         sCreditsOverworld_CmdLength = sCreditsOverworld_Script[sCreditsOverworld_CmdIndex].unk_4;
         WarpIntoMap();
         gPaletteFade.bufferTransferDisabled = TRUE;
-        ScriptContext1_Init();
-        ScriptContext2_Disable();
+        ScriptContext_Init();
+        UnlockPlayerFieldControls();
         SetMainCallback1(NULL);
         gFieldCallback2 = FieldCB2_Credits_WaitFade;
         gMain.state = 0;
@@ -2516,7 +2518,7 @@ static void CameraCB_CreditsPan(struct CameraObject * camera)
 
 static void Task_OvwldCredits_FadeOut(u8 taskId)
 {
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_OvwldCredits_WaitFade;
 }
 
@@ -2844,7 +2846,7 @@ static void ResetPlayerHeldKeys(u16 *keys)
 
 static u16 KeyInterCB_SelfIdle(u32 key)
 {
-    if (ScriptContext2_IsEnabled() == TRUE)
+    if (ArePlayerFieldControlsLocked() == TRUE)
         return LINK_KEY_CODE_EMPTY;
     if (GetLinkRecvQueueLength() > 4)
         return LINK_KEY_CODE_HANDLE_RECV_QUEUE;
@@ -2864,7 +2866,7 @@ static u16 KeyInterCB_Idle(u32 key)
 static u16 KeyInterCB_DeferToEventScript(u32 key)
 {
     u16 retVal;
-    if (ScriptContext2_IsEnabled() == TRUE)
+    if (ArePlayerFieldControlsLocked() == TRUE)
     {
         retVal = LINK_KEY_CODE_EMPTY;
     }
@@ -2887,7 +2889,7 @@ static u16 KeyInterCB_DeferToRecvQueue(u32 key)
     else
     {
         retVal = LINK_KEY_CODE_IDLE;
-        ScriptContext2_Disable();
+        UnlockPlayerFieldControls();
         SetKeyInterceptCallback(KeyInterCB_Idle);
     }
     return retVal;
@@ -2904,7 +2906,7 @@ static u16 KeyInterCB_DeferToSendQueue(u32 key)
     else
     {
         retVal = LINK_KEY_CODE_IDLE;
-        ScriptContext2_Disable();
+        UnlockPlayerFieldControls();
         SetKeyInterceptCallback(KeyInterCB_Idle);
     }
     return retVal;
@@ -2957,7 +2959,7 @@ static u16 KeyInterCB_WaitForPlayersToExit(u32 keyOrPlayerId)
         CheckRfuKeepAliveTimer();
     if (AreAllPlayersInLinkState(PLAYER_LINK_STATE_EXITING_ROOM) == TRUE)
     {
-        ScriptContext1_SetupScript(CableClub_EventScript_DoLinkRoomExit);
+        ScriptContext_SetupScript(CableClub_EventScript_DoLinkRoomExit);
         SetKeyInterceptCallback(KeyInterCB_SendNothing);
     }
     return LINK_KEY_CODE_EMPTY;
@@ -2978,14 +2980,14 @@ static u16 KeyInterCB_SendNothing_2(u32 key)
 u32 GetCableClubPartnersReady(void)
 {
     if (IsAnyPlayerInLinkState(PLAYER_LINK_STATE_EXITING_ROOM) == TRUE)
-        return 2;
+        return CABLE_SEAT_FAILED;
     if (sPlayerKeyInterceptCallback == KeyInterCB_Ready && sPlayerLinkStates[gLocalLinkPlayerId] != PLAYER_LINK_STATE_READY)
-        return 0;
+        return CABLE_SEAT_WAITING;
     if (sPlayerKeyInterceptCallback == KeyInterCB_DoNothingAndKeepAlive && sPlayerLinkStates[gLocalLinkPlayerId] == PLAYER_LINK_STATE_BUSY)
-        return 2;
+        return CABLE_SEAT_FAILED;
     if (AreAllPlayersInLinkState(PLAYER_LINK_STATE_READY) != FALSE)
-        return 1;
-    return 0;
+        return CABLE_SEAT_SUCCESS;
+    return CABLE_SEAT_WAITING;
 }
 
 static bool32 IsAnyPlayerExitingCableClub(void)
@@ -3135,41 +3137,41 @@ static u16 GetDirectionForEventScript(const u8 *script)
 
 static void InitLinkPlayerQueueScript(void)
 {
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
 }
 
 static void InitLinkRoomStartMenuScript(void)
 {
     PlaySE(SE_WIN_OPEN);
     ShowStartMenu();
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
 }
 
 static void RunInteractLocalPlayerScript(const u8 *script)
 {
     PlaySE(SE_SELECT);
-    ScriptContext1_SetupScript(script);
-    ScriptContext2_Enable();
+    ScriptContext_SetupScript(script);
+    LockPlayerFieldControls();
 }
 
 static void CreateConfirmLeaveTradeRoomPrompt(void)
 {
     PlaySE(SE_WIN_OPEN);
-    ScriptContext1_SetupScript(TradeCenter_ConfirmLeaveRoom);
-    ScriptContext2_Enable();
+    ScriptContext_SetupScript(TradeCenter_ConfirmLeaveRoom);
+    LockPlayerFieldControls();
 }
 
 static void InitMenuBasedScript(const u8 *script)
 {
     PlaySE(SE_SELECT);
-    ScriptContext1_SetupScript(script);
-    ScriptContext2_Enable();
+    ScriptContext_SetupScript(script);
+    LockPlayerFieldControls();
 }
 
 static void RunTerminateLinkScript(void)
 {
-    ScriptContext1_SetupScript(TradeCenter_TerminateLink);
-    ScriptContext2_Enable();
+    ScriptContext_SetupScript(TradeCenter_TerminateLink);
+    LockPlayerFieldControls();
 }
 
 bool32 Overworld_LinkRecvQueueLengthMoreThan2(void)
@@ -3261,7 +3263,7 @@ static void ZeroObjectEvent(struct ObjectEvent *objEvent)
 // conflict with the usual Event Object struct, thus the definitions.
 #define linkGender(obj) obj->singleMovementActive
 // not even one can reference *byte* aligned bitfield members...
-#define linkDirection(obj) ((u8*)obj)[offsetof(typeof(*obj), fieldEffectSpriteId) - 1] // -> rangeX
+#define linkDirection(obj) ((u8 *)obj)[offsetof(typeof(*obj), fieldEffectSpriteId) - 1] // -> rangeX
 
 static void SpawnLinkPlayerObjectEvent(u8 linkPlayerId, s16 x, s16 y, u8 gender)
 {
@@ -3498,7 +3500,7 @@ static bool8 LinkPlayerDetectCollision(u8 selfObjEventId, u8 a2, s16 x, s16 y)
             }
         }
     }
-    return MapGridIsImpassableAt(x, y);
+    return MapGridGetCollisionAt(x, y);
 }
 
 static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion)

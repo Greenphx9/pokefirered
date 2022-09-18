@@ -81,7 +81,7 @@
 #define MON_DATA_NATIONAL_RIBBON   76
 #define MON_DATA_EARTH_RIBBON      77
 #define MON_DATA_WORLD_RIBBON      78
-#define MON_DATA_FILLER            79
+#define MON_DATA_UNUSED_RIBBONS    79
 #define MON_DATA_EVENT_LEGAL       80
 #define MON_DATA_KNOWN_MOVES       81
 #define MON_DATA_RIBBON_COUNT      82
@@ -93,25 +93,26 @@
 #define MON_DATA_SPDEF2            88
 
 // Pokemon types
-#define TYPE_NORMAL   0x00
-#define TYPE_FIGHTING 0x01
-#define TYPE_FLYING   0x02
-#define TYPE_POISON   0x03
-#define TYPE_GROUND   0x04
-#define TYPE_ROCK     0x05
-#define TYPE_BUG      0x06
-#define TYPE_GHOST    0x07
-#define TYPE_STEEL    0x08
-#define TYPE_MYSTERY  0x09
-#define TYPE_FIRE     0x0a
-#define TYPE_WATER    0x0b
-#define TYPE_GRASS    0x0c
-#define TYPE_ELECTRIC 0x0d
-#define TYPE_PSYCHIC  0x0e
-#define TYPE_ICE      0x0f
-#define TYPE_DRAGON   0x10
-#define TYPE_DARK     0x11
-#define NUMBER_OF_MON_TYPES     0x12
+#define TYPE_NONE           255
+#define TYPE_NORMAL         0
+#define TYPE_FIGHTING       1
+#define TYPE_FLYING         2
+#define TYPE_POISON         3
+#define TYPE_GROUND         4
+#define TYPE_ROCK           5
+#define TYPE_BUG            6
+#define TYPE_GHOST          7
+#define TYPE_STEEL          8
+#define TYPE_MYSTERY        9
+#define TYPE_FIRE           10
+#define TYPE_WATER          11
+#define TYPE_GRASS          12
+#define TYPE_ELECTRIC       13
+#define TYPE_PSYCHIC        14
+#define TYPE_ICE            15
+#define TYPE_DRAGON         16
+#define TYPE_DARK           17
+#define NUMBER_OF_MON_TYPES 18
 
 // Pokemon egg groups
 #define EGG_GROUP_NONE 0
@@ -134,44 +135,51 @@
 #define EGG_GROUPS_PER_MON      2
 
 // Pokemon natures
-#define NATURE_HARDY 0
-#define NATURE_LONELY 1
-#define NATURE_BRAVE 2
-#define NATURE_ADAMANT 3
-#define NATURE_NAUGHTY 4
-#define NATURE_BOLD 5
-#define NATURE_DOCILE 6
-#define NATURE_RELAXED 7
-#define NATURE_IMPISH 8
-#define NATURE_LAX 9
-#define NATURE_TIMID 10
-#define NATURE_HASTY 11
-#define NATURE_SERIOUS 12
-#define NATURE_JOLLY 13
-#define NATURE_NAIVE 14
-#define NATURE_MODEST 15
-#define NATURE_MILD 16
-#define NATURE_QUIET 17
-#define NATURE_BASHFUL 18
-#define NATURE_RASH 19
-#define NATURE_CALM 20
-#define NATURE_GENTLE 21
-#define NATURE_SASSY 22
-#define NATURE_CAREFUL 23
-#define NATURE_QUIRKY 24
+#define NATURE_HARDY    0
+#define NATURE_LONELY   1
+#define NATURE_BRAVE    2
+#define NATURE_ADAMANT  3
+#define NATURE_NAUGHTY  4
+#define NATURE_BOLD     5
+#define NATURE_DOCILE   6
+#define NATURE_RELAXED  7
+#define NATURE_IMPISH   8
+#define NATURE_LAX      9
+#define NATURE_TIMID    10
+#define NATURE_HASTY    11
+#define NATURE_SERIOUS  12
+#define NATURE_JOLLY    13
+#define NATURE_NAIVE    14
+#define NATURE_MODEST   15
+#define NATURE_MILD     16
+#define NATURE_QUIET    17
+#define NATURE_BASHFUL  18
+#define NATURE_RASH     19
+#define NATURE_CALM     20
+#define NATURE_GENTLE   21
+#define NATURE_SASSY    22
+#define NATURE_CAREFUL  23
+#define NATURE_QUIRKY   24
+#define NUM_NATURES     25
 
 // Pokemon Stats
-#define STAT_HP 0
-#define STAT_ATK 1
-#define STAT_DEF 2
-#define STAT_SPEED 3
-#define STAT_SPATK 4
-#define STAT_SPDEF 5
-#define STAT_ACC 6 // only in battles
-#define STAT_EVASION 7 // only in battles
+#define STAT_HP      0
+#define STAT_ATK     1
+#define STAT_DEF     2
+#define STAT_SPEED   3
+#define STAT_SPATK   4
+#define STAT_SPDEF   5
+#define NUM_STATS    6
 
-#define NUM_STATS 6
-#define NUM_BATTLE_STATS 8
+#define STAT_ACC     6 // Only in battles.
+#define STAT_EVASION 7 // Only in battles.
+
+#define NUM_NATURE_STATS (NUM_STATS - 1) // excludes HP
+#define NUM_BATTLE_STATS (NUM_STATS + 2) // includes Accuracy and Evasion
+
+#define MIN_STAT_STAGE     0
+#define DEFAULT_STAT_STAGE 6
+#define MAX_STAT_STAGE    12
 
 // Shiny odds
 #define SHINY_ODDS 8 // Actual probability is SHINY_ODDS/65536
@@ -217,7 +225,6 @@
 #define EV_ITEM_RAISE_LIMIT 100
 
 #define PARTY_SIZE 6
-#define UNOWN_FORM_COUNT 28
 #define BOX_NAME_LENGTH 8
 
 #define EVO_MODE_NORMAL     0

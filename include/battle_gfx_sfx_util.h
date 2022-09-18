@@ -15,7 +15,7 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId);
 void DecompressGhostFrontPic(struct Pokemon *unused, u8 battlerId);
 void DecompressTrainerFrontPic(u16 frontPicId, u8 battlerId);
 void DecompressTrainerBackPalette(u16 a1, u8 a2);
-void BattleGfxSfxDummy3(u8 a1);
+void BattleGfxSfxDummy3(u8 gender);
 void FreeTrainerFrontPicPaletteAndTile(u16 frontPicId);
 bool8 BattleLoadAllHealthBoxesGfx(u8 state);
 void LoadBattleBarGfx(u8 arg0);
@@ -40,6 +40,6 @@ void BattleInterfaceSetWindowPals(void);
 void ClearTemporarySpeciesSpriteData(u8 battlerId, bool8 dontClearSubstitute);
 void AllocateMonSpritesGfx(void);
 void FreeMonSpritesGfx(void);
-bool32 ShouldPlayNormalPokeCry(struct Pokemon *mon);
+bool32 ShouldPlayNormalMonCry(struct Pokemon *mon);
 
 #endif // GUARD_BATTLE_GFX_SFX_UTIL_H

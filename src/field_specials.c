@@ -91,7 +91,7 @@ void ShowDiploma(void)
 {
     QuestLog_CutRecording();
     SetMainCallback2(CB2_ShowDiploma);
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
 }
 
 void ForcePlayerOntoBike(void)
@@ -280,7 +280,7 @@ static void PcTurnOnUpdateMetatileId(bool16 flickerOff)
         else if (gSpecialVar_0x8004 == 2)
             metatileId = METATILE_GenericBuilding1_PlayersPCOn;
     }
-    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + 7, gSaveBlock1Ptr->pos.y + deltaY + 7, metatileId | METATILE_COLLISION_MASK);
+    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + MAP_OFFSET, gSaveBlock1Ptr->pos.y + deltaY + MAP_OFFSET, metatileId | MAPGRID_COLLISION_MASK);
 }
 
 void AnimatePcTurnOff()
@@ -311,13 +311,13 @@ void AnimatePcTurnOff()
         metatileId = METATILE_GenericBuilding1_PlayersPCOff;
     else if (gSpecialVar_0x8004 == 2)
         metatileId = METATILE_GenericBuilding1_PlayersPCOff;
-    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + 7, gSaveBlock1Ptr->pos.y + deltaY + 7, metatileId | METATILE_COLLISION_MASK);
+    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + MAP_OFFSET, gSaveBlock1Ptr->pos.y + deltaY + MAP_OFFSET, metatileId | MAPGRID_COLLISION_MASK);
     DrawWholeMapView();
 }
 
 void SpawnCameraObject(void)
 {
-    u8 objectEventId = SpawnSpecialObjectEventParameterized(OBJ_EVENT_GFX_YOUNGSTER, 8, OBJ_EVENT_ID_CAMERA, gSaveBlock1Ptr->pos.x + 7, gSaveBlock1Ptr->pos.y + 7, 3);
+    u8 objectEventId = SpawnSpecialObjectEventParameterized(OBJ_EVENT_GFX_YOUNGSTER, 8, OBJ_EVENT_ID_CAMERA, gSaveBlock1Ptr->pos.x + MAP_OFFSET, gSaveBlock1Ptr->pos.y + MAP_OFFSET, 3);
     gObjectEvents[objectEventId].invisible = TRUE;
     CameraObjectSetFollowedObjectId(gObjectEvents[objectEventId].spriteId);
 }
@@ -497,7 +497,7 @@ static void Task_ShakeScreen(u8 taskId)
 static void Task_EndScreenShake(u8 taskId)
 {
     DestroyTask(taskId);
-    EnableBothScriptContexts();
+    ScriptContext_Enable();
 }
 
 #undef tYtrans
@@ -544,7 +544,7 @@ void NullFieldSpecial(void)
 void DoPicboxCancel(void)
 {
     u8 t = EOS;
-    AddTextPrinterParameterized(0, 2, &t, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(0, FONT_2, &t, 0, 1, 0, NULL);
     PicboxCancel();
 }
 
@@ -1083,7 +1083,7 @@ static void Task_ElevatorShake(u8 taskId)
         {
             PlaySE(SE_DING_DONG);
             DestroyTask(taskId);
-            EnableBothScriptContexts();
+            ScriptContext_Enable();
             InstallCameraPanAheadCallback();
         }
     }
@@ -1098,12 +1098,12 @@ void DrawElevatorCurrentFloorWindow(void)
         sElevatorCurrentFloorWindowId = AddWindow(&sElevatorCurrentFloorWindowTemplate);
         TextWindow_SetStdFrame0_WithPal(sElevatorCurrentFloorWindowId, 0x21D, 0xD0);
         DrawStdFrameWithCustomTileAndPalette(sElevatorCurrentFloorWindowId, FALSE, 0x21D, 0xD);
-        AddTextPrinterParameterized(sElevatorCurrentFloorWindowId, 2, gText_NowOn, 0, 2, 0xFF, NULL);
+        AddTextPrinterParameterized(sElevatorCurrentFloorWindowId, FONT_2, gText_NowOn, 0, 2, 0xFF, NULL);
         floorname = sFloorNamePointers[gSpecialVar_0x8005];
-        strwidth = GetStringWidth(2, floorname, 0);
-        AddTextPrinterParameterized(sElevatorCurrentFloorWindowId, 2, floorname, 56 - strwidth, 16, 0xFF, NULL);
+        strwidth = GetStringWidth(FONT_2, floorname, 0);
+        AddTextPrinterParameterized(sElevatorCurrentFloorWindowId, FONT_2, floorname, 56 - strwidth, 16, 0xFF, NULL);
         PutWindowTilemap(sElevatorCurrentFloorWindowId);
-        CopyWindowToVram(sElevatorCurrentFloorWindowId, COPYWIN_BOTH);
+        CopyWindowToVram(sElevatorCurrentFloorWindowId, COPYWIN_FULL);
     }
 }
 
@@ -1139,9 +1139,7 @@ static void Task_AnimateElevatorWindowView(u8 taskId)
             for (i = 0; i < 3; i++)
             {
                 for (j = 0; j < 3; j++)
-                {
-                    MapGridSetMetatileIdAt(j + 8, i + 7, sElevatorWindowMetatilesGoingUp[i][data[0] % 3] | METATILE_COLLISION_MASK);
-                }
+                    MapGridSetMetatileIdAt(j + 1 + MAP_OFFSET, i + MAP_OFFSET, sElevatorWindowMetatilesGoingUp[i][data[0] % 3] | MAPGRID_COLLISION_MASK);
             }
         }
         else
@@ -1149,9 +1147,7 @@ static void Task_AnimateElevatorWindowView(u8 taskId)
             for (i = 0; i < 3; i++)
             {
                 for (j = 0; j < 3; j++)
-                {
-                    MapGridSetMetatileIdAt(j + 8, i + 7, sElevatorWindowMetatilesGoingDown[i][data[0] % 3] | METATILE_COLLISION_MASK);
-                }
+                    MapGridSetMetatileIdAt(j + 1 + MAP_OFFSET, i + MAP_OFFSET, sElevatorWindowMetatilesGoingDown[i][data[0] % 3] | MAPGRID_COLLISION_MASK);
             }
         }
         DrawWholeMapView();
@@ -1165,7 +1161,7 @@ static void Task_AnimateElevatorWindowView(u8 taskId)
 void ListMenu(void)
 {
     u8 taskId;
-    struct Task * task;
+    struct Task *task;
     if (QuestLog_SchedulePlaybackCB(QLPlaybackCB_DestroyScriptMenuMonPicSprites) != TRUE)
     {
         taskId = CreateTask(Task_CreateScriptListMenu, 8);
@@ -1334,9 +1330,9 @@ static void Task_CreateScriptListMenu(u8 taskId)
     u8 i;
     s32 width;
     s32 mwidth;
-    struct Task * task = &gTasks[taskId];
+    struct Task *task = &gTasks[taskId];
     u8 windowId;
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
     if (gSpecialVar_0x8004 == LISTMENU_SILPHCO_FLOORS)
         sListMenuLastScrollPosition = sElevatorScroll;
     else
@@ -1348,7 +1344,7 @@ static void Task_CreateScriptListMenu(u8 taskId)
     {
         sListMenuItems[i].label = sListMenuLabels[gSpecialVar_0x8004][i];
         sListMenuItems[i].index = i;
-        width = GetStringWidth(2, sListMenuItems[i].label, 0);
+        width = GetStringWidth(FONT_2, sListMenuItems[i].label, 0);
         if (width > mwidth)
             mwidth = width;
     }
@@ -1364,7 +1360,7 @@ static void Task_CreateScriptListMenu(u8 taskId)
     Task_CreateMenuRemoveScrollIndicatorArrowPair(taskId);
     task->data[14] = ListMenuInit(&sFieldSpecialsListMenuTemplate, task->data[7], task->data[8]);
     PutWindowTilemap(task->data[13]);
-    CopyWindowToVram(task->data[13], COPYWIN_BOTH);
+    CopyWindowToVram(task->data[13], COPYWIN_FULL);
     gTasks[taskId].func = Task_ListMenuHandleInput;
 }
 
@@ -1386,14 +1382,14 @@ static void CreateScriptListMenu(void)
     sFieldSpecialsListMenuTemplate.lettersSpacing = 1;
     sFieldSpecialsListMenuTemplate.itemVerticalPadding = 0;
     sFieldSpecialsListMenuTemplate.scrollMultiple = 0;
-    sFieldSpecialsListMenuTemplate.fontId = 2;
+    sFieldSpecialsListMenuTemplate.fontId = FONT_2;
     sFieldSpecialsListMenuTemplate.cursorKind = 0;
 }
 
 static void ScriptListMenuMoveCursorFunction(s32 nothing, bool8 is, struct ListMenu * used)
 {
     u8 taskId;
-    struct Task * task;
+    struct Task *task;
     PlaySE(SE_SELECT);
     taskId = FindTaskIdByFunc(Task_ListMenuHandleInput);
     if (taskId != 0xFF)
@@ -1407,7 +1403,7 @@ static void ScriptListMenuMoveCursorFunction(s32 nothing, bool8 is, struct ListM
 static void Task_ListMenuHandleInput(u8 taskId)
 {
     s32 input;
-    struct Task * task;
+    struct Task *task;
 
     task = &gTasks[taskId];
     task++;task--;
@@ -1432,7 +1428,7 @@ static void Task_ListMenuHandleInput(u8 taskId)
         {
             Task_ListMenuRemoveScrollIndicatorArrowPair(taskId);
             task->func = Task_SuspendListMenu;
-            EnableBothScriptContexts();
+            ScriptContext_Enable();
         }
         break;
     }
@@ -1440,7 +1436,7 @@ static void Task_ListMenuHandleInput(u8 taskId)
 
 static void Task_DestroyListMenu(u8 taskId)
 {
-    struct Task * task = &gTasks[taskId];
+    struct Task *task = &gTasks[taskId];
     Task_ListMenuRemoveScrollIndicatorArrowPair(taskId);
     DestroyListMenuTask(task->data[14], NULL, NULL);
     Free(sListMenuItems);
@@ -1450,7 +1446,7 @@ static void Task_DestroyListMenu(u8 taskId)
     CopyWindowToVram(task->data[13], COPYWIN_GFX);
     RemoveWindow(task->data[13]);
     DestroyTask(taskId);
-    EnableBothScriptContexts();
+    ScriptContext_Enable();
 }
 
 static void Task_SuspendListMenu(u8 taskId)
@@ -1470,21 +1466,21 @@ void ReturnToListMenu(void)
 {
     u8 taskId = FindTaskIdByFunc(Task_SuspendListMenu);
     if (taskId == 0xFF)
-        EnableBothScriptContexts();
+        ScriptContext_Enable();
     else
         gTasks[taskId].data[6]++;
 }
 
 static void Task_RedrawScrollArrowsAndWaitInput(u8 taskId)
 {
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
     Task_CreateMenuRemoveScrollIndicatorArrowPair(taskId);
     gTasks[taskId].func = Task_ListMenuHandleInput;
 }
 
 static void Task_CreateMenuRemoveScrollIndicatorArrowPair(u8 taskId)
 {
-    struct Task * task = &gTasks[taskId];
+    struct Task *task = &gTasks[taskId];
     struct ScrollArrowsTemplate template = {
         .firstArrowType = 2,
         .secondArrowType = 3,
@@ -1505,7 +1501,7 @@ static void Task_CreateMenuRemoveScrollIndicatorArrowPair(u8 taskId)
 
 static void Task_ListMenuRemoveScrollIndicatorArrowPair(u8 taskId)
 {
-    struct Task * task = &gTasks[taskId];
+    struct Task *task = &gTasks[taskId];
     if (task->data[0] != task->data[1])
         RemoveScrollIndicatorArrowPair(task->data[12]);
 }
@@ -1542,18 +1538,26 @@ void SetSeenMon(void)
 void ResetContextNpcTextColor(void)
 {
     gSelectedObjectEvent = 0;
-    gSpecialVar_TextColor = 0xFF;
+    gSpecialVar_TextColor = NPC_TEXT_COLOR_DEFAULT;
 }
 
 u8 ContextNpcGetTextColor(void)
 {
     u8 gfxId;
-    if (gSpecialVar_TextColor != 0xFF)
+    if (gSpecialVar_TextColor != NPC_TEXT_COLOR_DEFAULT)
+    {
+        // A text color has been specified, use that
         return gSpecialVar_TextColor;
+    }
     else if (gSelectedObjectEvent == 0)
-        return 3;
+    {
+        // No text color specified and no object selected, use neutral
+        return NPC_TEXT_COLOR_NEUTRAL;
+    }
     else
     {
+        // An object is selected and no color has been specified.
+        // Use the text color normally associated with this object's sprite.
         gfxId = gObjectEvents[gSelectedObjectEvent].graphicsId;
         if (gfxId >= OBJ_EVENT_GFX_VAR_0)
             gfxId = VarGetObjectEventGraphicsId(gfxId - OBJ_EVENT_GFX_VAR_0);
@@ -1631,7 +1635,7 @@ void ChangeBoxPokemonNickname(void)
     species = GetBoxMonData(pokemon, MON_DATA_SPECIES, NULL);
     gender = GetBoxMonGender(pokemon);
     personality = GetBoxMonData(pokemon, MON_DATA_PERSONALITY, NULL);
-    DoNamingScreen(NAMING_SCREEN_NAME_RATER, gStringVar2, species, gender, personality, ChangeBoxPokemonNickname_CB);
+    DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, species, gender, personality, ChangeBoxPokemonNickname_CB);
 }
 
 static void ChangeBoxPokemonNickname_CB(void)
@@ -1651,7 +1655,7 @@ void ChangePokemonNickname(void)
     species = GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPECIES, NULL);
     gender = GetMonGender(&gPlayerParty[gSpecialVar_0x8004]);
     personality = GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_PERSONALITY, NULL);
-    DoNamingScreen(NAMING_SCREEN_NAME_RATER, gStringVar2, species, gender, personality, ChangePokemonNickname_CB);
+    DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, species, gender, personality, ChangePokemonNickname_CB);
 }
 
 static void ChangePokemonNickname_CB(void)
@@ -1663,7 +1667,7 @@ static void ChangePokemonNickname_CB(void)
 void BufferMonNickname(void)
 {
     GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar1);
-    StringGetEnd10(gStringVar1);
+    StringGet_Nickname(gStringVar1);
 }
 
 void IsMonOTIDNotPlayers(void)
@@ -2145,7 +2149,7 @@ void DoPokemonLeagueLightingEffect(void)
             LoadPalette(sEliteFourLightingPalettes[0], 0x70, 0x20);
         }
         data[1] = 0;
-        Fieldmap_ApplyGlobalTintToPaletteSlot(7, 1);
+        ApplyGlobalTintToPaletteSlot(7, 1);
     }
 }
 
@@ -2172,7 +2176,7 @@ static void Task_RunPokemonLeagueLightingEffect(u8 taskId)
             data[0] = sEliteFourLightingTimers[data[1]];
             LoadPalette(sEliteFourLightingPalettes[data[1]], 0x70, 0x20);
         }
-        Fieldmap_ApplyGlobalTintToPaletteSlot(7, 1);
+        ApplyGlobalTintToPaletteSlot(7, 1);
     }
 }
 
@@ -2189,7 +2193,7 @@ static void Task_CancelPokemonLeagueLightingEffect(u8 taskId)
         {
             LoadPalette(sEliteFourLightingPalettes[11], 0x70, 0x20);
         }
-        Fieldmap_ApplyGlobalTintToPaletteSlot(7, 1);
+        ApplyGlobalTintToPaletteSlot(7, 1);
         if (gPaletteFade.active)
         {
             BlendPalettes(0x00000080, 16, RGB_BLACK);
@@ -2309,7 +2313,7 @@ void CutMoveOpenDottedHoleDoor(void)
     DrawWholeMapView();
     PlaySE(SE_BANG);
     FlagSet(FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE);
-    ScriptContext2_Disable();
+    UnlockPlayerFieldControls();
 }
 
 static const u16 sDeoxysObjectPals[][16] = {
@@ -2365,7 +2369,7 @@ static void Task_DoDeoxysTriangleInteraction(u8 taskId)
     if (FlagGet(FLAG_SYS_DEOXYS_AWAKENED) == TRUE)
     {
         gSpecialVar_Result = 3;
-        EnableBothScriptContexts();
+        ScriptContext_Enable();
         DestroyTask(taskId);
     }
     else
@@ -2384,7 +2388,7 @@ static void Task_DoDeoxysTriangleInteraction(u8 taskId)
         {
             FlagSet(FLAG_SYS_DEOXYS_AWAKENED);
             gSpecialVar_Result = 2;
-            EnableBothScriptContexts();
+            ScriptContext_Enable();
             DestroyTask(taskId);
         }
         else
@@ -2419,14 +2423,14 @@ static void MoveDeoxysObject(u8 num)
     else
         gFieldEffectArguments[5] = 5;
     FieldEffectStart(FLDEFF_MOVE_DEOXYS_ROCK);
-    Overworld_SetMapObjTemplateCoords(1, sDeoxysCoords[num][0], sDeoxysCoords[num][1]);
+    SetObjEventTemplateCoords(1, sDeoxysCoords[num][0], sDeoxysCoords[num][1]);
 }
 
 static void Task_WaitDeoxysFieldEffect(u8 taskId)
 {
     if (!FieldEffectActiveListContains(FLDEFF_MOVE_DEOXYS_ROCK))
     {
-        EnableBothScriptContexts();
+        ScriptContext_Enable();
         DestroyTask(taskId);
     }
 }

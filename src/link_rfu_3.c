@@ -199,7 +199,7 @@ static const u8 sWireless_RSEtoASCIITable[] = {
     0x20, 0x20, 0x2b, 0x5b, 0x5c, 0x5d, 0x5e, 0x5f,
     [CHAR_DYNAMIC_PLACEHOLDER] = ' ',
     [CHAR_KEYPAD_ICON] = ' ',
-    [CHAR_EXTRA_EMOJI] = ' ',
+    [CHAR_EXTRA_SYMBOL] = ' ',
     [CHAR_PROMPT_SCROLL] = ' ',
     [CHAR_PROMPT_CLEAR] = ' ',
     [EXT_CTRL_CODE_BEGIN] = ' ',
@@ -558,7 +558,7 @@ static bool8 RfuUnusedQueue_Enqueue(struct RfuUnusedQueue *queue, u8 *dest)
     return TRUE;
 }
 
-UNUSED
+// Unused
 static void sub_80FC9B8(u8 *q1, u8 mode)
 {
     s32 i;

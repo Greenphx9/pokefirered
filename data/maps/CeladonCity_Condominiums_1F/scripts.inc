@@ -10,8 +10,7 @@ CeladonCity_Condominiums_1F_EventScript_TeaWoman::
 	msgbox CeladonCity_Condominiums_1F_Text_TryThisDrinkInstead
 	setflag FLAG_GOT_TEA
 	giveitem ITEM_TEA
-	compare VAR_RESULT, FALSE
-	goto_if_eq EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, EventScript_BagIsFull
 	msgbox CeladonCity_Condominiums_1F_Text_NothingBeatsThirstLikeTea
 	release
 	end
@@ -32,7 +31,7 @@ CeladonCity_Condominiums_1F_EventScript_Meowth::
 	lock
 	faceplayer
 	waitse
-	playmoncry SPECIES_MEOWTH, 0
+	playmoncry SPECIES_MEOWTH, CRY_MODE_NORMAL
 	msgbox CeladonCity_Condominiums_1F_Text_Meowth
 	waitmoncry
 	release
@@ -42,7 +41,7 @@ CeladonCity_Condominiums_1F_EventScript_Clefairy::
 	lock
 	faceplayer
 	waitse
-	playmoncry SPECIES_CLEFAIRY, 0
+	playmoncry SPECIES_CLEFAIRY, CRY_MODE_NORMAL
 	msgbox CeladonCity_Condominiums_1F_Text_Clefairy
 	waitmoncry
 	release
@@ -52,7 +51,7 @@ CeladonCity_Condominiums_1F_EventScript_Nidoran::
 	lock
 	faceplayer
 	waitse
-	playmoncry SPECIES_NIDORAN_F, 0
+	playmoncry SPECIES_NIDORAN_F, CRY_MODE_NORMAL
 	msgbox CeladonCity_Condominiums_1F_Text_Nidoran
 	waitmoncry
 	release

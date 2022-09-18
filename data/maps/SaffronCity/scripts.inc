@@ -44,14 +44,14 @@ SaffronCity_EventScript_RocketGrunt7::
 SaffronCity_EventScript_DoorGuardGrunt::
 	lock
 	goto_if_set FLAG_RESCUED_MR_FUJI, SaffronCity_EventScript_DoorGuardAsleep
-	applymovement LOCALID_DOOR_GUARD_GRUNT, Movement_FacePlayer
+	applymovement LOCALID_DOOR_GUARD_GRUNT, Common_Movement_FacePlayer
 	waitmovement 0
 	msgbox SaffronCity_Text_ImASecurityGuard
 	release
 	end
 
 SaffronCity_EventScript_DoorGuardAsleep::
-	textcolor 3
+	textcolor NPC_TEXT_COLOR_NEUTRAL
 	msgbox SaffronCity_Text_HesTakingASnooze
 	release
 	end
@@ -76,7 +76,7 @@ SaffronCity_EventScript_Pidgeot::
 	lock
 	faceplayer
 	waitse
-	playmoncry SPECIES_PIDGEOT, 0
+	playmoncry SPECIES_PIDGEOT, CRY_MODE_NORMAL
 	msgbox SaffronCity_Text_Pidgeot
 	waitmoncry
 	release

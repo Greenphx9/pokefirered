@@ -250,7 +250,7 @@ static const u16 sDiscouragedPowerfulMoveEffects[] =
     EFFECT_SKY_ATTACK,
     EFFECT_RECHARGE,
     EFFECT_SKULL_BASH,
-    EFFECT_SOLARBEAM,
+    EFFECT_SOLAR_BEAM,
     EFFECT_SPIT_UP,
     EFFECT_FOCUS_PUNCH,
     EFFECT_SUPERPOWER,
@@ -269,7 +269,7 @@ void BattleAI_HandleItemUseBeforeAISetup(void)
 
     // Items are allowed to use in ONLY trainer battles.
     if ((gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-        && (gTrainerBattleOpponent_A != SECRET_BASE_OPPONENT)
+        && (gTrainerBattleOpponent_A != TRAINER_SECRET_BASE)
         && !(gBattleTypeFlags & (BATTLE_TYPE_TRAINER_TOWER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_LINK))
         )
     {
@@ -339,7 +339,7 @@ void BattleAI_SetupAIData(void)
         AI_THINKING_STRUCT->aiFlags = AI_SCRIPT_ROAMING;
         return;
     }
-    else if (!(gBattleTypeFlags & (BATTLE_TYPE_TRAINER_TOWER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_BATTLE_TOWER)) && (gTrainerBattleOpponent_A != SECRET_BASE_OPPONENT))
+    else if (!(gBattleTypeFlags & (BATTLE_TYPE_TRAINER_TOWER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_BATTLE_TOWER)) && (gTrainerBattleOpponent_A != TRAINER_SECRET_BASE))
     {
         if (gBattleTypeFlags & BATTLE_TYPE_WILD_SCRIPTED)
         {
@@ -1384,13 +1384,13 @@ extern u16 gBattleWeather;
 
 static void Cmd_get_weather(void)
 {
-    if (gBattleWeather & WEATHER_RAIN_ANY)
+    if (gBattleWeather & B_WEATHER_RAIN)
         AI_THINKING_STRUCT->funcResult = WEATHER_TYPE_RAIN;
-    if (gBattleWeather & WEATHER_SANDSTORM_ANY)
+    if (gBattleWeather & B_WEATHER_SANDSTORM)
         AI_THINKING_STRUCT->funcResult = WEATHER_TYPE_SANDSTORM;
-    if (gBattleWeather & WEATHER_SUN_ANY)
+    if (gBattleWeather & B_WEATHER_SUN)
         AI_THINKING_STRUCT->funcResult = WEATHER_TYPE_SUNNY;
-    if (gBattleWeather & WEATHER_HAIL)
+    if (gBattleWeather & B_WEATHER_HAIL_TEMPORARY)
         AI_THINKING_STRUCT->funcResult = WEATHER_TYPE_HAIL;
 
     sAIScriptPtr += 1;
@@ -1714,13 +1714,13 @@ static void Cmd_if_random_safari_flee(void)
 {
     u8 safariFleeRate;
 
-    if (gBattleStruct->safariGoNearCounter)
+    if (gBattleStruct->safariRockThrowCounter)
     {
         safariFleeRate = gBattleStruct->safariEscapeFactor * 2;
         if (safariFleeRate > 20)
             safariFleeRate = 20;
     }
-    else if (gBattleStruct->safariPkblThrowCounter != 0)
+    else if (gBattleStruct->safariBaitThrowCounter != 0)
     {
         safariFleeRate = gBattleStruct->safariEscapeFactor / 4;
         if (safariFleeRate == 0)

@@ -10,6 +10,7 @@
 #include "constants/pokemon.h"
 #include "constants/moves.h"
 #include "constants/songs.h"
+#include "constants/sound.h"
 #include "constants/species.h"
 #include "constants/vars.h"
 #include "constants/battle.h"
@@ -72,16 +73,16 @@ gSpecialVars::
 
 	.align 2
 gStdScripts::
-	.4byte Std_ObtainItem
-	.4byte Std_FindItem
-	.4byte Std_MsgboxNPC
-	.4byte Std_MsgboxSign
-	.4byte Std_MsgboxDefault
-	.4byte Std_MsgboxYesNo
-	.4byte Std_MsgboxAutoclose
-	.4byte Std_ObtainDecoration
-	.4byte Std_PutItemAway
-	.4byte Std_ReceivedItem
+	.4byte Std_ObtainItem           @ STD_OBTAIN_ITEM
+	.4byte Std_FindItem             @ STD_FIND_ITEM
+	.4byte Std_MsgboxNPC            @ MSGBOX_NPC
+	.4byte Std_MsgboxSign           @ MSGBOX_SIGN
+	.4byte Std_MsgboxDefault        @ MSGBOX_DEFAULT
+	.4byte Std_MsgboxYesNo          @ MSGBOX_YESNO
+	.4byte Std_MsgboxAutoclose      @ MSGBOX_AUTOCLOSE
+	.4byte Std_ObtainDecoration     @ STD_OBTAIN_DECORATION
+	.4byte Std_PutItemAway          @ STD_PUT_ITEM_AWAY
+	.4byte Std_ReceivedItem         @ STD_RECEIVED_ITEM
 gStdScriptsEnd::
 
 	.include "data/maps/BattleColosseum_2P/scripts.inc"
@@ -342,9 +343,9 @@ gStdScriptsEnd::
 	.include "data/maps/PalletTown_PlayersHouse_2F/scripts.inc"
 	.include "data/maps/PalletTown_RivalsHouse/scripts.inc"
 	.include "data/maps/PalletTown_ProfessorOaksLab/scripts.inc"
-	.include "data/maps/ViridianCity_House1/scripts.inc"
+	.include "data/maps/ViridianCity_House/scripts.inc"
 	.include "data/maps/ViridianCity_Gym/scripts.inc"
-	.include "data/maps/ViridianCity_House2/scripts.inc"
+	.include "data/maps/ViridianCity_School/scripts.inc"
 	.include "data/maps/ViridianCity_Mart/scripts.inc"
 	.include "data/maps/ViridianCity_PokemonCenter_1F/scripts.inc"
 	.include "data/maps/ViridianCity_PokemonCenter_2F/scripts.inc"
@@ -668,9 +669,9 @@ gStdScriptsEnd::
 	.include "data/maps/PalletTown_PlayersHouse_2F/text.inc"
 	.include "data/maps/PalletTown_RivalsHouse/text.inc"
 	.include "data/maps/PalletTown_ProfessorOaksLab/text.inc"
-	.include "data/maps/ViridianCity_House1/text.inc"
+	.include "data/maps/ViridianCity_House/text.inc"
 	.include "data/maps/ViridianCity_Gym/text.inc"
-	.include "data/maps/ViridianCity_House2/text.inc"
+	.include "data/maps/ViridianCity_School/text.inc"
 	.include "data/maps/ViridianCity_Mart/text.inc"
 	.include "data/maps/ViridianCity_PokemonCenter_1F/text.inc"
 	.include "data/maps/PewterCity_Museum_1F/text.inc"
@@ -1111,12 +1112,12 @@ EventScript_ChangePokemonNickname::
 
 @ Unused
 EventScript_HandOverItem::
-	getitemname 0, VAR_0x8004
+	bufferitemname STR_VAR_1, VAR_0x8004
 	playfanfare MUS_OBTAIN_TMHM
 	message Text_HandedOverItem
 	waitmessage
 	waitfanfare
-	removeitem VAR_0x8004, 1
+	removeitem VAR_0x8004
 	return
 
 	.include "data/scripts/pokemon_league.inc"
@@ -1174,16 +1175,16 @@ EventScript_ReleaseEnd::
 @ Unused
 EventScript_DelayedLookAround::
 	lockall
-	applymovement VAR_0x8004, Movement_WalkInPlaceFastestLeft
+	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
 	delay 20
-	applymovement VAR_0x8004, Movement_WalkInPlaceFastestUp
+	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	delay 20
-	applymovement VAR_0x8004, Movement_WalkInPlaceFastestRight
+	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	delay 20
-	applymovement VAR_0x8004, Movement_WalkInPlaceFastestDown
+	applymovement VAR_0x8004, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	delay 20
 	releaseall
@@ -1248,8 +1249,7 @@ VermilionCity_PokemonCenter_1F_EventScript_VSSeekerWoman::
 	msgbox VermilionCity_PokemonCenter_1F_Text_UrgeToBattleSomeoneAgain
 	setflag FLAG_GOT_VS_SEEKER
 	giveitem ITEM_VS_SEEKER
-	compare VAR_RESULT, FALSE
-	goto_if_eq EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, EventScript_BagIsFull
 	msgbox VermilionCity_PokemonCenter_1F_Text_UseDeviceForRematches
 	release
 	end
@@ -1263,7 +1263,7 @@ VermilionCity_PokemonCenter_1F_EventScript_ExplainVSSeeker::
 	.include "data/scripts/white_out.inc"
 
 Std_PutItemAway::
-	bufferitemnameplural 1, VAR_0x8000, VAR_0x8001
+	bufferitemnameplural STR_VAR_2, VAR_0x8000, VAR_0x8001
 	checkitemtype VAR_0x8000
 	call EventScript_BufferPutAwayPocketName
 	msgbox Text_PutItemAway
@@ -1279,23 +1279,23 @@ EventScript_BufferPutAwayPocketName::
 	end
 
 EventScript_BufferPutAwayPocketItems::
-	getstdstring 2, STDSTRING_ITEMS_POCKET
+	bufferstdstring STR_VAR_3, STDSTRING_ITEMS_POCKET
 	return
 
 EventScript_BufferPutAwayPocketKeyItems::
-	getstdstring 2, STDSTRING_KEY_ITEMS_POCKET
+	bufferstdstring STR_VAR_3, STDSTRING_KEY_ITEMS_POCKET
 	return
 
 EventScript_BufferPutAwayPocketPokeBalls::
-	getstdstring 2, STDSTRING_POKEBALLS_POCKET
+	bufferstdstring STR_VAR_3, STDSTRING_POKEBALLS_POCKET
 	return
 
 EventScript_BufferPutAwayPocketTMCase::
-	getstdstring 2, STDSTRING_TM_CASE
+	bufferstdstring STR_VAR_3, STDSTRING_TM_CASE
 	return
 
 EventScript_BufferPutAwayPocketBerryPouch::
-	getstdstring 2, STDSTRING_BERRY_POUCH
+	bufferstdstring STR_VAR_3, STDSTRING_BERRY_POUCH
 	return
 
 	.include "data/scripts/seagallop.inc"
@@ -1316,7 +1316,7 @@ EventScript_BrailleCursorWaitButton::
 	return
 
 EventScript_NoMoreRoomForPokemon::
-	textcolor 3
+	textcolor NPC_TEXT_COLOR_NEUTRAL
 	msgbox Text_NoMoreRoomForPokemon
 	release
 	end

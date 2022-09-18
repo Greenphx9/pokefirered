@@ -2,6 +2,7 @@
 #define GUARD_BATTLE_MESSAGE_H
 
 #include "global.h"
+#include "constants/battle_string_ids.h"
 
 // for 0xFD
 
@@ -208,12 +209,12 @@ struct BattleMsgData
 };
 
 void BufferStringBattle(u16 stringID);
-u32 BattleStringExpandPlaceholdersToDisplayedString(const u8* src);
-u32 BattleStringExpandPlaceholders(const u8* src, u8* dst);
-void BattleHandleAddTextPrinter(const u8* text, u8 arg1);
+u32 BattleStringExpandPlaceholdersToDisplayedString(const u8 *src);
+u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst);
+void BattleHandleAddTextPrinter(const u8 *text, u8 arg1);
 void SetPpNumbersPaletteInMoveSelection(void);
 u8 GetCurrentPpToMaxPpState(u8 currentPp, u8 maxPp);
-void BattlePutTextOnWindow(const u8* text, u8 windowId_flags);
+void BattlePutTextOnWindow(const u8 *text, u8 windowId_flags);
 bool8 BattleStringShouldBeColored(u16);
 
 extern struct BattleMsgData *gBattleMsgDataPtr;
@@ -225,11 +226,11 @@ extern u8 gBattleTextBuff1[TEXT_BUFF_ARRAY_COUNT];
 extern u8 gBattleTextBuff2[TEXT_BUFF_ARRAY_COUNT];
 extern u8 gBattleTextBuff3[TEXT_BUFF_ARRAY_COUNT];
 
-extern const u8* const gBattleStringsTable[];
-extern const u8* const gStatNamesTable[];
-extern const u8* const gPokeblockWasTooXStringTable[];
-extern const u8* const gRefereeStringsTable[];
-extern const u8* const gStatNamesTable2[];
+extern const u8 *const gBattleStringsTable[];
+extern const u8 *const gStatNamesTable[];
+extern const u8 *const gPokeblockWasTooXStringTable[];
+extern const u8 *const gRefereeStringsTable[];
+extern const u8 *const gStatNamesTable2[];
 
 extern const u16 gMissStringIds[];
 extern const u16 gTrappingMoves[];
@@ -242,11 +243,11 @@ extern const u8 gText_Ice[];
 extern const u8 gText_Confusion[];
 extern const u8 gText_Love[];
 
-extern const u8 gUnknown_83FE859[];
-extern const u8 gUnknown_83FE85E[];
-extern const u8 gUnknown_83FE85C[];
-extern const u8 gUnknown_83FE860[];
-extern const u8 gUnknown_83FE864[];
+extern const u8 gText_BattleTowerBan_Space[];
+extern const u8 gText_BattleTowerBan_Newline1[];
+extern const u8 gText_BattleTowerBan_Newline2[];
+extern const u8 gText_BattleTowerBan_Is1[];
+extern const u8 gText_BattleTowerBan_Is2[];
 
 extern const u8 gText_SafariBalls[];
 extern const u8 gText_HighlightRed_Left[];

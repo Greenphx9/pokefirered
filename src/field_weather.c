@@ -763,7 +763,7 @@ void FadeScreen(u8 mode, s8 delay)
         if (useWeatherPal)
             CpuFastCopy(gPlttBufferFaded, gPlttBufferUnfaded, PLTT_SIZE);
 
-        BeginNormalPaletteFade(0xFFFFFFFF, delay, 0, 16, fadeColor);
+        BeginNormalPaletteFade(PALETTES_ALL, delay, 0, 16, fadeColor);
         gWeatherPtr->palProcessingState = WEATHER_PAL_STATE_SCREEN_FADING_OUT;
     }
     else
@@ -772,7 +772,7 @@ void FadeScreen(u8 mode, s8 delay)
         if (useWeatherPal)
             gWeatherPtr->fadeScreenCounter = 0;
         else
-            BeginNormalPaletteFade(0xFFFFFFFF, delay, 16, 0, fadeColor);
+            BeginNormalPaletteFade(PALETTES_ALL, delay, 16, 0, fadeColor);
 
         gWeatherPtr->palProcessingState = WEATHER_PAL_STATE_SCREEN_FADING_IN;
         gWeatherPtr->fadeInActive = 1;
@@ -1045,38 +1045,39 @@ bool8 Weather_UpdateBlend(void)
     return FALSE;
 }
 
-UNUSED static void Unused_SetWeather(u8 a)
+// Unused. Uses the same numbering scheme as the coord events
+static void SetFieldWeather(u8 weather)
 {
-    switch (a)
+    switch (weather)
     {
-    case 1:
+    case COORD_EVENT_WEATHER_SUNNY_CLOUDS:
         SetWeather(WEATHER_SUNNY_CLOUDS);
         break;
-    case 2:
+    case COORD_EVENT_WEATHER_SUNNY:
         SetWeather(WEATHER_SUNNY);
         break;
-    case 3:
+    case COORD_EVENT_WEATHER_RAIN:
         SetWeather(WEATHER_RAIN);
         break;
-    case 4:
+    case COORD_EVENT_WEATHER_SNOW:
         SetWeather(WEATHER_SNOW);
         break;
-    case 5:
+    case COORD_EVENT_WEATHER_RAIN_THUNDERSTORM:
         SetWeather(WEATHER_RAIN_THUNDERSTORM);
         break;
-    case 6:
+    case COORD_EVENT_WEATHER_FOG_HORIZONTAL:
         SetWeather(WEATHER_FOG_HORIZONTAL);
         break;
-    case 7:
+    case COORD_EVENT_WEATHER_FOG_DIAGONAL:
         SetWeather(WEATHER_FOG_DIAGONAL);
         break;
-    case 8:
+    case COORD_EVENT_WEATHER_VOLCANIC_ASH:
         SetWeather(WEATHER_VOLCANIC_ASH);
         break;
-    case 9:
+    case COORD_EVENT_WEATHER_SANDSTORM:
         SetWeather(WEATHER_SANDSTORM);
         break;
-    case 10:
+    case COORD_EVENT_WEATHER_SHADE:
         SetWeather(WEATHER_SHADE);
         break;
     }

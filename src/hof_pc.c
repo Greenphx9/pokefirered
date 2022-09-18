@@ -22,8 +22,8 @@ static void Task_WaitFadeAndSetCallback(u8 taskId)
 
 void HallOfFamePCBeginFade(void)
 {
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
-    ScriptContext2_Enable();
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
+    LockPlayerFieldControls();
     CreateTask(Task_WaitFadeAndSetCallback, 0);
 }
 
@@ -35,11 +35,11 @@ void ReturnFromHallOfFamePC(void)
 
 static void ReshowPCMenuAfterHallOfFamePC(void)
 {
-    ScriptContext2_Enable();
+    LockPlayerFieldControls();
     Overworld_PlaySpecialMapMusic();
     CreatePCMenu();
     ScriptMenu_DisplayPCStartupPrompt();
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0x10, 0, RGB_BLACK);
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK);
     CreateTask(Task_WaitForPaletteFade, 10);
 }
 
