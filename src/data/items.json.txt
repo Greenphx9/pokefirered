@@ -7,8 +7,8 @@ extern const u8 gMoveDescription_{{ item.moveId }}[];
 ## endfor
 const u8 gItemDescription_ITEM_NONE[] = _("?????");
 
-const struct Item gItems[] = {
-    {% for item in items %}{
+const struct Item gItems[ITEM_N_A] = { {% for item in items %}
+    [{{ item.itemId }}] = {
         .name = _("{{ item.english }}"),
         .itemId = {{ item.itemId }},
         .price = {{ item.price }},
