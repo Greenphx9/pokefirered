@@ -263,7 +263,7 @@ void FieldUseFunc_MachBike(u8 taskId)
      || MetatileBehavior_IsHorizontalRail(behavior) == TRUE
      || MetatileBehavior_IsIsolatedVerticalRail(behavior) == TRUE
      || MetatileBehavior_IsIsolatedHorizontalRail(behavior) == TRUE)
-        DisplayItemMessageInCurrentContext(taskId, gTasks[taskId].data[3], FONT_2, gUnknown_8416451);
+        DisplayItemMessageInCurrentContext(taskId, gTasks[taskId].data[3], FONT_2, gText_CantDismountBike);
     else if (Overworld_IsBikingAllowed() == TRUE && !IsBikingDisallowedByPlayer())
     {
         sItemUseOnFieldCB = ItemUseOnFieldCB_Bicycle;
@@ -337,7 +337,7 @@ void ItemUseOutOfBattle_Itemfinder(u8 taskId)
 void FieldUseFunc_CoinCase(u8 taskId)
 {
     ConvertIntToDecimalStringN(gStringVar1, GetCoins(), STR_CONV_MODE_LEFT_ALIGN, 4);
-    StringExpandPlaceholders(gStringVar4, gUnknown_8416537);
+    StringExpandPlaceholders(gStringVar4, gText_CoinCase);
     ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, NULL, gSpecialVar_ItemId, 0xFFFF);
     if (gTasks[taskId].data[3] == 0)
         DisplayItemMessageInBag(taskId, FONT_2, gStringVar4, Task_ReturnToBagFromContextMenu);
@@ -348,7 +348,7 @@ void FieldUseFunc_CoinCase(u8 taskId)
 void FieldUseFunc_PowderJar(u8 taskId)
 {
     ConvertIntToDecimalStringN(gStringVar1, GetBerryPowder(), STR_CONV_MODE_LEFT_ALIGN, 5);
-    StringExpandPlaceholders(gStringVar4, gUnknown_8416644);
+    StringExpandPlaceholders(gStringVar4, gText_PowderQty);
     ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, NULL, gSpecialVar_ItemId, 0xFFFF);
     if (gTasks[taskId].data[3] == 0)
         DisplayItemMessageInBag(taskId, FONT_2, gStringVar4, Task_ReturnToBagFromContextMenu);
@@ -371,17 +371,16 @@ void FieldUseFunc_PokeFlute(u8 taskId)
     {
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, NULL, gSpecialVar_ItemId, 0xFFFF);
         if (gTasks[taskId].data[3] == 0)
-            DisplayItemMessageInBag(taskId, FONT_2, gUnknown_8416690, sub_80A1648);
+            DisplayItemMessageInBag(taskId, FONT_2, gText_PlayedPokeFlute, sub_80A1648);
         else
-            DisplayItemMessageOnField(taskId, FONT_2, gUnknown_8416690, sub_80A1648);
+            DisplayItemMessageOnField(taskId, FONT_2, gText_PlayedPokeFlute, sub_80A1648);
     }
     else
     {
-        // Now that's a catchy tune!
         if (gTasks[taskId].data[3] == 0)
-            DisplayItemMessageInBag(taskId, FONT_2, gUnknown_841665C, Task_ReturnToBagFromContextMenu);
+            DisplayItemMessageInBag(taskId, FONT_2, gText_PlayedPokeFluteCatchy, Task_ReturnToBagFromContextMenu);
         else
-            DisplayItemMessageOnField(taskId, FONT_2, gUnknown_841665C, Task_ItemUse_CloseMessageBoxAndReturnToField);
+            DisplayItemMessageOnField(taskId, FONT_2, gText_PlayedPokeFluteCatchy, Task_ItemUse_CloseMessageBoxAndReturnToField);
     }
 }
 
@@ -396,9 +395,9 @@ static void sub_80A1674(u8 taskId)
     if (WaitFanfare(FALSE))
     {
         if (gTasks[taskId].data[3] == 0)
-            DisplayItemMessageInBag(taskId, FONT_2, gUnknown_84166A7, Task_ReturnToBagFromContextMenu);
+            DisplayItemMessageInBag(taskId, FONT_2, gText_PokeFluteAwakenedMon, Task_ReturnToBagFromContextMenu);
         else
-            DisplayItemMessageOnField(taskId, FONT_2, gUnknown_84166A7, Task_ItemUse_CloseMessageBoxAndReturnToField);
+            DisplayItemMessageOnField(taskId, FONT_2, gText_PokeFluteAwakenedMon, Task_ItemUse_CloseMessageBoxAndReturnToField);
     }
 }
 
@@ -415,7 +414,7 @@ void FieldUseFunc_Medicine(u8 taskId)
 
 void FieldUseFunc_Ether(u8 taskId)
 {
-    gItemUseCB = ItemUseCB_PPRecovery;
+    gItemUseCB = ItemUseCB_TryRestorePP;
     sub_80A16D0(taskId);
 }
 
@@ -557,7 +556,7 @@ void FieldUseFunc_SuperRepel(u8 taskId)
     }
     else
         // An earlier repel is still in effect
-        DisplayItemMessageInBag(taskId, FONT_2, gUnknown_841659E, Task_ReturnToBagFromContextMenu);
+        DisplayItemMessageInBag(taskId, FONT_2, gText_RepelEffectsLingered, Task_ReturnToBagFromContextMenu);
 }
 
 static void sub_80A19E8(u8 taskId)
@@ -577,7 +576,7 @@ static void sub_80A1A44(void)
     Pocket_CalculateNItemsAndMaxShowed(ItemId_GetPocket(gSpecialVar_ItemId));
     PocketCalculateInitialCursorPosAndItemsAbove(ItemId_GetPocket(gSpecialVar_ItemId));
     CopyItemName(gSpecialVar_ItemId, gStringVar2);
-    StringExpandPlaceholders(gStringVar4, gUnknown_841658C);
+    StringExpandPlaceholders(gStringVar4, gText_PlayerUsedVar2);
 }
 
 void FieldUseFunc_BlackFlute(u8 taskId)
@@ -588,7 +587,7 @@ void FieldUseFunc_BlackFlute(u8 taskId)
         FlagSet(FLAG_SYS_WHITE_FLUTE_ACTIVE);
         FlagClear(FLAG_SYS_BLACK_FLUTE_ACTIVE);
         CopyItemName(gSpecialVar_ItemId, gStringVar2);
-        StringExpandPlaceholders(gStringVar4, gUnknown_84165D2);
+        StringExpandPlaceholders(gStringVar4, gText_UsedVar2WildLured);
         gTasks[taskId].func = sub_80A1B48;
         gTasks[taskId].data[8] = 0;
     }
@@ -597,7 +596,7 @@ void FieldUseFunc_BlackFlute(u8 taskId)
         FlagSet(FLAG_SYS_BLACK_FLUTE_ACTIVE);
         FlagClear(FLAG_SYS_WHITE_FLUTE_ACTIVE);
         CopyItemName(gSpecialVar_ItemId, gStringVar2);
-        StringExpandPlaceholders(gStringVar4, gUnknown_8416600);
+        StringExpandPlaceholders(gStringVar4, gText_UsedVar2WildRepelled);
         gTasks[taskId].func = sub_80A1B48;
         gTasks[taskId].data[8] = 0;
     }
@@ -754,7 +753,7 @@ void BattleUseFunc_PokeBallEtc(u8 taskId)
     }
     else
     {
-        DisplayItemMessageInBag(taskId, FONT_2, gUnknown_8416631, Task_ReturnToBagFromContextMenu);
+        DisplayItemMessageInBag(taskId, FONT_2, gText_BoxFull, Task_ReturnToBagFromContextMenu);
     }
 }
 
@@ -827,7 +826,7 @@ static void sub_80A1FD8(u8 taskId)
 
 void BattleUseFunc_Ether(u8 taskId)
 {
-    gItemUseCB = ItemUseCB_PPRecovery;
+    gItemUseCB = ItemUseCB_TryRestorePP;
     ItemUse_SwitchToPartyMenuInBattle(taskId);
 }
 

@@ -526,7 +526,7 @@ static void GetTMNumberAndMoveString(u8 * dest, u16 itemId)
         #endif
         
         StringAppend(gStringVar4, sText_ClearTo18);
-        StringAppend(gStringVar4, gOtherText_UnkF9_08_Clear_01);
+        StringAppend(gStringVar4, gText_NumberClear01);
         ConvertIntToDecimalStringN(gStringVar1, itemId - ITEM_HM01 + 1, STR_CONV_MODE_LEADING_ZEROS, hmDigits);
         StringAppend(gStringVar4, gStringVar1);
     }
@@ -537,8 +537,8 @@ static void GetTMNumberAndMoveString(u8 * dest, u16 itemId)
         #else
             u8 tmDigits = 3;
         #endif
-        
-        StringAppend(gStringVar4, gOtherText_UnkF9_08_Clear_01);
+
+        StringAppend(gStringVar4, gText_NumberClear01);
         ConvertIntToDecimalStringN(gStringVar1, itemId - ITEM_TM01 + 1, STR_CONV_MODE_LEADING_ZEROS, tmDigits);
         StringAppend(gStringVar4, gStringVar1);
     }
