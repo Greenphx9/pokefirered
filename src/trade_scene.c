@@ -48,7 +48,7 @@ struct InGameTrade {
     /*0x00*/ u8 nickname[POKEMON_NAME_LENGTH + 1];
     /*0x0C*/ u16 species;
     /*0x0E*/ u8 ivs[NUM_STATS];
-    /*0x14*/ u8 abilityNum;
+    /*0x14*/ u16 abilityNum;
     /*0x18*/ u32 otId;
     /*0x1C*/ u8 conditions[5];
     /*0x24*/ u32 personality;
