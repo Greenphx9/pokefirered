@@ -455,8 +455,10 @@ struct BattleStruct
         struct LinkBattlerHeader linkBattlerHeader;
         struct MultiBattlePokemonTx multiBattleMons[3];
     } multiBuffer;
-    u8 padding_1E4[0x1C];
-}; // size == 0x200 bytes
+    u8 abilityPopUpSpriteIds[MAX_BATTLERS_COUNT][2];    // two per battler
+    u8 activeAbilityPopUps; // as bits for each battler
+    //u8 padding_1E4[0x1B];
+}; // size == 0x??? bytes
 
 extern struct BattleStruct *gBattleStruct;
 
@@ -521,6 +523,8 @@ struct BattleScripting
     u8 reshowMainState;
     u8 reshowHelperState;
     u8 levelUpHP;
+    u16 abilityPopupOverwrite;
+    bool8 fixedPopup;   // Force ability popup to stick until manually called back
 };
 
 struct BattleSpriteInfo
@@ -722,5 +726,6 @@ extern u8 gChosenActionByBattler[MAX_BATTLERS_COUNT];
 extern u8 gBattleTerrain;
 extern struct MultiBattlePokemonTx gMultiPartnerParty[3];
 extern u16 gRandomTurnNumber;
+extern u8 gBattlerAbility;
 
 #endif // GUARD_BATTLE_H

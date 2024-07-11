@@ -71,6 +71,9 @@ u8 GetBattlerForBattleScript(u8 caseId)
     case BS_ATTACKER_SIDE:
     case BS_NOT_ATTACKER_SIDE:
         break;
+    case BS_ABILITY_BATTLER:
+        ret = gBattlerAbility;
+        break;
     }
     return ret;
 }

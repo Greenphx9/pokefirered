@@ -26,6 +26,8 @@
 #define sRESHOW_MAIN_STATE           gBattleScripting + 0x21 // reshowMainState
 #define sRESHOW_HELPER_STATE         gBattleScripting + 0x22 // reshowHelperState
 #define sLVLUP_HP                    gBattleScripting + 0x23 // levelUpHP
+#define sFIXED_ABILITY_POPUP         gBattleScripting + 0x24 // fixedPopup
+#define sABILITY_OVERWRITE           gBattleScripting + 0x26 // abilityPopupOverwrite
 
 // Array entries for battle communication
 #define MULTIUSE_STATE          0
@@ -60,6 +62,7 @@
 #define BS_OPPONENT1                12
 #define BS_PLAYER2                  13 // for Cmd_updatestatusicon
 #define BS_OPPONENT2                14
+#define BS_ABILITY_BATTLER          15
 
 // atk 01, accuracy calc
 #define NO_ACC_CALC 0xFFFE
@@ -89,6 +92,7 @@
 #define VARIOUS_RETURN_OPPONENT_MON2            10
 #define VARIOUS_CHECK_POKEFLUTE                 11
 #define VARIOUS_WAIT_FANFARE                    12
+#define VARIOUS_ABILITY_POPUP                   13
 
 // Cmd_manipulatedmg
 #define DMG_CHANGE_SIGN            0
