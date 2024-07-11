@@ -35,7 +35,7 @@ struct BattleWindowText
     u8 shadowColor;
 };
 
-static EWRAM_DATA u8 sBattlerAbilities[MAX_BATTLERS_COUNT] = {};
+static EWRAM_DATA u16 sBattlerAbilities[MAX_BATTLERS_COUNT] = {};
 static EWRAM_DATA struct BattleMsgData *sBattleMsgDataPtr = NULL;
 
 static void ChooseMoveUsedParticle(u8 *textPtr);
@@ -2291,7 +2291,7 @@ static void ExpandBattleTextBuffPlaceholders(const u8 *src, u8 *dst)
             break;
         case B_BUFF_ABILITY: // ability names
             StringAppend(dst, gAbilityNames[src[srcId + 1]]);
-            srcId += 2;
+            srcId += 3;
             break;
         case B_BUFF_ITEM: // item name
             hword = T1_READ_16(&src[srcId + 1]);
