@@ -223,9 +223,9 @@ static u8 GetBattlerElevation(u8 battlerId, u16 species)
         if (species == SPECIES_CASTFORM)
             ret = sCastformElevations[gBattleMonForms[battlerId]];
         else if (species > NUM_SPECIES)
-            ret = gEnemyMonElevation[0];
+            ret = gSpeciesInfo[0].enemyMonElevation;
         else
-            ret = gEnemyMonElevation[species];
+            ret = gSpeciesInfo[species].enemyMonElevation;
     }
     return ret;
 }
@@ -1954,14 +1954,12 @@ u8 CreateAdditionalMonSpriteForMoveAnim(u16 species, bool8 isBackpic, u8 templat
     {
         LoadCompressedPalette(GetMonSpritePalFromSpeciesAndPersonality(species, trainerId, personality), OBJ_PLTT_ID(palette), PLTT_SIZE_4BPP);
         if (ignoreDeoxys == TRUE || ShouldIgnoreDeoxysForm(DEOXYS_CHECK_BATTLE_ANIM, battlerId) == TRUE || gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies != 0)
-            LoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[species],
-                                                gMonSpritesGfxPtr->multiUseBuffer,
+            LoadSpecialPokePic_DontHandleDeoxys(gMonSpritesGfxPtr->multiUseBuffer,
                                                 species,
                                                 personality,
                                                 TRUE);
         else
-            LoadSpecialPokePic(&gMonFrontPicTable[species],
-                               gMonSpritesGfxPtr->multiUseBuffer,
+            LoadSpecialPokePic(gMonSpritesGfxPtr->multiUseBuffer,
                                species,
                                personality,
                                TRUE);
@@ -1970,14 +1968,12 @@ u8 CreateAdditionalMonSpriteForMoveAnim(u16 species, bool8 isBackpic, u8 templat
     {
         LoadCompressedPalette(GetMonSpritePalFromSpeciesAndPersonality(species, trainerId, personality), OBJ_PLTT_ID(palette), PLTT_SIZE_4BPP);
         if (ignoreDeoxys == TRUE || ShouldIgnoreDeoxysForm(DEOXYS_CHECK_BATTLE_ANIM, battlerId) == TRUE || gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies != 0)
-            LoadSpecialPokePic_DontHandleDeoxys(&gMonBackPicTable[species],
-                                                gMonSpritesGfxPtr->multiUseBuffer,
+            LoadSpecialPokePic_DontHandleDeoxys(gMonSpritesGfxPtr->multiUseBuffer,
                                                 species,
                                                 personality,
                                                 FALSE);
         else
-            LoadSpecialPokePic(&gMonBackPicTable[species],
-                               gMonSpritesGfxPtr->multiUseBuffer,
+            LoadSpecialPokePic(gMonSpritesGfxPtr->multiUseBuffer,
                                species,
                                personality,
                                FALSE);

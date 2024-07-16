@@ -2888,6 +2888,7 @@ void DexScreen_PrintMonFlavorText(u8 windowId, u16 species, u8 x, u8 y)
 
 void DexScreen_DrawMonFootprint(u8 windowId, u16 species, u8 x, u8 y)
 {
+    #if P_FOOTPRINTS
     u16 i, j, unused, tileIdx;
     u8 footprintPixel, footprintTile;
     u8 * buffer;
@@ -2895,7 +2896,9 @@ void DexScreen_DrawMonFootprint(u8 windowId, u16 species, u8 x, u8 y)
 
     if (!(DexScreen_GetSetPokedexFlag(species, FLAG_GET_CAUGHT, TRUE)))
         return;
-    footprint = (u8 *)(gMonFootprintTable[species]);
+    
+    footprint = (u8 *)(gSpeciesInfo[species].footprint);
+    
     buffer = gDecompressionBuffer;
     unused = 0;
     tileIdx = 0;
@@ -2916,6 +2919,7 @@ void DexScreen_DrawMonFootprint(u8 windowId, u16 species, u8 x, u8 y)
         }
     }
     BlitBitmapRectToWindow(windowId, buffer, 0, 0, 16, 16, x, y, 16, 16);
+    #endif
 }
 
 static u8 DexScreen_DrawMonDexPage(bool8 justRegistered)

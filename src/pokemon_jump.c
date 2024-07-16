@@ -3863,7 +3863,7 @@ static void CreateJumpMonSprites(void)
     {
         struct PokemonJump_MonInfo *info = GetMonInfoByMultiplayerId(i);
 
-        y = gMonFrontPicCoords[info->species].y_offset;
+        y = gSpeciesInfo[info->species].frontPicYOffset;
         CreateJumpMonSprite(sPokemonJumpGfx, info, *xCoords, y + 112, i);
         CreateStarSprite(sPokemonJumpGfx, *xCoords, 112, i);
         xCoords++;
@@ -4427,7 +4427,7 @@ static void CreateJumpMonSprite(struct PokemonJumpGfx *jumpGfx, struct PokemonJu
     if (buffer && unusedBuffer)
     {
         HandleLoadSpecialPokePic(
-            &gMonFrontPicTable[monInfo->species],
+            TRUE,
             buffer,
             monInfo->species,
             monInfo->personality);

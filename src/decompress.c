@@ -3,9 +3,6 @@
 #include "decompress.h"
 #include "pokemon.h"
 
-extern const struct CompressedSpriteSheet gMonFrontPicTable[];
-extern const struct CompressedSpriteSheet gMonBackPicTable[];
-
 static void DuplicateDeoxysTiles(void *pointer, s32 species);
 
 void LZDecompressWram(const void *src, void *dest)
@@ -50,6 +47,16 @@ void LoadCompressedSpritePalette(const struct CompressedSpritePalette *src)
     LoadSpritePalette(&dest);
 }
 
+void LoadCompressedSpritePaletteWithTag(const u32 *pal, u16 tag)
+{
+    struct SpritePalette dest;
+
+    LZ77UnCompWram(pal, gDecompressionBuffer);
+    dest.data = (void *) gDecompressionBuffer;
+    dest.tag = tag;
+    LoadSpritePalette(&dest);
+}
+
 void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePalette *a, void *buffer)
 {
     struct SpritePalette dest;
@@ -63,24 +70,18 @@ void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePale
 void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void *buffer, s32 species)
 {
     if (species > NUM_SPECIES)
-        LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
+        LZ77UnCompWram(gSpeciesInfo[0].frontPic, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
     DuplicateDeoxysTiles(buffer, species);
 }
 
-void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
+void HandleLoadSpecialPokePic(bool8 isFrontPic, void *dest, s32 species, u32 personality)
 {
-    bool8 isFrontPic;
-
-    if (src == &gMonFrontPicTable[species])
-        isFrontPic = TRUE; // frontPic
-    else
-        isFrontPic = FALSE; // backPic
-    LoadSpecialPokePic(src, dest, species, personality, isFrontPic);
+    LoadSpecialPokePic(dest, species, personality, isFrontPic);
 }
 
-void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic)
+void LoadSpecialPokePic(void *dest, s32 species, u32 personality, bool8 isFrontPic)
 {
     if (species == SPECIES_UNOWN)
     {
@@ -92,14 +93,19 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
         else
             i += SPECIES_UNOWN_B - 1;
         if (!isFrontPic)
-            LZ77UnCompWram(gMonBackPicTable[i].data, dest);
+            LZ77UnCompWram(gSpeciesInfo[i].backPic, dest);
         else
-            LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
+            LZ77UnCompWram(gSpeciesInfo[i].frontPic, dest);
     }
     else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
-        LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
-    else
-        LZ77UnCompWram(src->data, dest);
+        LZ77UnCompWram(gSpeciesInfo[0].frontPic, dest);
+    else 
+    {
+        if(!isFrontPic)
+            LZ77UnCompWram(gSpeciesInfo[species].backPic, dest);
+        else
+            LZ77UnCompWram(gSpeciesInfo[species].frontPic, dest);
+    }
 
     DuplicateDeoxysTiles(dest, species);
     DrawSpindaSpots(species, personality, dest, isFrontPic);
@@ -308,23 +314,17 @@ u32 GetDecompressedDataSize(const u8 *ptr)
 void DecompressPicFromTable_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *buffer, s32 species)
 {
     if (species > NUM_SPECIES)
-        LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
+        LZ77UnCompWram(gSpeciesInfo[0].frontPic, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
 }
 
-void HandleLoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
+void HandleLoadSpecialPokePic_DontHandleDeoxys(bool8 isFrontPic, void *dest, s32 species, u32 personality)
 {
-    bool8 isFrontPic;
-
-    if (src == &gMonFrontPicTable[species])
-        isFrontPic = TRUE; // frontPic
-    else
-        isFrontPic = FALSE; // backPic
-    LoadSpecialPokePic_DontHandleDeoxys(src, dest, species, personality, isFrontPic);
+    LoadSpecialPokePic_DontHandleDeoxys(dest, species, personality, isFrontPic);
 }
 
-void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic)
+void LoadSpecialPokePic_DontHandleDeoxys(void *dest, s32 species, u32 personality, bool8 isFrontPic)
 {
     if (species == SPECIES_UNOWN)
     {
@@ -336,17 +336,20 @@ void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src
         else
             i += SPECIES_UNOWN_B - 1;
         if (!isFrontPic)
-            LZ77UnCompWram(gMonBackPicTable[i].data, dest);
+            LZ77UnCompWram(gSpeciesInfo[i].backPic, dest);
         else
-            LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
+            LZ77UnCompWram(gSpeciesInfo[i].frontPic, dest);
     }
     else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
     {
-        LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
+        LZ77UnCompWram(gSpeciesInfo[0].frontPic, dest);
     }
-    else
+    else 
     {
-        LZ77UnCompWram(src->data, dest);
+        if(!isFrontPic)
+            LZ77UnCompWram(gSpeciesInfo[species].backPic, dest);
+        else
+            LZ77UnCompWram(gSpeciesInfo[species].frontPic, dest);
     }
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
