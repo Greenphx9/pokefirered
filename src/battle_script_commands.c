@@ -36,6 +36,7 @@
 #include "constants/abilities.h"
 #include "constants/pokemon.h"
 #include "constants/maps.h"
+#include "config/battle.h"
 
 extern const u8 *const gBattleScriptsForMoveEffects[];
 
@@ -805,12 +806,12 @@ static const u8 sTerrainToType[] =
 };
 
 // - ITEM_ULTRA_BALL skips Master Ball and ITEM_NONE
-static const u8 sBallCatchBonuses[] =
+static const u16 sBallCatchBonuses[] =
 {
-    [ITEM_ULTRA_BALL - ITEM_ULTRA_BALL]  = 20,
-    [ITEM_GREAT_BALL - ITEM_ULTRA_BALL]  = 15,
-    [ITEM_POKE_BALL - ITEM_ULTRA_BALL]   = 10,
-    [ITEM_SAFARI_BALL - ITEM_ULTRA_BALL] = 15
+    [ITEM_ULTRA_BALL]  = 20,
+    [ITEM_GREAT_BALL]  = 15,
+    [ITEM_POKE_BALL]   = 10,
+    [ITEM_SAFARI_BALL] = 15
 };
 
 // unknown unused data
@@ -9547,7 +9548,7 @@ static void Cmd_handleballthrow(void)
             }
         }
         else
-            ballMultiplier = sBallCatchBonuses[gLastUsedItem - ITEM_ULTRA_BALL];
+            ballMultiplier = sBallCatchBonuses[gLastUsedItem];
 
         odds = (catchRate * ballMultiplier / 10)
             * (gBattleMons[gBattlerTarget].maxHP * 3 - gBattleMons[gBattlerTarget].hp * 2)

@@ -5,6 +5,9 @@ GAME_REVISION ?= 0
 GAME_LANGUAGE ?= ENGLISH
 MODERN        ?= 0
 COMPARE       ?= 0
+TEST         ?= 0
+ANALYZE      ?= 0
+UNUSED_ERROR ?= 0
 
 # For gbafix
 MAKER_CODE  := 01

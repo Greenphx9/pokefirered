@@ -1,6 +1,7 @@
 #ifndef GUARD_BATTLE_MAIN_H
 #define GUARD_BATTLE_MAIN_H
 
+#include "pokemon.h"
 #include "constants/abilities.h"
 
 struct TrainerMoney
@@ -24,7 +25,7 @@ struct MultiBattlePokemonTx
 };
 
 #define TYPE_NAME_LENGTH 6
-#define ABILITY_NAME_LENGTH 12
+#define ABILITY_NAME_LENGTH ((B_EXPANDED_ABILITY_NAMES == TRUE) ? 16 : 12)
 
 // defines for the u8 array gTypeEffectiveness
 #define TYPE_EFFECT_ATK_TYPE(i)((gTypeEffectiveness[i + 0]))
@@ -59,8 +60,7 @@ extern const u8 gStatusConditionString_LoveJpn[8];
 extern const u8 *const gStatusConditionStringsTable[7][2];
 extern const u8 gTypeEffectiveness[336];
 extern const struct TrainerMoney gTrainerMoneyTable[];
-extern const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT];
-extern const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1];
+extern const struct Ability gAbilitiesInfo[ABILITIES_COUNT];
 
 void CB2_InitBattle(void);
 void BattleMainCB2(void);

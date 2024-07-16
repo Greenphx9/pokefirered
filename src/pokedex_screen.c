@@ -200,9 +200,6 @@ const u16 sBlitTiles_WideEllipse[] = INCBIN_U16("graphics/pokedex/blit_wide_elli
 
 static const u8 gExpandedPlaceholder_PokedexDescription[] = _("");
 
-#include "data/pokemon/pokedex_text.h"
-#include "data/pokemon/pokedex_entries.h"
-
 static const struct BgTemplate sBgTemplates[] = {
     {
         .bg = 0,
@@ -1415,7 +1412,7 @@ static u16 DexScreen_CountMonsInOrderedList(u8 orderIdx)
             }
         }
         break;
-    case DEX_ORDER_TYPE:
+    /*case DEX_ORDER_TYPE:
         for (i = 0; i < NUM_SPECIES - 1; i++)
         {
             ndex_num = SpeciesToNationalPokedexNum(gPokedexOrder_Type[i]);
@@ -1431,7 +1428,7 @@ static u16 DexScreen_CountMonsInOrderedList(u8 orderIdx)
                 }
             }
         }
-        break;
+        break;*/
     case DEX_ORDER_LIGHTEST:
         for (i = 0; i < NATIONAL_DEX_COUNT; i++)
         {
@@ -2673,7 +2670,7 @@ void DexScreen_PrintMonCategory(u8 windowId, u16 species, u8 x, u8 y)
 
     species = SpeciesToNationalPokedexNum(species);
 
-    categoryName = (u8 *)gPokedexEntries[species].categoryName;
+    categoryName = (u8 *)gSpeciesInfo[species].categoryName;
     index = 0;
     if (DexScreen_GetSetPokedexFlag(species, FLAG_GET_CAUGHT, FALSE))
     {
@@ -2712,7 +2709,7 @@ void DexScreen_PrintMonHeight(u8 windowId, u16 species, u8 x, u8 y)
     u8 i;
 
     species = SpeciesToNationalPokedexNum(species);
-    height = gPokedexEntries[species].height;
+    height = gSpeciesInfo[species].height;
     labelText = gText_HT;
 
     i = 0;
@@ -2772,7 +2769,7 @@ void DexScreen_PrintMonWeight(u8 windowId, u16 species, u8 x, u8 y)
     u32 j;
 
     species = SpeciesToNationalPokedexNum(species);
-    weight = gPokedexEntries[species].weight;
+    weight = gSpeciesInfo[species].weight;
     labelText = gText_WT;
     lbsText = gText_Lbs;
 
@@ -2862,7 +2859,7 @@ void DexScreen_PrintMonFlavorText(u8 windowId, u16 species, u8 x, u8 y)
 
     if (DexScreen_GetSetPokedexFlag(species, FLAG_GET_CAUGHT, FALSE))
     {
-        printerTemplate.currentChar = gPokedexEntries[species].description;
+        printerTemplate.currentChar = gSpeciesInfo[species].description;
         printerTemplate.windowId = windowId;
         printerTemplate.fontId = FONT_NORMAL;
         printerTemplate.letterSpacing = 1;
@@ -2872,7 +2869,7 @@ void DexScreen_PrintMonFlavorText(u8 windowId, u16 species, u8 x, u8 y)
         printerTemplate.bgColor = 0;
         printerTemplate.shadowColor = 2;
 
-        length = GetStringWidth(FONT_NORMAL, gPokedexEntries[species].description, 0);
+        length = GetStringWidth(FONT_NORMAL, gSpeciesInfo[species].description, 0);
         xCenter = x + (240 - length) / 2;
 
         if (xCenter > 0)
@@ -3109,15 +3106,15 @@ u8 DexScreen_DrawMonAreaPage(void)
         gSprites[sPokedexScreenData->windowIds[14]].oam.affineMode = ST_OAM_AFFINE_NORMAL;
         gSprites[sPokedexScreenData->windowIds[14]].oam.matrixNum = 2;
         gSprites[sPokedexScreenData->windowIds[14]].oam.priority = 1;
-        gSprites[sPokedexScreenData->windowIds[14]].y2 = gPokedexEntries[speciesId].pokemonOffset;
-        SetOamMatrix(2, gPokedexEntries[speciesId].pokemonScale, 0, 0, gPokedexEntries[speciesId].pokemonScale);
+        gSprites[sPokedexScreenData->windowIds[14]].y2 = gSpeciesInfo[speciesId].pokemonOffset;
+        SetOamMatrix(2, gSpeciesInfo[speciesId].pokemonScale, 0, 0, gSpeciesInfo[speciesId].pokemonScale);
         sPokedexScreenData->windowIds[15] = CreateTrainerPicSprite(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender, TRUE), 1, 80, 104, 0, 0xFFFF);
         gSprites[sPokedexScreenData->windowIds[15]].oam.paletteNum = 2;
         gSprites[sPokedexScreenData->windowIds[15]].oam.affineMode = ST_OAM_AFFINE_NORMAL;
         gSprites[sPokedexScreenData->windowIds[15]].oam.matrixNum = 1;
         gSprites[sPokedexScreenData->windowIds[15]].oam.priority = 1;
-        gSprites[sPokedexScreenData->windowIds[15]].y2 = gPokedexEntries[speciesId].trainerOffset;
-        SetOamMatrix(1, gPokedexEntries[speciesId].trainerScale, 0, 0, gPokedexEntries[speciesId].trainerScale);
+        gSprites[sPokedexScreenData->windowIds[15]].y2 = gSpeciesInfo[speciesId].trainerOffset;
+        SetOamMatrix(1, gSpeciesInfo[speciesId].trainerScale, 0, 0, gSpeciesInfo[speciesId].trainerScale);
     }
     else
     {

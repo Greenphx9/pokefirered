@@ -4,6 +4,10 @@
 #include "global.h"
 #include "sprite.h"
 #include "constants/pokemon.h"
+#include "constants/map_groups.h"
+#include "constants/region_map_sections.h"
+
+#define FORM_SPECIES_END (0xffff)
 
 struct PokemonSubstruct0
 {
@@ -303,6 +307,26 @@ struct SpeciesInfo /*0x8C*/
  /* 0x84 */ const struct FormChange *formChangeTable;
 };
 
+struct FormChange
+{
+    u16 method;
+    u16 targetSpecies;
+    u16 param1;
+    u16 param2;
+    u16 param3;
+};
+
+struct Fusion
+{
+    u16 fusionStorageIndex;
+    u16 itemId;
+    u16 targetSpecies1;
+    u16 targetSpecies2;
+    u16 fusingIntoMon;
+    u16 fusionMove;
+    u16 unfuseForgetMove;
+};
+
 struct BattleMove
 {
     u8 effect;
@@ -314,6 +338,20 @@ struct BattleMove
     u8 target;
     s8 priority;
     u8 flags;
+};
+
+struct Ability
+{
+    u8 name[12 + 1];
+    const u8 *description;
+    s8 aiRating;
+    u8 cantBeCopied:1; // cannot be copied by Role Play or Doodle
+    u8 cantBeSwapped:1; // cannot be swapped with Skill Swap or Wandering Spirit
+    u8 cantBeTraced:1; // cannot be copied by Trace - same as cantBeCopied except for Wonder Guard
+    u8 cantBeSuppressed:1; // cannot be negated by Gastro Acid or Neutralizing Gas
+    u8 cantBeOverwritten:1; // cannot be overwritten by Entrainment, Worry Seed or Simple Beam (but can be by Mummy) - same as cantBeSuppressed except for Truant
+    u8 breakable:1; // can be bypassed by Mold Breaker and clones
+    u8 failsOnImposter:1; // doesn't work on an Imposter mon; when can we actually use this?
 };
 
 #define SPINDA_SPOT_WIDTH 16
@@ -360,7 +398,6 @@ extern const u8 gStatStageRatios[][2];
 extern struct SpriteTemplate gMultiuseSpriteTemplate;
 extern struct PokemonStorage* gPokemonStoragePtr;
 extern const u32 gExperienceTables[][MAX_LEVEL + 1];
-extern const u16 *const gLevelUpLearnsets[];
 extern const u8 gFacilityClassToPicIndex[];
 extern const u8 gFacilityClassToTrainerClass[];
 extern const struct SpriteTemplate gSpriteTemplates_Battlers[];
@@ -429,6 +466,11 @@ u8 GetSecretBaseTrainerPicIndex(void);
 u8 GetSecretBaseTrainerNameIndex(void);
 bool8 IsPlayerPartyAndPokemonStorageFull(void);
 void GetSpeciesName(u8 *name, u16 species);
+const u8 *GetSpeciesCategory(u16 species);
+const u8 *GetSpeciesPokedexDescription(u16 species);
+u16 GetSpeciesHeight(u16 species);
+u16 GetSpeciesWeight(u16 species);
+const struct LevelUpMove *GetSpeciesLevelUpLearnset(u16 species);
 u8 CalculatePPWithBonus(u16 move, u8 ppBonuses, u8 moveIndex);
 void RemoveMonPPBonus(struct Pokemon *mon, u8 moveIndex);
 void RemoveBattleMonPPBonus(struct BattlePokemon *mon, u8 moveIndex);
@@ -492,5 +534,6 @@ bool8 CheckBattleTypeGhost(struct Pokemon *mon, u8 bank);
 struct MonSpritesGfxManager *CreateMonSpritesGfxManager(u8 battlePosition, u8 mode);
 void DestroyMonSpritesGfxManager(void);
 u8 *MonSpritesGfxManager_GetSpritePtr(u8 bufferId);
+u16 SanitizeSpeciesId(u16 species);
 
 #endif // GUARD_POKEMON_H

@@ -141,7 +141,7 @@ bool8 CheckBagHasItem(u16 itemId, u16 count)
 
 bool8 HasAtLeastOneBerry(void)
 {
-    u8 itemId;
+    u16 itemId;
     bool8 exists;
 
     exists = CheckBagHasItem(ITEM_BERRY_POUCH, 1);

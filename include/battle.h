@@ -3,11 +3,12 @@
 
 #include <limits.h>
 #include "global.h"
+#include "battle_main.h"
 #include "constants/battle.h"
+#include "constants/form_change_types.h"
 #include "constants/battle_script_commands.h"
 #include "battle_util.h"
 #include "battle_script_commands.h"
-#include "battle_main.h"
 #include "battle_ai_switch_items.h"
 #include "battle_gfx_sfx_util.h"
 #include "battle_util2.h"
