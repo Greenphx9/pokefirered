@@ -533,5 +533,6 @@ struct MonSpritesGfxManager *CreateMonSpritesGfxManager(u8 battlePosition, u8 mo
 void DestroyMonSpritesGfxManager(void);
 u8 *MonSpritesGfxManager_GetSpritePtr(u8 bufferId);
 u16 SanitizeSpeciesId(u16 species);
+u16 GetCryIdBySpecies(u16 species);
 
 #endif // GUARD_POKEMON_H

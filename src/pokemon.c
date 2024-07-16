@@ -6378,3 +6378,11 @@ u16 SanitizeSpeciesId(u16 species)
     else
         return species;
 }
+
+u16 GetCryIdBySpecies(u16 species)
+{
+    species = SanitizeSpeciesId(species);
+    if (gSpeciesInfo[species].cryId >= CRY_COUNT)
+        return 0;
+    return gSpeciesInfo[species].cryId;
+}
