@@ -2096,7 +2096,7 @@ static void BufferMonInfo(void)
     if (!sMonSummaryScreen->isEgg)
     {
         dexNum = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES);
-        GetSpeciesName(sMonSummaryScreen->summary.speciesNameStrBuf, dexNum);
+        StringCopy(sMonSummaryScreen->summary.speciesNameStrBuf, GetSpeciesName(dexNum));
     }
     else
     {
@@ -2122,7 +2122,7 @@ static void BufferMonInfo(void)
         StringCopy(sMonSummaryScreen->summary.genderSymbolStrBuf, gString_Dummy);
 
     if (dexNum == SPECIES_NIDORAN_M || dexNum == SPECIES_NIDORAN_F)
-        if (StringCompare(sMonSummaryScreen->summary.nicknameStrBuf, gSpeciesNames[dexNum]) == 0)
+        if (StringCompare(sMonSummaryScreen->summary.nicknameStrBuf, GetSpeciesName(dexNum)) == 0)
             StringCopy(sMonSummaryScreen->summary.genderSymbolStrBuf, gString_Dummy);
 
     GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_OT_NAME, tempStr);
