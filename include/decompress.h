@@ -18,6 +18,7 @@ void LoadCompressedSpritePalette(const struct CompressedSpritePalette *src);
 void LoadCompressedSpritePaletteWithTag(const u32 *pal, u16 tag);
 void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePalette *a, void *buffer);
 bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette *src);
+bool8 LoadCompressedSpritePaletteUsingHeapWithTag(const u32 *pal, u16 tag);
 
 void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void *buffer, s32 species);
 void DecompressPicFromTable_2(const struct CompressedSpriteSheet *src, void *buffer, s32 species);

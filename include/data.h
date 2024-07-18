@@ -23,12 +23,6 @@ extern const u8 gMoveNames[][MOVE_NAME_LENGTH + 1];
 
 extern const u8 gTrainerClassNames[][13];
 
-extern const struct MonCoords gMonFrontPicCoords[];
-extern const struct CompressedSpriteSheet gMonFrontPicTable[];
-extern const struct MonCoords gMonBackPicCoords[];
-extern const struct CompressedSpriteSheet gMonBackPicTable[];
-extern const struct CompressedSpritePalette gMonPaletteTable[];
-extern const struct CompressedSpritePalette gMonShinyPaletteTable[];
 extern const union AnimCmd *const *const gTrainerFrontAnimsPtrTable[];
 extern const struct MonCoords gTrainerFrontPicCoords[];
 extern const struct CompressedSpriteSheet gTrainerFrontPicTable[];
@@ -40,8 +34,6 @@ extern const struct CompressedSpritePalette gTrainerBackPicPaletteTable[];
 
 extern const struct CompressedSpriteSheet gSpriteSheet_EnemyShadow;
 extern const struct SpriteTemplate gSpriteTemplate_EnemyShadow;
-
-extern const u8 gEnemyMonElevation[NUM_SPECIES];
 
 extern const u8 *const gBattleAnims_General[];
 extern const u8 *const gBattleAnims_Special[];

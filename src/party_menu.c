@@ -416,7 +416,6 @@ ALIGNED(4) EWRAM_DATA u8 gBattlePartyCurrentOrder[PARTY_SIZE / 2] = {0}; // bits
 
 void (*gItemUseCB)(u8, TaskFunc);
 
-#include "data/pokemon/tutor_learnsets.h"
 #include "data/party_menu.h"
 
 void InitPartyMenu(u8 menuType, u8 layout, u8 partyAction, bool8 keepCursorPos, u8 messageId, TaskFunc task, MainCallback callback)
@@ -1891,6 +1890,8 @@ static u8 CanMonLearnTMTutor(struct Pokemon *mon, u16 item, u8 tutor)
 
 static u16 GetTutorMove(u8 tutor)
 {
+    //TODO: Implement teachable learnset functionality
+    /*
     switch (tutor)
     {
     case TUTOR_MOVE_FRENZY_PLANT:
@@ -1902,10 +1903,14 @@ static u16 GetTutorMove(u8 tutor)
     default:
         return sTutorMoves[tutor];
     }
+    */
+    return MOVE_NONE;
 }
 
 static bool8 CanLearnTutorMove(u16 species, u8 tutor)
 {
+    //TODO: Implement teachable learnset functionality
+    /*
     switch (tutor)
     {
     case TUTOR_MOVE_FRENZY_PLANT:
@@ -1929,6 +1934,8 @@ static bool8 CanLearnTutorMove(u16 species, u8 tutor)
         else
             return FALSE;
     }
+    */
+    return FALSE;
 }
 
 // Tutorial battle messages
@@ -5332,8 +5339,8 @@ u8 GetItemEffectType(u16 item)
     const u8 *itemEffect;
     u32 statusCure;
 
-    if (itemEffect == NULL)
-        return ITEM_EFFECT_NONE;
+    //if (itemEffect == NULL)
+    //    return ITEM_EFFECT_NONE;
     // Read the item's effect properties.
     if (item == ITEM_ENIGMA_BERRY)
         itemEffect = gSaveBlock1Ptr->enigmaBerry.itemEffect;

@@ -1316,7 +1316,6 @@ static const s8 sNatureStatTable[NUM_NATURES][NUM_NATURE_STATS] =
     [NATURE_QUIRKY]  = {    0,      0,      0,      0,      0   },
 };
 
-#include "data/pokemon/tmhm_learnsets.h"
 #include "data/pokemon/trainer_class_lookups.h"
 #include "data/pokemon/experience_tables.h"
 
@@ -1330,7 +1329,6 @@ static const s8 sNatureStatTable[NUM_NATURES][NUM_NATURE_STATS] =
 #include "data/pokemon/form_change_table_pointers.h"
 
 #include "data/pokemon/species_info.h"
-#include "data/pokemon/evolution.h"
 
 static const s8 sPokeblockFlavorCompatibilityTable[NUM_NATURES * FLAVOR_COUNT] =
 {
@@ -4027,8 +4025,6 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
     }
 
     // Skip using the item if it won't do anything
-    if (holdEffect == 0 && item != ITEM_ENIGMA_BERRY_E_READER)
-        return TRUE;
     if (gItemEffectTable[item - ITEM_POTION] == NULL && item != ITEM_ENIGMA_BERRY)
         return TRUE;
 
@@ -4555,8 +4551,6 @@ bool8 PokemonItemUseNoEffect(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mo
     }
 
     // Skip using the item if it won't do anything
-    if (holdEffect == 0)
-        return TRUE;
     if (gItemEffectTable[item - ITEM_POTION] == NULL && item != ITEM_ENIGMA_BERRY)
         return TRUE;
 
@@ -6037,6 +6031,8 @@ bool8 TryIncrementMonLevel(struct Pokemon *mon)
 
 u32 CanMonLearnTMHM(struct Pokemon *mon, u8 tm)
 {
+    // TODO: Implement teachable learnset functionality.
+    /*
     u16 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG, NULL);
     if (species == SPECIES_EGG)
     {
@@ -6052,6 +6048,8 @@ u32 CanMonLearnTMHM(struct Pokemon *mon, u8 tm)
         u32 mask = 1 << (tm - 32);
         return sTMHMLearnsets[species][1] & mask;
     }
+    */
+    return 0;
 }
 
 u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)

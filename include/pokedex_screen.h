@@ -23,8 +23,6 @@
 
 #include "pokedex.h"
 
-extern const struct PokedexEntry gPokedexEntries[];
-
 void CB2_OpenPokedexFromStartMenu(void);
 s8 DexScreen_GetSetPokedexFlag(u16 nationalDexNo, u8 caseId, bool8 indexIsSpecies);
 

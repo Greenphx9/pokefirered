@@ -1885,7 +1885,7 @@ static void CreateNidoranFSprite(u8 taskId)
     u8 spriteId;
 
     LoadSpecialPokePic(MonSpritesGfxManager_GetSpritePtr(0), INTRO_SPECIES, 0x0, TRUE);
-    LoadCompressedSpritePaletteUsingHeap(&gMonPaletteTable[INTRO_SPECIES]);
+    LoadCompressedSpritePaletteUsingHeapWithTag(gSpeciesInfo[INTRO_SPECIES].palette, INTRO_SPECIES);
     SetMultiuseSpriteTemplateToPokemon(INTRO_SPECIES, 0);
     spriteId = CreateSprite(&gMultiuseSpriteTemplate, 96, 96, 1);
     gSprites[spriteId].callback = SpriteCallbackDummy;

@@ -299,6 +299,22 @@ bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette 
     return FALSE;
 }
 
+bool8 LoadCompressedSpritePaletteUsingHeapWithTag(const u32* pal, u16 tag)
+{
+    struct SpritePalette dest;
+    void *buffer;
+
+    buffer = AllocZeroed(*((u32 *)pal) >> 8);
+    if (!buffer)
+        return TRUE;
+    LZ77UnCompWram(pal, buffer);
+    dest.data = buffer;
+    dest.tag = tag;
+    LoadSpritePalette(&dest);
+    Free(buffer);
+    return FALSE;
+}
+
 u32 GetDecompressedDataSize(const u8 *ptr)
 {
     u32 ptr32[1];
