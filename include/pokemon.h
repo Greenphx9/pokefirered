@@ -471,6 +471,10 @@ const u8 *GetSpeciesPokedexDescription(u16 species);
 u16 GetSpeciesHeight(u16 species);
 u16 GetSpeciesWeight(u16 species);
 const struct LevelUpMove *GetSpeciesLevelUpLearnset(u16 species);
+const u16 *GetSpeciesTeachableLearnset(u16 species);
+const struct Evolution *GetSpeciesEvolutions(u16 species);
+const u16 *GetSpeciesFormTable(u16 species);
+const struct FormChange *GetSpeciesFormChanges(u16 species);
 u8 CalculatePPWithBonus(u16 move, u8 ppBonuses, u8 moveIndex);
 void RemoveMonPPBonus(struct Pokemon *mon, u8 moveIndex);
 void RemoveBattleMonPPBonus(struct BattlePokemon *mon, u8 moveIndex);
@@ -480,7 +484,7 @@ bool8 PokemonItemUseNoEffect(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mo
 u8 GetItemEffectParamOffset(u16 itemId, u8 effectByte, u8 effectBit);
 const u8 *Battle_PrintStatBoosterEffectMessage(u16 itemId);
 u8 GetNature(struct Pokemon *mon);
-u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem);
+u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem, struct Pokemon *tradePartner);
 u16 NationalPokedexNumToSpecies(u16 nationalNum);
 u16 SpeciesToNationalPokedexNum(u16 species);
 u16 HoennToNationalOrder(u16 hoennNum);
@@ -533,6 +537,7 @@ struct MonSpritesGfxManager *CreateMonSpritesGfxManager(u8 battlePosition, u8 mo
 void DestroyMonSpritesGfxManager(void);
 u8 *MonSpritesGfxManager_GetSpritePtr(u8 bufferId);
 u16 SanitizeSpeciesId(u16 species);
+bool32 IsSpeciesEnabled(u16 species);
 u16 GetCryIdBySpecies(u16 species);
 
 #endif // GUARD_POKEMON_H

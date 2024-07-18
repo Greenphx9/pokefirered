@@ -656,9 +656,12 @@ static u16 GetEggSpecies(u16 species)
         found = FALSE;
         for (j = 1; j < NUM_SPECIES; j++)
         {
-            for (k = 0; k < EVOS_PER_MON; k++)
+            const struct Evolution *evolutions = GetSpeciesEvolutions(j);
+            if (evolutions == NULL)
+                continue;
+            for (k = 0; evolutions[k].method != EVOLUTIONS_END; k++)
             {
-                if (gEvolutionTable[j][k].targetSpecies == species)
+                if (SanitizeSpeciesId(evolutions[k].targetSpecies) == species)
                 {
                     species = j;
                     found = TRUE;

@@ -320,10 +320,13 @@
 #define EVO_LEVEL_RECOIL_DAMAGE_FEMALE    49     // Pokémon levels up after having suffered specified amount of non-fainting recoil damage as a female
 #define EVOS_PER_MON 5
 
-#define EVO_MODE_NORMAL     0
-#define EVO_MODE_TRADE      1
-#define EVO_MODE_ITEM_USE   2
-#define EVO_MODE_ITEM_CHECK 3 // If an Everstone is being held, still want to show that the stone *could* be used on that Pokémon to evolve
+#define EVO_MODE_NORMAL            0
+#define EVO_MODE_TRADE             1
+#define EVO_MODE_ITEM_USE          2
+#define EVO_MODE_ITEM_CHECK        3 // If an Everstone is being held, still want to show that the stone *could* be used on that Pokémon to evolve
+#define EVO_MODE_BATTLE_SPECIAL    4
+#define EVO_MODE_OVERWORLD_SPECIAL 5
+#define EVO_MODE_BATTLE_ONLY       6 // This mode is only used in battles to support Tandemaus' unique requirement
 
 #define MON_PIC_WIDTH 64
 #define MON_PIC_HEIGHT 64
