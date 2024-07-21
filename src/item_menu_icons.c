@@ -415,7 +415,7 @@ const u32 *GetItemIconGfxPtr(u16 itemId, u8 attrId)
 {
     if (itemId > ITEMS_COUNT)
         itemId = ITEM_NONE;
-    return sItemIconTable[itemId][attrId];
+    return gItemIconTable[itemId][attrId];
 }
 
 void CreateBerryPouchItemIcon(u16 itemId, u8 idx)

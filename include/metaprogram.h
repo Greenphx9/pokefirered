@@ -2,6 +2,10 @@
 #ifndef METAPROGRAM_H
 #define METAPROGRAM_H
 
+/* Expands 'a' and 'b' and then concatenates them. */
+#define CAT(a, b) CAT_(a, b)
+#define CAT_(a, b) a ## b
+
 /* Expands to the first/second/third/fourth argument. */
 #define FIRST(a, ...) a
 #define SECOND(a, ...) __VA_OPT__(FIRST(__VA_ARGS__))

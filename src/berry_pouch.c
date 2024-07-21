@@ -1060,8 +1060,10 @@ static void Task_NormalContextMenu_HandleInput(u8 taskId)
     }
 }
 
+// TODO: Fix ItemId_GetBattleFunc uses
 static void Task_BerryPouch_Use(u8 taskId)
 {
+    /* 
     DestroyVariableWindow(sContextMenuNumOptions + 9);
     DestroyVariableWindow(6);
     PutWindowTilemap(0);
@@ -1079,6 +1081,7 @@ static void Task_BerryPouch_Use(u8 taskId)
         Task_Give_PrintThereIsNoPokemon(taskId);
     else
         ItemId_GetFieldFunc(gSpecialVar_ItemId)(taskId);
+    */
 }
 
 static void Task_BerryPouch_Toss(u8 taskId)

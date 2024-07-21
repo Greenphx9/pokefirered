@@ -39,6 +39,32 @@ void ItemUseOutOfBattle_EnigmaBerry(u8 taskId);
 void ItemUseInBattle_EnigmaBerry(u8 taskId);
 void ItemUseOutOfBattle_Itemfinder(u8 taskId);
 void Task_UseDigEscapeRopeOnField(u8 taskId);
+
+//new
+void ItemUseOutOfBattle_PokemonBoxLink(u8);
+void ItemUseOutOfBattle_AbilityCapsule(u8);
+void ItemUseOutOfBattle_AbilityPatch(u8);
+void ItemUseOutOfBattle_Mint(u8);
+void ItemUseOutOfBattle_ResetEVs(u8);
+void ItemUseOutOfBattle_ReduceEV(u8);
+void ItemUseOutOfBattle_DynamaxCandy(u8);
+void ItemUseOutOfBattle_TMHM(u8);
+void ItemUseOutOfBattle_Lure(u8);
+void ItemUseOutOfBattle_EvolutionStone(u8);
+void ItemUseOutOfBattle_Berry(u8);
+void ItemUseOutOfBattle_EnigmaBerry(u8);
+void ItemUseOutOfBattle_FormChange(u8);
+void ItemUseOutOfBattle_FormChange_ConsumedOnUse(u8);
+void ItemUseOutOfBattle_RotomCatalog(u8);
+void ItemUseOutOfBattle_ZygardeCube(u8);
+void ItemUseOutOfBattle_Fusion(u8);
+void ItemUseOutOfBattle_Honey(u8);
+void ItemUseOutOfBattle_ExpShare(u8);
+
+void ItemUseInBattle_BagMenu(u8 taskId);
+void ItemUseInBattle_PartyMenu(u8 taskId);
+void ItemUseInBattle_PartyMenuChooseMove(u8 taskId);
+
 u8 CanUseEscapeRopeOnCurrMap(void);
 u8 CheckIfItemIsTMHMOrEvolutionStone(u16 itemId);
 

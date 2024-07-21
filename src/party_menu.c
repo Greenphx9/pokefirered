@@ -4332,12 +4332,11 @@ static void Task_SetSacredAshCB(u8 taskId)
 
 static bool8 IsHPRecoveryItem(u16 item)
 {
-    const u8 *effect;
+    const u8 *effect = ItemId_GetEffect(item);
 
-    if (item == ITEM_ENIGMA_BERRY)
-        effect = gSaveBlock1Ptr->enigmaBerry.itemEffect;
-    else
-        effect = gItemEffectTable[item - ITEM_POTION];
+    if (effect == NULL)
+        return FALSE;
+
     if (effect[4] & ITEM4_HEAL_HP)
         return TRUE;
     else
@@ -4357,7 +4356,7 @@ static void GetMedicineItemEffectMessage(u16 item)
     case ITEM_EFFECT_CURE_BURN:
         StringExpandPlaceholders(gStringVar4, gText_PkmnBurnHealed);
         break;
-    case ITEM_EFFECT_CURE_FREEZE:
+    case ITEM_EFFECT_CURE_FREEZE_FROSTBITE:
         StringExpandPlaceholders(gStringVar4, gText_PkmnThawedOut);
         break;
     case ITEM_EFFECT_CURE_PARALYSIS:
@@ -4597,13 +4596,10 @@ static void Task_HandleRestoreWhichMoveInput(u8 taskId)
 
 void ItemUseCB_TryRestorePP(u8 taskId, TaskFunc func)
 {
-    const u8 *effect;
     u16 item = gSpecialVar_ItemId;
+    const u8 *effect = ItemId_GetEffect(item);
 
-    if (item == ITEM_ENIGMA_BERRY)
-        effect = gSaveBlock1Ptr->enigmaBerry.itemEffect;
-    else
-        effect = gItemEffectTable[item - ITEM_POTION];
+    if (effect == NULL) return;
 
     if (!(effect[4] & ITEM4_HEAL_PP_ONE))
     {
@@ -5336,17 +5332,12 @@ static bool8 MonCanEvolve(void)
 
 u8 GetItemEffectType(u16 item)
 {
-    const u8 *itemEffect;
+    const u8 *itemEffect = ItemId_GetEffect(item);
     u32 statusCure;
 
-    //if (itemEffect == NULL)
-    //    return ITEM_EFFECT_NONE;
-    // Read the item's effect properties.
-    if (item == ITEM_ENIGMA_BERRY)
-        itemEffect = gSaveBlock1Ptr->enigmaBerry.itemEffect;
-    else
-        itemEffect = gItemEffectTable[item - ITEM_POTION];
-    if ((itemEffect[0] & (ITEM0_DIRE_HIT | ITEM0_X_ATTACK)) || itemEffect[1] || itemEffect[2] || (itemEffect[3] & ITEM3_GUARD_SPEC))
+    if (itemEffect == NULL)
+        return ITEM_EFFECT_NONE;
+    if ((itemEffect[0] & (ITEM0_DIRE_HIT | ITEM1_X_ATTACK)) || itemEffect[1] || itemEffect[2] || (itemEffect[3] & ITEM3_GUARD_SPEC))
         return ITEM_EFFECT_X_ITEM;
     else if (itemEffect[0] & ITEM0_SACRED_ASH)
         return ITEM_EFFECT_SACRED_ASH;
@@ -5362,7 +5353,7 @@ u8 GetItemEffectType(u16 item)
         else if (statusCure == ITEM3_BURN)
             return ITEM_EFFECT_CURE_BURN;
         else if (statusCure == ITEM3_FREEZE)
-            return ITEM_EFFECT_CURE_FREEZE;
+            return ITEM_EFFECT_CURE_FREEZE_FROSTBITE;
         else if (statusCure == ITEM3_PARALYSIS)
             return ITEM_EFFECT_CURE_PARALYSIS;
         else if (statusCure == ITEM3_CONFUSION)
@@ -5392,7 +5383,7 @@ u8 GetItemEffectType(u16 item)
         return ITEM_EFFECT_PP_UP;
     else if (itemEffect[5] & ITEM5_PP_MAX)
         return ITEM_EFFECT_PP_MAX;
-    else if (itemEffect[4] & (ITEM4_HEAL_PP_ALL | ITEM4_HEAL_PP_ONE))
+    else if (itemEffect[4] & (ITEM4_HEAL_PP | ITEM4_HEAL_PP_ONE))
         return ITEM_EFFECT_HEAL_PP;
     else
         return ITEM_EFFECT_NONE;

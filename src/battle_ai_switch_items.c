@@ -2,6 +2,7 @@
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_controllers.h"
+#include "item.h"
 #include "random.h"
 #include "util.h"
 #include "constants/abilities.h"
@@ -551,7 +552,7 @@ static u8 GetAI_ItemType(u8 itemId, const u8 *itemEffect) // NOTE: should take u
         return AI_ITEM_HEAL_HP;
     else if (itemEffect[3] & ITEM3_STATUS_ALL)
         return AI_ITEM_CURE_CONDITION;
-    else if (itemEffect[0] & (ITEM0_DIRE_HIT | ITEM0_X_ATTACK) || itemEffect[1] != 0 || itemEffect[2] != 0)
+    else if (itemEffect[0] & (ITEM0_DIRE_HIT | ITEM1_X_ATTACK) || itemEffect[1] != 0 || itemEffect[2] != 0)
         return AI_ITEM_X_STAT;
     else if (itemEffect[3] & ITEM3_GUARD_SPEC)
         return AI_ITEM_GUARD_SPECS;
@@ -580,12 +581,9 @@ static bool8 ShouldUseItem(void)
         if (i && validMons > (gBattleResources->battleHistory->itemsNo - i) + 1)
             continue;
         item = gBattleResources->battleHistory->trainerItems[i];
-        if (item == ITEM_NONE || gItemEffectTable[item - ITEM_POTION] == NULL)
+        if (item == ITEM_NONE || ItemId_GetEffect(item) == NULL)
             continue;
-        if (item == ITEM_ENIGMA_BERRY)
-            itemEffects = gSaveBlock1Ptr->enigmaBerry.itemEffect;
-        else
-            itemEffects = gItemEffectTable[item - ITEM_POTION];
+        itemEffects = ItemId_GetEffect(item);
         *(gBattleStruct->AI_itemType + gActiveBattler / 2) = GetAI_ItemType(item, itemEffects);
         switch (*(gBattleStruct->AI_itemType + gActiveBattler / 2))
         {
@@ -640,15 +638,15 @@ static bool8 ShouldUseItem(void)
             *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) = 0;
             if (!gDisableStructs[gActiveBattler].isFirstTurn)
                 break;
-            if (itemEffects[0] & ITEM0_X_ATTACK)
+            if (itemEffects[0] & ITEM1_X_ATTACK)
                 *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x1;
-            if (itemEffects[1] & ITEM1_X_DEFEND)
+            if (itemEffects[1] & ITEM1_X_DEFENSE)
                 *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x2;
             if (itemEffects[1] & ITEM1_X_SPEED)
                 *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x4;
-            if (itemEffects[2] & ITEM2_X_SPATK)
+            if (itemEffects[2] & ITEM1_X_SPATK)
                 *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x8;
-            if (itemEffects[2] & ITEM2_X_ACCURACY)
+            if (itemEffects[2] & ITEM1_X_ACCURACY)
                 *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x20;
             if (itemEffects[0] & ITEM0_DIRE_HIT)
                 *(gBattleStruct->AI_itemFlags + gActiveBattler / 2) |= 0x80;

@@ -1683,8 +1683,10 @@ static void Task_ItemMenuAction_Cancel(u8 taskId)
     Task_RedrawArrowsAndReturnToBagMenuSelect(taskId);
 }
 
+// TODO: Fix ItemId_GetBattleFunc uses
 static void Task_ItemMenuAction_BattleUse(u8 taskId)
 {
+    /* 
     if (ItemId_GetBattleFunc(gSpecialVar_ItemId) != NULL)
     {
         HideBagWindow(10);
@@ -1693,7 +1695,8 @@ static void Task_ItemMenuAction_BattleUse(u8 taskId)
         PutWindowTilemap(1);
         CopyWindowToVram(0, COPYWIN_MAP);
         ItemId_GetBattleFunc(gSpecialVar_ItemId)(taskId);
-    }
+    } 
+    */
 }
 
 static void Task_ItemContext_FieldGive(u8 taskId)

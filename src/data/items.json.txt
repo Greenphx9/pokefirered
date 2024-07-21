@@ -1,31 +1,16 @@
 {{ doNotModifyHeader }}
-## for item in items
-## if item.pocket == "POCKET_TM_CASE"
-extern const u8 gMoveDescription_{{ item.moveId }}[];
-## endif
-{% if item.itemId != "ITEM_NONE" %}const u8 gItemDescription_{{ item.itemId }}[] = _("{{ item.description_english }}");{% endif %}
-## endfor
-const u8 gItemDescription_ITEM_NONE[] = _("?????");
 
 const struct Item gItems[] = {
     {% for item in items %}{
-        .name = _("{{ item.english }}"),
-        .itemId = {{ item.itemId }},
-        .price = {{ item.price }},
-        .holdEffect = {{ item.holdEffect }},
-        .holdEffectParam = {{ item.holdEffectParam }},
-## if item.pocket == "POCKET_TM_CASE"
-        .description = gMoveDescription_{{ item.moveId }},
-## else
-        .description = gItemDescription_{{ item.itemId }},
-## endif
-        .importance = {{ item.importance }},
-        .registrability = {{ item.registrability }},
-        .pocket = {{ item.pocket }},
-        .type = {{ item.type }},
-        .fieldUseFunc = {{ item.fieldUseFunc }},
-        .battleUsage = {{ item.battleUsage }},
-        .battleUseFunc = {{ item.battleUseFunc }},
-        .secondaryId = {{ item.secondaryId }}
+        .name = _("Poké Ball"),
+        .price = 200,
+        .description = COMPOUND_STRING(
+            "A tool used for\n"
+            "catching wild\n"
+            "Pokémon."),
+        .pocket = POCKET_POKE_BALLS,
+        .type = ITEM_USE_BAG_MENU,
+        .battleUsage = EFFECT_ITEM_THROW_BALL,
+        .secondaryId = ITEM_POKE_BALL - FIRST_BALL,
     }, {% endfor %}
 };
