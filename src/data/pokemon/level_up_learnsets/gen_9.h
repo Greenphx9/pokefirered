@@ -1,5 +1,5 @@
 #define LEVEL_UP_MOVE(lvl, moveLearned) {.move = moveLearned, .level = lvl}
-#define LEVEL_UP_END {.move = 0xFFFF, .level = 0}
+#define LEVEL_UP_END {.move = LEVEL_UP_MOVE_END, .level = 0}
 
 static const struct LevelUpMove sNoneLevelUpLearnset[] = {
     LEVEL_UP_MOVE(1, MOVE_POUND),
@@ -12801,7 +12801,6 @@ static const struct LevelUpMove sBasculinWhiteStripedLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sBasculegionLevelUpLearnset[] = {
-    LEVEL_UP_MOVE( 0, MOVE_DIRE_CLAW),
     LEVEL_UP_MOVE( 1, MOVE_SHADOW_BALL),
     LEVEL_UP_MOVE( 1, MOVE_TAIL_WHIP),
     LEVEL_UP_MOVE( 1, MOVE_WATER_GUN),
