@@ -309,6 +309,7 @@ SECTIONS {
         src/berry_powder.o(.text);
         src/minigame_countdown.o(.text);
         src/berry_fix_program.o(.text);
+        src/pokemon_debug.o(.text);
     } > ROM =0
 
     script_data :
@@ -601,6 +602,7 @@ SECTIONS {
         src/trainer_tower.o(.rodata);
         src/minigame_countdown.o(.rodata);
         src/berry_fix_program.o(.rodata);
+        src/pokemon_debug.o(.rodata);
         src/keyboard_text.o(.rodata);
         src/trainer_tower_sets.o(.rodata);
         src/move_descriptions.o(.rodata);
@@ -610,6 +612,8 @@ SECTIONS {
         data/mystery_event_msg.o(.rodata);
         src/m4a_tables.o(.rodata);
         data/sound_data.o(.rodata);
+
+        
     } > ROM =0
 
     song_data :

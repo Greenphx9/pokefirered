@@ -2675,6 +2675,11 @@ u8 GetGenderFromSpeciesAndPersonality(u16 species, u32 personality)
         return MON_MALE;
 }
 
+bool32 IsPersonalityFemale(u16 species, u32 personality)
+{
+    return GetGenderFromSpeciesAndPersonality(species, personality) == MON_FEMALE;
+}
+
 void SetMultiuseSpriteTemplateToPokemon(u16 speciesTag, u8 battlerPosition)
 {
     if (gMonSpritesGfxPtr != NULL)
@@ -6747,6 +6752,41 @@ u8 *MonSpritesGfxManager_GetSpritePtr(u8 spriteNum)
             spriteNum = 0;
         return sMonSpritesGfxManager->spritePointers[spriteNum];
     }
+}
+
+bool32 SpeciesHasGenderDifferences(u16 species)
+{
+    if (gSpeciesInfo[species].frontPicFemale != NULL
+     || gSpeciesInfo[species].paletteFemale != NULL
+     || gSpeciesInfo[species].backPicFemale != NULL
+     || gSpeciesInfo[species].shinyPaletteFemale != NULL
+     || gSpeciesInfo[species].iconSpriteFemale != NULL)
+        return TRUE;
+
+    return FALSE;
+}
+
+u16 GetFormSpeciesId(u16 speciesId, u8 formId)
+{
+    if (GetSpeciesFormTable(speciesId) != NULL)
+        return GetSpeciesFormTable(speciesId)[formId];
+    else
+        return speciesId;
+}
+
+u8 GetFormIdFromFormSpeciesId(u16 formSpeciesId)
+{
+    u8 targetFormId = 0;
+
+    if (GetSpeciesFormTable(formSpeciesId) != NULL)
+    {
+        for (targetFormId = 0; GetSpeciesFormTable(formSpeciesId)[targetFormId] != FORM_SPECIES_END; targetFormId++)
+        {
+            if (formSpeciesId == GetSpeciesFormTable(formSpeciesId)[targetFormId])
+                break;
+        }
+    }
+    return targetFormId;
 }
 
 u16 SanitizeSpeciesId(u16 species)

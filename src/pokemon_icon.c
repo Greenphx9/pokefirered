@@ -1,6 +1,7 @@
 #include "global.h"
 #include "gflib.h"
 #include "mail_data.h"
+#include "pokemon_debug.h"
 #include "pokemon_icon.h"
 #include "graphics.h"
 
@@ -261,6 +262,18 @@ void FreeMonIconPalettes(void)
     u8 i;
     for (i = 0; i < ARRAY_COUNT(gMonIconPaletteTable); i++)
         FreeSpritePaletteByTag(gMonIconPaletteTable[i].tag);
+}
+
+void LoadMonIconPalettePersonality(u16 species, u32 personality)
+{
+    u8 palIndex;
+    species = SanitizeSpeciesId(species);
+    if (gSpeciesInfo[species].iconSpriteFemale != NULL && IsPersonalityFemale(species, personality))
+        palIndex = gSpeciesInfo[species].iconPalIndexFemale;
+    else
+        palIndex = gSpeciesInfo[species].iconPalIndex;
+    if (IndexOfSpritePaletteTag(gMonIconPaletteTable[palIndex].tag) == 0xFF)
+        LoadSpritePalette(&gMonIconPaletteTable[palIndex]);
 }
 
 void SafeFreeMonIconPalette(u16 species)

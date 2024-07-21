@@ -2809,6 +2809,75 @@ extern const u8 gItemPcTiles[];
 extern const u32 gItemPcBgPals[];
 extern const u8 gItemPcTilemap[];
 
+// battle terrains
+extern const u32 sBattleTerrainPalette_Grass[];
+extern const u32 sBattleTerrainTiles_Grass[];
+extern const u32 sBattleTerrainTilemap_Grass[];
+extern const u32 sBattleTerrainAnimTiles_Grass[];
+extern const u32 sBattleTerrainAnimTilemap_Grass[];
+
+extern const u32 sBattleTerrainPalette_LongGrass[];
+extern const u32 sBattleTerrainTiles_LongGrass[];
+extern const u32 sBattleTerrainTilemap_LongGrass[];
+extern const u32 sBattleTerrainAnimTiles_LongGrass[];
+extern const u32 sBattleTerrainAnimTilemap_LongGrass[];
+
+extern const u32 sBattleTerrainPalette_Sand[];
+extern const u32 sBattleTerrainTiles_Sand[];
+extern const u32 sBattleTerrainTilemap_Sand[];
+extern const u32 sBattleTerrainAnimTiles_Sand[];
+extern const u32 sBattleTerrainAnimTilemap_Sand[];
+
+extern const u32 sBattleTerrainPalette_Underwater[];
+extern const u32 sBattleTerrainTiles_Underwater[];
+extern const u32 sBattleTerrainTilemap_Underwater[];
+extern const u32 sBattleTerrainAnimTiles_Underwater[];
+extern const u32 sBattleTerrainAnimTilemap_Underwater[];
+
+extern const u32 sBattleTerrainPalette_Water[];
+extern const u32 sBattleTerrainTiles_Water[];
+extern const u32 sBattleTerrainTilemap_Water[];
+extern const u32 sBattleTerrainAnimTiles_Water[];
+extern const u32 sBattleTerrainAnimTilemap_Water[];
+
+extern const u32 sBattleTerrainPalette_Pond[];
+extern const u32 sBattleTerrainTiles_Pond[];
+extern const u32 sBattleTerrainTilemap_Pond[];
+extern const u32 sBattleTerrainAnimTiles_Pond[];
+extern const u32 sBattleTerrainAnimTilemap_Pond[];
+
+extern const u32 sBattleTerrainPalette_Mountain[];
+extern const u32 sBattleTerrainTiles_Mountain[];
+extern const u32 sBattleTerrainTilemap_Mountain[];
+extern const u32 sBattleTerrainAnimTiles_Mountain[];
+extern const u32 sBattleTerrainAnimTilemap_Mountain[];
+
+extern const u32 sBattleTerrainPalette_Cave[];
+extern const u32 sBattleTerrainTiles_Cave[];
+extern const u32 sBattleTerrainTilemap_Cave[];
+extern const u32 sBattleTerrainAnimTiles_Cave[];
+extern const u32 sBattleTerrainAnimTilemap_Cave[];
+
+extern const u32 sBattleTerrainPalette_Building[];
+extern const u32 sBattleTerrainTiles_Building[];
+extern const u32 sBattleTerrainTilemap_Building[];
+extern const u32 sBattleTerrainAnimTiles_Building[];
+extern const u32 sBattleTerrainAnimTilemap_Building[];
+
+extern const u32 sBattleTerrainPalette_Link[];
+extern const u32 sBattleTerrainPalette_Gym[];
+extern const u32 sBattleTerrainPalette_Leader[];
+extern const u32 sBattleTerrainPalette_Indoor2[];
+extern const u32 sBattleTerrainPalette_Indoor1[];
+extern const u32 sBattleTerrainPalette_Lorelei[];
+extern const u32 sBattleTerrainPalette_Bruno[];
+extern const u32 sBattleTerrainPalette_Agatha[];
+extern const u32 sBattleTerrainPalette_Lance[];
+extern const u32 sBattleTerrainPalette_Champion[];
+extern const u32 sBattleTerrainPalette_Plain[];
+extern const u32 sBattleTerrainTiles_Indoor[];
+extern const u32 sBattleTerrainTilemap_Indoor[];
+
 // item_menu_icons
 extern const u32 gBagMale_Gfx[];
 extern const u32 gBagFemale_Gfx[];

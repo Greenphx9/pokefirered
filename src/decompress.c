@@ -2,6 +2,7 @@
 #include "gflib.h"
 #include "decompress.h"
 #include "pokemon.h"
+#include "pokemon_debug.h"
 
 static void DuplicateDeoxysTiles(void *pointer, s32 species);
 

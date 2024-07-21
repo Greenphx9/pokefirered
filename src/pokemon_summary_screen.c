@@ -1,6 +1,7 @@
 #include "global.h"
 #include "gflib.h"
 #include "pokemon.h"
+#include "pokemon_debug.h"
 #include "pokemon_summary_screen.h"
 #include "help_system.h"
 #include "task.h"
@@ -1196,6 +1197,14 @@ static void Task_InputHandler_Info(u8 taskId)
             {
                 sMonSummaryScreen->state3270 = PSS_STATE3270_ATEXIT_FADEOUT;
             }
+            #if DEBUG_POKEMON_MENU == TRUE
+            else if (JOY_NEW(SELECT_BUTTON) && !gMain.inBattle)
+            {
+                sMonSummaryScreen->savedCallback = CB2_Debug_Pokemon;
+                PlaySE(SE_SELECT);
+                sMonSummaryScreen->state3270 = PSS_STATE3270_ATEXIT_FADEOUT;
+            }
+            #endif
         }
         break;
     case PSS_STATE3270_FLIPPAGES:
