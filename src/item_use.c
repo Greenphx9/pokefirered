@@ -974,19 +974,15 @@ void ItemUseOutOfBattle_ExpShare(u8 taskId)
 }
 
 void ItemUseOutOfBattle_AbilityCapsule(u8 taskId)
-{
-    /*
+{   
     gItemUseCB = ItemUseCB_AbilityCapsule;
     SetUpItemUseCallback(taskId);
-    */
 }
 
 void ItemUseOutOfBattle_AbilityPatch(u8 taskId)
 {
-    /*
     gItemUseCB = ItemUseCB_AbilityPatch;
     SetUpItemUseCallback(taskId);
-    */
 }
 
 void ItemUseOutOfBattle_Mint(u8 taskId)
