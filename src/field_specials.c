@@ -242,6 +242,7 @@ static void Task_AnimatePcTurnOn(u8 taskId)
 
 static void PcTurnOnUpdateMetatileId(bool16 flickerOff)
 {
+    u32 prevTile = 0;
     u16 metatileId = 0;
     s8 deltaX = 0;
     s8 deltaY = 0;
@@ -262,29 +263,47 @@ static void PcTurnOnUpdateMetatileId(bool16 flickerOff)
         deltaY = -1;
         break;
     }
-    if (flickerOff)
+
+    prevTile = MapGridGetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + MAP_OFFSET, gSaveBlock1Ptr->pos.y + deltaY + MAP_OFFSET);
+
+    switch(prevTile)
     {
-        if (gSpecialVar_0x8004 == 0)
-            metatileId = METATILE_Building_PCOff;
-        else if (gSpecialVar_0x8004 == 1)
-            metatileId = METATILE_GenericBuilding1_PlayersPCOff;
-        else if (gSpecialVar_0x8004 == 2)
-            metatileId = METATILE_GenericBuilding1_PlayersPCOff;
+        case METATILE_Building_PCOff:
+        case METATILE_GenericBuilding1_PlayersPCOff:
+        case METATILE_Building_PCOn:
+        case METATILE_GenericBuilding1_PlayersPCOn:
+        {
+            if (flickerOff)
+            {
+                if (gSpecialVar_0x8004 == 0)
+                    metatileId = METATILE_Building_PCOff;
+                else if (gSpecialVar_0x8004 == 1)
+                    metatileId = METATILE_GenericBuilding1_PlayersPCOff;
+                else if (gSpecialVar_0x8004 == 2)
+                    metatileId = METATILE_GenericBuilding1_PlayersPCOff;
+            }
+            else
+            {
+                if (gSpecialVar_0x8004 == 0)
+                    metatileId = METATILE_Building_PCOn;
+                else if (gSpecialVar_0x8004 == 1)
+                    metatileId = METATILE_GenericBuilding1_PlayersPCOn;
+                else if (gSpecialVar_0x8004 == 2)
+                    metatileId = METATILE_GenericBuilding1_PlayersPCOn;
+            }
+            MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + MAP_OFFSET, gSaveBlock1Ptr->pos.y + deltaY + MAP_OFFSET, metatileId | MAPGRID_COLLISION_MASK);
+            break;
+        }
+        default:
+        {
+            break;
+        }
     }
-    else
-    {
-        if (gSpecialVar_0x8004 == 0)
-            metatileId = METATILE_Building_PCOn;
-        else if (gSpecialVar_0x8004 == 1)
-            metatileId = METATILE_GenericBuilding1_PlayersPCOn;
-        else if (gSpecialVar_0x8004 == 2)
-            metatileId = METATILE_GenericBuilding1_PlayersPCOn;
-    }
-    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + MAP_OFFSET, gSaveBlock1Ptr->pos.y + deltaY + MAP_OFFSET, metatileId | MAPGRID_COLLISION_MASK);
 }
 
 void AnimatePcTurnOff()
 {
+    u32 prevTile = 0;
     u16 metatileId = 0;
     s8 deltaX = 0;
     s8 deltaY = 0;
@@ -305,14 +324,31 @@ void AnimatePcTurnOff()
         deltaY = -1;
         break;
     }
-    if (gSpecialVar_0x8004 == 0)
-        metatileId = METATILE_Building_PCOff;
-    else if (gSpecialVar_0x8004 == 1)
-        metatileId = METATILE_GenericBuilding1_PlayersPCOff;
-    else if (gSpecialVar_0x8004 == 2)
-        metatileId = METATILE_GenericBuilding1_PlayersPCOff;
-    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + MAP_OFFSET, gSaveBlock1Ptr->pos.y + deltaY + MAP_OFFSET, metatileId | MAPGRID_COLLISION_MASK);
-    DrawWholeMapView();
+
+    prevTile = MapGridGetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + MAP_OFFSET, gSaveBlock1Ptr->pos.y + deltaY + MAP_OFFSET);
+
+    switch(prevTile)
+    {
+        case METATILE_Building_PCOff:
+        case METATILE_GenericBuilding1_PlayersPCOff:
+        case METATILE_Building_PCOn:
+        case METATILE_GenericBuilding1_PlayersPCOn:
+        {
+            if (gSpecialVar_0x8004 == 0)
+                metatileId = METATILE_Building_PCOff;
+            else if (gSpecialVar_0x8004 == 1)
+                metatileId = METATILE_GenericBuilding1_PlayersPCOff;
+            else if (gSpecialVar_0x8004 == 2)
+                metatileId = METATILE_GenericBuilding1_PlayersPCOff;
+            MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + deltaX + MAP_OFFSET, gSaveBlock1Ptr->pos.y + deltaY + MAP_OFFSET, metatileId | MAPGRID_COLLISION_MASK);
+            DrawWholeMapView();
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
 }
 
 void SpawnCameraObject(void)

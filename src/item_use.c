@@ -9,6 +9,7 @@
 #include "field_effect.h"
 #include "field_fadetransition.h"
 #include "event_object_movement.h"
+#include "event_scripts.h"
 #include "field_player_avatar.h"
 #include "field_specials.h"
 #include "field_weather.h"
@@ -935,18 +936,14 @@ void ItemUse_SetQuestLogEvent(u8 eventId, struct Pokemon *pokemon, u16 itemId, u
 // TODO: Implement new item effects
 void ItemUseOutOfBattle_PokemonBoxLink(u8 taskId)
 {
-    /*
     sItemUseOnFieldCB = Task_AccessPokemonBoxLink;
     SetUpItemUseOnFieldCallback(taskId); 
-    */
 }
 
 static void Task_AccessPokemonBoxLink(u8 taskId)
 {
-    /* 
     ScriptContext_SetupScript(EventScript_AccessPokemonBoxLink);
     DestroyTask(taskId); 
-    */
 }
 
 void ItemUseOutOfBattle_ExpShare(u8 taskId)
