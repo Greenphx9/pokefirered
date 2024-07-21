@@ -1255,3 +1255,12 @@ static const u16 sTMHMMoves[] =
     MOVE_WATERFALL,
     MOVE_DIVE,
 };
+
+static const u16 sRotomFormChangeMoves[5] =
+{
+    MOVE_HYDRO_PUMP,
+    MOVE_BLIZZARD,
+    MOVE_OVERHEAT,
+    MOVE_AIR_SLASH,
+    MOVE_LEAF_STORM,
+};

@@ -6842,6 +6842,119 @@ u8 GetFormIdFromFormSpeciesId(u16 formSpeciesId)
     return targetFormId;
 }
 
+u16 GetFormChangeTargetSpecies(struct Pokemon *mon, u16 method, u32 arg)
+{
+    return GetFormChangeTargetSpeciesBoxMon(&mon->box, method, arg);
+}
+
+// Returns SPECIES_NONE if no form change is possible
+u16 GetFormChangeTargetSpeciesBoxMon(struct BoxPokemon *boxMon, u16 method, u32 arg)
+{
+    u32 i;
+    u16 targetSpecies = SPECIES_NONE;
+    u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
+    const struct FormChange *formChanges = GetSpeciesFormChanges(species);
+    u16 heldItem;
+    u32 ability;
+
+    if (formChanges != NULL)
+    {
+        heldItem = GetBoxMonData(boxMon, MON_DATA_HELD_ITEM, NULL);
+        ability = GetAbilityBySpecies(species, GetBoxMonData(boxMon, MON_DATA_ABILITY_NUM, NULL));
+
+        for (i = 0; formChanges[i].method != FORM_CHANGE_TERMINATOR; i++)
+        {
+            if (method == formChanges[i].method && species != formChanges[i].targetSpecies)
+            {
+                switch (method)
+                {
+                case FORM_CHANGE_ITEM_HOLD:
+                    if ((heldItem == formChanges[i].param1 || formChanges[i].param1 == ITEM_NONE)
+                     && (ability == formChanges[i].param2 || formChanges[i].param2 == ABILITY_NONE))
+                        targetSpecies = formChanges[i].targetSpecies;
+                    break;
+                case FORM_CHANGE_ITEM_USE:
+                    if (arg == formChanges[i].param1)
+                    {
+                        bool32 pass = TRUE;
+                        switch (formChanges[i].param2)
+                        {
+                        // TODO: Implement DNS system, fix DNS evos.
+                        case DAY:
+                            /* 
+                            if (GetTimeOfDay() == TIME_NIGHT)
+                                pass = FALSE;
+                            break; 
+                            */
+                        case NIGHT:
+                            /* 
+                            if (GetTimeOfDay() != TIME_NIGHT)
+                                pass = FALSE;
+                            break; 
+                            */
+                        }
+
+                        if (formChanges[i].param3 != STATUS1_NONE && GetBoxMonData(boxMon, MON_DATA_STATUS, NULL) & formChanges[i].param3)
+                            pass = FALSE;
+
+                        if (pass)
+                            targetSpecies = formChanges[i].targetSpecies;
+                    }
+                    break;
+                case FORM_CHANGE_ITEM_USE_MULTICHOICE:
+                    if (arg == formChanges[i].param1)
+                    {
+                        if (formChanges[i].param2 == gSpecialVar_Result)
+                            targetSpecies = formChanges[i].targetSpecies;
+                    }
+                    break;
+                case FORM_CHANGE_MOVE:
+                    if (BoxMonKnowsMove(boxMon, formChanges[i].param1) != formChanges[i].param2)
+                        targetSpecies = formChanges[i].targetSpecies;
+                    break;
+                case FORM_CHANGE_BEGIN_BATTLE:
+                case FORM_CHANGE_END_BATTLE:
+                    if (heldItem == formChanges[i].param1 || formChanges[i].param1 == ITEM_NONE)
+                        targetSpecies = formChanges[i].targetSpecies;
+                    break;
+                case FORM_CHANGE_END_BATTLE_TERRAIN:
+                    if (gBattleTerrain == formChanges[i].param1)
+                        targetSpecies = formChanges[i].targetSpecies;
+                    break;
+                case FORM_CHANGE_WITHDRAW:
+                case FORM_CHANGE_FAINT:
+                    targetSpecies = formChanges[i].targetSpecies;
+                    break;
+                case FORM_CHANGE_STATUS:
+                    if (GetBoxMonData(boxMon, MON_DATA_STATUS, NULL) & formChanges[i].param1)
+                        targetSpecies = formChanges[i].targetSpecies;
+                    break;
+                case FORM_CHANGE_TIME_OF_DAY:
+                    switch (formChanges[i].param1)
+                    {
+                    // TODO: Implement DNS system, fix DNS evos.
+                    case DAY:
+                        /* 
+                        if (GetTimeOfDay() != TIME_NIGHT)
+                            targetSpecies = formChanges[i].targetSpecies;
+                        break; 
+                        */
+                    case NIGHT:
+                        /*
+                         if (GetTimeOfDay() == TIME_NIGHT)
+                            targetSpecies = formChanges[i].targetSpecies;
+                        break; 
+                        */
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    return targetSpecies;
+}
+
 u16 SanitizeSpeciesId(u16 species)
 {
     if (species > NUM_SPECIES || !IsSpeciesEnabled(species))

@@ -67,7 +67,7 @@ void BufferMoveDeleterNicknameAndMove(void)
     StringCopy(gStringVar2, gMoveNames[move]);
 }
 
-static void ShiftMoveSlot(struct Pokemon *mon, u8 slotTo, u8 slotFrom)
+void ShiftMoveSlot(struct Pokemon *mon, u8 slotTo, u8 slotFrom)
 {
     u16 move1 = GetMonData(mon, MON_DATA_MOVE1 + slotTo);
     u16 move0 = GetMonData(mon, MON_DATA_MOVE1 + slotFrom);

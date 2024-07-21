@@ -41,6 +41,9 @@
 
 static EWRAM_DATA void (*sItemUseOnFieldCB)(u8 taskId) = NULL;
 
+// Below is set TRUE by UseRegisteredKeyItemOnField
+#define tUsingRegisteredKeyItem  data[3]
+
 static void FieldCB_FadeInFromBlack(void);
 static void Task_WaitFadeIn_CallItemUseOnFieldCB(u8 taskId);
 static void Task_ItemUse_CloseMessageBoxAndReturnToField(u8 taskId);
@@ -1369,7 +1372,7 @@ void ItemUseInBattle_BagMenu(u8 taskId)
 
 void ItemUseOutOfBattle_FormChange(u8 taskId)
 {
-    /* 
+     
     if (!gTasks[taskId].tUsingRegisteredKeyItem)
     {
         gItemUseCB = ItemUseCB_FormChange;
@@ -1379,14 +1382,14 @@ void ItemUseOutOfBattle_FormChange(u8 taskId)
     else
     {
         // TODO: handle key items with callbacks to menus allow to be used by registering them.
-        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+        FieldUseFunc_OakStopsYou(taskId);
     } 
-    */
+    
 }
 
 void ItemUseOutOfBattle_FormChange_ConsumedOnUse(u8 taskId)
 {
-    /* 
+    
     if (!gTasks[taskId].tUsingRegisteredKeyItem)
     {
         gItemUseCB = ItemUseCB_FormChange_ConsumedOnUse;
@@ -1396,9 +1399,9 @@ void ItemUseOutOfBattle_FormChange_ConsumedOnUse(u8 taskId)
     else
     {
         // TODO: handle key items with callbacks to menus allow to be used by registering them.
-        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+        FieldUseFunc_OakStopsYou(taskId);
     } 
-    */
+    
 }
 
 void ItemUseOutOfBattle_RotomCatalog(u8 taskId)
