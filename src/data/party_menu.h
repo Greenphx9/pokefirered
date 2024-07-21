@@ -527,6 +527,17 @@ static const struct WindowTemplate sCatalogSelectWindowTemplate =
     .baseBlock = 0x2E9,
 };
 
+static const struct WindowTemplate sZygardeCubeSelectWindowTemplate =
+{
+    .bg = 2,
+    .tilemapLeft = 18,
+    .tilemapTop = 13,
+    .width = 11,
+    .height = 6,
+    .paletteNum = 14,
+    .baseBlock = 0x2E9,
+};
+
 static const struct WindowTemplate sPartyMenuYesNoWindowTemplate =
 {
     .bg = 2,
@@ -1078,6 +1089,8 @@ enum
     CURSOR_OPTION_CATALOG_FRIDGE,
     CURSOR_OPTION_CATALOG_FAN,
     CURSOR_OPTION_CATALOG_MOWER,
+    CURSOR_OPTION_CHANGE_FORM,
+    CURSOR_OPTION_CHANGE_ABILITY,
     CURSOR_OPTION_FIELD_MOVES,
 };
 
@@ -1111,6 +1124,8 @@ static struct
     [CURSOR_OPTION_CATALOG_FRIDGE]                       = {gText_Refrigerator,           CursorCB_CatalogFridge},
     [CURSOR_OPTION_CATALOG_FAN]                          = {gText_ElectricFan,            CursorCB_CatalogFan},
     [CURSOR_OPTION_CATALOG_MOWER]                        = {gText_LawnMower,              CursorCB_CatalogMower},
+    [CURSOR_OPTION_CHANGE_FORM]                          = {gText_ChangeForm,             CursorCB_ChangeForm},
+    [CURSOR_OPTION_CHANGE_ABILITY]                       = {gText_ChangeAbility,          CursorCB_ChangeAbility},
     [CURSOR_OPTION_FIELD_MOVES + FIELD_MOVE_FLASH]       = {gMoveNames[MOVE_FLASH],       CursorCB_FieldMove},
     [CURSOR_OPTION_FIELD_MOVES + FIELD_MOVE_CUT]         = {gMoveNames[MOVE_CUT],         CursorCB_FieldMove},
     [CURSOR_OPTION_FIELD_MOVES + FIELD_MOVE_FLY]         = {gMoveNames[MOVE_FLY],         CursorCB_FieldMove},
@@ -1138,6 +1153,7 @@ static const u8 sPartyMenuAction_RegisterSummaryCancel[] = {CURSOR_OPTION_REGIST
 static const u8 sPartyMenuAction_TradeSummaryCancel1[]   = {CURSOR_OPTION_TRADE1,   CURSOR_OPTION_SUMMARY,   CURSOR_OPTION_CANCEL1};
 static const u8 sPartyMenuAction_TradeSummaryCancel2[]   = {CURSOR_OPTION_TRADE2,   CURSOR_OPTION_SUMMARY,   CURSOR_OPTION_CANCEL1};
 static const u8 sPartyMenuAction_RotomCatalog[]          = {CURSOR_OPTION_CATALOG_BULB, CURSOR_OPTION_CATALOG_OVEN, CURSOR_OPTION_CATALOG_WASHING, CURSOR_OPTION_CATALOG_FRIDGE, CURSOR_OPTION_CATALOG_FAN, CURSOR_OPTION_CATALOG_MOWER, CURSOR_OPTION_CANCEL1};
+static const u8 sPartyMenuAction_ZygardeCube[]           = {CURSOR_OPTION_CHANGE_FORM, CURSOR_OPTION_CHANGE_ABILITY, CURSOR_OPTION_CANCEL1};
 
 // IDs for the action lists that appear when a party mon is selected
 enum
@@ -1156,6 +1172,7 @@ enum
     ACTIONS_TRADE,
     ACTIONS_SPIN_TRADE,
     ACTIONS_ROTOM_CATALOG,
+    ACTIONS_ZYGARDE_CUBE,
 };
 
 static const u8 *const sPartyMenuActions[] =
@@ -1174,6 +1191,7 @@ static const u8 *const sPartyMenuActions[] =
     [ACTIONS_TRADE]         = sPartyMenuAction_TradeSummaryCancel1,
     [ACTIONS_SPIN_TRADE]    = sPartyMenuAction_TradeSummaryCancel2,
     [ACTIONS_ROTOM_CATALOG] = sPartyMenuAction_RotomCatalog,
+    [ACTIONS_ZYGARDE_CUBE]  = sPartyMenuAction_ZygardeCube,
 };
 
 static const u8 sPartyMenuActionCounts[] =
@@ -1192,6 +1210,7 @@ static const u8 sPartyMenuActionCounts[] =
     [ACTIONS_TRADE]         = NELEMS(sPartyMenuAction_TradeSummaryCancel1),
     [ACTIONS_SPIN_TRADE]    = NELEMS(sPartyMenuAction_TradeSummaryCancel2),
     [ACTIONS_ROTOM_CATALOG] = NELEMS(sPartyMenuAction_RotomCatalog),
+    [ACTIONS_ZYGARDE_CUBE]  = NELEMS(sPartyMenuAction_ZygardeCube),
 };
 
 static const u16 sFieldMoves[] =

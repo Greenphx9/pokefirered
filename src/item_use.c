@@ -1372,7 +1372,6 @@ void ItemUseInBattle_BagMenu(u8 taskId)
 
 void ItemUseOutOfBattle_FormChange(u8 taskId)
 {
-     
     if (!gTasks[taskId].tUsingRegisteredKeyItem)
     {
         gItemUseCB = ItemUseCB_FormChange;
@@ -1389,7 +1388,6 @@ void ItemUseOutOfBattle_FormChange(u8 taskId)
 
 void ItemUseOutOfBattle_FormChange_ConsumedOnUse(u8 taskId)
 {
-    
     if (!gTasks[taskId].tUsingRegisteredKeyItem)
     {
         gItemUseCB = ItemUseCB_FormChange_ConsumedOnUse;
@@ -1406,7 +1404,6 @@ void ItemUseOutOfBattle_FormChange_ConsumedOnUse(u8 taskId)
 
 void ItemUseOutOfBattle_RotomCatalog(u8 taskId)
 {
-    
     if (!gTasks[taskId].tUsingRegisteredKeyItem)
     {
         gItemUseCB = ItemUseCB_RotomCatalog;
@@ -1423,7 +1420,6 @@ void ItemUseOutOfBattle_RotomCatalog(u8 taskId)
 
 void ItemUseOutOfBattle_ZygardeCube(u8 taskId)
 {
-    /* 
     if (!gTasks[taskId].tUsingRegisteredKeyItem)
     {
         gItemUseCB = ItemUseCB_ZygardeCube;
@@ -1433,9 +1429,9 @@ void ItemUseOutOfBattle_ZygardeCube(u8 taskId)
     else
     {
         // TODO: handle key items with callbacks to menus allow to be used by registering them.
-        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+        FieldUseFunc_OakStopsYou(taskId);
     } 
-    */
+    
 }
 
 void ItemUseOutOfBattle_Fusion(u8 taskId)
