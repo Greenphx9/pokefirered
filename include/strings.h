@@ -289,6 +289,7 @@ extern const u8 gText_RestoreWhichMove[];
 extern const u8 gText_BoostPp[];
 extern const u8 gText_DoWhatWithItem[];
 extern const u8 gText_DoWhatWithMail[];
+extern const u8 gText_WhichAppliance[];
 extern const u8 gText_NoUse[];
 extern const u8 gText_Able[];
 extern const u8 gText_First_PM[];
@@ -323,6 +324,16 @@ extern const u8 gText_Enter[];
 extern const u8 gText_NoEntry[];
 extern const u8 gText_Store[];
 extern const u8 gText_Trade4[];
+
+// Rotom Catalog text
+extern const u8 gText_LightBulb[];
+extern const u8 gText_MicrowaveOven[];
+extern const u8 gText_WashingMachine[];
+extern const u8 gText_Refrigerator[];
+extern const u8 gText_ElectricFan[];
+extern const u8 gText_LawnMower[];
+extern const u8 gText_Exit[];
+
 extern const u8 gText_NotPkmnOtherTrainerWants[];
 extern const u8 gText_ThatIsntAnEgg[];
 extern const u8 gText_OtherTrainerCantAcceptPkmn[];

@@ -472,6 +472,17 @@ static const struct WindowTemplate sWhichMoveMsgWindowTemplate =
     .baseBlock = 0x299,
 };
 
+static const struct WindowTemplate sOrderWhichApplianceMsgWindowTemplate =
+{
+    .bg = 2,
+    .tilemapLeft = 1,
+    .tilemapTop = 15,
+    .width = 14,
+    .height = 4,
+    .paletteNum = 15,
+    .baseBlock = 0x299,
+};
+
 static const struct WindowTemplate sItemGiveTakeWindowTemplate =
 {
     .bg = 2,
@@ -503,6 +514,17 @@ static const struct WindowTemplate sMoveSelectWindowTemplate =
     .height = 8,
     .paletteNum = 14,
     .baseBlock = 0x2BF,
+};
+
+static const struct WindowTemplate sCatalogSelectWindowTemplate =
+{
+    .bg = 2,
+    .tilemapLeft = 17,
+    .tilemapTop = 5,
+    .width = 12,
+    .height = 14,
+    .paletteNum = 14,
+    .baseBlock = 0x2E9,
 };
 
 static const struct WindowTemplate sPartyMenuYesNoWindowTemplate =
@@ -629,6 +651,7 @@ static const u8 *const sActionStringTable[] =
     [PARTY_MSG_BOOST_PP_WHICH_MOVE]    = gText_BoostPp,
     [PARTY_MSG_DO_WHAT_WITH_ITEM]      = gText_DoWhatWithItem,
     [PARTY_MSG_DO_WHAT_WITH_MAIL]      = gText_DoWhatWithMail,
+    [PARTY_MSG_WHICH_APPLIANCE]        = gText_WhichAppliance,
 };
 
 static const u8 *const sDescriptionStringTable[] =
@@ -1049,6 +1072,12 @@ enum
     CURSOR_OPTION_REGISTER,
     CURSOR_OPTION_TRADE1,
     CURSOR_OPTION_TRADE2,
+    CURSOR_OPTION_CATALOG_BULB,
+    CURSOR_OPTION_CATALOG_OVEN,
+    CURSOR_OPTION_CATALOG_WASHING,
+    CURSOR_OPTION_CATALOG_FRIDGE,
+    CURSOR_OPTION_CATALOG_FAN,
+    CURSOR_OPTION_CATALOG_MOWER,
     CURSOR_OPTION_FIELD_MOVES,
 };
 
@@ -1076,6 +1105,12 @@ static struct
     [CURSOR_OPTION_REGISTER]                             = {gText_Register,               CursorCB_Register },
     [CURSOR_OPTION_TRADE1]                               = {gText_Trade4,                 CursorCB_Trade1   },
     [CURSOR_OPTION_TRADE2]                               = {gText_Trade4,                 CursorCB_Trade2   },
+    [CURSOR_OPTION_CATALOG_BULB]                         = {gText_LightBulb,              CursorCB_CatalogBulb},
+    [CURSOR_OPTION_CATALOG_OVEN]                         = {gText_MicrowaveOven,          CursorCB_CatalogOven},
+    [CURSOR_OPTION_CATALOG_WASHING]                      = {gText_WashingMachine,         CursorCB_CatalogWashing},
+    [CURSOR_OPTION_CATALOG_FRIDGE]                       = {gText_Refrigerator,           CursorCB_CatalogFridge},
+    [CURSOR_OPTION_CATALOG_FAN]                          = {gText_ElectricFan,            CursorCB_CatalogFan},
+    [CURSOR_OPTION_CATALOG_MOWER]                        = {gText_LawnMower,              CursorCB_CatalogMower},
     [CURSOR_OPTION_FIELD_MOVES + FIELD_MOVE_FLASH]       = {gMoveNames[MOVE_FLASH],       CursorCB_FieldMove},
     [CURSOR_OPTION_FIELD_MOVES + FIELD_MOVE_CUT]         = {gMoveNames[MOVE_CUT],         CursorCB_FieldMove},
     [CURSOR_OPTION_FIELD_MOVES + FIELD_MOVE_FLY]         = {gMoveNames[MOVE_FLY],         CursorCB_FieldMove},
@@ -1102,6 +1137,7 @@ static const u8 sPartyMenuAction_ReadTakeMailCancel[]    = {CURSOR_OPTION_READ, 
 static const u8 sPartyMenuAction_RegisterSummaryCancel[] = {CURSOR_OPTION_REGISTER, CURSOR_OPTION_SUMMARY,   CURSOR_OPTION_CANCEL1};
 static const u8 sPartyMenuAction_TradeSummaryCancel1[]   = {CURSOR_OPTION_TRADE1,   CURSOR_OPTION_SUMMARY,   CURSOR_OPTION_CANCEL1};
 static const u8 sPartyMenuAction_TradeSummaryCancel2[]   = {CURSOR_OPTION_TRADE2,   CURSOR_OPTION_SUMMARY,   CURSOR_OPTION_CANCEL1};
+static const u8 sPartyMenuAction_RotomCatalog[]          = {CURSOR_OPTION_CATALOG_BULB, CURSOR_OPTION_CATALOG_OVEN, CURSOR_OPTION_CATALOG_WASHING, CURSOR_OPTION_CATALOG_FRIDGE, CURSOR_OPTION_CATALOG_FAN, CURSOR_OPTION_CATALOG_MOWER, CURSOR_OPTION_CANCEL1};
 
 // IDs for the action lists that appear when a party mon is selected
 enum
@@ -1119,6 +1155,7 @@ enum
     ACTIONS_REGISTER,
     ACTIONS_TRADE,
     ACTIONS_SPIN_TRADE,
+    ACTIONS_ROTOM_CATALOG,
 };
 
 static const u8 *const sPartyMenuActions[] =
@@ -1136,6 +1173,7 @@ static const u8 *const sPartyMenuActions[] =
     [ACTIONS_REGISTER]      = sPartyMenuAction_RegisterSummaryCancel,
     [ACTIONS_TRADE]         = sPartyMenuAction_TradeSummaryCancel1,
     [ACTIONS_SPIN_TRADE]    = sPartyMenuAction_TradeSummaryCancel2,
+    [ACTIONS_ROTOM_CATALOG] = sPartyMenuAction_RotomCatalog,
 };
 
 static const u8 sPartyMenuActionCounts[] =
@@ -1153,6 +1191,7 @@ static const u8 sPartyMenuActionCounts[] =
     [ACTIONS_REGISTER]      = NELEMS(sPartyMenuAction_RegisterSummaryCancel),
     [ACTIONS_TRADE]         = NELEMS(sPartyMenuAction_TradeSummaryCancel1),
     [ACTIONS_SPIN_TRADE]    = NELEMS(sPartyMenuAction_TradeSummaryCancel2),
+    [ACTIONS_ROTOM_CATALOG] = NELEMS(sPartyMenuAction_RotomCatalog),
 };
 
 static const u16 sFieldMoves[] =

@@ -165,6 +165,12 @@ static void CursorCB_Register(u8 taskId);
 static void CursorCB_Trade1(u8 taskId);
 static void CursorCB_Trade2(u8 taskId);
 static void CursorCB_FieldMove(u8 taskId);
+static void CursorCB_CatalogBulb(u8);
+static void CursorCB_CatalogOven(u8);
+static void CursorCB_CatalogWashing(u8);
+static void CursorCB_CatalogFridge(u8);
+static void CursorCB_CatalogFan(u8);
+static void CursorCB_CatalogMower(u8);
 static bool8 SetUpFieldMove_Fly(void);
 static bool8 SetUpFieldMove_Waterfall(void);
 static bool8 SetUpFieldMove_Surf(void);
@@ -2498,6 +2504,9 @@ void DisplayPartyMenuStdMessage(u32 stringId)
         case PARTY_MSG_BOOST_PP_WHICH_MOVE:
             *windowPtr = AddWindow(&sWhichMoveMsgWindowTemplate);
             break;
+        case PARTY_MSG_WHICH_APPLIANCE:
+            *windowPtr = AddWindow(&sOrderWhichApplianceMsgWindowTemplate);
+            break;
         default:
             *windowPtr = AddWindow(&sDefaultPartyMsgWindowTemplate);
             break;
@@ -2552,6 +2561,9 @@ static u8 DisplaySelectionWindow(u8 windowType)
         break;
     case SELECTWINDOW_MAIL:
         window = sMailReadTakeWindowTemplate;
+        break;
+    case SELECTWINDOW_CATALOG:
+        window = sCatalogSelectWindowTemplate;
         break;
     default: // SELECTWINDOW_MOVES
         window = sMoveSelectWindowTemplate;
@@ -4905,15 +4917,7 @@ static void CB2_ReturnToPartyMenuWhileLearningMove(void)
     u16 move;
     s32 learnMethod = gPartyMenu.learnMoveMethod;
 
-    if (learnMethod == LEARN_VIA_TMHM && moveIdx != MAX_MON_MOVES)
-    {
-        move = GetMonData(&gPlayerParty[gPartyMenu.slotId], moveIdx + MON_DATA_MOVE1);
-        StartUseItemAnim_ForgetMoveAndLearnTMorHM(gPartyMenu.slotId, gSpecialVar_ItemId, move, CB2_UseTMHMAfterForgettingMove);
-        gItemUseCB = ItemUseCB_ReplaceMoveWithTMHM;
-        gPartyMenu.action = PARTY_ACTION_CHOOSE_MON;
-    }
-    else
-        InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_CHOOSE_MON, TRUE, PARTY_MSG_NONE, Task_ReturnToPartyMenuWhileLearningMove, gPartyMenu.exitCallback);
+    InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_CHOOSE_MON, TRUE, PARTY_MSG_NONE, Task_ReturnToPartyMenuWhileLearningMove, gPartyMenu.exitCallback);
 }
 
 static void Task_ReturnToPartyMenuWhileLearningMove(u8 taskId)
@@ -6563,4 +6567,87 @@ void ItemUseCB_FormChange_ConsumedOnUse(u8 taskId, TaskFunc task)
 {
     if (TryItemUseFormChange(taskId, task))
         RemoveBagItem(gSpecialVar_ItemId, 1);
+}
+
+
+void ItemUseCB_RotomCatalog(u8 taskId, TaskFunc task)
+{
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+    SetPartyMonSelectionActions(gPlayerParty, gPartyMenu.slotId, ACTIONS_ROTOM_CATALOG);
+    DisplaySelectionWindow(SELECTWINDOW_CATALOG);
+    DisplayPartyMenuStdMessage(PARTY_MSG_WHICH_APPLIANCE);
+    gTasks[taskId].data[0] = 0xFF;
+    gTasks[taskId].func = Task_HandleSelectionMenuInput;
+}
+
+bool32 TryMultichoiceFormChange(u8 taskId)
+{
+    struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+    u32 targetSpecies = GetFormChangeTargetSpecies(mon, FORM_CHANGE_ITEM_USE_MULTICHOICE, gSpecialVar_ItemId);
+
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+
+    if (targetSpecies != SPECIES_NONE)
+    {
+        gPartyMenuUseExitCallback = TRUE;
+        SetWordTaskArg(taskId, tNextFunc, (u32)Task_ClosePartyMenuAfterText);
+        gTasks[taskId].func = Task_TryItemUseFormChange;
+        gTasks[taskId].tState = 0;
+        gTasks[taskId].tTargetSpecies = targetSpecies;
+        gTasks[taskId].tAnimWait = 0;
+        return TRUE;
+    }
+    else
+    {
+        gPartyMenuUseExitCallback = FALSE;
+        PlaySE(SE_SELECT);
+        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        ScheduleBgCopyTilemapToVram(2);
+        gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+        return FALSE;
+    }
+}
+
+static void CursorCB_CatalogBulb(u8 taskId)
+{
+    gSpecialVar_Result = 0;
+    gSpecialVar_0x8000 = MOVE_THUNDER_SHOCK;
+    TryMultichoiceFormChange(taskId);
+}
+
+static void CursorCB_CatalogOven(u8 taskId)
+{
+    gSpecialVar_Result = 1;
+    gSpecialVar_0x8000 = MOVE_OVERHEAT;
+    TryMultichoiceFormChange(taskId);
+}
+
+static void CursorCB_CatalogWashing(u8 taskId)
+{
+    gSpecialVar_Result = 2;
+    gSpecialVar_0x8000 = MOVE_HYDRO_PUMP;
+    TryMultichoiceFormChange(taskId);
+}
+
+static void CursorCB_CatalogFridge(u8 taskId)
+{
+    gSpecialVar_Result = 3;
+    gSpecialVar_0x8000 = MOVE_BLIZZARD;
+    TryMultichoiceFormChange(taskId);
+}
+
+static void CursorCB_CatalogFan(u8 taskId)
+{
+    gSpecialVar_Result = 4;
+    gSpecialVar_0x8000 = MOVE_AIR_SLASH;
+    TryMultichoiceFormChange(taskId);
+}
+
+static void CursorCB_CatalogMower(u8 taskId)
+{
+    gSpecialVar_Result = 5;
+    gSpecialVar_0x8000 = MOVE_LEAF_STORM;
+    TryMultichoiceFormChange(taskId);
 }
