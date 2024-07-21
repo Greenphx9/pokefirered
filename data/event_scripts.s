@@ -807,6 +807,8 @@ gStdScriptsEnd::
 	.include "data/scripts/std_msgbox.inc"
 	.include "data/scripts/trainer_battle.inc"
 
+	.include "data/scripts/debug.inc"
+
 @ Unused
 Text_WouldYouLikeToMixRecords::
 	.string "Would you like to mix records with\n"

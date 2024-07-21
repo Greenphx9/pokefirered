@@ -7,6 +7,7 @@ u8 *GetMonNick(struct Pokemon *mon, u8 *dest);
 u8 *GetBoxMonNick(struct BoxPokemon *mon, u8 *dest);
 u8 CountPokemonInDaycare(struct DayCare *daycare);
 void InitDaycareMailRecordMixing(struct DayCare *daycare, struct RecordMixingDayCareMail *daycareMail);
+s8 Daycare_FindEmptySpot(struct DayCare *daycare);
 void StoreSelectedPokemonInDaycare(void);
 u16 TakePokemonFromDaycare(void);
 void GetDaycareCost(void);

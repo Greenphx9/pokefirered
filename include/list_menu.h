@@ -100,10 +100,13 @@ u8 ListMenuInitInRect(const struct ListMenuTemplate *listMenuTemplate, const str
 s32 ListMenu_ProcessInput(u8 listTaskId);
 void DestroyListMenuTask(u8 listTaskId, u16 *cursorPos, u16 *itemsAbove);
 void RedrawListMenu(u8 listTaskId);
+void ListMenuGetCurrentItemArrayId(u8 listTaskId, u16 *arrayId);
 void ListMenuGetScrollAndRow(u8 listTaskId, u16 *cursorPos, u16 *itemsAbove);
 u16 ListMenuGetYCoordForPrintingArrowCursor(u8 listTaskId);
 void ListMenuOverrideSetColors(u8 cursorPal, u8 fillValue, u8 cursorShadowPal);
 void ListMenuDefaultCursorMoveFunc(s32 itemIndex, bool8 onInit, struct ListMenu *list);
 void ListMenuSetTemplateField(u8 taskId, u8 field, s32 value);
+bool8 ListMenuChangeSelection(struct ListMenu *list, bool8 updateCursorAndCallCallback, u8 count, bool8 movingDown);
+bool8 ListMenuChangeSelectionFull(struct ListMenu *list, bool32 updateCursor, bool32 callCallback, u8 count, bool8 movingDown);
 
 #endif //GUARD_LIST_MENU_H

@@ -1043,6 +1043,7 @@ SECTIONS {
         data/*.o(.rodata);
     } > ROM =0
 
+    __rom_end = .;
 
     /* DWARF 2 sections */
     .debug_aranges  0 : { *(.debug_aranges) }

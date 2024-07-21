@@ -407,7 +407,7 @@ void InitDaycareMailRecordMixing(struct DayCare *daycare, struct RecordMixingDay
     daycareMail->numDaycareMons = numDaycareMons;
 }
 
-static s8 Daycare_FindEmptySpot(struct DayCare *daycare)
+s8 Daycare_FindEmptySpot(struct DayCare *daycare)
 {
     u8 i;
 

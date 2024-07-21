@@ -452,4 +452,8 @@ gSpecials::
 	def_special UpdateLoreleiDollCollection
 	def_special LoopWingFlapSound
 	def_special CreateEnemyEventMon
+	def_special Script_GetChosenMonOffensiveEVs
+	def_special Script_GetChosenMonDefensiveEVs
+	def_special Script_GetChosenMonOffensiveIVs
+	def_special Script_GetChosenMonDefensiveIVs
 gSpecialsEnd::

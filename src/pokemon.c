@@ -76,10 +76,8 @@ static u8 GetNatureFromPersonality(u32 personality);
 static bool8 PartyMonHasStatus(struct Pokemon *mon, u32 unused, u32 healMask, u8 battleId);
 static bool8 HealStatusConditions(struct Pokemon *mon, u32 unused, u32 healMask, u8 battleId);
 static bool8 IsPokemonStorageFull(void);
-static u8 SendMonToPC(struct Pokemon* mon);
 static void EncryptBoxMon(struct BoxPokemon *boxMon);
 static void DeleteFirstMoveAndGiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move);
-static void GiveBoxMonInitialMoveset(struct BoxPokemon *boxMon);
 static u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move);
 static u8 GetLevelFromMonExp(struct Pokemon *mon);
 static u16 CalculateBoxMonChecksum(struct BoxPokemon *boxMon);
@@ -2190,12 +2188,12 @@ void SetBattleMonMoveSlot(struct BattlePokemon *mon, u16 move, u8 slot)
     mon->pp[slot] = gBattleMoves[move].pp;
 }
 
-static void GiveMonInitialMoveset(struct Pokemon *mon)
+void GiveMonInitialMoveset(struct Pokemon *mon)
 {
     GiveBoxMonInitialMoveset(&mon->box);
 }
 
-static void GiveBoxMonInitialMoveset(struct BoxPokemon *boxMon)
+void GiveBoxMonInitialMoveset(struct BoxPokemon *boxMon)
 {
     u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
     s32 level = GetLevelFromBoxMonExp(boxMon);
@@ -2210,6 +2208,61 @@ static void GiveBoxMonInitialMoveset(struct BoxPokemon *boxMon)
             continue;
         if (GiveMoveToBoxMon(boxMon, learnset[i].move) == MON_HAS_MAX_MOVES)
             DeleteFirstMoveAndGiveMoveToBoxMon(boxMon, learnset[i].move);
+    }
+}
+
+void GiveMonInitialMoveset_Fast(struct Pokemon *mon)
+{
+    GiveBoxMonInitialMoveset_Fast(&mon->box);
+}
+
+void GiveBoxMonInitialMoveset_Fast(struct BoxPokemon *boxMon) //Credit: AsparagusEduardo
+{
+    u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
+    s32 level = GetLevelFromBoxMonExp(boxMon);
+    s32 i;
+    u16 moves[MAX_MON_MOVES] = {MOVE_NONE};
+    u8 addedMoves = 0;
+    const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(species);
+
+    for (i = 0; learnset[i].move != LEVEL_UP_END; i++)
+    {
+        s32 j;
+        bool32 alreadyKnown = FALSE;
+
+        if (learnset[i].level > level)
+            break;
+        if (learnset[i].level == 0)
+            continue;
+
+        for (j = 0; j < addedMoves; j++)
+        {
+            if (moves[j] == learnset[i].move)
+            {
+                alreadyKnown = TRUE;
+                break;
+            }
+        }
+
+        if (!alreadyKnown)
+        {
+            if (addedMoves < MAX_MON_MOVES)
+            {
+                moves[addedMoves] = learnset[i].move;
+                addedMoves++;
+            }
+            else
+            {
+                for (j = 0; j < MAX_MON_MOVES - 1; j++)
+                    moves[j] = moves[j + 1];
+                moves[MAX_MON_MOVES - 1] = learnset[i].move;
+            }
+        }
+    }
+    for (i = 0; i < MAX_MON_MOVES; i++)
+    {
+        SetBoxMonData(boxMon, MON_DATA_MOVE1 + i, &moves[i]);
+        SetBoxMonData(boxMon, MON_DATA_PP1 + i, &gBattleMoves[moves[i]].pp);
     }
 }
 
@@ -3627,7 +3680,7 @@ u8 GiveMonToPlayer(struct Pokemon *mon)
     return MON_GIVEN_TO_PARTY;
 }
 
-static u8 SendMonToPC(struct Pokemon* mon)
+u8 SendMonToPC(struct Pokemon* mon)
 {
     s32 boxNo, boxPos;
 
@@ -6808,4 +6861,9 @@ u16 GetCryIdBySpecies(u16 species)
     if (gSpeciesInfo[species].cryId >= CRY_COUNT)
         return 0;
     return gSpeciesInfo[species].cryId;
+}
+
+const u8 *GetMoveName(u16 moveId)
+{
+    return gMoveNames[moveId];
 }

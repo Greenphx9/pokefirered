@@ -7,5 +7,9 @@ void ScriptSetMonMoveSlot(u8 partyIdx, u16 move, u8 slot);
 void HealPlayerParty(void);
 void ReducePlayerPartyToThree(void);
 void CreateScriptedWildMon(u16 species, u8 level, u16 item);
+void Script_GetChosenMonOffensiveEVs(void);
+void Script_GetChosenMonDefensiveEVs(void);
+void Script_GetChosenMonOffensiveIVs(void);
+void Script_GetChosenMonDefensiveIVs(void);
 
 #endif //GUARD_SCRIPT_POKEMON_UTIL_H

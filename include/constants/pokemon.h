@@ -185,6 +185,7 @@
 // Shiny odds
 #define SHINY_ODDS 8 // Actual probability is SHINY_ODDS/65536
 
+#define MIN_LEVEL 1
 #define MAX_LEVEL 100
 
 #define OT_ID_PLAYER_ID       0
@@ -331,6 +332,10 @@
 #define MON_PIC_WIDTH 64
 #define MON_PIC_HEIGHT 64
 #define MON_PIC_SIZE (MON_PIC_WIDTH * MON_PIC_HEIGHT / 2)
+
+#define NUM_ABILITY_SLOTS (NUM_NORMAL_ABILITY_SLOTS + NUM_HIDDEN_ABILITY_SLOTS)
+#define NUM_NORMAL_ABILITY_SLOTS 2
+#define NUM_HIDDEN_ABILITY_SLOTS 1
 
 // Most pokemon have 1 frame. There are 2 exceptions:
 // - Castform has 4 frames, 1 for each form
