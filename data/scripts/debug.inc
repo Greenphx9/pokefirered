@@ -105,12 +105,12 @@ Debug_EventScript_Script_8::
 	end
 
 Debug_CheckSaveBlock::
-	callnative CheckSaveBlock1Size
-	msgbox Debug_SaveBlock1Size, MSGBOX_DEFAULT
-	callnative CheckSaveBlock2Size
-	msgbox Debug_SaveBlock2Size, MSGBOX_DEFAULT
-	callnative CheckPokemonStorageSize
-	msgbox Debug_PokemonStorageSize, MSGBOX_DEFAULT
+	@callnative CheckSaveBlock1Size
+	@msgbox Debug_SaveBlock1Size, MSGBOX_DEFAULT
+	@callnative CheckSaveBlock2Size
+	@msgbox Debug_SaveBlock2Size, MSGBOX_DEFAULT
+	@callnative CheckPokemonStorageSize
+	@msgbox Debug_PokemonStorageSize, MSGBOX_DEFAULT
 	release
 	end
 
@@ -127,8 +127,8 @@ Debug_PokemonStorageSize::
 	.string "Free space: {STR_VAR_3}b.$"
 
 Debug_CheckROMSpace::
-	callnative CheckROMSize
-	msgbox Debug_ROMSize, MSGBOX_DEFAULT
+	@callnative CheckROMSize
+	@msgbox Debug_ROMSize, MSGBOX_DEFAULT
 	release
 	end
 
@@ -192,8 +192,8 @@ DebugText_DaycarePokemonNotCompatible:
 	.string "Your Pokémon at Daycare can't\nhave babies together!$"
 
 Debug_ShowExpansionVersion::
-	callnative BufferExpansionVersion
-	msgbox Debug_ExpansionVersion, MSGBOX_DEFAULT
+	@callnative BufferExpansionVersion
+	@msgbox Debug_ExpansionVersion, MSGBOX_DEFAULT
 	release
 	end
 

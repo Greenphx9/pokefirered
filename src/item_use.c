@@ -1071,10 +1071,8 @@ static void UseTMHM(u8 taskId)
 
 void ItemUseOutOfBattle_EvolutionStone(u8 taskId)
 {
-    /* 
     gItemUseCB = ItemUseCB_EvolutionStone;
     SetUpItemUseCallback(taskId); 
-    */
 }
 
 void ItemUseOutOfBattle_Lure(u8 taskId)

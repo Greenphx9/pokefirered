@@ -5316,11 +5316,9 @@ static void Task_SacredAshDisplayHPRestored(u8 taskId)
 
 void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc func)
 {
-    bool8 noEffect;
-
     PlaySE(SE_SELECT);
-    noEffect = PokemonItemUseNoEffect(&gPlayerParty[gPartyMenu.slotId], gSpecialVar_ItemId, gPartyMenu.slotId, 0);
-    if (noEffect)
+    gCB2_AfterEvolution = gPartyMenu.exitCallback;
+    if (ExecuteTableBasedItemEffect(&gPlayerParty[gPartyMenu.slotId], gSpecialVar_ItemId, gPartyMenu.slotId, 0))
     {
         gPartyMenuUseExitCallback = FALSE;
         DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
@@ -5328,7 +5326,11 @@ void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc func)
         gTasks[taskId].func = func;
     }
     else
-        Task_DoUseItemAnim(taskId);
+    {
+        if (ItemId_GetPocket(gSpecialVar_ItemId) != POCKET_KEY_ITEMS)
+            RemoveBagItem(gSpecialVar_ItemId, 1);
+        FreePartyPointers();
+    }
 }
 
 static void CB2_UseEvolutionStone(void)

@@ -655,6 +655,7 @@ static void Task_EvolutionScene(u8 taskId)
 
     // Automatically cancel if the Pokemon would evolve into a species you have not
     // yet unlocked, such as Crobat.
+    #if P_NATIONAL_DEX_EVOLUTIONS == GEN_3
     if (!IsNationalPokedexEnabled()
         && gTasks[taskId].tState == EVOSTATE_WAIT_CYCLE_MON_SPRITE
         && gTasks[taskId].tPostEvoSpecies > SPECIES_MEW)
@@ -665,6 +666,7 @@ static void Task_EvolutionScene(u8 taskId)
         StopBgAnimation();
         return;
     }
+    #endif
 
     // check if B Button was held, so the evolution gets stopped
     if (gMain.heldKeys == B_BUTTON
@@ -1113,6 +1115,7 @@ static void Task_TradeEvolutionScene(u8 taskId)
 
     // Automatically cancel if the Pokemon would evolve into a species you have not
     // yet unlocked, such as Crobat.
+    #if P_NATIONAL_DEX_EVOLUTIONS == GEN_3
     if (!IsNationalPokedexEnabled()
         && gTasks[taskId].tState == T_EVOSTATE_WAIT_CYCLE_MON_SPRITE
         && gTasks[taskId].tPostEvoSpecies > SPECIES_MEW)
@@ -1125,6 +1128,7 @@ static void Task_TradeEvolutionScene(u8 taskId)
             StopBgAnimation();
         }
     }
+    #endif
 
     switch (gTasks[taskId].tState)
     {

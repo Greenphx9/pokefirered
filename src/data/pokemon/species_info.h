@@ -81,6 +81,8 @@ const struct SpeciesInfo gSpeciesInfo[] =
         FOOTPRINT(QuestionMark)
         .levelUpLearnset = sNoneLevelUpLearnset,
         .teachableLearnset = sNoneTeachableLearnset,
+        .formSpeciesIdTable = sNoneFormSpeciesIdTable,
+        .formChangeTable = sNoneFormChangeTable,
     },
 
     #include "species_info/gen_1_families.h"

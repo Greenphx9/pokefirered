@@ -1,3 +1,7 @@
+static const struct FormChange sNoneFormChangeTable[] = {
+    {FORM_CHANGE_TERMINATOR},
+};
+
 #if P_FAMILY_BULBASAUR
 static const struct FormChange sVenusaurFormChangeTable[] = {
 #if P_MEGA_EVOLUTIONS

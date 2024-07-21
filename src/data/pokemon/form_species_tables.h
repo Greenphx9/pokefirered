@@ -1,3 +1,7 @@
+static const u16 sNoneFormSpeciesIdTable[] = {
+    FORM_SPECIES_END,
+};
+
 #if P_FAMILY_BULBASAUR
 static const u16 sVenusaurFormSpeciesIdTable[] = {
     SPECIES_VENUSAUR,
