@@ -987,10 +987,8 @@ void ItemUseOutOfBattle_AbilityPatch(u8 taskId)
 
 void ItemUseOutOfBattle_Mint(u8 taskId)
 {
-    /* 
     gItemUseCB = ItemUseCB_Mint;
-    SetUpItemUseCallback(taskId); 
-    */
+    SetUpItemUseCallback(taskId);
 }
 
 void ItemUseOutOfBattle_ResetEVs(u8 taskId)
