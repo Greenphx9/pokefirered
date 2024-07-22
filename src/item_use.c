@@ -1007,10 +1007,8 @@ void ItemUseOutOfBattle_ReduceEV(u8 taskId)
 
 void ItemUseOutOfBattle_DynamaxCandy(u8 taskId)
 {
-    /* 
     gItemUseCB = ItemUseCB_DynamaxCandy;
     SetUpItemUseCallback(taskId); 
-    */
 }
 
 //TMs are handled in tm_case.c, not needed
