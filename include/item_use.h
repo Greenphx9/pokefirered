@@ -69,4 +69,12 @@ void ItemUseInBattle_PartyMenuChooseMove(u8 taskId);
 u8 CanUseEscapeRopeOnCurrMap(void);
 u8 CheckIfItemIsTMHMOrEvolutionStone(u16 itemId);
 
+enum {
+    BALL_THROW_UNABLE_TWO_MONS,
+    BALL_THROW_UNABLE_NO_ROOM,
+    BALL_THROW_UNABLE_SEMI_INVULNERABLE,
+    BALL_THROW_ABLE,
+    BALL_THROW_UNABLE_DISABLED_FLAG,
+};
+
 #endif //GUARD_ITEM_USE_H

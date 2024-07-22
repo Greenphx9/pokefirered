@@ -526,6 +526,7 @@ struct BattleScripting
     u8 levelUpHP;
     u16 abilityPopupOverwrite;
     bool8 fixedPopup;   // Force ability popup to stick until manually called back
+    bool8 monCaught;
 };
 
 struct BattleSpriteInfo
@@ -728,5 +729,10 @@ extern u8 gBattleTerrain;
 extern struct MultiBattlePokemonTx gMultiPartnerParty[3];
 extern u16 gRandomTurnNumber;
 extern u8 gBattlerAbility;
+extern bool8 gHasFetchedBall;
+extern u8 gLastUsedBall;
+extern u16 gLastThrownBall;
+extern u16 gBallToDisplay;
+extern bool8 gLastUsedBallMenuPresent;
 
 #endif // GUARD_BATTLE_H

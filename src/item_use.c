@@ -1,6 +1,8 @@
 #include "global.h"
 #include "gflib.h"
 #include "bag.h"
+#include "battle_anim.h"
+#include "battle_util.h"
 #include "battle.h"
 #include "berry_pouch.h"
 #include "berry_powder.h"
@@ -1084,7 +1086,6 @@ void HandleUseExpiredLure(struct ScriptContext *ctx)
 
 static u32 GetBallThrowableState(void)
 {
-    /* 
     if (IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
      && IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)))
         return BALL_THROW_UNABLE_TWO_MONS;
@@ -1096,16 +1097,11 @@ static u32 GetBallThrowableState(void)
         return BALL_THROW_UNABLE_DISABLED_FLAG;
 
     return BALL_THROW_ABLE; 
-    */
-    return 0;
 }
 
 bool32 CanThrowBall(void)
 {
-    /* 
     return (GetBallThrowableState() == BALL_THROW_ABLE); 
-    */
-    return TRUE;
 }
 
 static const u8 sText_CantThrowPokeBall_TwoMons[] = _("Cannot throw a ball!\nThere are two Pokémon out there!\p");
@@ -1113,81 +1109,49 @@ static const u8 sText_CantThrowPokeBall_SemiInvulnerable[] = _("Cannot throw a b
 static const u8 sText_CantThrowPokeBall_Disabled[] = _("POKé BALLS cannot be used\nright now!\p");
 void ItemUseInBattle_PokeBall(u8 taskId)
 {
-    /* 
     switch (GetBallThrowableState())
     {
     case BALL_THROW_ABLE:
     default:
         RemoveBagItem(gSpecialVar_ItemId, 1);
-        if (!InBattlePyramid())
-            Task_FadeAndCloseBagMenu(taskId);
-        else
-            CloseBattlePyramidBag(taskId);
+        Bag_BeginCloseWin0Animation();
+        ItemMenu_StartFadeToExitCallback(taskId);
         break;
     case BALL_THROW_UNABLE_TWO_MONS:
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, FONT_NORMAL, sText_CantThrowPokeBall_TwoMons, CloseItemMessage);
-        else
-            DisplayItemMessageInBattlePyramid(taskId, sText_CantThrowPokeBall_TwoMons, Task_CloseBattlePyramidBagMessage);
+        DisplayItemMessageInBag(taskId, FONT_NORMAL, sText_CantThrowPokeBall_TwoMons, Task_ReturnToBagFromContextMenu);
         break;
     case BALL_THROW_UNABLE_NO_ROOM:
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, FONT_NORMAL, gText_BoxFull, CloseItemMessage);
-        else
-            DisplayItemMessageInBattlePyramid(taskId, gText_BoxFull, Task_CloseBattlePyramidBagMessage);
+        DisplayItemMessageInBag(taskId, FONT_NORMAL, gText_BoxFull, Task_ReturnToBagFromContextMenu);
         break;
     case BALL_THROW_UNABLE_SEMI_INVULNERABLE:
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, FONT_NORMAL, sText_CantThrowPokeBall_SemiInvulnerable, CloseItemMessage);
-        else
-            DisplayItemMessageInBattlePyramid(taskId, sText_CantThrowPokeBall_SemiInvulnerable, Task_CloseBattlePyramidBagMessage);
+        DisplayItemMessageInBag(taskId, FONT_NORMAL, sText_CantThrowPokeBall_SemiInvulnerable, Task_ReturnToBagFromContextMenu);
         break;
     case BALL_THROW_UNABLE_DISABLED_FLAG:
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, FONT_NORMAL, sText_CantThrowPokeBall_Disabled, CloseItemMessage);
-        else
-            DisplayItemMessageInBattlePyramid(taskId, sText_CantThrowPokeBall_Disabled, Task_CloseBattlePyramidBagMessage);
+        DisplayItemMessageInBag(taskId, FONT_NORMAL, sText_CantThrowPokeBall_Disabled, Task_ReturnToBagFromContextMenu);
         break;
     } 
-    */
 }
 
 static void ItemUseInBattle_ShowPartyMenu(u8 taskId)
 {
-    /* 
-    if (!InBattlePyramid())
-    {
-        gBagMenu->newScreenCallback = ChooseMonForInBattleItem;
-        Task_FadeAndCloseBagMenu(taskId);
-    }
-    else
-    {
-        gPyramidBagMenu->newScreenCallback = ChooseMonForInBattleItem;
-        CloseBattlePyramidBag(taskId);
-    } 
-    */
+    ItemUse_SwitchToPartyMenuInBattle(taskId);
 }
 
 void ItemUseInBattle_PartyMenu(u8 taskId)
 {
-    /* 
-    gItemUseCB = ItemUseCB_BattleScript;
+    //gItemUseCB = ItemUseCB_BattleScript;
     ItemUseInBattle_ShowPartyMenu(taskId);
-    */
 }
 
 void ItemUseInBattle_PartyMenuChooseMove(u8 taskId)
 {
-    /* 
-    gItemUseCB = ItemUseCB_BattleChooseMove;
+    //gItemUseCB = ItemUseCB_BattleChooseMove;
     ItemUseInBattle_ShowPartyMenu(taskId); 
-    */
 }
 
 // Returns whether an item can be used in battle and sets the fail text.
 bool32 CannotUseItemsInBattle(u16 itemId, struct Pokemon *mon)
-{
-    /* 
+{ 
     u16 battleUsage = ItemId_GetBattleUsage(itemId);
     bool8 cannotUse = FALSE;
     const u8* failStr = NULL;
@@ -1195,11 +1159,12 @@ bool32 CannotUseItemsInBattle(u16 itemId, struct Pokemon *mon)
     u16 hp = GetMonData(mon, MON_DATA_HP);
 
     // Embargo Check
-    if ((gPartyMenu.slotId == 0 && gStatuses3[B_POSITION_PLAYER_LEFT] & STATUS3_EMBARGO)
+    // TODO: Implement Embargo
+    /*if ((gPartyMenu.slotId == 0 && gStatuses3[B_POSITION_PLAYER_LEFT] & STATUS3_EMBARGO)
         || (gPartyMenu.slotId == 1 && gStatuses3[B_POSITION_PLAYER_RIGHT] & STATUS3_EMBARGO))
     {
         return TRUE;
-    }
+    }*/
 
     // battleUsage checks
     switch (battleUsage)
@@ -1209,8 +1174,11 @@ bool32 CannotUseItemsInBattle(u16 itemId, struct Pokemon *mon)
             cannotUse = TRUE;
         break;
     case EFFECT_ITEM_SET_FOCUS_ENERGY:
-        if (gBattleMons[gBattlerInMenuId].status2 & STATUS2_FOCUS_ENERGY_ANY)
-            cannotUse = TRUE;
+        // TODO: Implement Focus Energy Status
+        /*
+         if (gBattleMons[gBattlerInMenuId].status2 & STATUS2_FOCUS_ENERGY_ANY)
+            cannotUse = TRUE; 
+        */
         break;
     case EFFECT_ITEM_SET_MIST:
         if (gSideStatuses[GetBattlerSide(gBattlerInMenuId)] & SIDE_STATUS_MIST)
@@ -1281,7 +1249,7 @@ bool32 CannotUseItemsInBattle(u16 itemId, struct Pokemon *mon)
             if (i == MAX_MON_MOVES)
                 cannotUse = TRUE;
         }
-        else if (GetMonData(mon, MON_DATA_PP1 + gPartyMenu.data1) == CalculatePPWithBonus(GetMonData(mon, MON_DATA_MOVE1 + gPartyMenu.data1), GetMonData(mon, MON_DATA_PP_BONUSES), gPartyMenu.data1))
+        else if (GetMonData(mon, MON_DATA_PP1 + gPartyMenu.data[0]) == CalculatePPWithBonus(GetMonData(mon, MON_DATA_MOVE1 + gPartyMenu.data[0]), GetMonData(mon, MON_DATA_PP_BONUSES), gPartyMenu.data[0]))
         {
             cannotUse = TRUE;
         }
@@ -1294,32 +1262,28 @@ bool32 CannotUseItemsInBattle(u16 itemId, struct Pokemon *mon)
         StringExpandPlaceholders(gStringVar4, gText_WontHaveEffect);
 
     return cannotUse; 
-    */
-    return FALSE;
 }
 
 void ItemUseInBattle_BagMenu(u8 taskId)
 {
-    /* 
     if (CannotUseItemsInBattle(gSpecialVar_ItemId, NULL))
     {
-        if (!InBattlePyramid())
-            DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, CloseItemMessage);
-        else
-            DisplayItemMessageInBattlePyramid(taskId, gStringVar4, Task_CloseBattlePyramidBagMessage);
+        DisplayItemMessageInBag(taskId, FONT_NORMAL, gStringVar4, Task_ReturnToBagFromContextMenu);
     }
     else
     {
         PlaySE(SE_SELECT);
         if (!(B_TRY_CATCH_TRAINER_BALL >= GEN_4 && (ItemId_GetBattleUsage(gSpecialVar_ItemId) == EFFECT_ITEM_THROW_BALL) && (gBattleTypeFlags & BATTLE_TYPE_TRAINER)))
-            RemoveUsedItem();
-        ScheduleBgCopyTilemapToVram(2);
-        if (!InBattlePyramid())
-            gTasks[taskId].func = Task_FadeAndCloseBagMenu;
-        else
-            gTasks[taskId].func = CloseBattlePyramidBag;
+            RemoveBagItem(gSpecialVar_ItemId, 1);
+
+        HideBagWindow(10);
+        HideBagWindow(6);
+        PutWindowTilemap(0);
+        PutWindowTilemap(1);
+        CopyWindowToVram(0, COPYWIN_MAP);
+        Bag_BeginCloseWin0Animation();
+        ItemMenu_StartFadeToExitCallback(taskId);
     } 
-    */
 }
 
 void ItemUseOutOfBattle_FormChange(u8 taskId)

@@ -2,6 +2,9 @@
 #ifndef METAPROGRAM_H
 #define METAPROGRAM_H
 
+/* Calls m0/m1/.../m8 depending on how many arguments are passed. */
+#define VARARG_8(m, ...) CAT(m, NARG_8(__VA_ARGS__))(__VA_ARGS__)
+
 /* Returns the number of arguments passed to it (up to 8). */
 #define NARG_8(...) NARG_8_(_, ##__VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 #define NARG_8_(_, a, b, c, d, e, f, g, h, N, ...) N

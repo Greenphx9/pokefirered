@@ -93,5 +93,14 @@ void ClearFuryCutterDestinyBondGrudge(u8 battlerId);
 void HandleAction_RunBattleScript(void);
 u8 GetMoveTarget(u16 move, u8 setTarget);
 u8 IsMonDisobedient(void);
+u32 GetBattlerHoldEffect(u32 battler, bool32 checkNegating);
+u32 GetBattlerHoldEffectIgnoreAbility(u32 battler, bool32 checkNegating);
+u32 GetBattlerHoldEffectInternal(u32 battler, bool32 checkNegating, bool32 checkAbility);
+u32 GetBattlerHoldEffectParam(u32 battler);
+bool32 IsNeutralizingGasOnField(void);
+bool32 IsMoldBreakerTypeAbility(u32 ability);
+u32 GetBattlerAbility(u32 battler);
+bool32 IsBattlerAlive(u32 battler);
+bool32 CompareStat(u32 battler, u8 statId, u8 cmpTo, u8 cmpKind);
 
 #endif // GUARD_BATTLE_UTIL_H

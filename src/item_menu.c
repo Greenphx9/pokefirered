@@ -1686,17 +1686,18 @@ static void Task_ItemMenuAction_Cancel(u8 taskId)
 // TODO: Fix ItemId_GetBattleFunc uses
 static void Task_ItemMenuAction_BattleUse(u8 taskId)
 {
-    /* 
-    if (ItemId_GetBattleFunc(gSpecialVar_ItemId) != NULL)
-    {
-        HideBagWindow(10);
-        HideBagWindow(6);
-        PutWindowTilemap(0);
-        PutWindowTilemap(1);
-        CopyWindowToVram(0, COPYWIN_MAP);
-        ItemId_GetBattleFunc(gSpecialVar_ItemId)(taskId);
-    } 
-    */
+    // Safety check
+    //u16 type = ItemId_GetType(gSpecialVar_ItemId);
+    //if (!ItemId_GetBattleUsage(gSpecialVar_ItemId))
+    //    return;
+
+    //if (type == ITEM_USE_BAG_MENU)
+        ItemUseInBattle_BagMenu(taskId);
+    //else if (type == ITEM_USE_PARTY_MENU)
+    //    ItemUseInBattle_PartyMenu(taskId);
+    //else if (type == ITEM_USE_PARTY_MENU_MOVES)
+    //    ItemUseInBattle_PartyMenuChooseMove(taskId);
+    
 }
 
 static void Task_ItemContext_FieldGive(u8 taskId)

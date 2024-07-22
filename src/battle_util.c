@@ -3253,3 +3253,174 @@ u8 IsMonDisobedient(void)
         }
     }
 }
+
+u32 GetBattlerHoldEffect(u32 battler, bool32 checkNegating)
+{
+    return GetBattlerHoldEffectInternal(battler, checkNegating, TRUE);
+}
+
+u32 GetBattlerHoldEffectIgnoreAbility(u32 battler, bool32 checkNegating)
+{
+    return GetBattlerHoldEffectInternal(battler, checkNegating, FALSE);
+}
+
+u32 GetBattlerHoldEffectInternal(u32 battler, bool32 checkNegating, bool32 checkAbility)
+{
+    if (checkNegating)
+    {
+        // TODO: Implement Embargo, Magic Room
+        //if (gStatuses3[battler] & STATUS3_EMBARGO)
+        //    return HOLD_EFFECT_NONE;
+        //if (gFieldStatuses & STATUS_FIELD_MAGIC_ROOM)
+        //    return HOLD_EFFECT_NONE;
+        if (checkAbility && GetBattlerAbility(battler) == ABILITY_KLUTZ)
+            return HOLD_EFFECT_NONE;
+    }
+
+    gPotentialItemEffectBattler = battler;
+
+    if (gBattleMons[battler].item == ITEM_ENIGMA_BERRY_E_READER)
+        return gEnigmaBerries[battler].holdEffect;
+    else
+        return ItemId_GetHoldEffect(gBattleMons[battler].item);
+}
+
+static u32 GetBattlerItemHoldEffectParam(u32 battler, u32 item)
+{
+    if (item == ITEM_ENIGMA_BERRY_E_READER)
+        return gEnigmaBerries[battler].holdEffectParam;
+    else
+        return ItemId_GetHoldEffectParam(item);
+}
+
+u32 GetBattlerHoldEffectParam(u32 battler)
+{
+    if (gBattleMons[battler].item == ITEM_ENIGMA_BERRY_E_READER)
+        return gEnigmaBerries[battler].holdEffectParam;
+    else
+        return ItemId_GetHoldEffectParam(gBattleMons[battler].item);
+}
+
+bool32 IsNeutralizingGasOnField(void)
+{
+    u32 i;
+
+    for (i = 0; i < gBattlersCount; i++)
+    {
+        // TODO: Implement Gastro Acid
+        if (IsBattlerAlive(i) && gBattleMons[i].ability == ABILITY_NEUTRALIZING_GAS/* && !(gStatuses3[i] & STATUS3_GASTRO_ACID)*/)
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+bool32 IsMoldBreakerTypeAbility(u32 ability)
+{
+    return (ability == ABILITY_MOLD_BREAKER || ability == ABILITY_TERAVOLT || ability == ABILITY_TURBOBLAZE
+        // TODO: Implement PSS
+        /*|| (ability == ABILITY_MYCELIUM_MIGHT && IS_MOVE_STATUS(gCurrentMove))*/);
+}
+
+u32 GetBattlerAbility(u32 battler)
+{
+    bool32 noAbilityShield = GetBattlerHoldEffectIgnoreAbility(battler, TRUE) != HOLD_EFFECT_ABILITY_SHIELD;
+
+    if (gAbilitiesInfo[gBattleMons[battler].ability].cantBeSuppressed)
+    {
+        // Edge case: pokemon under the effect of gastro acid transforms into a pokemon with Comatose (Todo: verify how other unsuppressable abilities behave)
+        // TODO: Implement Gastro Acid
+        if (gBattleMons[battler].status2 & STATUS2_TRANSFORMED
+            //&& gStatuses3[battler] & STATUS3_GASTRO_ACID
+            && gBattleMons[battler].ability == ABILITY_COMATOSE)
+                return ABILITY_NONE;
+        return gBattleMons[battler].ability;
+    }
+
+    // TODO: Implement Gastro Acid
+    //if (gStatuses3[battler] & STATUS3_GASTRO_ACID)
+    //    return ABILITY_NONE;
+
+    if (IsNeutralizingGasOnField()
+     && gBattleMons[battler].ability != ABILITY_NEUTRALIZING_GAS
+     && noAbilityShield)
+        return ABILITY_NONE;
+
+    // TODO: Implement Gastro Acid
+    if (((IsMoldBreakerTypeAbility(gBattleMons[gBattlerAttacker].ability)
+            /*&& !(gStatuses3[gBattlerAttacker] & STATUS3_GASTRO_ACID)*/)
+            // TODO: Port gMovesInfo
+            /*|| gMovesInfo[gCurrentMove].ignoresTargetAbility*/)
+            && battler != gBattlerAttacker
+            && gAbilitiesInfo[gBattleMons[battler].ability].breakable
+            && noAbilityShield
+            && gBattlerByTurnOrder[gCurrentTurnActionNumber] == gBattlerAttacker
+            && gActionsByTurnOrder[gBattlerByTurnOrder[gBattlerAttacker]] == B_ACTION_USE_MOVE
+            && gCurrentTurnActionNumber < gBattlersCount)
+        return ABILITY_NONE;
+
+    return gBattleMons[battler].ability;
+}
+
+bool32 IsBattlerAlive(u32 battler)
+{
+    if (gBattleMons[battler].hp == 0)
+        return FALSE;
+    else if (battler >= gBattlersCount)
+        return FALSE;
+    else if (gAbsentBattlerFlags & gBitTable[battler])
+        return FALSE;
+    else
+        return TRUE;
+}
+
+bool32 CompareStat(u32 battler, u8 statId, u8 cmpTo, u8 cmpKind)
+{
+    bool32 ret = FALSE;
+    u8 statValue = gBattleMons[battler].statStages[statId];
+
+    // Because this command is used as a way of checking if a stat can be lowered/raised,
+    // we need to do some modification at run-time.
+    if (GetBattlerAbility(battler) == ABILITY_CONTRARY)
+    {
+        if (cmpKind == CMP_GREATER_THAN)
+            cmpKind = CMP_LESS_THAN;
+        else if (cmpKind == CMP_LESS_THAN)
+            cmpKind = CMP_GREATER_THAN;
+
+        if (cmpTo == MIN_STAT_STAGE)
+            cmpTo = MAX_STAT_STAGE;
+        else if (cmpTo == MAX_STAT_STAGE)
+            cmpTo = MIN_STAT_STAGE;
+    }
+
+    switch (cmpKind)
+    {
+    case CMP_EQUAL:
+        if (statValue == cmpTo)
+            ret = TRUE;
+        break;
+    case CMP_NOT_EQUAL:
+        if (statValue != cmpTo)
+            ret = TRUE;
+        break;
+    case CMP_GREATER_THAN:
+        if (statValue > cmpTo)
+            ret = TRUE;
+        break;
+    case CMP_LESS_THAN:
+        if (statValue < cmpTo)
+            ret = TRUE;
+        break;
+    case CMP_COMMON_BITS:
+        if (statValue & cmpTo)
+            ret = TRUE;
+        break;
+    case CMP_NO_COMMON_BITS:
+        if (!(statValue & cmpTo))
+            ret = TRUE;
+        break;
+    }
+
+    return ret;
+}

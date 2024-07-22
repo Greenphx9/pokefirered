@@ -27,7 +27,8 @@
 #define sRESHOW_HELPER_STATE         gBattleScripting + 0x22 // reshowHelperState
 #define sLVLUP_HP                    gBattleScripting + 0x23 // levelUpHP
 #define sFIXED_ABILITY_POPUP         gBattleScripting + 0x24 // fixedPopup
-#define sABILITY_OVERWRITE           gBattleScripting + 0x26 // abilityPopupOverwrite
+#define sABILITY_OVERWRITE           gBattleScripting + 0x25 // abilityPopupOverwrite
+#define sMON_CAUGHT                  gBattleScripting + 0x26 // monCaught
 
 // Array entries for battle communication
 #define MULTIUSE_STATE          0

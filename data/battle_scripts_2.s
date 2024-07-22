@@ -1,3 +1,4 @@
+#include "config/battle.h"
 #include "constants/moves.h"
 #include "constants/battle.h"
 #include "constants/battle_move_effects.h"
@@ -16,34 +17,20 @@
 	.set FALSE, 0
 	.set TRUE, 1
 	.section script_data, "aw", %progbits
+
 	.align 2
-
-gBattlescriptsForBallThrow::
-	.4byte BattleScript_ThrowBall
-	.4byte BattleScript_ThrowBall
-	.4byte BattleScript_ThrowBall
-	.4byte BattleScript_ThrowBall
-	.4byte BattleScript_ThrowBall
-	.4byte BattleScript_ThrowSafariBall
-	.4byte BattleScript_ThrowBall
-	.4byte BattleScript_ThrowBall
-	.4byte BattleScript_ThrowBall
-	.4byte BattleScript_ThrowBall
-	.4byte BattleScript_ThrowBall
-	.4byte BattleScript_ThrowBall
-	.4byte BattleScript_ThrowBall
-
 gBattlescriptsForUsingItem::
-	.4byte BattleScript_PlayerUseItem
-	.4byte BattleScript_AIUseFullRestoreOrHpHeal
-	.4byte BattleScript_AIUseFullRestoreOrHpHeal
-	.4byte BattleScript_AIUseStatRestore
-	.4byte BattleScript_AIUseXstat
-	.4byte BattleScript_AIUseGuardSpec
-
-gBattlescriptsForRunningByItem::
-	.4byte BattleScript_UseFluffyTail
-	.4byte BattleScript_UsePokeFlute
+	.4byte BattleScript_BallThrow                @ EFFECT_ITEM_RESTORE_HP
+	.4byte BattleScript_BallThrow               @ EFFECT_ITEM_CURE_STATUS
+	.4byte BattleScript_BallThrow        @ EFFECT_ITEM_HEAL_AND_CURE_STATUS
+	.4byte BattleScript_BallThrow             @ EFFECT_ITEM_INCREASE_STAT
+	.4byte BattleScript_BallThrow                  @ EFFECT_ITEM_SET_MIST
+	.4byte BattleScript_BallThrow           @ EFFECT_ITEM_SET_FOCUS_ENERGY
+	.4byte BattleScript_BallThrow               @ EFFECT_ITEM_ESCAPE
+	.4byte BattleScript_BallThrow                    @ EFFECT_ITEM_THROW_BALL
+	.4byte BattleScript_BallThrow                @ EFFECT_ITEM_REVIVE
+	.4byte BattleScript_BallThrow                @ EFFECT_ITEM_RESTORE_PP
+	.4byte BattleScript_BallThrow         @ EFFECT_ITEM_INCREASE_ALL_STATS
 
 gBattlescriptsForSafariActions::
 	.4byte BattleScript_WatchesCarefully
@@ -51,66 +38,58 @@ gBattlescriptsForSafariActions::
 	.4byte BattleScript_ThrowBait
 	.4byte BattleScript_LeftoverWallyPrepToThrow
 
-BattleScript_ThrowBall::
-	jumpifbattletype BATTLE_TYPE_OLD_MAN_TUTORIAL, BattleScript_OldManThrowBall
-	jumpifbattletype BATTLE_TYPE_POKEDUDE, BattleScript_PokedudeThrowBall
+BattleScript_ItemEnd:
+	end
+
+
+BattleScript_BallThrow::
 	printstring STRINGID_PLAYERUSEDITEM
 	handleballthrow
 
-BattleScript_OldManThrowBall::
-	printstring STRINGID_OLDMANUSEDITEM
-	handleballthrow
-
-BattleScript_PokedudeThrowBall::
-	printstring STRINGID_POKEDUDEUSED
-	handleballthrow
-
-BattleScript_ThrowSafariBall::
+BattleScript_SafariBallThrow::
 	printstring STRINGID_PLAYERUSEDITEM
 	updatestatusicon BS_ATTACKER
 	handleballthrow
 
 BattleScript_SuccessBallThrow::
-	jumpifhalfword CMP_EQUAL, gLastUsedItem, ITEM_SAFARI_BALL, BattleScript_SafariNoIncGameStat
+	setbyte sMON_CAUGHT, TRUE
 	incrementgamestat GAME_STAT_POKEMON_CAPTURES
-BattleScript_SafariNoIncGameStat::
 	printstring STRINGID_GOTCHAPKMNCAUGHT
-	trysetcaughtmondexflags BattleScript_CaughtPokemonSkipNewDex
+	@jumpifbyte CMP_NOT_EQUAL, sEXP_CATCH, TRUE, BattleScript_TryPrintCaughtMonInfo
+	setbyte sGIVEEXP_STATE, 0
+	getexp BS_TARGET
+	sethword gBattle_BG2_X, 0
+BattleScript_TryPrintCaughtMonInfo:
+	@jumpifbattletype BATTLE_TYPE_RECORDED, BattleScript_GiveCaughtMonEnd
+	trysetcaughtmondexflags BattleScript_TryNicknameCaughtMon
 	printstring STRINGID_PKMNDATAADDEDTODEX
 	waitstate
 	setbyte gBattleCommunication, 0
 	displaydexinfo
-BattleScript_CaughtPokemonSkipNewDex::
+BattleScript_TryNicknameCaughtMon::
 	printstring STRINGID_GIVENICKNAMECAPTURED
 	waitstate
 	setbyte gBattleCommunication, 0
-	trygivecaughtmonnick BattleScript_CaughtPokemonSkipNickname
+	trygivecaughtmonnick BattleScript_GiveCaughtMonEnd
 	givecaughtmon
 	printfromtable gCaughtMonStringIds
 	waitmessage B_WAIT_TIME_LONG
-	goto BattleScript_CaughtPokemonDone
-
-BattleScript_CaughtPokemonSkipNickname::
+	goto BattleScript_SuccessBallThrowEnd
+BattleScript_GiveCaughtMonEnd::
 	givecaughtmon
-BattleScript_CaughtPokemonDone::
+BattleScript_SuccessBallThrowEnd::
 	setbyte gBattleOutcome, B_OUTCOME_CAUGHT
-	finishturn
-
-BattleScript_OldMan_Pokedude_CaughtMessage::
-	printstring STRINGID_GOTCHAPKMNCAUGHT2
-	setbyte gBattleOutcome, B_OUTCOME_CAUGHT
-	endlinkbattle
 	finishturn
 
 BattleScript_ShakeBallThrow::
 	printfromtable gBallEscapeStringIds
 	waitmessage B_WAIT_TIME_LONG
-	jumpifnotbattletype BATTLE_TYPE_SAFARI, BattleScript_CatchFailEnd
-	jumpifbyte CMP_NOT_EQUAL, gNumSafariBalls, 0, BattleScript_CatchFailEnd
+	jumpifword CMP_NO_COMMON_BITS, gBattleTypeFlags, BATTLE_TYPE_SAFARI, BattleScript_ShakeBallThrowEnd
+	jumpifbyte CMP_NOT_EQUAL, gNumSafariBalls, 0, BattleScript_ShakeBallThrowEnd
 	printstring STRINGID_OUTOFSAFARIBALLS
 	waitmessage B_WAIT_TIME_LONG
 	setbyte gBattleOutcome, B_OUTCOME_NO_SAFARI_BALLS
-BattleScript_CatchFailEnd::
+BattleScript_ShakeBallThrowEnd::
 	finishaction
 
 BattleScript_TrainerBallBlock::
@@ -127,86 +106,11 @@ BattleScript_GhostBallDodge::
 	waitmessage B_WAIT_TIME_LONG
 	finishaction
 
-BattleScript_PlayerUseItem::
-	moveendcase 15
-	end
-
-BattleScript_AIUseFullRestoreOrHpHeal::
-	printstring STRINGID_EMPTYSTRING3
-	pause B_WAIT_TIME_MED
-	playse SE_USE_ITEM
-	printstring STRINGID_TRAINER1USEDITEM
-	waitmessage B_WAIT_TIME_LONG
-	useitemonopponent
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
-	healthbarupdate BS_ATTACKER
-	datahpupdate BS_ATTACKER
-	printstring STRINGID_PKMNSITEMRESTOREDHEALTH
-	waitmessage B_WAIT_TIME_LONG
-	updatestatusicon BS_ATTACKER
-	moveendcase 15
-	finishaction
-
-BattleScript_AIUseStatRestore::
-	printstring STRINGID_EMPTYSTRING3
-	pause B_WAIT_TIME_MED
-	playse SE_USE_ITEM
-	printstring STRINGID_TRAINER1USEDITEM
-	waitmessage B_WAIT_TIME_LONG
-	useitemonopponent
-	printfromtable gTrainerItemCuredStatusStringIds
-	waitmessage B_WAIT_TIME_LONG
-	updatestatusicon BS_ATTACKER
-	moveendcase 15
-	finishaction
-
-BattleScript_AIUseXstat::
-	printstring STRINGID_EMPTYSTRING3
-	pause B_WAIT_TIME_MED
-	playse SE_USE_ITEM
-	printstring STRINGID_TRAINER1USEDITEM
-	waitmessage B_WAIT_TIME_LONG
-	useitemonopponent
-	printfromtable gStatUpStringIds
-	waitmessage B_WAIT_TIME_LONG
-	moveendcase 15
-	finishaction
-
-BattleScript_AIUseGuardSpec::
-	printstring STRINGID_EMPTYSTRING3
-	pause B_WAIT_TIME_MED
-	playse SE_USE_ITEM
-	printstring STRINGID_TRAINER1USEDITEM
-	waitmessage B_WAIT_TIME_LONG
-	useitemonopponent
-	printfromtable gMistUsedStringIds
-	waitmessage B_WAIT_TIME_LONG
-	moveendcase 15
-	finishaction
-
-BattleScript_UseFluffyTail::
-	playse SE_FLEE
-	setbyte gBattleOutcome, B_OUTCOME_RAN
+BattleScript_OldMan_Pokedude_CaughtMessage::
+	printstring STRINGID_GOTCHAPKMNCAUGHT2
+	setbyte gBattleOutcome, B_OUTCOME_CAUGHT
+	endlinkbattle
 	finishturn
-
-BattleScript_UsePokeFlute::
-	checkpokeflute BS_ATTACKER
-	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, 1, BattleScript_PokeFluteWakeUp
-	printstring STRINGID_POKEFLUTECATCHY
-	waitmessage B_WAIT_TIME_LONG
-	goto BattleScript_PokeFluteEnd
-
-BattleScript_PokeFluteWakeUp::
-	printstring STRINGID_POKEFLUTE
-	waitmessage B_WAIT_TIME_LONG
-	fanfare MUS_POKE_FLUTE
-	waitfanfare BS_ATTACKER
-	printstring STRINGID_MONHEARINGFLUTEAWOKE
-	waitmessage B_WAIT_TIME_LONG
-	updatestatusicon BS_PLAYER2
-	waitstate
-BattleScript_PokeFluteEnd::
-	finishaction
 
 BattleScript_WatchesCarefully::
 	printfromtable gSafariReactionStringIds
