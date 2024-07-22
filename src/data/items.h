@@ -11086,7 +11086,7 @@ const struct Item gItemsInfo[] =
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = FieldUseFunc_OakStopsYou,
+        .fieldUseFunc = FieldUseFunc_TmCase,
     },
 
     [ITEM_BERRY_POUCH] =

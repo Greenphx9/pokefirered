@@ -210,8 +210,8 @@ static void DisplayPartyPokemonHPBarCheck(struct Pokemon *mon, struct PartyMenuB
 static void DisplayPartyPokemonDescriptionText(u8 stringId, struct PartyMenuBox *menuBox, u8 drawMenuBoxOrText);
 static bool8 GetBattleEntryEligibility(struct Pokemon *mon);
 static bool8 IsMonAllowedInMinigame(u8 slot);
-static void DisplayPartyPokemonDataToTeachMove(u8 slot, u16 item, u8 tutor);
-static u8 CanMonLearnTMTutor(struct Pokemon *mon, u16 item, u8 tutor);
+static void DisplayPartyPokemonDataToTeachMove(u8 slot, u16 move);
+static u8 CanTeachMove(struct Pokemon *, u16);
 static void DisplayPartyPokemonBarDetail(u8 windowId, const u8 *str, u8 color, const u8 *dimensions);
 static void DisplayPartyPokemonLevel(u8 level, struct PartyMenuBox *menuBox);
 static void DisplayPartyPokemonGender(u8 gender, u16 species, u8 *nickname, struct PartyMenuBox *menuBox);
@@ -862,7 +862,7 @@ static bool8 DisplayPartyPokemonDataForMoveTutorOrEvolutionItem(u8 slot)
         gSpecialVar_Result = FALSE;
         if (gSpecialVar_0x8005 >= TUTOR_MOVE_COUNT)
             return FALSE;
-        DisplayPartyPokemonDataToTeachMove(slot, 0, gSpecialVar_0x8005);
+        DisplayPartyPokemonDataToTeachMove(slot, gSpecialVar_0x8005);
     }
     else
     {
@@ -873,7 +873,7 @@ static bool8 DisplayPartyPokemonDataForMoveTutorOrEvolutionItem(u8 slot)
         default:
             return FALSE;
         case 1: // TM/HM
-            DisplayPartyPokemonDataToTeachMove(slot, item, 0);
+            DisplayPartyPokemonDataToTeachMove(slot, ItemIdToBattleMoveId(item));
             break;
         case 2: // Evolution stone
             if (!GetMonData(currentPokemon, MON_DATA_IS_EGG) && GetEvolutionTargetSpecies(currentPokemon, EVO_MODE_ITEM_CHECK, item, NULL) != SPECIES_NONE)
@@ -885,9 +885,9 @@ static bool8 DisplayPartyPokemonDataForMoveTutorOrEvolutionItem(u8 slot)
     return TRUE;
 }
 
-static void DisplayPartyPokemonDataToTeachMove(u8 slot, u16 item, u8 tutor)
+static void DisplayPartyPokemonDataToTeachMove(u8 slot, u16 move)
 {
-    switch (CanMonLearnTMTutor(&gPlayerParty[slot], item, tutor))
+    switch (CanTeachMove(&gPlayerParty[slot], move))
     {
     case CANNOT_LEARN_MOVE:
     case CANNOT_LEARN_MOVE_IS_EGG:
@@ -1871,31 +1871,6 @@ static void Task_HandleCancelParticipationYesNoInput(u8 taskId)
     }
 }
 
-static u8 CanMonLearnTMTutor(struct Pokemon *mon, u16 item, u8 tutor)
-{
-    u16 move;
-
-    if (GetMonData(mon, MON_DATA_IS_EGG))
-        return CANNOT_LEARN_MOVE_IS_EGG;
-
-    if (item >= ITEM_TM01)
-    {
-        if (!CanMonLearnTMHM(mon, item - ITEM_TM01))
-            return CANNOT_LEARN_MOVE;
-        else
-            move = ItemIdToBattleMoveId(item);
-    }
-    else if (CanLearnTutorMove(GetMonData(mon, MON_DATA_SPECIES), tutor) == FALSE)
-        return CANNOT_LEARN_MOVE;
-    else
-        move = GetTutorMove(tutor);
-
-    if (MonKnowsMove(mon, move) == TRUE)
-        return ALREADY_KNOWS_MOVE;
-    else
-        return CAN_LEARN_MOVE;
-}
-
 static u16 GetTutorMove(u8 tutor)
 {
     //TODO: Implement teachable learnset functionality
@@ -2108,6 +2083,18 @@ static void Task_PartyMenuFromBag_PokedudeStep(u8 taskId)
             gItemUseCB(taskId, Task_ClosePartyMenuAfterText);
         }
     }
+}
+
+static u8 CanTeachMove(struct Pokemon *mon, u16 move)
+{
+    if (GetMonData(mon, MON_DATA_IS_EGG))
+        return CANNOT_LEARN_MOVE_IS_EGG;
+    else if (!CanLearnTeachableMove(GetMonData(mon, MON_DATA_SPECIES_OR_EGG), move))
+        return CANNOT_LEARN_MOVE;
+    else if (MonKnowsMove(mon, move) == TRUE)
+        return ALREADY_KNOWS_MOVE;
+    else
+        return CAN_LEARN_MOVE;
 }
 
 static void InitPartyMenuWindows(u8 layout)
@@ -4995,7 +4982,7 @@ void ItemUseCB_TMHM(u8 taskId, TaskFunc func)
     learnMoveId = ItemIdToBattleMoveId(item);
     StringCopy(gStringVar2, gMoveNames[learnMoveId]);
     learnMoveMethod = LEARN_VIA_TMHM;
-    switch (CanMonLearnTMTutor(mon, item, 0))
+    switch (CanTeachMove(mon, learnMoveId))
     {
     case CANNOT_LEARN_MOVE:
         DisplayLearnMoveMessageAndClose(taskId, gText_PkmnCantLearnMove);
@@ -5612,10 +5599,10 @@ static void TryTutorSelectedMon(u8 taskId)
         mon = &gPlayerParty[gPartyMenu.slotId];
         data = gPartyMenu.data;
         GetMonNickname(mon, gStringVar1);
-        gPartyMenu.learnMoveId = GetTutorMove(gSpecialVar_0x8005);
+        gPartyMenu.learnMoveId = gSpecialVar_0x8005;
         StringCopy(gStringVar2, gMoveNames[gPartyMenu.learnMoveId]);
         learnMoveMethod = LEARN_VIA_TUTOR;
-        switch (CanMonLearnTMTutor(mon, 0, gSpecialVar_0x8005))
+        switch (CanTeachMove(mon, gSpecialVar_0x8005))
         {
         case CANNOT_LEARN_MOVE:
             DisplayLearnMoveMessageAndClose(taskId, gText_PkmnCantLearnMove);
@@ -6006,27 +5993,13 @@ void ChooseMonForTradingBoard(u8 menuType, MainCallback callback)
 
 void ChooseMonForMoveTutor(void)
 {
-    if (gSpecialVar_0x8005 < TUTOR_MOVE_COUNT)
-    {
-        InitPartyMenu(PARTY_MENU_TYPE_FIELD,
-                      PARTY_LAYOUT_SINGLE,
-                      PARTY_ACTION_MOVE_TUTOR,
-                      FALSE,
-                      PARTY_MSG_TEACH_WHICH_MON,
-                      Task_HandleChooseMonInput,
-                      CB2_ReturnToFieldContinueScriptPlayMapMusic);
-    }
-    else
-    {
-        InitPartyMenu(PARTY_MENU_TYPE_FIELD,
-                      PARTY_LAYOUT_SINGLE,
-                      PARTY_ACTION_MOVE_TUTOR,
-                      FALSE,
-                      PARTY_MSG_NONE,
-                      TryTutorSelectedMon,
-                      CB2_ReturnToFieldContinueScriptPlayMapMusic);
-        gPartyMenu.slotId = gSpecialVar_0x8007;
-    }
+    InitPartyMenu(PARTY_MENU_TYPE_FIELD,
+                    PARTY_LAYOUT_SINGLE,
+                    PARTY_ACTION_MOVE_TUTOR,
+                    FALSE,
+                    PARTY_MSG_TEACH_WHICH_MON,
+                    Task_HandleChooseMonInput,
+                    CB2_ReturnToFieldContinueScriptPlayMapMusic);
 }
 
 void ChooseMonForWirelessMinigame(void)

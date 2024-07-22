@@ -1,5 +1,6 @@
 #include "global.h"
 #include "gflib.h"
+#include "bag.h"
 #include "battle.h"
 #include "berry_pouch.h"
 #include "berry_powder.h"
@@ -19,6 +20,7 @@
 #include "item_use.h"
 #include "itemfinder.h"
 #include "mail.h"
+#include "menu_helpers.h"
 #include "event_object_lock.h"
 #include "metatile_behavior.h"
 #include "new_menu_helpers.h"
@@ -1015,49 +1017,10 @@ void ItemUseOutOfBattle_DynamaxCandy(u8 taskId)
     */
 }
 
+//TMs are handled in tm_case.c, not needed
 void ItemUseOutOfBattle_TMHM(u8 taskId)
-{
-    /*     
-    if (gSpecialVar_ItemId >= ITEM_HM01)
-        DisplayItemMessage(taskId, FONT_NORMAL, gText_BootedUpHM, BootUpSoundTMHM); // HM
-    else
-        DisplayItemMessage(taskId, FONT_NORMAL, gText_BootedUpTM, BootUpSoundTMHM); // TM 
-    */
-}
+{    
 
-static void BootUpSoundTMHM(u8 taskId)
-{
-    /* 
-    PlaySE(SE_PC_LOGIN);
-    gTasks[taskId].func = Task_ShowTMHMContainedMessage; 
-    */
-}
-
-static void Task_ShowTMHMContainedMessage(u8 taskId)
-{
-    /* 
-    if (JOY_NEW(A_BUTTON | B_BUTTON))
-    {
-        StringCopy(gStringVar1, GetMoveName(ItemIdToBattleMoveId(gSpecialVar_ItemId)));
-        StringExpandPlaceholders(gStringVar4, gText_TMHMContainedVar1);
-        DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, UseTMHMYesNo);
-    } 
-    */
-}
-
-static void UseTMHMYesNo(u8 taskId)
-{
-    /* 
-    BagMenu_YesNo(taskId, ITEMWIN_YESNO_HIGH, &sUseTMHMYesNoFuncTable); 
-    */
-}
-
-static void UseTMHM(u8 taskId)
-{
-    /*     
-    gItemUseCB = ItemUseCB_TMHM;
-    SetUpItemUseCallback(taskId); 
-    */
 }
 
 void ItemUseOutOfBattle_EvolutionStone(u8 taskId)
