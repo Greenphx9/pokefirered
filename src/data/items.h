@@ -1904,7 +1904,7 @@ const struct Item gItemsInfo[] =
             "steps."),
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = FieldUseFunc_Repel,
+        .fieldUseFunc = ItemUseOutOfBattle_Repel,
         .flingPower = 30,
     },
 
@@ -1919,7 +1919,7 @@ const struct Item gItemsInfo[] =
             "steps."),
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = FieldUseFunc_Repel,
+        .fieldUseFunc = ItemUseOutOfBattle_Repel,
         .flingPower = 30,
     },
 
@@ -1934,7 +1934,7 @@ const struct Item gItemsInfo[] =
             "steps."),
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = FieldUseFunc_Repel,
+        .fieldUseFunc = ItemUseOutOfBattle_Repel,
         .flingPower = 30,
     },
 

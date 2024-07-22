@@ -49,6 +49,7 @@ void ItemUseOutOfBattle_ResetEVs(u8);
 void ItemUseOutOfBattle_ReduceEV(u8);
 void ItemUseOutOfBattle_DynamaxCandy(u8);
 void ItemUseOutOfBattle_TMHM(u8);
+void ItemUseOutOfBattle_Repel(u8);
 void ItemUseOutOfBattle_Lure(u8);
 void ItemUseOutOfBattle_EvolutionStone(u8);
 void ItemUseOutOfBattle_Berry(u8);
