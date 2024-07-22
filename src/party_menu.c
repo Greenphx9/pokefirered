@@ -5432,6 +5432,10 @@ void Task_DynamaxCandy(u8 taskId)
         CopyItemName(gSpecialVar_ItemId, gStringVar2);
         tState++;
         break;
+    case 1:
+        PlaySE(SE_USE_ITEM);
+        StringExpandPlaceholders(gStringVar4, doneText);
+        DisplayPartyMenuMessage(gStringVar4, 1);
         ScheduleBgCopyTilemapToVram(2);
         tState++;
         break;
