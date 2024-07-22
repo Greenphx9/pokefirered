@@ -8443,8 +8443,7 @@ const struct Item gItemsInfo[] =
         .pluralName = _("Pomeg Berries"),
         .price = (I_BERRY_PRICE >= GEN_8) ? 80 : 20,
         .description = COMPOUND_STRING(
-            "Makes a Pokémon\n"
-            "friendly but lowers\n"
+            "Makes a Pokémon friendly but lowers\n"
             "base HP."),
         .pocket = POCKET_BERRY_POUCH,
         .type = ITEM_USE_PARTY_MENU,
@@ -8459,8 +8458,7 @@ const struct Item gItemsInfo[] =
         .pluralName = _("Kelpsy Berries"),
         .price = (I_BERRY_PRICE >= GEN_8) ? 80 : 20,
         .description = COMPOUND_STRING(
-            "Makes a Pokémon\n"
-            "friendly but lowers\n"
+            "Makes a Pokémon friendly but lowers\n"
             "base Attack."),
         .pocket = POCKET_BERRY_POUCH,
         .type = ITEM_USE_PARTY_MENU,
@@ -8475,8 +8473,7 @@ const struct Item gItemsInfo[] =
         .pluralName = _("Qualot Berries"),
         .price = (I_BERRY_PRICE >= GEN_8) ? 80 : 20,
         .description = COMPOUND_STRING(
-            "Makes a Pokémon\n"
-            "friendly but lowers\n"
+            "Makes a Pokémon friendly but lowers\n"
             "base Defense."),
         .pocket = POCKET_BERRY_POUCH,
         .type = ITEM_USE_PARTY_MENU,
@@ -8491,8 +8488,7 @@ const struct Item gItemsInfo[] =
         .pluralName = _("Hondew Berries"),
         .price = (I_BERRY_PRICE >= GEN_8) ? 80 : 20,
         .description = COMPOUND_STRING(
-            "Makes a Pokémon\n"
-            "friendly but lowers\n"
+            "Makes a Pokémon friendly but lowers\n"
             "base Sp. Atk."),
         .pocket = POCKET_BERRY_POUCH,
         .type = ITEM_USE_PARTY_MENU,
@@ -8507,8 +8503,7 @@ const struct Item gItemsInfo[] =
         .pluralName = _("Grepa Berries"),
         .price = (I_BERRY_PRICE >= GEN_8) ? 80 : 20,
         .description = COMPOUND_STRING(
-            "Makes a Pokémon\n"
-            "friendly but lowers\n"
+            "Makes a Pokémon friendly but lowers\n"
             "base Sp. Def."),
         .pocket = POCKET_BERRY_POUCH,
         .type = ITEM_USE_PARTY_MENU,
@@ -8523,8 +8518,7 @@ const struct Item gItemsInfo[] =
         .pluralName = _("Tamato Berries"),
         .price = (I_BERRY_PRICE >= GEN_8) ? 80 : 20,
         .description = COMPOUND_STRING(
-            "Makes a Pokémon\n"
-            "friendly but lowers\n"
+            "Makes a Pokémon friendly but lowers\n"
             "base Speed."),
         .pocket = POCKET_BERRY_POUCH,
         .type = ITEM_USE_PARTY_MENU,
@@ -11101,7 +11095,7 @@ const struct Item gItemsInfo[] =
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = FieldUseFunc_OakStopsYou,
+        .fieldUseFunc = FieldUseFunc_BerryPouch,
     },
 
     [ITEM_POKEMON_BOX_LINK] =

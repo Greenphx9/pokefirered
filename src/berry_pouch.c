@@ -1063,25 +1063,23 @@ static void Task_NormalContextMenu_HandleInput(u8 taskId)
 // TODO: Fix ItemId_GetBattleFunc uses
 static void Task_BerryPouch_Use(u8 taskId)
 {
-    /* 
     DestroyVariableWindow(sContextMenuNumOptions + 9);
     DestroyVariableWindow(6);
     PutWindowTilemap(0);
     PutWindowTilemap(1);
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(2);
-    if (sStaticCnt.type == BERRYPOUCH_FROMBATTLE)
+    /*if (sStaticCnt.type == BERRYPOUCH_FROMBATTLE)
     {
         if (ItemId_GetBattleFunc(gSpecialVar_ItemId) == NULL)
             FieldUseFunc_OakStopsYou(taskId);
         else
             ItemId_GetBattleFunc(gSpecialVar_ItemId)(taskId);
     }
-    else if (CalculatePlayerPartyCount() == 0 && ItemId_GetType(gSpecialVar_ItemId) == ITEM_TYPE_PARTY_MENU)
+    else */if (CalculatePlayerPartyCount() == 0 && ItemId_GetType(gSpecialVar_ItemId) == ITEM_TYPE_PARTY_MENU)
         Task_Give_PrintThereIsNoPokemon(taskId);
     else
         ItemId_GetFieldFunc(gSpecialVar_ItemId)(taskId);
-    */
 }
 
 static void Task_BerryPouch_Toss(u8 taskId)

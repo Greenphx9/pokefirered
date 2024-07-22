@@ -1001,10 +1001,8 @@ void ItemUseOutOfBattle_ResetEVs(u8 taskId)
 
 void ItemUseOutOfBattle_ReduceEV(u8 taskId)
 {
-    /* 
     gItemUseCB = ItemUseCB_ReduceEV;
     SetUpItemUseCallback(taskId); 
-    */
 }
 
 void ItemUseOutOfBattle_DynamaxCandy(u8 taskId)
