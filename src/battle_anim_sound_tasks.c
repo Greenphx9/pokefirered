@@ -1,10 +1,13 @@
 #include "global.h"
-#include "gflib.h"
 #include "battle.h"
 #include "battle_anim.h"
+#include "contest.h"
+#include "m4a.h"
+#include "sound.h"
 #include "task.h"
 #include "constants/battle_anim.h"
-#include "constants/sound.h"
+
+extern struct MusicPlayerInfo gMPlayInfo_SE1;
 
 static void SoundTask_FireBlast_Step1(u8 taskId);
 static void SoundTask_FireBlast_Step2(u8 taskId);
@@ -12,6 +15,7 @@ static void SoundTask_LoopSEAdjustPanning_Step(u8 taskId);
 static void SoundTask_PlayDoubleCry_Step(u8 taskId);
 static void SoundTask_PlayCryWithEcho_Step(u8 taskId);
 static void SoundTask_AdjustPanningVar_Step(u8 taskId);
+static void SoundTask_SeVolumeChange(u8 taskId);
 
 // Loops the specified sound effect and pans from the
 // attacker to the target. The second specified sound effect
@@ -26,13 +30,16 @@ void SoundTask_FireBlast(u8 taskId)
 
     gTasks[taskId].data[0] = gBattleAnimArgs[0];
     gTasks[taskId].data[1] = gBattleAnimArgs[1];
+
     pan1 = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
     pan2 = BattleAnimAdjustPanning(SOUND_PAN_TARGET);
     panIncrement = CalculatePanIncrement(pan1, pan2, 2);
+
     gTasks[taskId].data[2] = pan1;
     gTasks[taskId].data[3] = pan2;
     gTasks[taskId].data[4] = panIncrement;
     gTasks[taskId].data[10] = 10;
+
     gTasks[taskId].func = SoundTask_FireBlast_Step1;
 }
 
@@ -40,7 +47,6 @@ static void SoundTask_FireBlast_Step1(u8 taskId)
 {
     s16 pan = gTasks[taskId].data[2];
     s8 panIncrement = gTasks[taskId].data[4];
-
     if (++gTasks[taskId].data[11] == 111)
     {
         gTasks[taskId].data[10] = 5;
@@ -85,6 +91,7 @@ void SoundTask_LoopSEAdjustPanning(u8 taskId)
 
     targetPan = BattleAnimAdjustPanning(targetPan);
     panIncrement = CalculatePanIncrement(sourcePan, targetPan, panIncrement);
+
     gTasks[taskId].data[0] = songId;
     gTasks[taskId].data[1] = sourcePan;
     gTasks[taskId].data[2] = targetPan;
@@ -95,6 +102,7 @@ void SoundTask_LoopSEAdjustPanning(u8 taskId)
     gTasks[taskId].data[10] = 0;
     gTasks[taskId].data[11] = sourcePan;
     gTasks[taskId].data[12] = r9;
+
     gTasks[taskId].func = SoundTask_LoopSEAdjustPanning_Step;
     gTasks[taskId].func(taskId);
 }
@@ -111,10 +119,10 @@ static void SoundTask_LoopSEAdjustPanning_Step(u8 taskId)
             return;
         }
     }
+
     if (gTasks[taskId].data[10]++ == gTasks[taskId].data[5])
     {
         u16 dPan, oldPan;
-
         gTasks[taskId].data[10] = 0;
         dPan = gTasks[taskId].data[3];
         oldPan = gTasks[taskId].data[11];
@@ -125,71 +133,99 @@ static void SoundTask_LoopSEAdjustPanning_Step(u8 taskId)
 
 void SoundTask_PlayCryHighPitch(u8 taskId)
 {
-    u16 species = SPECIES_NONE;
-    u8 battlerId;
+    u16 species = 0;
     s8 pan = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
-
-    // Get wanted battler.
-    if (gBattleAnimArgs[0] == ANIM_ATTACKER)
-        battlerId = gBattleAnimAttacker;
-    else if (gBattleAnimArgs[0] == ANIM_TARGET)
-        battlerId = gBattleAnimTarget;
-    else if (gBattleAnimArgs[0] == ANIM_ATK_PARTNER)
-        battlerId = BATTLE_PARTNER(gBattleAnimAttacker);
-    else
-        battlerId = BATTLE_PARTNER(gBattleAnimTarget);
-
-    // Check if battler is visible.
-    if ((gBattleAnimArgs[0] == ANIM_TARGET || gBattleAnimArgs[0] == ANIM_DEF_PARTNER) 
-     && !IsBattlerSpriteVisible(battlerId))
+    if (IsContest())
     {
-        DestroyAnimVisualTask(taskId);
-        return;
+        if (gBattleAnimArgs[0] == ANIM_ATTACKER)
+            species = gContestResources->moveAnim->species;
+    // Destroying the task twice (here and at end of function)
+    // results in an incorrect value for gAnimVisualTaskCount
+    #ifndef BUGFIX
+        else
+            DestroyAnimVisualTask(taskId);
+    #endif
     }
-    if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)
-        species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
     else
-        species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
+    {
+        u8 battlerId;
+
+        // Get wanted battler.
+        if (gBattleAnimArgs[0] == ANIM_ATTACKER)
+            battlerId = gBattleAnimAttacker;
+        else if (gBattleAnimArgs[0] == ANIM_TARGET)
+            battlerId = gBattleAnimTarget;
+        else if (gBattleAnimArgs[0] == ANIM_ATK_PARTNER)
+            battlerId = BATTLE_PARTNER(gBattleAnimAttacker);
+        else
+            battlerId = BATTLE_PARTNER(gBattleAnimTarget);
+
+        // Check if battler is visible.
+        if ((gBattleAnimArgs[0] == ANIM_TARGET || gBattleAnimArgs[0] == ANIM_DEF_PARTNER) && !IsBattlerSpriteVisible(battlerId))
+        {
+            DestroyAnimVisualTask(taskId);
+            return;
+        }
+
+        species = (GetIllusionMonSpecies(battlerId) != SPECIES_NONE) ? GetIllusionMonSpecies(battlerId) : gAnimBattlerSpecies[battlerId];
+    }
+
     if (species != SPECIES_NONE)
         PlayCry_ByMode(species, pan, CRY_MODE_HIGH_PITCH);
+
     DestroyAnimVisualTask(taskId);
 }
 
 void SoundTask_PlayDoubleCry(u8 taskId)
 {
-    u16 species = SPECIES_NONE;
-    u8 battlerId;
+    u16 species = 0;
     s8 pan = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
-        
-    // Get wanted battler.
-    if (gBattleAnimArgs[0] == ANIM_ATTACKER)
-        battlerId = gBattleAnimAttacker;
-    else if (gBattleAnimArgs[0] == ANIM_TARGET)
-        battlerId = gBattleAnimTarget;
-    else if (gBattleAnimArgs[0] == ANIM_ATK_PARTNER)
-        battlerId = BATTLE_PARTNER(gBattleAnimAttacker);
-    else
-        battlerId = BATTLE_PARTNER(gBattleAnimTarget);
-    // Check if battler is visible.
-    if ((gBattleAnimArgs[0] == ANIM_TARGET || gBattleAnimArgs[0] == ANIM_DEF_PARTNER) 
-     && !IsBattlerSpriteVisible(battlerId))
+    if (IsContest())
     {
-        DestroyAnimVisualTask(taskId);
-        return;
+        if (gBattleAnimArgs[0] == ANIM_ATTACKER)
+            species = gContestResources->moveAnim->species;
+    // Destroying the task twice (here and at end of function)
+    // results in an incorrect value for gAnimVisualTaskCount
+    #ifndef BUGFIX
+        else
+            DestroyAnimVisualTask(taskId);
+    #endif
     }
-    if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)
-        species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
     else
-        species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
+    {
+        u8 battlerId;
+
+        // Get wanted battler.
+        if (gBattleAnimArgs[0] == ANIM_ATTACKER)
+            battlerId = gBattleAnimAttacker;
+        else if (gBattleAnimArgs[0] == ANIM_TARGET)
+            battlerId = gBattleAnimTarget;
+        else if (gBattleAnimArgs[0] == ANIM_ATK_PARTNER)
+            battlerId = BATTLE_PARTNER(gBattleAnimAttacker);
+        else
+            battlerId = BATTLE_PARTNER(gBattleAnimTarget);
+
+        // Check if battler is visible.
+        if ((gBattleAnimArgs[0] == ANIM_TARGET || gBattleAnimArgs[0] == ANIM_DEF_PARTNER) && !IsBattlerSpriteVisible(battlerId))
+        {
+            DestroyAnimVisualTask(taskId);
+            return;
+        }
+
+        species = (GetIllusionMonSpecies(battlerId) != SPECIES_NONE) ? GetIllusionMonSpecies(battlerId) : gAnimBattlerSpecies[battlerId];
+    }
+
     gTasks[taskId].data[0] = gBattleAnimArgs[1];
     gTasks[taskId].data[1] = species;
     gTasks[taskId].data[2] = pan;
+
     if (species != SPECIES_NONE)
     {
         if (gBattleAnimArgs[1] == DOUBLE_CRY_GROWL)
             PlayCry_ByMode(species, pan, CRY_MODE_GROWL_1);
         else // DOUBLE_CRY_ROAR
             PlayCry_ByMode(species, pan, CRY_MODE_ROAR_1);
+
         gTasks[taskId].func = SoundTask_PlayDoubleCry_Step;
     }
     else
@@ -205,22 +241,25 @@ static void SoundTask_PlayDoubleCry_Step(u8 taskId)
 
     if (gTasks[taskId].data[9] < 2)
     {
-        ++gTasks[taskId].data[9];
+        gTasks[taskId].data[9]++;
     }
-    else if (gTasks[taskId].data[0] == DOUBLE_CRY_GROWL)
+    else
     {
-        if (!IsCryPlaying())
+        if (gTasks[taskId].data[0] == DOUBLE_CRY_GROWL)
         {
-            PlayCry_ByMode(species, pan, CRY_MODE_GROWL_2);
-            DestroyAnimVisualTask(taskId);
+            if (!IsCryPlaying())
+            {
+                PlayCry_ByMode(species, pan, CRY_MODE_GROWL_2);
+                DestroyAnimVisualTask(taskId);
+            }
         }
-    }
-    else // DOUBLE_CRY_ROAR
-    {
-        if (!IsCryPlaying())
+        else // DOUBLE_CRY_ROAR
         {
-            PlayCry_ByMode(species, pan, CRY_MODE_ROAR_2);
-            DestroyAnimVisualTask(taskId);
+            if (!IsCryPlaying())
+            {
+                PlayCry_ByMode(species, pan, CRY_MODE_ROAR_2);
+                DestroyAnimVisualTask(taskId);
+            }
         }
     }
 }
@@ -228,53 +267,89 @@ static void SoundTask_PlayDoubleCry_Step(u8 taskId)
 void SoundTask_WaitForCry(u8 taskId)
 {
     if (gTasks[taskId].data[9] < 2)
-        ++gTasks[taskId].data[9];
-    else if (!IsCryPlaying())
-        DestroyAnimVisualTask(taskId);
+    {
+        gTasks[taskId].data[9]++;
+    }
+    else
+    {
+        if (!IsCryPlaying())
+            DestroyAnimVisualTask(taskId);
+    }
+}
+
+void SoundTask_PlayNormalCry(u8 taskId)
+{
+    u16 species = (GetIllusionMonSpecies(gBattleAnimAttacker) != SPECIES_NONE) ? GetIllusionMonSpecies(gBattleAnimAttacker) : gAnimBattlerSpecies[gBattleAnimAttacker];
+    PlayCry_ByMode(species, BattleAnimAdjustPanning(SOUND_PAN_ATTACKER), CRY_MODE_NORMAL);
+    gTasks[taskId].func = SoundTask_WaitForCry;
 }
 
 #define tSpecies data[1]
 #define tPan     data[2]
 #define tState   data[9]
+#define tLastCry data[10] // If it's not the last cry, don't try to restore the BGM, because another is coming
 
 void SoundTask_PlayCryWithEcho(u8 taskId)
 {
     u16 species;
-    s8 pan = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
-    species = gAnimBattlerSpecies[gBattleAnimAttacker];
+    s8 pan;
+
+    gTasks[taskId].tLastCry = gBattleAnimArgs[0];
+    pan = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
+
+    if (IsContest())
+        species = gContestResources->moveAnim->species;
+    else
+        species = (GetIllusionMonSpecies(gBattleAnimAttacker) != SPECIES_NONE) ? GetIllusionMonSpecies(gBattleAnimAttacker) : gAnimBattlerSpecies[gBattleAnimAttacker];
+
     gTasks[taskId].tSpecies = species;
     gTasks[taskId].tPan = pan;
+
     if (species != SPECIES_NONE)
-    {
-        PlayCry_ByMode(species, pan, CRY_MODE_ECHO_START);
         gTasks[taskId].func = SoundTask_PlayCryWithEcho_Step;
-    }
     else
-    {
         DestroyAnimVisualTask(taskId);
-    }
 }
 
 static void SoundTask_PlayCryWithEcho_Step(u8 taskId)
 {
+    u16 species = gTasks[taskId].tSpecies;
+    s8 pan = gTasks[taskId].tPan;
 
-    if (gTasks[taskId].tState < 2)
+    // Note the cases are not in order of execution
+    switch (gTasks[taskId].tState)
     {
+    case 2:
+        PlayCry_DuckNoRestore(species, pan, CRY_MODE_ECHO_START);
         gTasks[taskId].tState++;
-    }
-    else if (!IsCryPlaying())
-    {
-        u16 species = gTasks[taskId].tSpecies;
-        s8 pan = gTasks[taskId].tPan;
-        
-        PlayCry_ByMode(species, pan, CRY_MODE_ECHO_END);
+        break;
+    case 1:
+    case 3:
+    case 4:
+        gTasks[taskId].tState++;
+        break;
+    case 5:
+        if (IsCryPlaying())
+            break;
+    case 0:
+        StopCryAndClearCrySongs();
+        gTasks[taskId].tState++;
+        break;
+    default:
+        if (!gTasks[taskId].tLastCry)
+            PlayCry_DuckNoRestore(species, pan, CRY_MODE_ECHO_END);
+        else
+            PlayCry_ByMode(species, pan, CRY_MODE_ECHO_END);
+
         DestroyAnimVisualTask(taskId);
+        break;
     }
 }
 
 #undef tSpecies
 #undef tPan
 #undef tState
+#undef tLastCry
 
 void SoundTask_PlaySE1WithPanning(u8 taskId)
 {
@@ -305,28 +380,90 @@ void SoundTask_AdjustPanningVar(u8 taskId)
 
     targetPan = BattleAnimAdjustPanning(targetPan);
     panIncrement = CalculatePanIncrement(sourcePan, targetPan, panIncrement);
+
     gTasks[taskId].data[1] = sourcePan;
     gTasks[taskId].data[2] = targetPan;
     gTasks[taskId].data[3] = panIncrement;
     gTasks[taskId].data[5] = r9;
     gTasks[taskId].data[10] = 0;
     gTasks[taskId].data[11] = sourcePan;
+
     gTasks[taskId].func = SoundTask_AdjustPanningVar_Step;
     gTasks[taskId].func(taskId);
 }
 
 static void SoundTask_AdjustPanningVar_Step(u8 taskId)
 {
-    u16 oldPan, panIncrement = gTasks[taskId].data[3];
+    u16 panIncrement = gTasks[taskId].data[3];
 
     if (gTasks[taskId].data[10]++ == gTasks[taskId].data[5])
     {
+        u16 oldPan;
         gTasks[taskId].data[10] = 0;
         oldPan = gTasks[taskId].data[11];
-        gTasks[taskId].data[11] = panIncrement + oldPan; 
+        gTasks[taskId].data[11] = panIncrement + oldPan;
         gTasks[taskId].data[11] = KeepPanInRange(gTasks[taskId].data[11], oldPan);
     }
+
     gAnimCustomPanning = gTasks[taskId].data[11];
     if (gTasks[taskId].data[11] == gTasks[taskId].data[2])
         DestroyAnimVisualTask(taskId);
+}
+
+#define tSongNum        data[0]
+#define tPan            data[1]
+#define tCurrentVolume  data[2]
+#define tIncrementVal   data[3]
+#define tTargetVolume   data[4]
+#define tDelay          data[5]
+#define tFrameCounter   data[6]
+#define tInitialVolume  data[7]
+
+void SoundTask_PlaySeChangingVolume(u8 taskId)
+{
+    gTasks[taskId].tSongNum = gBattleAnimArgs[0];
+    gTasks[taskId].tPan = BattleAnimAdjustPanning(gBattleAnimArgs[1]);
+    gTasks[taskId].tCurrentVolume = gTasks[taskId].tInitialVolume = gBattleAnimArgs[2];
+    gTasks[taskId].tIncrementVal = gBattleAnimArgs[3];
+    gTasks[taskId].tTargetVolume = gBattleAnimArgs[4];
+    gTasks[taskId].tDelay = gBattleAnimArgs[5];
+
+    PlaySE1WithPanning(gTasks[taskId].tSongNum, gTasks[taskId].tPan);
+    m4aMPlayVolumeControl(&gMPlayInfo_SE1, 0xFFFF, gTasks[taskId].tCurrentVolume);
+    if (gTasks[taskId].tIncrementVal == 0) // Either increase or decrease volume.
+        DestroyAnimSoundTask(taskId);
+    else
+        gTasks[taskId].func = SoundTask_SeVolumeChange;
+}
+
+static void SoundTask_SeVolumeChange(u8 taskId)
+{
+    bool32 destroyTask = FALSE;
+
+    if (gTasks[taskId].tFrameCounter++ >= gTasks[taskId].tDelay)
+    {
+        gTasks[taskId].tFrameCounter = 0;
+        gTasks[taskId].tCurrentVolume += gTasks[taskId].tIncrementVal;
+
+        if (gTasks[taskId].tCurrentVolume < 0)
+            gTasks[taskId].tCurrentVolume = 0;
+        if (gTasks[taskId].tCurrentVolume > 256)
+            gTasks[taskId].tCurrentVolume = 256;
+
+        if (gTasks[taskId].tInitialVolume < gTasks[taskId].tTargetVolume) // Volume increasing.
+        {
+            if (gTasks[taskId].tCurrentVolume >= gTasks[taskId].tTargetVolume) // Target reached.
+                destroyTask = TRUE;
+        }
+        else // Volume decreasing.
+        {
+            if (gTasks[taskId].tCurrentVolume <= gTasks[taskId].tTargetVolume) // Target reached.
+                destroyTask = TRUE;
+        }
+
+        if (destroyTask)
+            DestroyAnimSoundTask(taskId);
+
+        m4aMPlayVolumeControl(&gMPlayInfo_SE1, 0xFFFF, gTasks[taskId].tCurrentVolume);
+    }
 }
