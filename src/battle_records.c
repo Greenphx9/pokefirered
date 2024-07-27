@@ -80,12 +80,16 @@ static u8 *const sStringVars[3] = {
     gStringVar3
 };
 
+
 void ShowBattleRecords(void)
 {
+    #if FREE_LINK_BATTLE_RECORDS == FALSE
     SetVBlankCallback(NULL);
     SetMainCallback2(MainCB2_SetUp);
+    #endif
 }
 
+#if FREE_LINK_BATTLE_RECORDS == FALSE
 static void MainCB2_SetUp(void)
 {
     switch (gMain.state)
@@ -403,12 +407,16 @@ static void AddOpponentLinkBattleRecord(struct LinkBattleRecords * records, cons
     UpdateLinkBattleRecord(&records->entries[i], outcome);
     SortLinkBattleRecords(records);
 }
+#endif
 
 void ClearPlayerLinkBattleRecords(void)
 {
+    #if FREE_LINK_BATTLE_RECORDS == FALSE
     ClearLinkBattleRecords(&gSaveBlock2Ptr->linkBattleRecords);
+    #endif
 }
 
+#if FREE_LINK_BATTLE_RECORDS == FALSE
 static void IncTrainerCardWinCount(s32 battlerId)
 {
     u16 *wins = &gTrainerCards[battlerId].rse.linkBattleWins;
@@ -439,16 +447,20 @@ static void UpdateBattleOutcomeOnTrainerCards(s32 battlerId)
         break;
     }
 }
+#endif
 
 void UpdatePlayerLinkBattleRecords(s32 battlerId)
 {
+    #if FREE_LINK_BATTLE_RECORDS == FALSE
     if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(UNION_ROOM) || gSaveBlock1Ptr->location.mapNum != MAP_NUM(UNION_ROOM))
     {
         UpdateBattleOutcomeOnTrainerCards(battlerId);
         AddOpponentLinkBattleRecord(&gSaveBlock2Ptr->linkBattleRecords, gTrainerCards[battlerId].rse.playerName, gTrainerCards[battlerId].rse.trainerId, gBattleOutcome, gLinkPlayers[battlerId].language);
     }
+    #endif
 }
 
+#if FREE_LINK_BATTLE_RECORDS == FALSE
 static void PrintTotalRecord(struct LinkBattleRecords * records)
 {
     u32 nwins = GetGameStat(GAME_STAT_LINK_BATTLE_WINS);
@@ -566,3 +578,4 @@ static void LoadFrameGfxOnBg(u8 bg)
     CopyToBgTilemapBufferRect(bg, sTilemap, 0, 0, 32, 32);
     LoadPalette(sPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
 }
+#endif
