@@ -7,6 +7,7 @@
 #define STRINGID_SWITCHINMON    3
 #define STRINGID_USEDMOVE   4
 #define STRINGID_BATTLEEND  5
+#define STRINGID_TRAINERSLIDE   6
 
 
 // todo: make some of those names less vague: attacker/target vs pkmn, etc.
@@ -379,13 +380,341 @@
 #define STRINGID_MONTOOSCAREDTOMOVE 378
 #define STRINGID_GHOSTGETOUTGETOUT 379
 #define STRINGID_SILPHSCOPEUNVEILED 380
-#define STRINGID_GHOSTWASMAROWAK 381
-#define STRINGID_TRAINER1MON1COMEBACK 382
-#define STRINGID_TRAINER1WINTEXT 383
-#define STRINGID_TRAINER1MON2COMEBACK 384
-#define STRINGID_TRAINER1MON1AND2COMEBACK 385
 
-#define BATTLESTRINGS_COUNT     386
+#define STRINGID_ENDUREDSTURDY                        381
+#define STRINGID_POWERHERB                            382
+#define STRINGID_HURTBYITEM                           383
+#define STRINGID_PSNBYITEM                            384
+#define STRINGID_BRNBYITEM                            385
+#define STRINGID_DEFABILITYIN                         386
+#define STRINGID_GRAVITYINTENSIFIED                   387
+#define STRINGID_TARGETIDENTIFIED                     388
+#define STRINGID_TARGETWOKEUP                         389
+#define STRINGID_PKMNSTOLEANDATEITEM                  390
+#define STRINGID_TAILWINDBLEW                         391
+#define STRINGID_PKMNWENTBACK                         392
+#define STRINGID_PKMNCANTUSEITEMSANYMORE              393
+#define STRINGID_PKMNFLUNG                            394
+#define STRINGID_PKMNPREVENTEDFROMHEALING             395
+#define STRINGID_PKMNSWITCHEDATKANDDEF                396
+#define STRINGID_PKMNSABILITYSUPPRESSED               397
+#define STRINGID_SHIELDEDFROMCRITICALHITS             398
+#define STRINGID_SWITCHEDATKANDSPATK                  399
+#define STRINGID_SWITCHEDDEFANDSPDEF                  400
+#define STRINGID_PKMNACQUIREDABILITY                  401
+#define STRINGID_POISONSPIKESSCATTERED                402
+#define STRINGID_PKMNSWITCHEDSTATCHANGES              403
+#define STRINGID_PKMNSURROUNDEDWITHVEILOFWATER        404
+#define STRINGID_PKMNLEVITATEDONELECTROMAGNETISM      405
+#define STRINGID_PKMNTWISTEDDIMENSIONS                406
+#define STRINGID_POINTEDSTONESFLOAT                   407
+#define STRINGID_CLOAKEDINMYSTICALMOONLIGHT           408
+#define STRINGID_TRAPPEDBYSWIRLINGMAGMA               409
+#define STRINGID_VANISHEDINSTANTLY                    410
+#define STRINGID_PROTECTEDTEAM                        411
+#define STRINGID_SHAREDITSGUARD                       412
+#define STRINGID_SHAREDITSPOWER                       413
+#define STRINGID_SWAPSDEFANDSPDEFOFALLPOKEMON         414
+#define STRINGID_BECAMENIMBLE                         415
+#define STRINGID_HURLEDINTOTHEAIR                     416
+#define STRINGID_HELDITEMSLOSEEFFECTS                 417
+#define STRINGID_FELLSTRAIGHTDOWN                     418
+#define STRINGID_TARGETCHANGEDTYPE                    419
+#define STRINGID_PKMNACQUIREDSIMPLE                   420
+#define STRINGID_EMPTYSTRING5                         421
+#define STRINGID_KINDOFFER                            422
+#define STRINGID_RESETSTARGETSSTATLEVELS              423
+#define STRINGID_EMPTYSTRING6                         424
+#define STRINGID_ALLYSWITCHPOSITION                   425
+#define STRINGID_RESTORETARGETSHEALTH                 426
+#define STRINGID_TOOKPJMNINTOTHESKY                   427
+#define STRINGID_FREEDFROMSKYDROP                     428
+#define STRINGID_POSTPONETARGETMOVE                   429
+#define STRINGID_REFLECTTARGETSTYPE                   430
+#define STRINGID_TRANSFERHELDITEM                     431
+#define STRINGID_EMBARGOENDS                          432
+#define STRINGID_ELECTROMAGNETISM                     433
+#define STRINGID_BUFFERENDS                           434
+#define STRINGID_TELEKINESISENDS                      435
+#define STRINGID_TAILWINDENDS                         436
+#define STRINGID_LUCKYCHANTENDS                       437
+#define STRINGID_TRICKROOMENDS                        438
+#define STRINGID_WONDERROOMENDS                       439
+#define STRINGID_MAGICROOMENDS                        440
+#define STRINGID_MUDSPORTENDS                         441
+#define STRINGID_WATERSPORTENDS                       442
+#define STRINGID_GRAVITYENDS                          443
+#define STRINGID_AQUARINGHEAL                         444
+#define STRINGID_AURORAVEILENDS                       445
+#define STRINGID_ELECTRICTERRAINENDS                  446
+#define STRINGID_MISTYTERRAINENDS                     447
+#define STRINGID_PSYCHICTERRAINENDS                   448
+#define STRINGID_GRASSYTERRAINENDS                    449
+#define STRINGID_TARGETABILITYSTATRAISE               450
+#define STRINGID_TARGETSSTATWASMAXEDOUT               451
+#define STRINGID_ATTACKERABILITYSTATRAISE             452
+#define STRINGID_POISONHEALHPUP                       453
+#define STRINGID_BADDREAMSDMG                         454
+#define STRINGID_MOLDBREAKERENTERS                    455
+#define STRINGID_TERAVOLTENTERS                       456
+#define STRINGID_TURBOBLAZEENTERS                     457
+#define STRINGID_SLOWSTARTENTERS                      458
+#define STRINGID_SLOWSTARTEND                         459
+#define STRINGID_SOLARPOWERHPDROP                     460
+#define STRINGID_AFTERMATHDMG                         461
+#define STRINGID_ANTICIPATIONACTIVATES                462
+#define STRINGID_FOREWARNACTIVATES                    463
+#define STRINGID_ICEBODYHPGAIN                        464
+#define STRINGID_SNOWWARNINGHAIL                      465
+#define STRINGID_FRISKACTIVATES                       466
+#define STRINGID_UNNERVEENTERS                        467
+#define STRINGID_HARVESTBERRY                         468
+#define STRINGID_LASTABILITYRAISEDSTAT                469
+#define STRINGID_MAGICBOUNCEACTIVATES                 470
+#define STRINGID_PROTEANTYPECHANGE                    471
+#define STRINGID_SYMBIOSISITEMPASS                    472
+#define STRINGID_STEALTHROCKDMG                       473
+#define STRINGID_TOXICSPIKESABSORBED                  474
+#define STRINGID_TOXICSPIKESPOISONED                  475
+#define STRINGID_STICKYWEBSWITCHIN                    476
+#define STRINGID_HEALINGWISHCAMETRUE                  477
+#define STRINGID_HEALINGWISHHEALED                    478
+#define STRINGID_LUNARDANCECAMETRUE                   479
+#define STRINGID_CUSEDBODYDISABLED                    480
+#define STRINGID_ATTACKERACQUIREDABILITY              481
+#define STRINGID_TARGETABILITYSTATLOWER               482
+#define STRINGID_TARGETSTATWONTGOHIGHER               483
+#define STRINGID_PKMNMOVEBOUNCEDABILITY               484
+#define STRINGID_IMPOSTERTRANSFORM                    485
+#define STRINGID_ASSAULTVESTDOESNTALLOW               486
+#define STRINGID_GRAVITYPREVENTSUSAGE                 487
+#define STRINGID_HEALBLOCKPREVENTSUSAGE               488
+#define STRINGID_NOTDONEYET                           489
+#define STRINGID_STICKYWEBUSED                        490
+#define STRINGID_QUASHSUCCESS                         491
+#define	STRINGID_PKMNBLEWAWAYTOXICSPIKES              492
+#define	STRINGID_PKMNBLEWAWAYSTICKYWEB                493
+#define	STRINGID_PKMNBLEWAWAYSTEALTHROCK              494
+#define	STRINGID_IONDELUGEON                          495
+#define	STRINGID_TOPSYTURVYSWITCHEDSTATS              496
+#define	STRINGID_TERRAINBECOMESMISTY                  497
+#define	STRINGID_TERRAINBECOMESGRASSY                 498
+#define	STRINGID_TERRAINBECOMESELECTRIC               499
+#define	STRINGID_TERRAINBECOMESPSYCHIC                500
+#define	STRINGID_TARGETELECTRIFIED                    501
+#define	STRINGID_MEGAEVOREACTING                      502
+#define	STRINGID_MEGAEVOEVOLVED                       503
+#define	STRINGID_DRASTICALLY                          504
+#define	STRINGID_SEVERELY                             505
+#define	STRINGID_INFESTATION                          506
+#define	STRINGID_NOEFFECTONTARGET                     507
+#define	STRINGID_BURSTINGFLAMESHIT                    508
+#define	STRINGID_BESTOWITEMGIVING                     509
+#define	STRINGID_THIRDTYPEADDED                       510
+#define STRINGID_FELLFORFEINT                         511
+#define STRINGID_POKEMONCANNOTUSEMOVE                 512
+#define STRINGID_COVEREDINPOWDER                      513
+#define STRINGID_POWDEREXPLODES                       514
+#define STRINGID_BELCHCANTSELECT                      515
+#define STRINGID_SPECTRALTHIEFSTEAL                   516
+#define STRINGID_GRAVITYGROUNDING                     517
+#define STRINGID_MISTYTERRAINPREVENTS                 518
+#define STRINGID_GRASSYTERRAINHEALS                   519
+#define STRINGID_ELECTRICTERRAINPREVENTS              520
+#define STRINGID_PSYCHICTERRAINPREVENTS               521
+#define STRINGID_SAFETYGOGGLESPROTECTED               522
+#define STRINGID_FLOWERVEILPROTECTED                  523
+#define STRINGID_SWEETVEILPROTECTED                   524
+#define STRINGID_AROMAVEILPROTECTED                   525
+#define STRINGID_CELEBRATEMESSAGE                     526
+#define STRINGID_USEDINSTRUCTEDMOVE                   527
+#define STRINGID_THROATCHOPENDS                       528
+#define STRINGID_PKMNCANTUSEMOVETHROATCHOP            529
+#define STRINGID_LASERFOCUS                           530
+#define STRINGID_GEMACTIVATES                         531
+#define STRINGID_BERRYDMGREDUCES                      532
+#define STRINGID_TARGETATEITEM                        533
+#define STRINGID_AIRBALLOONFLOAT                      534
+#define STRINGID_AIRBALLOONPOP                        535
+#define STRINGID_INCINERATEBURN                       536
+#define STRINGID_BUGBITE                              537
+#define STRINGID_ILLUSIONWOREOFF                      538
+#define STRINGID_ATTACKERCUREDTARGETSTATUS            539
+#define STRINGID_ATTACKERLOSTFIRETYPE                 540
+#define STRINGID_HEALERCURE                           541
+#define STRINGID_SCRIPTINGABILITYSTATRAISE            542
+#define STRINGID_RECEIVERABILITYTAKEOVER              543
+#define STRINGID_PKNMABSORBINGPOWER                   544
+#define STRINGID_NOONEWILLBEABLETORUNAWAY             545
+#define STRINGID_DESTINYKNOTACTIVATES                 546
+#define STRINGID_CLOAKEDINAFREEZINGLIGHT              547
+#define STRINGID_CLEARAMULETWONTLOWERSTATS            548
+#define STRINGID_FERVENTWISHREACHED                   549
+#define STRINGID_AIRLOCKACTIVATES                     550
+#define STRINGID_PRESSUREENTERS                       551
+#define STRINGID_DARKAURAENTERS                       552
+#define STRINGID_FAIRYAURAENTERS                      553
+#define STRINGID_AURABREAKENTERS                      554
+#define STRINGID_COMATOSEENTERS                       555
+#define STRINGID_SCREENCLEANERENTERS                  556
+#define STRINGID_FETCHEDPOKEBALL                      557
+#define STRINGID_BATTLERABILITYRAISEDSTAT             558
+#define STRINGID_ASANDSTORMKICKEDUP                   559
+#define STRINGID_PKMNSWILLPERISHIN3TURNS              560
+#define STRINGID_ABILITYRAISEDSTATDRASTICALLY         561
+#define STRINGID_AURAFLAREDTOLIFE                     562
+#define STRINGID_ASONEENTERS                          563
+#define STRINGID_CURIOUSMEDICINEENTERS                564
+#define STRINGID_CANACTFASTERTHANKSTO                 565
+#define STRINGID_MICLEBERRYACTIVATES                  566
+#define STRINGID_PKMNSHOOKOFFTHETAUNT                 567
+#define STRINGID_PKMNGOTOVERITSINFATUATION            568
+#define STRINGID_ITEMCANNOTBEREMOVED                  569
+#define STRINGID_STICKYBARBTRANSFER                   570
+#define STRINGID_PKMNBURNHEALED                       571
+#define STRINGID_REDCARDACTIVATE                      572
+#define STRINGID_EJECTBUTTONACTIVATE                  573
+#define STRINGID_ATKGOTOVERINFATUATION                574
+#define STRINGID_TORMENTEDNOMORE                      575
+#define STRINGID_HEALBLOCKEDNOMORE                    576
+#define STRINGID_ATTACKERBECAMEFULLYCHARGED           577
+#define STRINGID_ATTACKERBECAMEASHSPECIES             578
+#define STRINGID_EXTREMELYHARSHSUNLIGHT               579
+#define STRINGID_EXTREMESUNLIGHTFADED                 580
+#define STRINGID_MOVEEVAPORATEDINTHEHARSHSUNLIGHT     581
+#define STRINGID_EXTREMELYHARSHSUNLIGHTWASNOTLESSENED 582
+#define STRINGID_HEAVYRAIN                            583
+#define STRINGID_HEAVYRAINLIFTED                      584
+#define STRINGID_MOVEFIZZLEDOUTINTHEHEAVYRAIN         585
+#define STRINGID_NORELIEFROMHEAVYRAIN                 586
+#define STRINGID_MYSTERIOUSAIRCURRENT                 587
+#define STRINGID_STRONGWINDSDISSIPATED                588
+#define STRINGID_MYSTERIOUSAIRCURRENTBLOWSON          589
+#define STRINGID_ATTACKWEAKENEDBSTRONGWINDS           590
+#define STRINGID_STUFFCHEEKSCANTSELECT                591
+#define STRINGID_PKMNREVERTEDTOPRIMAL                 592
+#define STRINGID_BUTPOKEMONCANTUSETHEMOVE             593
+#define STRINGID_BUTHOOPACANTUSEIT                    594
+#define STRINGID_BROKETHROUGHPROTECTION               595
+#define STRINGID_ABILITYALLOWSONLYMOVE                596
+#define STRINGID_SWAPPEDABILITIES                     597
+#define STRINGID_PASTELVEILPROTECTED                  598
+#define STRINGID_PASTELVEILENTERS                     599
+#define STRINGID_BATTLERTYPECHANGEDTO                 600
+#define STRINGID_BOTHCANNOLONGERESCAPE                601
+#define STRINGID_CANTESCAPEDUETOUSEDMOVE              602
+#define STRINGID_PKMNBECAMEWEAKERTOFIRE               603
+#define STRINGID_ABOUTTOUSEPOLTERGEIST                604
+#define STRINGID_CANTESCAPEBECAUSEOFCURRENTMOVE       605
+#define STRINGID_NEUTRALIZINGGASENTERS                606
+#define STRINGID_NEUTRALIZINGGASOVER                  607
+#define STRINGID_TARGETTOOHEAVY                       608
+#define STRINGID_PKMNTOOKTARGETHIGH                   609
+#define STRINGID_PKMNINSNAPTRAP                       610
+#define STRINGID_METEORBEAMCHARGING                   611
+#define STRINGID_HEATUPBEAK                           612
+#define STRINGID_COURTCHANGE                          613
+#define STRINGID_PLAYERLOSTTOENEMYTRAINER             614
+#define STRINGID_PLAYERPAIDPRIZEMONEY                 615
+#define STRINGID_ZPOWERSURROUNDS                      616
+#define STRINGID_ZMOVEUNLEASHED                       617
+#define STRINGID_ZMOVERESETSSTATS                     618
+#define STRINGID_ZMOVEALLSTATSUP                      619
+#define STRINGID_ZMOVEZBOOSTCRIT                      620
+#define STRINGID_ZMOVERESTOREHP                       621
+#define STRINGID_ZMOVESTATUP                          622
+#define STRINGID_ZMOVEHPTRAP                          623
+#define STRINGID_ATTACKEREXPELLEDTHEPOISON            624
+#define STRINGID_ATTACKERSHOOKITSELFAWAKE             625
+#define STRINGID_ATTACKERBROKETHROUGHPARALYSIS        626
+#define STRINGID_ATTACKERHEALEDITSBURN                627
+#define STRINGID_ATTACKERMELTEDTHEICE                 628
+#define STRINGID_TARGETTOUGHEDITOUT                   629
+#define STRINGID_ATTACKERLOSTELECTRICTYPE             630
+#define STRINGID_ATTACKERSWITCHEDSTATWITHTARGET       631
+#define STRINGID_BEINGHITCHARGEDPKMNWITHPOWER         632
+#define STRINGID_SUNLIGHTACTIVATEDABILITY             633
+#define STRINGID_STATWASHEIGHTENED                    634
+#define STRINGID_ELECTRICTERRAINACTIVATEDABILITY      635
+#define STRINGID_ABILITYWEAKENEDSURROUNDINGMONSSTAT   636
+#define STRINGID_ATTACKERGAINEDSTRENGTHFROMTHEFALLEN  637
+#define STRINGID_PKMNSABILITYPREVENTSABILITY          638
+#define STRINGID_PREPARESHELLTRAP                     639
+#define STRINGID_SHELLTRAPDIDNTWORK                   640
+#define STRINGID_SPIKESDISAPPEAREDFROMTEAM            641
+#define STRINGID_TOXICSPIKESDISAPPEAREDFROMTEAM       642
+#define STRINGID_STICKYWEBDISAPPEAREDFROMTEAM         643
+#define STRINGID_STEALTHROCKDISAPPEAREDFROMTEAM       644
+#define STRINGID_COULDNTFULLYPROTECT                  645
+#define STRINGID_STOCKPILEDEFFECTWOREOFF              646
+#define STRINGID_PKMNREVIVEDREADYTOFIGHT              647
+#define STRINGID_ITEMRESTOREDSPECIESHEALTH            648
+#define STRINGID_ITEMCUREDSPECIESSTATUS               649
+#define STRINGID_ITEMRESTOREDSPECIESPP                650
+#define STRINGID_THUNDERCAGETRAPPED                   651
+#define STRINGID_PKMNHURTBYFROSTBITE                  652
+#define STRINGID_PKMNGOTFROSTBITE                     653
+#define STRINGID_PKMNSITEMHEALEDFROSTBITE             654
+#define STRINGID_ATTACKERHEALEDITSFROSTBITE           655
+#define STRINGID_PKMNFROSTBITEHEALED                  656
+#define STRINGID_PKMNFROSTBITEHEALED2                 657
+#define STRINGID_PKMNFROSTBITEHEALEDBY                658
+#define STRINGID_MIRRORHERBCOPIED                     659
+#define STRINGID_STARTEDSNOW                          660
+#define STRINGID_SNOWCONTINUES                        661
+#define STRINGID_SNOWSTOPPED                          662
+#define STRINGID_SNOWWARNINGSNOW                      663
+#define STRINGID_PKMNITEMMELTED                       664
+#define STRINGID_ULTRABURSTREACTING                   665
+#define STRINGID_ULTRABURSTCOMPLETED                  666
+#define STRINGID_TEAMGAINEDEXP                        667
+#define STRINGID_CURRENTMOVECANTSELECT                668
+#define STRINGID_TARGETISBEINGSALTCURED               669
+#define STRINGID_TARGETISHURTBYSALTCURE               670
+#define STRINGID_TARGETCOVEREDINSTICKYCANDYSYRUP      671
+#define STRINGID_SHARPSTEELFLOATS                     672
+#define STRINGID_SHARPSTEELDMG                        673
+#define STRINGID_PKMNBLEWAWAYSHARPSTEEL               674
+#define STRINGID_SHARPSTEELDISAPPEAREDFROMTEAM        675
+#define STRINGID_TEAMTRAPPEDWITHVINES                 676
+#define STRINGID_PKMNHURTBYVINES                      677
+#define STRINGID_TEAMCAUGHTINVORTEX                   678
+#define STRINGID_PKMNHURTBYVORTEX                     679
+#define STRINGID_TEAMSURROUNDEDBYFIRE                 680
+#define STRINGID_PKMNBURNINGUP                        681
+#define STRINGID_TEAMSURROUNDEDBYROCKS                682
+#define STRINGID_PKMNHURTBYROCKSTHROWN                683
+#define STRINGID_MOVEBLOCKEDBYDYNAMAX                 684
+#define STRINGID_ZEROTOHEROTRANSFORMATION             685
+#define STRINGID_THETWOMOVESBECOMEONE                 686
+#define STRINGID_ARAINBOWAPPEAREDONSIDE               687
+#define STRINGID_THERAINBOWDISAPPEARED                688
+#define STRINGID_WAITINGFORPARTNERSMOVE               689
+#define STRINGID_SEAOFFIREENVELOPEDSIDE               690
+#define STRINGID_HURTBYTHESEAOFFIRE                   691
+#define STRINGID_THESEAOFFIREDISAPPEARED              692
+#define STRINGID_SWAMPENVELOPEDSIDE                   693
+#define STRINGID_THESWAMPDISAPPEARED                  694
+#define STRINGID_PKMNTELLCHILLINGRECEPTIONJOKE        695
+#define STRINGID_HOSPITALITYRESTORATION               696
+#define STRINGID_ELECTROSHOTCHARGING                  697
+#define STRINGID_ITEMWASUSEDUP                        698
+#define STRINGID_ATTACKERLOSTITSTYPE                  699
+#define STRINGID_SHEDITSTAIL                          700
+#define STRINGID_CLOAKEDINAHARSHLIGHT                 701
+#define STRINGID_SUPERSWEETAROMAWAFTS                 702
+#define STRINGID_DIMENSIONSWERETWISTED                703
+#define STRINGID_BIZARREARENACREATED                  704
+#define STRINGID_BIZARREAREACREATED                   705
+#define STRINGID_TIDYINGUPCOMPLETE                    706
+
+#define STRINGID_GHOSTWASMAROWAK                      707
+#define STRINGID_TRAINER1MON1COMEBACK                 708
+#define STRINGID_TRAINER1WINTEXT                      709
+#define STRINGID_TRAINER1MON2COMEBACK                 710
+#define STRINGID_TRAINER1MON1AND2COMEBACK             711
+
+#define BATTLESTRINGS_COUNT                           712
 
 // This is the string id that gBattleStringsTable starts with.
 // String ids before this (e.g. STRINGID_INTROMSG) are not in the table,
@@ -429,16 +758,6 @@
 #define B_MSG_LEECH_SEED_DRAIN 3
 #define B_MSG_LEECH_SEED_OOZE  4
 
-// gFirstTurnOfTwoStringIds
-#define B_MSG_TURN1_RAZOR_WIND  0
-#define B_MSG_TURN1_SOLAR_BEAM  1
-#define B_MSG_TURN1_SKULL_BASH  2
-#define B_MSG_TURN1_SKY_ATTACK  3
-#define B_MSG_TURN1_FLY         4
-#define B_MSG_TURN1_DIG         5
-#define B_MSG_TURN1_DIVE        6
-#define B_MSG_TURN1_BOUNCE      7
-
 // gMoveWeatherChangeStringIds
 #define B_MSG_STARTED_RAIN      0
 #define B_MSG_STARTED_DOWNPOUR  1
@@ -446,15 +765,17 @@
 #define B_MSG_STARTED_SANDSTORM 3
 #define B_MSG_STARTED_SUNLIGHT  4
 #define B_MSG_STARTED_HAIL      5
+#define B_MSG_STARTED_SNOW      6
 
 // gRainContinuesStringIds
 #define B_MSG_RAIN_CONTINUES     0
 #define B_MSG_DOWNPOUR_CONTINUES 1
 #define B_MSG_RAIN_STOPPED       2
 
-// gSandStormHailContinuesStringIds / gSandStormHailDmgStringIds/ gSandStormHailEndStringIds
+// gSandStormHailSnowContinuesStringIds / gSandStormHailDmgStringIds/ gSandStormHailSnowEndStringIds
 #define B_MSG_SANDSTORM  0
 #define B_MSG_HAIL       1
+#define B_MSG_SNOW       2
 
 // gReflectLightScreenSafeguardStringIds
 #define B_MSG_SIDE_STATUS_FAILED     0
@@ -468,6 +789,7 @@
 #define B_MSG_PROTECTED_ITSELF 0
 #define B_MSG_BRACED_ITSELF    1
 #define B_MSG_PROTECT_FAILED   2
+#define B_MSG_PROTECTED_TEAM   3
 
 // gRestUsedStringIds
 #define B_MSG_REST           0
@@ -480,7 +802,6 @@
 // gUproarAwakeStringIds
 #define B_MSG_CANT_SLEEP_UPROAR  0
 #define B_MSG_UPROAR_KEPT_AWAKE  1
-#define B_MSG_STAYED_AWAKE_USING 2
 
 // gUproarOverTurnStringIds
 #define B_MSG_UPROAR_CONTINUES  0
@@ -540,6 +861,10 @@
 #define B_MSG_SOMEONES_BOX_FULL 2
 #define B_MSG_BILLS_BOX_FULL    3
 
+// gPrimalWeatherBlocksStringIds
+#define B_MSG_PRIMAL_WEATHER_FIZZLED_BY_RAIN    0
+#define B_MSG_PRIMAL_WEATHER_EVAPORATED_IN_SUN  1
+
 // gInobedientStringIds
 #define B_MSG_LOAFING            0
 #define B_MSG_WONT_OBEY          1
@@ -586,6 +911,106 @@
 #define B_MSG_DEFROSTED         0
 #define B_MSG_DEFROSTED_BY_MOVE 1
 
-#define NUM_TRAPPING_MOVES 6
+// gFrostbiteHealedStringIds
+#define B_MSG_FROSTBITE_HEALED         0
+#define B_MSG_FROSTBITE_HEALED_BY_MOVE 1
+
+// gSwitchInAbilityStringIds
+#define B_MSG_SWITCHIN_MOLDBREAKER      0
+#define B_MSG_SWITCHIN_TERAVOLT         1
+#define B_MSG_SWITCHIN_TURBOBLAZE       2
+#define B_MSG_SWITCHIN_SLOWSTART        3
+#define B_MSG_SWITCHIN_UNNERVE          4
+#define B_MSG_SWITCHIN_ANTICIPATION     5
+#define B_MSG_SWITCHIN_FOREWARN         6
+#define B_MSG_SWITCHIN_PRESSURE         7
+#define B_MSG_SWITCHIN_DARKAURA         8
+#define B_MSG_SWITCHIN_FAIRYAURA        9
+#define B_MSG_SWITCHIN_AURABREAK        10
+#define B_MSG_SWITCHIN_COMATOSE         11
+#define B_MSG_SWITCHIN_SCREENCLEANER    12
+#define B_MSG_SWITCHIN_ASONE            13
+#define B_MSG_SWITCHIN_CURIOUS_MEDICINE 14
+#define B_MSG_SWITCHIN_PASTEL_VEIL      15
+#define B_MSG_SWITCHIN_NEUTRALIZING_GAS 16
+
+// gMentalHerbCureStringIds
+#define B_MSG_MENTALHERBCURE_INFATUATION       0
+#define B_MSG_MENTALHERBCURE_TAUNT             1
+#define B_MSG_MENTALHERBCURE_ENCORE            2
+#define B_MSG_MENTALHERBCURE_TORMENT           3
+#define B_MSG_MENTALHERBCURE_HEALBLOCK         4
+#define B_MSG_MENTALHERBCURE_DISABLE           5
+
+// gTerrainPreventsStringIds
+#define B_MSG_TERRAINPREVENTS_MISTY     0
+#define B_MSG_TERRAINPREVENTS_ELECTRIC  1
+#define B_MSG_TERRAINPREVENTS_PSYCHIC   2
+
+// gTerrainStringIds
+#define B_MSG_TERRAIN_SET_MISTY     0
+#define B_MSG_TERRAIN_SET_ELECTRIC  1
+#define B_MSG_TERRAIN_SET_PSYCHIC   2
+#define B_MSG_TERRAIN_SET_GRASSY    3
+#define B_MSG_TERRAIN_END_MISTY     4
+#define B_MSG_TERRAIN_END_ELECTRIC  5
+#define B_MSG_TERRAIN_END_PSYCHIC   6
+#define B_MSG_TERRAIN_END_GRASSY    7
+#define B_MSG_TERRAIN_COUNT         8
+
+// gStartingStatusStringIds
+#define B_MSG_TERRAIN_SET_MISTY     0
+#define B_MSG_TERRAIN_SET_ELECTRIC  1
+#define B_MSG_TERRAIN_SET_PSYCHIC   2
+#define B_MSG_TERRAIN_SET_GRASSY    3
+#define B_MSG_SET_TRICK_ROOM        4
+#define B_MSG_SET_MAGIC_ROOM        5
+#define B_MSG_SET_WONDER_ROOM       6
+#define B_MSG_SET_TAILWIND_PLAYER   7
+#define B_MSG_SET_TAILWIND_OPPONENT 8
+#define B_MSG_STARTING_STATUS_COUNT 9
+
+
+// gWrappedStringIds
+#define B_MSG_WRAPPED_BIND         0
+#define B_MSG_WRAPPED_WRAP         1
+#define B_MSG_WRAPPED_FIRE_SPIN    2
+#define B_MSG_WRAPPED_CLAMP        3
+#define B_MSG_WRAPPED_WHIRLPOOL    4
+#define B_MSG_WRAPPED_SAND_TOMB    5
+#define B_MSG_WRAPPED_MAGMA_STORM  6
+#define B_MSG_WRAPPED_INFESTATION  7
+#define B_MSG_WRAPPED_SNAP_TRAP    8
+#define B_MSG_WRAPPED_THUNDER_CAGE 9
+#define NUM_TRAPPING_MOVES         10
+
+// z effects
+#define B_MSG_Z_RESET_STATS   0
+#define B_MSG_Z_ALL_STATS_UP  1
+#define B_MSG_Z_BOOST_CRITS   2
+#define B_MSG_Z_FOLLOW_ME     3
+#define B_MSG_Z_RECOVER_HP    4
+#define B_MSG_Z_STAT_UP       5
+#define B_MSG_Z_HP_TRAP       6
+
+// gDmgHazardsStringIds
+#define B_MSG_PKMNHURTBYSPIKES   0
+#define B_MSG_STEALTHROCKDMG     1
+#define B_MSG_SHARPSTEELDMG      2
+#define B_MSG_POINTEDSTONESFLOAT 3
+#define B_MSG_SPIKESSCATTERED    4
+#define B_MSG_SHARPSTEELFLOATS   5
+
+// gDamageNonTypesStartStringIds
+#define B_MSG_TRAPPED_WITH_VINES  0
+#define B_MSG_CAUGHT_IN_VORTEX    1
+#define B_MSG_SURROUNDED_BY_FIRE  2
+#define B_MSG_SURROUNDED_BY_ROCKS 3
+
+// gDamageNonTypesDmgStringIds
+#define B_MSG_HURT_BY_VINES  0
+#define B_MSG_HURT_BY_VORTEX    1
+#define B_MSG_BURNING_UP  2
+#define B_MSG_HURT_BY_ROCKS_THROWN 3
 
 #endif // GUARD_BATTLE_STRING_IDS_H
