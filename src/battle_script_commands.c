@@ -7608,7 +7608,10 @@ static void Cmd_getmoneyreward(void)
     }
 
     PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff1, 5, money);
-    gBattlescriptCurrInstr = cmd->nextInstr;
+    if (money)
+        gBattlescriptCurrInstr += 5;
+    else
+        gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
 // Command is never used

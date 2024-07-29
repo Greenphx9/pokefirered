@@ -334,8 +334,7 @@ static void SwitchIn_TryShinyAnim(u32 battler)
      && !gBattleSpritesDataPtr->healthBoxesData[battler].ballAnimActive)
         TryShinyAnimation(battler, &gEnemyParty[gBattlerPartyIndexes[battler]]);
 
-    if (gSprites[gBattleControllerData[battler]].callback == SpriteCallbackDummy
-     && !gBattleSpritesDataPtr->healthBoxesData[battler].ballAnimActive)
+    if (!gBattleSpritesDataPtr->healthBoxesData[battler].ballAnimActive)
     {
         DestroySprite(&gSprites[gBattleControllerData[battler]]);
         SetBattlerShadowSpriteCallback(battler, GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_SPECIES));

@@ -1306,8 +1306,7 @@ static void Intro_TryShinyAnimShowHealthbox(u32 battler)
 static void SwitchIn_CleanShinyAnimShowSubstitute(u32 battler)
 {
     if (gSprites[gHealthboxSpriteIds[battler]].callback == SpriteCallbackDummy
-     && gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim
-     && gSprites[gBattlerSpriteIds[battler]].callback == SpriteCallbackDummy)
+     && gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim)
     {
         CopyBattleSpriteInvisibility(battler);
 
@@ -1344,8 +1343,7 @@ static void SwitchIn_TryShinyAnimShowHealthbox(u32 battler)
         TryShinyAnimation(battler, &gPlayerParty[gBattlerPartyIndexes[battler]]);
 
     // Wait for ball anim, then show healthbox
-    if (gSprites[gBattleControllerData[battler]].callback == SpriteCallbackDummy
-     && !gBattleSpritesDataPtr->healthBoxesData[battler].ballAnimActive)
+    if (!gBattleSpritesDataPtr->healthBoxesData[battler].ballAnimActive)
     {
         DestroySprite(&gSprites[gBattleControllerData[battler]]);
         UpdateHealthboxAttribute(gHealthboxSpriteIds[battler], &gPlayerParty[gBattlerPartyIndexes[battler]], HEALTHBOX_ALL);
@@ -2103,23 +2101,14 @@ static void PlayerHandleChoosePokemon(u32 battler)
     for (i = 0; i < ARRAY_COUNT(gBattlePartyCurrentOrder); i++)
         gBattlePartyCurrentOrder[i] = gBattleResources->bufferA[battler][4 + i];
 
-    if ((gBattleResources->bufferA[battler][1] & 0xF) != PARTY_ACTION_CANT_SWITCH
-        && (gBattleResources->bufferA[battler][1] & 0xF) != PARTY_ACTION_CHOOSE_FAINTED_MON)
-    {
-        BtlController_EmitChosenMonReturnValue(battler, BUFFER_B, gBattlerPartyIndexes[battler] + 1, gBattlePartyCurrentOrder);
-        PlayerBufferExecCompleted(battler);
-    }
-    else
-    {
-        gBattleControllerData[battler] = CreateTask(TaskDummy, 0xFF);
-        gTasks[gBattleControllerData[battler]].data[0] = gBattleResources->bufferA[battler][1] & 0xF;
-        *(&gBattleStruct->battlerPreventingSwitchout) = gBattleResources->bufferA[battler][1] >> 4;
-        *(&gBattleStruct->playerPartyIdx) = gBattleResources->bufferA[battler][2];
-        *(&gBattleStruct->abilityPreventingSwitchout) = (gBattleResources->bufferA[battler][3] & 0xFF) | (gBattleResources->bufferA[battler][7] << 8);
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
-        gBattlerControllerFuncs[battler] = OpenPartyMenuToChooseMon;
-        gBattlerInMenuId = battler;
-    }
+    gBattleControllerData[battler] = CreateTask(TaskDummy, 0xFF);
+    gTasks[gBattleControllerData[battler]].data[0] = gBattleResources->bufferA[battler][1] & 0xF;
+    *(&gBattleStruct->battlerPreventingSwitchout) = gBattleResources->bufferA[battler][1] >> 4;
+    *(&gBattleStruct->playerPartyIdx) = gBattleResources->bufferA[battler][2];
+    *(&gBattleStruct->abilityPreventingSwitchout) = (gBattleResources->bufferA[battler][3] & 0xFF) | (gBattleResources->bufferA[battler][7] << 8);
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
+    gBattlerControllerFuncs[battler] = OpenPartyMenuToChooseMon;
+    gBattlerInMenuId = battler;
 }
 
 static void PlayerHandleCmd23(u32 battler)

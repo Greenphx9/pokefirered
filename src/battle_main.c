@@ -3715,7 +3715,7 @@ static void HandleTurnActionSelectionState(void)
                     *(gBattleStruct->battlerPartyIndexes + battler) = gBattlerPartyIndexes[battler];
                     if (gBattleMons[battler].status2 & (STATUS2_WRAPPED | STATUS2_ESCAPE_PREVENTION) || gStatuses3[battler] & STATUS3_ROOTED)
                     {
-                        BtlController_EmitChoosePokemon(battler, BUFFER_A, PARTY_ACTION_CANT_SWITCH, 6, ABILITY_NONE, gBattleStruct->battlerPartyOrders[battler]);
+                        BtlController_EmitChoosePokemon(battler, BUFFER_A, PARTY_ACTION_CANT_SWITCH, PARTY_SIZE, ABILITY_NONE, gBattleStruct->battlerPartyOrders[battler]);
                     }
                     else if (ItemId_GetHoldEffect(gBattleMons[battler].item) != HOLD_EFFECT_SHED_SHELL
                       && (i = IsAbilityPreventingEscape(battler)))   // must be last to keep i value integrity
@@ -3729,7 +3729,7 @@ static void HandleTurnActionSelectionState(void)
                         else if (battler == 3 && gChosenActionByBattler[1] == B_ACTION_SWITCH)
                             BtlController_EmitChoosePokemon(battler, BUFFER_A, PARTY_ACTION_CHOOSE_MON, *(gBattleStruct->monToSwitchIntoId + 1), ABILITY_NONE, gBattleStruct->battlerPartyOrders[battler]);
                         else
-                            BtlController_EmitChoosePokemon(battler, BUFFER_A, PARTY_ACTION_CHOOSE_MON, 6, ABILITY_NONE, gBattleStruct->battlerPartyOrders[battler]);
+                            BtlController_EmitChoosePokemon(battler, BUFFER_A, PARTY_ACTION_CHOOSE_MON, PARTY_SIZE, ABILITY_NONE, gBattleStruct->battlerPartyOrders[battler]);
                     }
                     MarkBattlerForControllerExec(battler);
                     break;
@@ -4920,8 +4920,6 @@ static void HandleAction_UseMove(void)
     u32 battler, i, side, moveType, var = 4;
     u16 moveTarget;
 
-    DebugPrintf("HandleAction_UseMove 1");
-
     gBattlerAttacker = gBattlerByTurnOrder[gCurrentTurnActionNumber];
     if (gBattleStruct->absentBattlerFlags & gBitTable[gBattlerAttacker] || !IsBattlerAlive(gBattlerAttacker))
     {
@@ -4970,7 +4968,6 @@ static void HandleAction_UseMove(void)
     else if (gBattleMons[gBattlerAttacker].moves[gCurrMovePos] != gChosenMoveByBattler[gBattlerAttacker])
     {
         gCurrentMove = gChosenMove = gBattleMons[gBattlerAttacker].moves[gCurrMovePos];
-        DebugPrintf("Choosing move target");
         *(gBattleStruct->moveTarget + gBattlerAttacker) = GetMoveTarget(gCurrentMove, NO_TARGET_OVERRIDE);
     }
     else
@@ -5005,7 +5002,6 @@ static void HandleAction_UseMove(void)
     }
 
     moveTarget = GetBattlerMoveTargetType(gBattlerAttacker, gCurrentMove);
-    DebugPrintf("moveTarget: %d", moveTarget);
 
     // choose target
     side = GetBattlerSide(gBattlerAttacker) ^ BIT_SIDE;
@@ -5013,7 +5009,6 @@ static void HandleAction_UseMove(void)
         && moveTarget == MOVE_TARGET_SELECTED
         && GetBattlerSide(gBattlerAttacker) != GetBattlerSide(gSideTimers[side].followmeTarget))
     {
-        DebugPrintf("HERE!");
         gBattleStruct->moveTarget[gBattlerAttacker] = gBattlerTarget = gSideTimers[side].followmeTarget; // follow me moxie fix
     }
     else if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
@@ -5162,7 +5157,6 @@ static void HandleAction_UseMove(void)
     }
     else
     {
-        DebugPrintf("er");
         gBattlescriptCurrInstr = GET_MOVE_BATTLESCRIPT(gCurrentMove);
     }
 
@@ -5171,8 +5165,6 @@ static void HandleAction_UseMove(void)
         gBattleStruct->hpBefore[i] = gBattleMons[i].hp;
         gSpecialStatuses[i].emergencyExited = FALSE;
     }
-
-    DebugPrintf("gBattlerTarget: %d", gBattlerTarget);
 
     gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
 }

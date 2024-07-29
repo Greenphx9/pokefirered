@@ -7251,8 +7251,6 @@ u32 GetMoveTarget(u16 move, u8 setTarget)
     if (move == MOVE_CURSE && !IS_BATTLER_OF_TYPE(gBattlerAttacker, TYPE_GHOST))
         moveTarget = MOVE_TARGET_USER;
 
-    DebugPrintf("moveTarget 1: %d", moveTarget);
-
     switch (moveTarget)
     {
     case MOVE_TARGET_SELECTED:
@@ -7311,8 +7309,6 @@ u32 GetMoveTarget(u16 move, u8 setTarget)
             targetBattler = gBattlerAttacker;
         break;
     }
-
-    DebugPrintf("moveTarget 2: %d", moveTarget);
 
     *(gBattleStruct->moveTarget + gBattlerAttacker) = targetBattler;
 

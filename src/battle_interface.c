@@ -1770,7 +1770,7 @@ u8 CreatePartyStatusSummarySprites(u8 battlerId, struct HpAndStatus *partyInfo, 
         {
             isOpponent = TRUE;
 
-            if (!isSwitchingMons || !WhichBattleCoords(battlerId))
+            if (!isSwitchingMons || !IsDoubleBattle())
                 x = 104, y = 40;
             else
                 x = 104, y = 16;
