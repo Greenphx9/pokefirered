@@ -253,24 +253,7 @@ static void Intro_TryShinyAnimShowHealthbox(u32 battler)
         bgmRestored = TRUE;
     }
 
-    if (!twoMons || (twoMons && gBattleTypeFlags & BATTLE_TYPE_MULTI && !BATTLE_TWO_VS_ONE_OPPONENT))
-    {
-        if (gSprites[gBattleControllerData[battler]].callback == SpriteCallbackDummy
-            && gSprites[gBattlerSpriteIds[battler]].callback == SpriteCallbackDummy)
-        {
-            battlerAnimsDone = TRUE;
-        }
-    }
-    else
-    {
-        if (gSprites[gBattleControllerData[battler]].callback == SpriteCallbackDummy
-            && gSprites[gBattlerSpriteIds[battler]].callback == SpriteCallbackDummy
-            && gSprites[gBattleControllerData[BATTLE_PARTNER(battler)]].callback == SpriteCallbackDummy
-            && gSprites[gBattlerSpriteIds[BATTLE_PARTNER(battler)]].callback == SpriteCallbackDummy)
-        {
-            battlerAnimsDone = TRUE;
-        }
-    }
+    battlerAnimsDone = TRUE;
 
     if (bgmRestored && battlerAnimsDone)
     {
@@ -297,11 +280,11 @@ static void TryShinyAnimAfterMonAnim(u32 battler)
         && !gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim)
         TryShinyAnimation(battler, &gEnemyParty[gBattlerPartyIndexes[battler]]);
 
-        gBattleSpritesDataPtr->healthBoxesData[battler].triedShinyMonAnim = FALSE;
-        gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim = FALSE;
-        FreeSpriteTilesByTag(ANIM_TAG_GOLD_STARS);
-        FreeSpritePaletteByTag(ANIM_TAG_GOLD_STARS);
-        OpponentBufferExecCompleted(battler);
+    gBattleSpritesDataPtr->healthBoxesData[battler].triedShinyMonAnim = FALSE;
+    gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim = FALSE;
+    FreeSpriteTilesByTag(ANIM_TAG_GOLD_STARS);
+    FreeSpritePaletteByTag(ANIM_TAG_GOLD_STARS);
+    OpponentBufferExecCompleted(battler);
 }
 
 static void SwitchIn_ShowSubstitute(u32 battler)
