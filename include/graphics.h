@@ -4606,6 +4606,11 @@ extern const u32 gBattleAnimSpriteGfx_CrossImpact[];
 extern const u32 gBattleAnimBgTilemap_Sandstorm[];
 extern const u32 gBattleAnimBgImage_Sandstorm[];
 
+// Pledge Effect field status - Rainbow
+extern const u32 gBattleAnimBgImage_Rainbow[];
+extern const u32 gBattleAnimBGPalette_Rainbow[];
+extern const u32 gBattleAnimBgTilemap_Rainbow[];
+
 // battle anim particle pals
 extern const u32 gBattleAnimSpriteGfx_Bone[];
 extern const u32 gBattleAnimSpriteGfx_Spark[];

@@ -540,38 +540,38 @@
 #define B_ANIM_FOCUS_PUNCH_SETUP        19
 #define B_ANIM_INGRAIN_HEAL             20
 #define B_ANIM_WISH_HEAL                21
-#define B_ANIM_MON_SCARED               23
-#define B_ANIM_GHOST_GET_OUT            24
-#define B_ANIM_SILPH_SCOPED             25
-#define B_ANIM_ROCK_THROW               26
-#define B_ANIM_SAFARI_REACTION          27
-#define B_ANIM_MEGA_EVOLUTION           28
-#define B_ANIM_ILLUSION_OFF             29
-#define B_ANIM_FORM_CHANGE              30
-#define B_ANIM_SLIDE_OFFSCREEN          31 // for Emergency Exit
-#define B_ANIM_RESTORE_BG               32 // for Terrain Endings
-#define B_ANIM_TOTEM_FLARE              33 // Totem boosts aura flare
-#define B_ANIM_GULP_MISSILE             34
-#define B_ANIM_STRONG_WINDS             35
-#define B_ANIM_PRIMAL_REVERSION         36
-#define B_ANIM_AQUA_RING_HEAL           37
-#define B_ANIM_BEAK_BLAST_SETUP         38
-#define B_ANIM_SHELL_TRAP_SETUP         39
-#define B_ANIM_ZMOVE_ACTIVATE           40 // Using Z Moves
-#define B_ANIM_AFFECTION_HANGED_ON      41
-#define B_ANIM_SNOW_CONTINUES           42
-#define B_ANIM_ULTRA_BURST              43
-#define B_ANIM_SALT_CURE_DAMAGE         44
-#define B_ANIM_DYNAMAX_GROWTH           45
-#define B_ANIM_MAX_SET_WEATHER          46
-#define B_ANIM_SYRUP_BOMB_SPEED_DROP    47
-#define B_ANIM_RAINBOW                  48
-#define B_ANIM_SEA_OF_FIRE              49
-#define B_ANIM_SWAMP                    50
-#define B_ANIM_TRICK_ROOM               51
-#define B_ANIM_WONDER_ROOM              52
-#define B_ANIM_MAGIC_ROOM               53
-#define B_ANIM_TAILWIND                 54
+#define B_ANIM_MON_SCARED               22
+#define B_ANIM_GHOST_GET_OUT            23
+#define B_ANIM_SILPH_SCOPED             24
+#define B_ANIM_ROCK_THROW               25
+#define B_ANIM_SAFARI_REACTION          26
+#define B_ANIM_MEGA_EVOLUTION           27
+#define B_ANIM_ILLUSION_OFF             28
+#define B_ANIM_FORM_CHANGE              29
+#define B_ANIM_SLIDE_OFFSCREEN          30 // for Emergency Exit
+#define B_ANIM_RESTORE_BG               31 // for Terrain Endings
+#define B_ANIM_TOTEM_FLARE              32 // Totem boosts aura flare
+#define B_ANIM_GULP_MISSILE             33
+#define B_ANIM_STRONG_WINDS             34
+#define B_ANIM_PRIMAL_REVERSION         35
+#define B_ANIM_AQUA_RING_HEAL           36
+#define B_ANIM_BEAK_BLAST_SETUP         37
+#define B_ANIM_SHELL_TRAP_SETUP         38
+#define B_ANIM_ZMOVE_ACTIVATE           39 // Using Z Moves
+#define B_ANIM_AFFECTION_HANGED_ON      40
+#define B_ANIM_SNOW_CONTINUES           41
+#define B_ANIM_ULTRA_BURST              42
+#define B_ANIM_SALT_CURE_DAMAGE         43
+#define B_ANIM_DYNAMAX_GROWTH           44
+#define B_ANIM_MAX_SET_WEATHER          45
+#define B_ANIM_SYRUP_BOMB_SPEED_DROP    46
+#define B_ANIM_RAINBOW                  47
+#define B_ANIM_SEA_OF_FIRE              48
+#define B_ANIM_SWAMP                    49
+#define B_ANIM_TRICK_ROOM               50
+#define B_ANIM_WONDER_ROOM              51
+#define B_ANIM_MAGIC_ROOM               52
+#define B_ANIM_TAILWIND                 53
 
 // special animations table (gBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0
