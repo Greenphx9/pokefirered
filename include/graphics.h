@@ -5621,6 +5621,7 @@ extern const u32 gHealthboxDoublesOpponentGfx[];
 extern const u32 gHealthboxSafariGfx[];
 extern const u32 gBlankGfxCompressed[];
 extern const u32 gInterfaceGfx_HPNumbers[];
+extern const u32 gBattleInterfaceGfx_BattleBar[];
 extern const u32 gGhostFrontPic[];
 extern const u32 gGhostPalette[];
 extern const u32 gSubstituteDollGfx[];

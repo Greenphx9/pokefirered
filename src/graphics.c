@@ -492,6 +492,7 @@ const u32 gInterfaceGfx_UnusedWindow[] = INCBIN_U32("graphics/battle_interface/u
 const u32 gInterfacePal_UnusedWindow[] = INCBIN_U32("graphics/battle_interface/unused_window.gbapal.lz");
 
 const u32 gInterfaceGfx_HPNumbers[] = INCBIN_U32("graphics/interface/hp_numbers.4bpp.lz");
+const u32 gBattleInterfaceGfx_BattleBar[] = INCBIN_U32("graphics/battle_interface/battle_bar.4bpp.lz");
 
 const u32 gBattleAnimSpriteGfx_SapDrip[] = INCBIN_U32("graphics/battle_anims/sprites/sap_drip.4bpp.lz");
 const u32 gBattleAnimSpritePal_SapDrip[] = INCBIN_U32("graphics/battle_anims/sprites/sap_drip.gbapal.lz");

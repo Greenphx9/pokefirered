@@ -422,8 +422,8 @@ void DecompressTrainerBackPic(u16 backPicId, u8 battler)
     u8 position = GetBattlerPosition(battler);
     //DecompressPicFromTable(&gTrainerBackSpriteTemplates[backPicId].images,
     //                       gMonSpritesGfxPtr->spritesGfx[position]);
-    //LoadCompressedPalette(gTrainerBackPicPaletteTable[backPicId].data,
-    //                      OBJ_PLTT_ID(battler), PLTT_SIZE_4BPP);
+    LoadCompressedPalette(gTrainerBackPicPaletteTable[backPicId].data,
+                          OBJ_PLTT_ID(battler), PLTT_SIZE_4BPP);
 }
 
 void BattleGfxSfxDummy3(u8 gender)
@@ -523,7 +523,7 @@ bool8 BattleLoadAllHealthBoxesGfx(u8 state)
 
 void LoadBattleBarGfx(u8 arg0)
 {
-    LZDecompressWram(gInterfaceGfx_HPNumbers, gMonSpritesGfxPtr->barFontGfx);
+    LZDecompressWram(gBattleInterfaceGfx_BattleBar, gMonSpritesGfxPtr->barFontGfx);
 }
 
 bool8 BattleInitAllSprites(u8 *state1, u8 *battler)
