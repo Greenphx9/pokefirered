@@ -2619,6 +2619,12 @@ static void PokeSum_PrintBottomPaneText(void)
     {
     case PSS_PAGE_INFO:
         PokeSum_PrintTrainerMemo();
+        //Change if you have modified the pokemon summary screen!
+        if (P_SHOW_TERA_TYPE >= GEN_9) 
+        {
+            AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], FONT_NORMAL, 0, 3, 0, 0, sLevelNickTextColors[0], TEXT_SKIP_DRAW, gText_PokeSum_TeraType);
+            BlitMenuInfoIcon(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_TERA_TYPE), 60, 32);
+        }
         break;
     case PSS_PAGE_SKILLS:
         PokeSum_PrintExpPoints_NextLv();

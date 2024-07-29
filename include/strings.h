@@ -1551,6 +1551,7 @@ extern const u8 gText_PokeSum_Met[];
 extern const u8 gText_PokeSum_MetInATrade_BoldGentleGrammar[];
 extern const u8 gText_PokeSum_MetInATrade[];
 extern const u8 gText_PokeSum_ApparentlyFatefulEncounterHatched_BoldGentleGrammar[];
+extern const u8 gText_PokeSum_TeraType[];
 extern const u8 gText_PokeSum_ApparentlyFatefulEncounterHatched[];
 extern const u8 gText_PokeSum_ApparentlyMet[];
 extern const u8 gText_PokeSum_ApparentlyMet_BoldGentleGrammar[];
