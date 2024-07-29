@@ -291,7 +291,7 @@ static void HandleInputChooseAction(u32 battler)
             PlaySE(SE_SELECT);
             ArrowsChangeColorLastBallCycle(FALSE);
             TryHideLastUsedBall();
-            BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_THROW_BALL, 0);
+            BtlController_EmitTwoReturnValues(battler, 1, B_ACTION_THROW_BALL, 0);
             PlayerBufferExecCompleted(battler);
         }
         return;
@@ -397,7 +397,7 @@ static void HandleInputChooseAction(u32 battler)
     {
         PlaySE(SE_SELECT);
         TryHideLastUsedBall();
-        BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_THROW_BALL, 0);
+        BtlController_EmitTwoReturnValues(battler, 1, B_ACTION_THROW_BALL, 0);
         PlayerBufferExecCompleted(battler);
     }
 #endif
