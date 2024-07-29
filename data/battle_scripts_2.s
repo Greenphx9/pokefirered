@@ -1,7 +1,6 @@
 #include "config/battle.h"
 #include "constants/moves.h"
 #include "constants/battle.h"
-#include "constants/battle_move_effects.h"
 #include "constants/battle_script_commands.h"
 #include "constants/battle_anim.h"
 #include "constants/items.h"
@@ -127,7 +126,7 @@ BattleScript_ThrowRock::
 BattleScript_ThrowBait::
 	printstring STRINGID_THREWBAIT
 	waitmessage B_WAIT_TIME_LONG
-	playanimation BS_ATTACKER, B_ANIM_BAIT_THROW
+	@playanimation BS_ATTACKER, B_ANIM_BAIT_THROW
 	end2
 
 BattleScript_LeftoverWallyPrepToThrow::
@@ -139,4 +138,32 @@ BattleScript_LeftoverWallyPrepToThrow::
 	waitstate
 	printstring STRINGID_YOUTHROWABALLNOWRIGHT
 	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_TrainerASlideMsgRet::
+	handletrainerslidemsg BS_SCRIPTING, 0
+	trainerslidein B_POSITION_OPPONENT_LEFT
+	handletrainerslidemsg BS_SCRIPTING, 1
+	waitstate
+	trainerslideout B_POSITION_OPPONENT_LEFT
+	waitstate
+	handletrainerslidemsg BS_SCRIPTING, 2
+	return
+
+BattleScript_TrainerASlideMsgEnd2::
+	call BattleScript_TrainerASlideMsgRet
+	end2
+
+BattleScript_TrainerBSlideMsgRet::
+	handletrainerslidemsg BS_SCRIPTING, 0
+	trainerslidein B_POSITION_OPPONENT_RIGHT
+	handletrainerslidemsg BS_SCRIPTING, 1
+	waitstate
+	trainerslideout B_POSITION_OPPONENT_RIGHT
+	waitstate
+	handletrainerslidemsg BS_SCRIPTING, 2
+	return
+
+BattleScript_TrainerBSlideMsgEnd2::
+	call BattleScript_TrainerBSlideMsgRet
 	end2

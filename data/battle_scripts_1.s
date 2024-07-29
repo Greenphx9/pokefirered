@@ -3,13 +3,11 @@
 #include "constants/global.h"
 #include "constants/moves.h"
 #include "constants/battle.h"
-#include "constants/battle_move_effects.h"
 #include "constants/battle_script_commands.h"
 #include "constants/battle_anim.h"
 #include "constants/items.h"
 #include "constants/abilities.h"
 #include "constants/hold_effects.h"
-#include "constants/species.h"
 #include "constants/pokemon.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
@@ -52,7 +50,6 @@ BattleScript_EffectShedTail::
 	ppreduce
 	waitstate
 	jumpifstatus2 BS_ATTACKER, STATUS2_SUBSTITUTE, BattleScript_AlreadyHasSubstitute
-	jumpifbattletype BATTLE_TYPE_ARENA, BattleScript_ButItFailed
 	jumpifcantswitch SWITCH_IGNORE_ESCAPE_PREVENTION | BS_ATTACKER, BattleScript_ButItFailed
 	setsubstitute
 	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_SUBSTITUTE_FAILED, BattleScript_SubstituteString
@@ -185,7 +182,6 @@ BattleScript_EffectChillyReceptionBlockedByStrongWinds:
 	call BattleScript_MysteriousAirCurrentBlowsOnRet
 	goto BattleScript_MoveSwitch
 BattleScript_EffectChillyReceptionTrySwitchWeatherFailed:
-	jumpifbattletype BATTLE_TYPE_ARENA, BattleScript_FailedFromAtkString
 	jumpifcantswitch SWITCH_IGNORE_ESCAPE_PREVENTION | BS_ATTACKER, BattleScript_FailedFromAtkString
 	call BattleScript_EffectChillyReceptionPlayAnimation
 	return
@@ -197,7 +193,6 @@ BattleScript_CheckPrimalWeather:
 	return
 
 BattleScript_MoveSwitch:
-	jumpifbattletype BATTLE_TYPE_ARENA, BattleScript_MoveSwitchEnd
 	jumpifcantswitch SWITCH_IGNORE_ESCAPE_PREVENTION | BS_ATTACKER, BattleScript_MoveSwitchEnd
 	printstring STRINGID_PKMNWENTBACK
 	waitmessage B_WAIT_TIME_SHORT
@@ -2881,7 +2876,6 @@ BattleScript_InsomniaProtects:
 	goto BattleScript_MoveEnd
 
 BattleScript_AlreadyAsleep::
-	setalreadystatusedmoveattempt BS_ATTACKER
 	pause B_WAIT_TIME_SHORT
 	printstring STRINGID_PKMNALREADYASLEEP
 	waitmessage B_WAIT_TIME_LONG
@@ -3856,7 +3850,7 @@ BattleScript_EffectPsywave::
 
 BattleScript_EffectCounter::
 	attackcanceler
-	counterdamagecalculator BattleScript_ButItFailedAtkStringPpReduce
+	counterdamagecalculator BattleScript_FailedFromAtkString
 	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
 	attackstring
 	ppreduce
@@ -4141,7 +4135,7 @@ BattleScript_ProtectLikeAtkString:
 
 BattleScript_EffectSpikes::
 	attackcanceler
-	trysetspikes BattleScript_ButItFailedAtkStringPpReduce
+	trysetspikes BattleScript_FailedFromAtkString
 	attackstring
 	ppreduce
 	attackanimation
@@ -4485,7 +4479,7 @@ BattleScript_EffectPsychUp::
 
 BattleScript_EffectMirrorCoat::
 	attackcanceler
-	mirrorcoatdamagecalculator BattleScript_ButItFailedAtkStringPpReduce
+	mirrorcoatdamagecalculator BattleScript_FailedFromAtkString
 	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
 	attackstring
 	ppreduce
@@ -4604,14 +4598,14 @@ BattleScript_AlreadyAtFullHp::
 
 BattleScript_EffectFirstTurnOnly::
 	attackcanceler
-	jumpifnotfirstturn BattleScript_ButItFailedAtkStringPpReduce
+	jumpifnotfirstturn BattleScript_FailedFromAtkString
 	goto BattleScript_EffectHit
 
 BattleScript_FailedFromAtkCanceler::
 	attackcanceler
-BattleScript_ButItFailedAtkStringPpReduce::
+BattleScript_FailedFromAtkString::
 	attackstring
-BattleScript_ButItFailedPpReduce::
+BattleScript_FailedFromPpReduce::
 	ppreduce
 BattleScript_ButItFailed::
 	pause B_WAIT_TIME_SHORT
@@ -4988,7 +4982,7 @@ BattleScript_EffectWish::
 BattleScript_EffectAssist::
 	attackcanceler
 	attackstring
-	assistattackselect BattleScript_ButItFailedPpReduce
+	assistattackselect BattleScript_FailedFromPpReduce
 	attackanimation
 	waitanimation
 	setbyte sB_ANIM_TURN, 0
@@ -5008,7 +5002,7 @@ BattleScript_EffectIngrain::
 
 BattleScript_EffectMagicCoat::
 	attackcanceler
-	trysetmagiccoat BattleScript_ButItFailedAtkStringPpReduce
+	trysetmagiccoat BattleScript_FailedFromAtkString
 	attackstring
 	ppreduce
 	attackanimation
@@ -5167,7 +5161,7 @@ BattleScript_EffectGrudge::
 
 BattleScript_EffectSnatch::
 	attackcanceler
-	trysetsnatch BattleScript_ButItFailedAtkStringPpReduce
+	trysetsnatch BattleScript_FailedFromAtkString
 	attackstring
 	ppreduce
 	attackanimation
@@ -5509,8 +5503,6 @@ BattleScript_PayDayMoneyAndPickUpItems::
 BattleScript_LocalBattleLost::
 	jumpifbattletype BATTLE_TYPE_INGAME_PARTNER, BattleScript_LocalBattleLostPrintWhiteOut
 	jumpifbattletype BATTLE_TYPE_TRAINER_TOWER, BattleScript_BattleTowerLost
-	jumpifbattletype BATTLE_TYPE_EREADER_TRAINER, BattleScript_EReaderOrSecretBaseTrainerEnd
-	jumpifhalfword CMP_EQUAL, gTrainerBattleOpponent_A, TRAINER_SECRET_BASE, BattleScript_EReaderOrSecretBaseTrainerEnd
 	jumpifbyte CMP_NOT_EQUAL, cMULTISTRING_CHOOSER, 0, BattleScript_RivalBattleLost
 BattleScript_LocalBattleLostPrintWhiteOut::
 .if B_WHITEOUT_MONEY >= GEN_4
@@ -6543,10 +6535,6 @@ BattleScript_MoveUsedIsThroatChopPrevented::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
 
-BattleScript_SelectingNotAllowedMoveThroatChopInPalace::
-	printstring STRINGID_PKMNCANTUSEMOVETHROATCHOP
-	goto BattleScript_SelectingUnusableMoveInPalace
-
 BattleScript_ThroatChopEndTurn::
 	printstring STRINGID_THROATCHOPENDS
 	waitmessage B_WAIT_TIME_LONG
@@ -6568,27 +6556,14 @@ BattleScript_SelectingNotAllowedStuffCheeks::
 	printselectionstring STRINGID_STUFFCHEEKSCANTSELECT
 	endselectionscript
 
-BattleScript_SelectingNotAllowedStuffCheeksInPalace::
-	printstring STRINGID_STUFFCHEEKSCANTSELECT
-	goto BattleScript_SelectingUnusableMoveInPalace
-
 BattleScript_SelectingNotAllowedBelch::
 	printselectionstring STRINGID_BELCHCANTSELECT
 	endselectionscript
-
-BattleScript_SelectingNotAllowedBelchInPalace::
-	printstring STRINGID_BELCHCANTSELECT
-	goto BattleScript_SelectingUnusableMoveInPalace
 
 BattleScript_MoveUsedGravityPrevents::
 	printstring STRINGID_GRAVITYPREVENTSUSAGE
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
-
-BattleScript_SelectingNotAllowedMoveGravityInPalace::
-	printstring STRINGID_GRAVITYPREVENTSUSAGE
-	goto BattleScript_SelectingUnusableMoveInPalace
-
 BattleScript_SelectingNotAllowedMoveHealBlock::
 	printselectionstring STRINGID_HEALBLOCKPREVENTSUSAGE
 	endselectionscript
@@ -6598,17 +6573,9 @@ BattleScript_MoveUsedHealBlockPrevents::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
 
-BattleScript_SelectingNotAllowedMoveHealBlockInPalace::
-	printstring STRINGID_HEALBLOCKPREVENTSUSAGE
-	goto BattleScript_SelectingUnusableMoveInPalace
-
 BattleScript_SelectingNotAllowedCurrentMove::
 	printselectionstring STRINGID_CURRENTMOVECANTSELECT
 	endselectionscript
-
-BattleScript_SelectingNotAllowedCurrentMoveInPalace::
-	printstring STRINGID_CURRENTMOVECANTSELECT
-	goto BattleScript_SelectingUnusableMoveInPalace
 
 BattleScript_WishComesTrue::
 	trywish 1, BattleScript_WishButFullHp
@@ -8512,6 +8479,12 @@ BattleScript_SynchronizeActivates::
 	seteffectprimary
 	return
 
+BattleScript_NoItemSteal::
+	call BattleScript_AbilityPopUpTarget
+	printstring STRINGID_PKMNSXMADEYINEFFECTIVE
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_AbilityCuredStatus::
 	call BattleScript_AbilityPopUp
 	printstring STRINGID_PKMNSXCUREDITSYPROBLEM
@@ -8540,10 +8513,13 @@ BattleScript_IgnoresWhileAsleep::
 BattleScript_IgnoresAndUsesRandomMove::
 	printstring STRINGID_PKMNIGNOREDORDERS
 	waitmessage B_WAIT_TIME_LONG
-	jumptocalledmove 0
 	setbyte sMOVE_EFFECT, 0
+	jumptocalledmove FALSE
+
 BattleScript_MoveUsedLoafingAround::
 	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_LOAFING, BattleScript_MoveUsedLoafingAroundMsg
+	setbyte gBattleCommunication, 0
+BattleScript_MoveUsedLoafingAroundMsg::
 	printfromtable gInobedientStringIds
 	waitmessage B_WAIT_TIME_LONG
 	moveendto MOVEEND_NEXT_TARGET
@@ -8801,36 +8777,20 @@ BattleScript_SelectingNotAllowedMoveChoiceItem::
 	printselectionstring STRINGID_ITEMALLOWSONLYYMOVE
 	endselectionscript
 
-BattleScript_SelectingNotAllowedMoveChoiceItemInPalace::
-	printstring STRINGID_ITEMALLOWSONLYYMOVE
-	goto BattleScript_SelectingUnusableMoveInPalace
-
 BattleScript_SelectingNotAllowedMoveGorillaTactics::
 	printselectionstring STRINGID_ABILITYALLOWSONLYMOVE
 	endselectionscript
-
-BattleScript_SelectingNotAllowedMoveGorillaTacticsInPalace::
-	printstring STRINGID_ABILITYALLOWSONLYMOVE
-	goto BattleScript_SelectingUnusableMoveInPalace
 
 BattleScript_SelectingNotAllowedMoveAssaultVest::
 	printselectionstring STRINGID_ASSAULTVESTDOESNTALLOW
 	endselectionscript
 
-BattleScript_SelectingNotAllowedMoveAssaultVestInPalace::
-	printstring STRINGID_ASSAULTVESTDOESNTALLOW
-	goto BattleScript_SelectingUnusableMoveInPalace
-
 BattleScript_SelectingNotAllowedPlaceholder::
 	printselectionstring STRINGID_NOTDONEYET
 	endselectionscript
 
-BattleScript_SelectingNotAllowedPlaceholderInPalace::
-	printstring STRINGID_NOTDONEYET
-	goto BattleScript_SelectingUnusableMoveInPalace
-
 BattleScript_HangedOnMsg::
-	playanimation BS_TARGET, B_ANIM_FOCUS_BAND
+	playanimation BS_TARGET, B_ANIM_HANGED_ON
 	printstring STRINGID_PKMNHUNGONWITHX
 	waitmessage B_WAIT_TIME_LONG
 	jumpifnoholdeffect BS_TARGET, HOLD_EFFECT_FOCUS_SASH, BattleScript_HangedOnMsgRet

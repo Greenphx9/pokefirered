@@ -191,7 +191,6 @@ SECTIONS {
         src/heal_location.o(.text);
         src/region_map.o(.text);
         src/image_processing_effects.o(.text);
-        src/battle_ai_script_commands.o(.text);
         src/fldeff_rocksmash.o(.text);
         src/fldeff_dig.o(.text);
         src/fldeff_flash.o(.text);
@@ -278,6 +277,8 @@ SECTIONS {
         src/itemfinder.o(.text);
         src/buy_menu_helpers.o(.text);
         src/slot_machine.o(.text);
+        src/battle_ai_main.o(.text);
+		src/battle_ai_util.o(.text);
         src/roamer.o(.text);
         src/mystery_gift_menu.o(.text);
         src/ereader_screen.o(.text);
@@ -407,6 +408,7 @@ SECTIONS {
         src/string_util.o(.rodata);
         src/link.o(.rodata);
         src/main_menu.o(.rodata);
+        src/battle_controllers.o(.rodata);
         src/data.o(.rodata);
         src/battle_bg.o(.rodata);
         src/battle_main.o(.rodata);
@@ -500,7 +502,6 @@ SECTIONS {
         src/heal_location.o(.rodata);
         src/region_map.o(.rodata);
         src/image_processing_effects.o(.rodata);
-        src/battle_ai_script_commands.o(.rodata);
         src/fldeff_flash.o(.rodata);
         src/field_specials.o(.rodata);
         src/battle_records.o(.rodata);
@@ -572,6 +573,8 @@ SECTIONS {
         src/itemfinder.o(.rodata);
         src/buy_menu_helpers.o(.rodata);
         src/slot_machine.o(.rodata);
+        src/battle_ai_main.o(.rodata);
+		src/battle_ai_util.o(.rodata);
         src/roamer.o(.rodata);
         src/mystery_gift_menu.o(.rodata);
         src/ereader_screen.o(.rodata);

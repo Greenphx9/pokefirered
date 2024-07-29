@@ -1,3 +1,4 @@
+#include "config/item.h"
 	.include "asm/macros/field_effect_script.inc"
 	.section script_data, "aw", %progbits
 	.align 2

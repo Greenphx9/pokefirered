@@ -371,6 +371,21 @@ void PlayCry_Script(u16 species, u8 mode)
     RestoreBGMVolumeAfterPokemonCry();
 }
 
+// Duck the BGM but don't restore it. Not present in R/S
+void PlayCry_DuckNoRestore(u16 species, s8 pan, u8 mode)
+{
+    if (mode == CRY_MODE_DOUBLES)
+    {
+        PlayCryInternal(species, pan, CRY_VOLUME, CRY_PRIORITY_NORMAL, mode);
+    }
+    else
+    {
+        m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 85);
+        PlayCryInternal(species, pan, CRY_VOLUME, CRY_PRIORITY_NORMAL, mode);
+        gPokemonCryBGMDuckingCounter = 2;
+    }
+}
+
 void PlayCryInternal(u16 species, s8 pan, s8 volume, u8 priority, u8 mode)
 {
     bool32 reverse;

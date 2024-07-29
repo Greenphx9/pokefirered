@@ -1176,7 +1176,7 @@ static void TeachyTvPrepBattle(u8 taskId)
     gSpecialVar_0x8004 = sStaticResources.whichScript;
     gMain.savedCallback = TeachyTvRestorePlayerPartyCallback;
     SavePlayerParty();
-    InitPokedudePartyAndOpponent();
+    //InitPokedudePartyAndOpponent();
     PlayMapChosenOrBattleBGM(MUS_DUMMY);
     if (sStaticResources.whichScript == TTVSCR_BATTLE)
         data[6] = B_TRANSITION_WHITE_BARS_FADE;

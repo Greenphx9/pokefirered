@@ -51,7 +51,8 @@ void GetAIPartyIndexes(u32 battler, s32 *firstId, s32 *lastId)
     {
         *firstId = 0, *lastId = PARTY_SIZE;
     }
-    else if (gBattleTypeFlags & (BATTLE_TYPE_TWO_OPPONENTS | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_TOWER_LINK_MULTI))
+    // TODO: Implement partner / 2v1 battles
+    else if (gBattleTypeFlags & (/*BATTLE_TYPE_TWO_OPPONENTS | */BATTLE_TYPE_INGAME_PARTNER))
     {
         if ((battler & BIT_FLANK) == B_FLANK_LEFT)
             *firstId = 0, *lastId = PARTY_SIZE / 2;
@@ -951,8 +952,6 @@ bool32 ShouldSwitch(u32 battler, bool32 emitResult)
         return FALSE;
     if (IsAbilityPreventingEscape(battler))
         return FALSE;
-    if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
-        return FALSE;
 
     availableToSwitch = 0;
 
@@ -1561,7 +1560,7 @@ static u32 GetSwitchinHitsToKO(s32 damageTaken, u32 battler)
 
         // Check if we're at a single use healing item threshold
         if (AI_DATA->switchinCandidate.battleMon.ability != ABILITY_KLUTZ && usedSingleUseHealingItem == FALSE
-         && !(opposingAbility == ABILITY_UNNERVE && GetPocketByItemId(item) == POCKET_BERRIES))
+         && !(opposingAbility == ABILITY_UNNERVE && GetPocketByItemId(item) == POCKET_BERRY_POUCH))
         {
             switch (heldItemEffect)
             {
@@ -1920,8 +1919,6 @@ u8 GetMostSuitableMonToSwitchInto(u32 battler, bool32 switchAfterMonKOd)
 
     if (*(gBattleStruct->monToSwitchIntoId + battler) != PARTY_SIZE)
         return *(gBattleStruct->monToSwitchIntoId + battler);
-    if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
-        return gBattlerPartyIndexes[battler] + 1;
 
     if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
     {

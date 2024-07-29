@@ -13,6 +13,7 @@
 #include "battle_gfx_sfx_util.h"
 #include "battle_util2.h"
 #include "battle_bg.h"
+#include "pokeball.h"
 
 /*
     Banks are a name given to what could be called a 'battlerId' or 'monControllerId'.
@@ -21,9 +22,9 @@
     0x2 bit is responsible for the id of sent out pokemon. 0 means it's the first sent out pokemon, 1 it's the second one. (Triple battle didn't exist at the time yet.)
 */
 
-//#include "battle_debug.h"
-//#include "battle_dynamax.h"
-//#include "random.h" // for rng_value_t
+#include "battle_debug.h"
+#include "battle_dynamax.h"
+#include "random.h" // for rng_value_t
 
 #define GET_BATTLER_POSITION(battler)((gBattlerPositions[battler]))
 
@@ -62,6 +63,9 @@ enum {
     BATTLER_AFFINE_RETURN,
 };
 
+// Special indicator value for shellBellDmg in SpecialStatus
+#define IGNORE_SHELL_BELL 0xFFFF
+
 // For defining EFFECT_HIT etc. with battle TV scores and flags etc.
 struct __attribute__((packed, aligned(2))) BattleMoveEffect
 {
@@ -76,67 +80,10 @@ struct __attribute__((packed, aligned(2))) BattleMoveEffect
 
 #define GET_MOVE_BATTLESCRIPT(move) gBattleMoveEffects[gMovesInfo[move].effect].battleScript
 
-struct TrainerMonNoItemDefaultMoves
-{
-    u16 iv;
-    u8 lvl;
-    u16 species;
-};
-
-struct TrainerMonItemDefaultMoves
-{
-    u16 iv;
-    u8 lvl;
-    u16 species;
-    u16 heldItem;
-};
-
-struct TrainerMonNoItemCustomMoves
-{
-    u16 iv;
-    u8 lvl;
-    u16 species;
-    u16 moves[MAX_MON_MOVES];
-};
-
-struct TrainerMonItemCustomMoves
-{
-    u16 iv;
-    u8 lvl;
-    u16 species;
-    u16 heldItem;
-    u16 moves[MAX_MON_MOVES];
-};
-
 #define NO_ITEM_DEFAULT_MOVES(party) { .NoItemDefaultMoves = party }, .partySize = ARRAY_COUNT(party), .partyFlags = 0
 #define NO_ITEM_CUSTOM_MOVES(party) { .NoItemCustomMoves = party }, .partySize = ARRAY_COUNT(party), .partyFlags = F_TRAINER_PARTY_CUSTOM_MOVESET
 #define ITEM_DEFAULT_MOVES(party) { .ItemDefaultMoves = party }, .partySize = ARRAY_COUNT(party), .partyFlags = F_TRAINER_PARTY_HELD_ITEM
 #define ITEM_CUSTOM_MOVES(party) { .ItemCustomMoves = party }, .partySize = ARRAY_COUNT(party), .partyFlags = F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM
-
-union TrainerMonPtr
-{
-    const struct TrainerMonNoItemDefaultMoves *NoItemDefaultMoves;
-    const struct TrainerMonNoItemCustomMoves *NoItemCustomMoves;
-    const struct TrainerMonItemDefaultMoves *ItemDefaultMoves;
-    const struct TrainerMonItemCustomMoves *ItemCustomMoves;
-};
-
-struct Trainer
-{
-    /*0x00*/ u8 partyFlags;
-    /*0x01*/ u8 trainerClass;
-    /*0x02*/ u8 encounterMusic_gender; // last bit is gender
-    /*0x03*/ u8 trainerPic;
-    /*0x04*/ u8 trainerName[12];
-    /*0x10*/ u16 items[MAX_TRAINER_ITEMS];
-    /*0x18*/ bool8 doubleBattle;
-    /*0x1C*/ u32 aiFlags;
-    /*0x20*/ u8 partySize;
-    /*0x24*/ const union TrainerMonPtr party;
-};
-
-extern const struct Trainer gTrainers[];
-
 struct ResourceFlags
 {
     u32 flags[4];
@@ -269,7 +216,7 @@ extern struct ProtectStruct gProtectStructs[MAX_BATTLERS_COUNT];
 
 struct SpecialStatus
 {
-    u8 field1[3];
+    s32 shellBellDmg;
     s32 dmg;
     s32 physicalDmg;
     s32 specialDmg;
@@ -447,7 +394,7 @@ struct AI_ThinkingStruct
     struct AI_SavedBattleMon saved[MAX_BATTLERS_COUNT];
 };
 
-extern u8 gActiveBattler;
+extern u8 gBattlerAttacker;
 extern u8 gBattlerTarget;
 extern u8 gAbsentBattlerFlags;
 
@@ -612,13 +559,6 @@ struct LostItem
     u16 stolen:1;
 };
 
-#if HQ_RANDOM == TRUE
-struct BattleVideo {
-    u32 battleTypeFlags;
-    rng_value_t rngSeed;
-};
-#endif
-
 struct BattleStruct
 {
     u8 turnEffectsTracker;
@@ -667,6 +607,7 @@ struct BattleStruct
     u8 playerPartyIdx;
     u8 stringMoveType;
     u8 absentBattlerFlags;
+    u8 field_unk1; // related to choosing pokemon?
     u8 AI_monToSwitchIntoId[2];
     u8 simulatedInputState[4];  // used by Oak/Old Man/Pokedude controllers
     u16 lastTakenMove[MAX_BATTLERS_COUNT]; // Last move that a battler was hit with.
@@ -682,7 +623,6 @@ struct BattleStruct
     u8 multipleSwitchInCursor:3;
     u8 multipleSwitchInSortedBattlers[MAX_BATTLERS_COUNT];
     u8 multiplayerId;
-    u8 overworldWeatherDone;
     u8 atkCancellerTracker;
     u16 usedHeldItems[PARTY_SIZE][NUM_BATTLE_SIDES]; // For each party member and side. For harvest, recycle
     u16 chosenItem[MAX_BATTLERS_COUNT];
@@ -691,7 +631,6 @@ struct BattleStruct
     u8 switchInBattlerCounter;
     u8 field_DA; // battle tower related
     u8 turnSideTracker;
-    u8 givenExpMons;
     u16 lastTakenMoveFrom[MAX_BATTLERS_COUNT][MAX_BATTLERS_COUNT]; // a 2-D array [target][attacker]
     u8 wishPerishSongState;
     u8 wishPerishSongBattlerId;
@@ -790,11 +729,14 @@ struct BattleStruct
     u8 shellSideArmCategory[MAX_BATTLERS_COUNT][MAX_BATTLERS_COUNT];
 }; // size == 0x??? bytes
 
+#define DYNAMIC_TYPE_MASK                 ((1 << 6) - 1)
+#define F_DYNAMIC_TYPE_IGNORE_PHYSICALITY  (1 << 6) // If set, the dynamic type's physicality won't be used for certain move effects.
+#define F_DYNAMIC_TYPE_SET                 (1 << 7) // Set for all dynamic types to distinguish a dynamic type of Normal (0) from no dynamic type.
+
 extern struct BattleStruct *gBattleStruct;
 
 #define F_DYNAMIC_TYPE_1 (1 << 6)
 #define F_DYNAMIC_TYPE_2 (1 << 7)
-#define DYNAMIC_TYPE_MASK (F_DYNAMIC_TYPE_1 - 1)
 
 #define GET_MOVE_TYPE(move, typeArg)                                  \
 {                                                                     \
@@ -881,6 +823,9 @@ struct BattleScripting
     u8 reshowMainState;
     u8 reshowHelperState;
     u8 levelUpHP;
+    u8 windowsType; // B_WIN_TYPE_*
+    u8 multiplayerId;
+    u8 specialTrainerBattleType;
     bool8 monCaught;
     s32 savedDmg;
     u16 savedMoveEffect; // For moves hitting multiple targets.
@@ -941,6 +886,9 @@ struct BattleHealthboxInfo
     u8 triedShinyMonAnim : 1; // x80
     u8 finishedShinyMonAnim : 1; // x1
     u8 opponentDrawPartyStatusSummaryDelay : 5; // x2
+    u8 bgmRestored:1;
+    u8 waitForCry:1;
+    u8 healthboxSlideInStarted:1;
     u8 healthboxBounceSpriteId;
     u8 battlerBounceSpriteId;
     u8 animationState;
@@ -984,9 +932,9 @@ struct MonSpritesGfx
     void *firstDecompressed; // ptr to the decompressed sprite of the first pokemon
     u8 *spritesGfx[MAX_BATTLERS_COUNT];
     struct SpriteTemplate templates[MAX_BATTLERS_COUNT];
-    struct SpriteFrameImage images[MAX_BATTLERS_COUNT][4];
+    struct SpriteFrameImage frameImages[MAX_BATTLERS_COUNT][MAX_MON_PIC_FRAMES];
     u8 *barFontGfx;
-    u16 *multiUseBuffer;
+    u16 *buffer;
 };
 
 struct QueuedStatBoost
@@ -1039,9 +987,10 @@ extern s32 gBattleMoveDamage;
 extern u16 gIntroSlideFlags;
 extern u32 gTransformedPersonalities[MAX_BATTLERS_COUNT];
 extern bool8 gTransformedShininess[MAX_BATTLERS_COUNT];
+extern u8 gPlayerDpadHoldFrames;
 extern u8 gBattlerPositions[MAX_BATTLERS_COUNT];
 extern u8 gHealthboxSpriteIds[MAX_BATTLERS_COUNT];
-extern u8 gBattleOutcome;
+
 extern u32 gBattleControllerExecFlags;
 extern u8 gActionSelectionCursor[MAX_BATTLERS_COUNT];
 extern void (*gPreBattleCallback1)(void);
@@ -1066,7 +1015,7 @@ extern u8 gBattleCommunication[BATTLE_COMMUNICATION_ENTRIES_COUNT];
 extern u32 gSideStatuses[NUM_BATTLE_SIDES];
 extern u32 gHitMarker;
 extern u16 gChosenMoveByBattler[MAX_BATTLERS_COUNT];
-extern u8 gMoveResultFlags;
+extern u16 gMoveResultFlags;
 extern s32 gTakenDmg[MAX_BATTLERS_COUNT];
 extern u8 gTakenDmgByBattler[MAX_BATTLERS_COUNT];
 extern u8 gCurrentActionFuncId;

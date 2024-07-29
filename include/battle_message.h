@@ -55,13 +55,15 @@
 #define B_TXT_TRAINER2_LOSE_TEXT 0x2E
 #define B_TXT_TRAINER2_WIN_TEXT 0x2F
 #define B_TXT_BUFF3 0x30
-#define B_TXT_ATK_TRAINER_NAME 0x31
-#define B_TXT_ATK_TRAINER_CLASS 0x32
-#define B_TXT_ATK_TEAM1 0x33 // Your/The opposing
-#define B_TXT_ATK_TEAM2 0x34 // your/the opposing
-#define B_TXT_DEF_NAME 0x35
-#define B_TXT_DEF_TEAM1 0x36 // Your/The opposing
-#define B_TXT_DEF_TEAM2 0x37 // your/the opposing
+#define B_TXT_PARTNER_CLASS 0x31
+#define B_TXT_PARTNER_NAME 0x32
+#define B_TXT_ATK_TRAINER_NAME 0x33
+#define B_TXT_ATK_TRAINER_CLASS 0x34
+#define B_TXT_ATK_TEAM1 0x35 // Your/The opposing
+#define B_TXT_ATK_TEAM2 0x36 // your/the opposing
+#define B_TXT_DEF_NAME 0x37
+#define B_TXT_DEF_TEAM1 0x38 // Your/The opposing
+#define B_TXT_DEF_TEAM2 0x39 // your/the opposing
 
 // for B_TXT_BUFF1, B_TXT_BUFF2 and B_TXT_BUFF3
 
@@ -160,7 +162,7 @@
 {                                                               \
     textVar[0] = B_BUFF_PLACEHOLDER_BEGIN;                      \
     textVar[1] = B_BUFF_MOVE;                                   \
-    textVar[2] = move;                                          \
+    textVar[2] = (move & 0xFF);                                 \
     textVar[3] = (move & 0xFF00) >> 8;                          \
     textVar[4] = B_BUFF_EOS;                                    \
 }
@@ -247,10 +249,10 @@ extern struct BattleMsgData *gBattleMsgDataPtr;
 
 #define TEXT_BUFF_ARRAY_COUNT   16
 
-extern u8 gDisplayedStringBattle[300];
+extern u8 gDisplayedStringBattle[425];
 extern u8 gBattleTextBuff1[TEXT_BUFF_ARRAY_COUNT];
 extern u8 gBattleTextBuff2[TEXT_BUFF_ARRAY_COUNT];
-extern u8 gBattleTextBuff3[TEXT_BUFF_ARRAY_COUNT];
+extern u8 gBattleTextBuff3[TEXT_BUFF_ARRAY_COUNT + 13];
 
 extern const u8 *const gBattleStringsTable[];
 extern const u8 *const gStatNamesTable[];

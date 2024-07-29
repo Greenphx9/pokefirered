@@ -163,7 +163,7 @@ enum
     CONTROLLER_PRINTSTRING,
     CONTROLLER_PRINTSTRINGPLAYERONLY,
     CONTROLLER_CHOOSEACTION,
-    CONTROLLER_UNKNOWNYESNOBOX,
+    CONTROLLER_YESNOBOX,
     CONTROLLER_CHOOSEMOVE,
     CONTROLLER_OPENBAG,
     CONTROLLER_CHOOSEPOKEMON,
@@ -188,7 +188,7 @@ enum
     CONTROLLER_HITANIMATION,
     CONTROLLER_CANTSWITCH,
     CONTROLLER_PLAYSE,
-    CONTROLLER_PLAYFANFARE,
+    CONTROLLER_PLAYFANFAREORBGM,
     CONTROLLER_FAINTINGCRY,
     CONTROLLER_INTROSLIDE,
     CONTROLLER_INTROTRAINERBALLTHROW,
@@ -327,11 +327,11 @@ void HandleInputChooseMove(void);
 
 // opponent controller
 void SetControllerToOpponent(u32 battler);
-void OpponentBufferExecCompleted(void);
+void OpponentBufferExecCompleted(u32 battler);
 
  // player partner controller
 void Controller_PlayerPartnerShowIntroHealthbox(u32 battler); // Also used by the link partner.
-void SetControllerToPlayerPartner(u32 battler);
+//void SetControllerToPlayerPartner(u32 battler);
 
 // safari controller
 void SetControllerToSafari(u32 battler);

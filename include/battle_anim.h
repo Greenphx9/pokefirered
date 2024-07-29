@@ -56,6 +56,17 @@ enum
 #define STAT_ANIM_MULTIPLE_MINUS1 57
 #define STAT_ANIM_MULTIPLE_MINUS2 58
 
+enum {
+    STAT_ANIM_PAL_ATK,
+    STAT_ANIM_PAL_DEF,
+    STAT_ANIM_PAL_ACC,
+    STAT_ANIM_PAL_SPEED,
+    STAT_ANIM_PAL_EVASION,
+    STAT_ANIM_PAL_SPATK,
+    STAT_ANIM_PAL_SPDEF,
+    STAT_ANIM_PAL_MULTIPLE = 0xFF
+};
+
 struct BattleAnimBgData
 {
     u8 *bgTiles;
@@ -190,11 +201,6 @@ extern const union AnimCmd *const gAnims_BasicFire[];
 extern const union AnimCmd *const gAnims_WaterMudOrb[];
 extern const union AnimCmd *const gAnims_WaterBubble[];
 extern const union AnimCmd *const gMusicNotesAnimTable[];
-extern const u8 *const gBattleAnims_General[];
-extern const u8 *const gBattleAnims_Moves[];
-extern const u8 *const gBattleAnims_Special[];
-extern const u8 *const gBattleAnims_StatusConditions[];
-extern const u16 gMovesWithQuietBGM[];
 extern u16 gAnimMoveIndex;
 extern const union AnimCmd *const gAnims_SpinningSparkle[];
 extern const union AffineAnimCmd *const gAffineAnims_SpinningBone[];
@@ -291,7 +297,7 @@ extern const union AffineAnimCmd *const gAffineAnims_DragonBreathFire[];
 
 extern void AnimSmokeBallEscapeCloud(struct Sprite *sprite);
 
-void MoveBattlerSpriteToBG(u8 battlerId, u8);
+void MoveBattlerSpriteToBG(u8 battlerId, bool8 toBG_2, bool8 setSpriteInvisible);
 void ResetBattleAnimBg(u8);
 void LoadMoveBg(u16 bgId);
 void ClearBattleAnimationVars(void);
@@ -312,7 +318,7 @@ void SetAnimBgAttribute(u8 bgId, u8 attributeId, u8 value);
 s32 GetAnimBgAttribute(u8 bgId, u8 attributeId);
 void HandleIntroSlide(u8 terrain);
 void BattleIntroSlideEnd(u8 taskId);
-void CopyBattlerSpriteToBg(s32 bgId, u8 x, u8 y, u8 battlerPosition, u8 palno, u8 *tilesDest, u16 *tilemapDest, u16 tilesOffset);
+void DrawBattlerOnBg(int bgId, u8 x, u8 y, u8 battlerPosition, u8 paletteId, u8 *tiles, u16 *tilemap, u16 tilesOffset);
 void AnimFalseSwipeSlice_Step3(struct Sprite *);
 void SetSpriteNextToMonHead(u8 battler, struct Sprite* sprite);
 void TryShinyAnimation(u8 battler, struct Pokemon *mon);
@@ -364,7 +370,8 @@ void GetBattleAnimBgDataByPriorityRank(struct BattleAnimBgData *animBgData, u8 u
 void InitBattleAnimBg(u32 bgId);
 void AnimLoadCompressedBgGfx(u32 bgId, const u32 *src, u32 tilesOffset);
 void InitAnimBgTilemapBuffer(u32 bgId, const void *src);
-void AnimLoadCompressedBgTilemap(u32 bgId, const u32 *src);
+void AnimLoadCompressedBgTilemap(u32 bgId, const void *src);
+void AnimLoadCompressedBgTilemap2(struct BattleAnimBgData *, const void *);
 u8 GetBattleBgPaletteNum(void);
 void ToggleBg3Mode(bool8 arg0);
 void Trade_MoveSelectedMonToTarget(struct Sprite *sprite);
@@ -541,5 +548,14 @@ void AnimDracoMeteorRock(struct Sprite *sprite);
 void CoreEnforcerLoadBeamTarget(struct Sprite *sprite);
 void SpriteCB_RandomCentredHits(struct Sprite *sprite);
 void InitSpritePosToAnimTargetsCentre(struct Sprite *sprite, bool32 respectMonPicOffsets);
+
+void ClearBattleAnimBg(u32 bgId);
+u8 GetBattlerSpriteFinal_Y(u8, u16, u8);
+void PrepareEruptAnimTaskData(struct Task *task, u8 spriteId, s16 xScaleStart, s16 yScaleStart, s16 xScaleEnd, s16 yScaleEnd, u16 duration);
+u8 UpdateEruptAnimTask(struct Task *task);
+void UpdateAnimBg3ScreenSize(bool8);
+void SetGrayscaleOrOriginalPalette(u16 palNum, bool8 restoreOriginal);
+void GetBgDataForTransform(struct BattleAnimBgData *dest, u8 battlerId);
+void ResetSpriteRotScale_PreserveAffine(struct Sprite *sprite);
 
 #endif // GUARD_BATTLE_ANIM_H

@@ -615,7 +615,6 @@
 #define STRINGID_HEATUPBEAK                           612
 #define STRINGID_COURTCHANGE                          613
 #define STRINGID_PLAYERLOSTTOENEMYTRAINER             614
-#define STRINGID_PLAYERPAIDPRIZEMONEY                 615
 #define STRINGID_ZPOWERSURROUNDS                      616
 #define STRINGID_ZMOVEUNLEASHED                       617
 #define STRINGID_ZMOVERESETSSTATS                     618
@@ -802,6 +801,7 @@
 // gUproarAwakeStringIds
 #define B_MSG_CANT_SLEEP_UPROAR  0
 #define B_MSG_UPROAR_KEPT_AWAKE  1
+#define B_MSG_STAYED_AWAKE_USING 2
 
 // gUproarOverTurnStringIds
 #define B_MSG_UPROAR_CONTINUES  0

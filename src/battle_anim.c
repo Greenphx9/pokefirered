@@ -10,6 +10,7 @@
 #include "graphics.h"
 #include "m4a.h"
 #include "task.h"
+#include "test_runner.h"
 #include "constants/battle_anim.h"
 #include "constants/moves.h"
 
@@ -45,6 +46,12 @@ EWRAM_DATA u16 gAnimBattlerSpecies[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA u8 gAnimCustomPanning = 0;
 EWRAM_DATA static bool8 sAnimHideHpBoxes = FALSE;
 
+extern const u8 *const gBattleAnims_General[];
+extern const u8 *const gBattleAnims_Moves[];
+extern const u8 *const gBattleAnims_Special[];
+extern const u8 *const gBattleAnims_StatusConditions[];
+extern const u16 gMovesWithQuietBGM[];
+
 static void AddSpriteIndex(u16 index);
 static void ClearSpriteIndex(u16 index);
 static void WaitAnimFrameCount(void);
@@ -53,7 +60,6 @@ static void Task_ClearMonBgStatic(u8 taskId);
 static void Task_FadeToBg(u8 taskId);
 static void Task_PanFromInitialToTarget(u8 taskId);
 static void Task_InitUpdateMonBg(u8 taskId);
-static void LoadMoveBg(u16 bgId);
 static void LoadDefaultBg(void);
 static void Task_LoopAndPlaySE(u8 taskId);
 static void Task_WaitAndPlaySE(u8 taskId);
@@ -284,22 +290,14 @@ void LaunchBattleAnimation(u32 animType, u32 animId)
         }
     }
 
-    if (!IsContest())
+    InitPrioritiesForVisibleBattlers();
+    UpdateOamPriorityInAllHealthboxes(0, sAnimHideHpBoxes);
+    for (i = 0; i < MAX_BATTLERS_COUNT; i++)
     {
-        InitPrioritiesForVisibleBattlers();
-        UpdateOamPriorityInAllHealthboxes(0, sAnimHideHpBoxes);
-        for (i = 0; i < MAX_BATTLERS_COUNT; i++)
-        {
-            if (GetBattlerSide(i) != B_SIDE_PLAYER)
-                gAnimBattlerSpecies[i] = GetMonData(&gEnemyParty[gBattlerPartyIndexes[i]], MON_DATA_SPECIES);
-            else
-                gAnimBattlerSpecies[i] = GetMonData(&gPlayerParty[gBattlerPartyIndexes[i]], MON_DATA_SPECIES);
-        }
-    }
-    else
-    {
-        for (i = 0; i < CONTESTANT_COUNT; i++)
-            gAnimBattlerSpecies[i] = gContestResources->moveAnim->species;
+        if (GetBattlerSide(i) != B_SIDE_PLAYER)
+            gAnimBattlerSpecies[i] = GetMonData(&gEnemyParty[gBattlerPartyIndexes[i]], MON_DATA_SPECIES);
+        else
+            gAnimBattlerSpecies[i] = GetMonData(&gPlayerParty[gBattlerPartyIndexes[i]], MON_DATA_SPECIES);
     }
 
     if (animType != ANIM_TYPE_MOVE)
@@ -839,7 +837,7 @@ static void Cmd_monbg(void)
         else
             toBG_2 = TRUE;
 
-        MoveBattlerSpriteToBG(battlerId, toBG_2);
+        MoveBattlerSpriteToBG(battlerId, toBG_2, FALSE);
         spriteId = gBattlerSpriteIds[battlerId];
         taskId = CreateTask(Task_InitUpdateMonBg, 10);
         gTasks[taskId].data[t1_MONBG_BATTLER] = spriteId;
@@ -870,7 +868,7 @@ static void Cmd_monbg(void)
         else
             toBG_2 = TRUE;
 
-        MoveBattlerSpriteToBG(battlerId, toBG_2);
+        MoveBattlerSpriteToBG(battlerId, toBG_2, FALSE);
         spriteId = gBattlerSpriteIds[battlerId];
         taskId = CreateTask(Task_InitUpdateMonBg, 10);
         gTasks[taskId].data[t1_MONBG_BATTLER] = spriteId;
@@ -926,7 +924,7 @@ bool8 IsBattlerSpriteVisible(u8 battlerId)
     return FALSE;
 }
 
-void MoveBattlerSpriteToBG(u8 battlerId, bool8 toBG_2)
+void MoveBattlerSpriteToBG(u8 battlerId, bool8 toBG_2, bool8 setSpriteInvisible)
 {
     struct BattleAnimBgData animBg;
     u8 battlerSpriteId;
@@ -948,6 +946,8 @@ void MoveBattlerSpriteToBG(u8 battlerId, bool8 toBG_2)
         battlerSpriteId = gBattlerSpriteIds[battlerId];
         gBattle_BG1_X =  -(gSprites[battlerSpriteId].x + gSprites[battlerSpriteId].x2) + 0x20;
         gBattle_BG1_Y =  -(gSprites[battlerSpriteId].y + gSprites[battlerSpriteId].y2) + 0x20;
+        if (setSpriteInvisible)
+            gSprites[gBattlerSpriteIds[battlerId]].invisible = TRUE;
         gSprites[gBattlerSpriteIds[battlerId]].invisible = TRUE;
 
         SetGpuReg(REG_OFFSET_BG1HOFS, gBattle_BG1_X);
@@ -956,7 +956,7 @@ void MoveBattlerSpriteToBG(u8 battlerId, bool8 toBG_2)
         LoadPalette(&gPlttBufferUnfaded[OBJ_PLTT_ID(battlerId)], BG_PLTT_ID(animBg.paletteId), PLTT_SIZE_4BPP);
         CpuCopy32(&gPlttBufferUnfaded[OBJ_PLTT_ID(battlerId)], (void *)(BG_PLTT + animBg.paletteId * PLTT_SIZE_4BPP), PLTT_SIZE_4BPP);
 
-        CopyBattlerSpriteToBg(1, 0, 0, GetBattlerPosition(battlerId), animBg.paletteId, animBg.bgTiles,
+        DrawBattlerOnBg(1, 0, 0, GetBattlerPosition(battlerId), animBg.paletteId, animBg.bgTiles,
                               animBg.bgTilemap, animBg.tilesOffset);
     }
     else
@@ -973,7 +973,8 @@ void MoveBattlerSpriteToBG(u8 battlerId, bool8 toBG_2)
         battlerSpriteId = gBattlerSpriteIds[battlerId];
         gBattle_BG2_X =  -(gSprites[battlerSpriteId].x + gSprites[battlerSpriteId].x2) + 0x20;
         gBattle_BG2_Y =  -(gSprites[battlerSpriteId].y + gSprites[battlerSpriteId].y2) + 0x20;
-        gSprites[gBattlerSpriteIds[battlerId]].invisible = TRUE;
+        if (setSpriteInvisible)
+            gSprites[gBattlerSpriteIds[battlerId]].invisible = TRUE;
 
         SetGpuReg(REG_OFFSET_BG2HOFS, gBattle_BG2_X);
         SetGpuReg(REG_OFFSET_BG2VOFS, gBattle_BG2_Y);
@@ -981,7 +982,7 @@ void MoveBattlerSpriteToBG(u8 battlerId, bool8 toBG_2)
         LoadPalette(&gPlttBufferUnfaded[OBJ_PLTT_ID(battlerId)], BG_PLTT_ID(9), PLTT_SIZE_4BPP);
         CpuCopy32(&gPlttBufferUnfaded[OBJ_PLTT_ID(battlerId)], (void *)(BG_PLTT + 9 * PLTT_SIZE_4BPP), PLTT_SIZE_4BPP);
 
-        CopyBattlerSpriteToBg(2, 0, 0, GetBattlerPosition(battlerId), animBg.paletteId, animBg.bgTiles + 0x1000,
+        DrawBattlerOnBg(2, 0, 0, GetBattlerPosition(battlerId), animBg.paletteId, animBg.bgTiles + 0x1000,
                               animBg.bgTilemap + 0x400, animBg.tilesOffset);
     }
 }
@@ -1012,13 +1013,13 @@ void ResetBattleAnimBg(bool8 to_BG2)
 
     if (!to_BG2)
     {
-        InitBattleAnimBg(1);
+        ClearBattleAnimBg(1);
         gBattle_BG1_X = 0;
         gBattle_BG1_Y = 0;
     }
     else
     {
-        InitBattleAnimBg(2);
+        ClearBattleAnimBg(2);
         gBattle_BG2_X = 0;
         gBattle_BG2_Y = 0;
     }
@@ -1140,7 +1141,7 @@ static void Cmd_monbg_static(void)
         else
             toBG_2 = TRUE;
         
-        MoveBattlerSpriteToBG(battlerId, toBG_2);
+        MoveBattlerSpriteToBG(battlerId, toBG_2, FALSE);
         gSprites[gBattlerSpriteIds[battlerId]].invisible = FALSE;
     }
 
@@ -1153,7 +1154,7 @@ static void Cmd_monbg_static(void)
         else
             toBG_2 = TRUE;
 
-        MoveBattlerSpriteToBG(battlerId, toBG_2);
+        MoveBattlerSpriteToBG(battlerId, toBG_2, FALSE);
         gSprites[gBattlerSpriteIds[battlerId]].invisible = FALSE;
     }
 

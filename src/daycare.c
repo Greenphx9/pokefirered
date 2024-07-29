@@ -1730,7 +1730,7 @@ static u8 EggHatchCreateMonSprite(u8 a0, u8 switchID, u8 pokeID, u16 *speciesLoc
         species = GetMonData(mon, MON_DATA_SPECIES);
         pid = GetMonData(mon, MON_DATA_PERSONALITY);
         otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
-        HandleLoadSpecialPokePic(TRUE, gMonSpritesGfxPtr->sprites[(a0 * 2) + 1], species, pid);
+        HandleLoadSpecialPokePic(TRUE, gMonSpritesGfxPtr->spritesGfx[(a0 * 2) + 1], species, pid);
         LoadCompressedSpritePaletteWithTag(GetMonSpritePalFromSpeciesAndPersonality(species, otId, pid), species);
         *speciesLoc = species;
     }

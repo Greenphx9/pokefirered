@@ -1685,7 +1685,7 @@
 	.endm
 
 	.macro getbattlersforrecall
-	various BS_ATTACKER, VARIOUS_GET_BATTLERS_FOR_RECALL
+	@various BS_ATTACKER, VARIOUS_GET_BATTLERS_FOR_RECALL
 	.endm
 
 	.macro returnopponentmon1toball
@@ -1702,14 +1702,6 @@
 
 	.macro waitfanfare battler:req
 	various \battler, VARIOUS_WAIT_FANFARE
-	.endm
-
-	.macro showabilitypopup battler:req
-	various \battler, VARIOUS_ABILITY_POPUP
-	.endm
-
-	.macro destroyabilitypopup
-	various BS_ABILITY_BATTLER, VARIOUS_DESTROY_ABILITY_POPUP
 	.endm
 
 	.macro stattextbuffer battler:req
@@ -2373,6 +2365,10 @@
 	.macro jumpifunder200 battler:req, failInstr:req
 	various \battler, VARIOUS_JUMP_IF_UNDER_200
 	.4byte \failInstr
+	.endm
+
+	.macro setoutcomeonteleport battler:req
+	various \battler, VARIOUS_SET_TELEPORT_OUTCOME
 	.endm
 
 	@ Sets the sky drop status and does all other necessary operations

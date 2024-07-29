@@ -5,6 +5,7 @@
 #include "gba/gba.h"
 #include "metaprogram.h"
 #include <string.h>
+#include "fpmath.h"
 #include "constants/global.h"
 #include "constants/flags.h"
 #include "constants/vars.h"
@@ -48,32 +49,14 @@
 
 // useful math macros
 
-// Converts a number to Q8.8 fixed-point format
-#define Q_8_8(n) ((s16)((n) * 256))
-
-// Converts a number from Q8.8 fixed-point format
-#define Q_8_8_TO_INT(n) ((s16)((n) >> 8))
-
-// Converts a number to Q4.12 fixed-point format
-#define Q_4_12(n)  ((s16)((n) * 4096))
-
-// Converts a number from Q4.12 fixed-point format
-#define Q_4_12_TO_INT(n) ((s16)((n) >> 12))
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) >= (b) ? (a) : (b))
 
 // Converts a number to QN.S fixed-point format (16-bits)
 #define Q_N_S(s, n) ((s16)((n) * (1 << (s))))
 
 // converts a number from QN.S fixed-point format (16-bits)
 #define Q_N_S_TO_INT(s, n) ((s16)((n) >> (s)))
-
-// Converts a number to Q24.8 fixed-point format
-#define Q_24_8(n) ((s32)((n) << 8))
-
-// Converts a number from Q24.8 fixed-point format
-#define Q_24_8_TO_INT(n) ((s32)((n) >> 8))
-
-#define min(a, b) ((a) < (b) ? (a) : (b))
-#define max(a, b) ((a) >= (b) ? (a) : (b))
 
 #if MODERN
 #define abs(x) (((x) < 0) ? -(x) : (x))
@@ -86,6 +69,12 @@
 #else
 #define SAFE_DIV(a, b) ((a) / (b))
 #endif
+
+// The below macro does a%n, but (to match) will switch to a&(n-1) if n is a power of 2.
+// There are cases where GF does a&(n-1) where we would really like to have a%n, because
+// if n is changed to a value that isn't a power of 2 then a&(n-1) is unlikely to work as
+// intended, and a%n for powers of 2 isn't always optimized to use &.
+#define MOD(a, n)(((n) & ((n)-1)) ? ((a) % (n)) : ((a) & ((n)-1)))
 
 // Extracts the upper 16 bits of a 32-bit number
 #define HIHALF(n) (((n) & 0xFFFF0000) >> 16)
@@ -135,6 +124,8 @@ extern u8 gStringVar4[];
 // This produces an error at compile-time if expr is zero.
 // It looks like file.c:line: size of array `id' is negative
 #define STATIC_ASSERT(expr, id) typedef char id[(expr) ? 1 : -1];
+
+#define FEATURE_FLAG_ASSERT(flag, id) STATIC_ASSERT(flag > TEMP_FLAGS_END || flag == 0, id)
 
 struct Coords8
 {
@@ -769,7 +760,7 @@ struct SaveBlock1
     /*0x03b8*/ struct ItemSlot bagPocket_KeyItems[BAG_KEYITEMS_COUNT];
     /*0x0430*/ struct ItemSlot bagPocket_PokeBalls[BAG_POKEBALLS_COUNT];
     /*0x0464*/ struct ItemSlot bagPocket_TMHM[BAG_TMHM_COUNT];
-    /*0x054c*/ struct ItemSlot bagPocket_Berries[BAG_BERRIES_COUNT];
+    /*0x054c*/ struct ItemSlot bagPOCKET_BERRY_POUCH[BAG_BERRIES_COUNT];
     /*0x05F8*/ u8 seen1[DEX_FLAGS_NO];
     /*0x062C*/ u16 berryBlenderRecords[3]; // unused
     /*0x0632*/ u8 unused_632[6];

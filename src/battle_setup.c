@@ -500,7 +500,7 @@ static void StartPokedudeBattle(void)
     StopPlayerAvatar();
     gMain.savedCallback = EndPokedudeBattle;
     SavePlayerParty();
-    InitPokedudePartyAndOpponent();
+    //InitPokedudePartyAndOpponent();
     CreateBattleStartTask(GetWildBattleTransition(), 0);
 }
 
@@ -944,23 +944,10 @@ void ClearTrainerFlag(u16 trainerId)
 void StartTrainerBattle(void)
 {
     gBattleTypeFlags = BATTLE_TYPE_TRAINER;
-    if (GetTrainerBattleMode() == TRAINER_BATTLE_EARLY_RIVAL && GetRivalBattleFlags() & RIVAL_BATTLE_TUTORIAL)
-        gBattleTypeFlags |= BATTLE_TYPE_FIRST_BATTLE;
+    //if (GetTrainerBattleMode() == TRAINER_BATTLE_EARLY_RIVAL && GetRivalBattleFlags() & RIVAL_BATTLE_TUTORIAL)
+    //    gBattleTypeFlags |= BATTLE_TYPE_FIRST_BATTLE;
     gMain.savedCallback = CB2_EndTrainerBattle;
     DoTrainerBattle();
-    ScriptContext_Stop();
-}
-
-void BattleSetup_StartTrainerBattle_Debug(void)
-{
-    sNoOfPossibleTrainerRetScripts = gNoOfApproachingTrainers;
-    gNoOfApproachingTrainers = 0;
-    sShouldCheckTrainerBScript = FALSE;
-    gWhichTrainerToFaceAfterBattle = 0;
-    gMain.savedCallback = CB2_EndTrainerBattle;
-
-    CreateBattleStartTask_Debug(GetWildBattleTransition(), 0);
-
     ScriptContext_Stop();
 }
 

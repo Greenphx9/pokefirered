@@ -964,7 +964,7 @@ static u16 TryLoadMonIconTiles(u16 species)
     gStorage->iconSpeciesList[i] = species;
     gStorage->numIconsPerSpecies[i]++;
     offset = 16 * i;
-    CpuCopy32(GetMonIconTiles(species, TRUE), (void *)(OBJ_VRAM0) + offset * 32, 0x200);
+    CpuCopy32(GetMonIconTiles(species), (void *)(OBJ_VRAM0) + offset * 32, 0x200);
 
     return offset;
 }

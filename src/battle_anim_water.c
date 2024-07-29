@@ -1020,7 +1020,7 @@ void AnimTask_CreateSurfWave(u8 taskId)
     }
     else
     {
-        AnimLoadCompressedBgTilemapHandleContest(&animBg, gBattleAnimBgTilemap_SurfContest, TRUE);
+        AnimLoadCompressedBgTilemap2(&animBg, gBattleAnimBgTilemap_SurfContest);
     }
     AnimLoadCompressedBgGfx(animBg.bgId, gBattleAnimBgImage_Surf, animBg.tilesOffset);
     switch (gBattleAnimArgs[0])

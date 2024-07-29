@@ -759,9 +759,9 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
         otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
         if (whichParty == TRADE_PLAYER)
-            HandleLoadSpecialPokePic(TRUE, gMonSpritesGfxPtr->sprites[1], species, personality);
+            HandleLoadSpecialPokePic(TRUE, gMonSpritesGfxPtr->spritesGfx[1], species, personality);
         else
-            HandleLoadSpecialPokePic_DontHandleDeoxys(TRUE, gMonSpritesGfxPtr->sprites[whichParty * 2 + 1], species, personality);
+            HandleLoadSpecialPokePic_DontHandleDeoxys(TRUE, gMonSpritesGfxPtr->spritesGfx[whichParty * 2 + 1], species, personality);
 
         LoadCompressedSpritePaletteWithTag(GetMonSpritePalFromSpeciesAndPersonality(species, otId, personality), species);
         sTradeAnim->monSpecies[whichParty] = species;
@@ -1707,7 +1707,7 @@ static bool8 DoTradeAnim_Cable(void)
         if (gSprites[sTradeAnim->bouncingPokeballSpriteId].callback == SpriteCallbackDummy)
         {
             HandleLoadSpecialPokePic(TRUE,
-                                      gMonSpritesGfxPtr->sprites[B_POSITION_OPPONENT_RIGHT],
+                                      gMonSpritesGfxPtr->spritesGfx[B_POSITION_OPPONENT_RIGHT],
                                       sTradeAnim->monSpecies[TRADE_PARTNER],
                                       sTradeAnim->monPersonalities[TRADE_PARTNER]);
             sTradeAnim->state++;
@@ -2207,7 +2207,7 @@ static bool8 DoTradeAnim_Wireless(void)
         if (gSprites[sTradeAnim->bouncingPokeballSpriteId].callback == SpriteCallbackDummy)
         {
             HandleLoadSpecialPokePic(TRUE,
-                                    gMonSpritesGfxPtr->sprites[B_POSITION_OPPONENT_RIGHT],
+                                    gMonSpritesGfxPtr->spritesGfx[B_POSITION_OPPONENT_RIGHT],
                                      sTradeAnim->monSpecies[TRADE_PARTNER],
                                      sTradeAnim->monPersonalities[TRADE_PARTNER]);
             sTradeAnim->state++;

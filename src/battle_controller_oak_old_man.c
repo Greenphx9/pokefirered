@@ -18,7 +18,7 @@
 #include "constants/songs.h"
 #include "constants/items.h"
 
-static void OakOldManHandleGetMonData(void);
+/*static void OakOldManHandleGetMonData(void);
 static void OakOldManHandleGetRawMonData(void);
 static void OakOldManHandleSetMonData(void);
 static void OakOldManHandleSetRawMonData(void);
@@ -75,9 +75,9 @@ static void OakOldManHandleLinkStandbyMsg(void);
 static void OakOldManHandleResetActionMoveSelection(void);
 static void OakOldManHandleCmd55(void);
 static void OakOldManCmdEnd(void);
-
-static void OakOldManBufferRunCommand(void);
-static void OakOldManBufferExecCompleted(void);
+*/
+static void OakOldManBufferRunCommand(u32 battler);
+/*static void OakOldManBufferExecCompleted(void);
 static void WaitForMonSelection(void);
 static void CompleteWhenChoseItem(void);
 static void PrintOakText_KeepAnEyeOnHP(void);
@@ -94,94 +94,95 @@ static u32 CopyOakOldManMonData(u8 monId, u8 *dst);
 static void SetOakOldManMonData(u8 monId);
 static void OakOldManDoMoveAnimation(void);
 static void HandleInputChooseAction(void);
-static void Task_StartSendOutAnim(u8 taskId);
+static void Task_StartSendOutAnim(u8 taskId);*/
 
-static void (*const sOakOldManBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
+static void (*const sOakOldManBufferCommands[CONTROLLER_CMDS_COUNT])(u32 battler) =
 {
-    [CONTROLLER_GETMONDATA]               = OakOldManHandleGetMonData,
-    [CONTROLLER_GETRAWMONDATA]            = OakOldManHandleGetRawMonData,
-    [CONTROLLER_SETMONDATA]               = OakOldManHandleSetMonData,
-    [CONTROLLER_SETRAWMONDATA]            = OakOldManHandleSetRawMonData,
-    [CONTROLLER_LOADMONSPRITE]            = OakOldManHandleLoadMonSprite,
-    [CONTROLLER_SWITCHINANIM]             = OakOldManHandleSwitchInAnim,
-    [CONTROLLER_RETURNMONTOBALL]          = OakOldManHandleReturnMonToBall,
-    [CONTROLLER_DRAWTRAINERPIC]           = OakOldManHandleDrawTrainerPic,
-    [CONTROLLER_TRAINERSLIDE]             = OakOldManHandleTrainerSlide,
-    [CONTROLLER_TRAINERSLIDEBACK]         = OakOldManHandleTrainerSlideBack,
-    [CONTROLLER_FAINTANIMATION]           = OakOldManHandleFaintAnimation,
-    [CONTROLLER_PALETTEFADE]              = OakOldManHandlePaletteFade,
-    [CONTROLLER_SUCCESSBALLTHROWANIM]     = OakOldManHandleSuccessBallThrowAnim,
-    [CONTROLLER_BALLTHROWANIM]            = OakOldManHandleBallThrowAnim,
-    [CONTROLLER_PAUSE]                    = OakOldManHandlePause,
-    [CONTROLLER_MOVEANIMATION]            = OakOldManHandleMoveAnimation,
-    [CONTROLLER_PRINTSTRING]              = OakOldManHandlePrintString,
-    [CONTROLLER_PRINTSTRINGPLAYERONLY]    = OakOldManHandlePrintSelectionString,
-    [CONTROLLER_CHOOSEACTION]             = OakOldManHandleChooseAction,
-    [CONTROLLER_UNKNOWNYESNOBOX]          = OakOldManHandleUnknownYesNoBox,
-    [CONTROLLER_CHOOSEMOVE]               = OakOldManHandleChooseMove,
-    [CONTROLLER_OPENBAG]                  = OakOldManHandleChooseItem,
-    [CONTROLLER_CHOOSEPOKEMON]            = OakOldManHandleChoosePokemon,
-    [CONTROLLER_23]                       = OakOldManHandleCmd23,
-    [CONTROLLER_HEALTHBARUPDATE]          = OakOldManHandleHealthBarUpdate,
-    [CONTROLLER_EXPUPDATE]                = OakOldManHandleExpUpdate,
-    [CONTROLLER_STATUSICONUPDATE]         = OakOldManHandleStatusIconUpdate,
-    [CONTROLLER_STATUSANIMATION]          = OakOldManHandleStatusAnimation,
-    [CONTROLLER_STATUSXOR]                = OakOldManHandleStatusXor,
-    [CONTROLLER_DATATRANSFER]             = OakOldManHandleDataTransfer,
-    [CONTROLLER_DMA3TRANSFER]             = OakOldManHandleDMA3Transfer,
-    [CONTROLLER_PLAYBGM]                  = OakOldManHandlePlayBGM,
-    [CONTROLLER_32]                       = OakOldManHandleCmd32,
-    [CONTROLLER_TWORETURNVALUES]          = OakOldManHandleTwoReturnValues,
-    [CONTROLLER_CHOSENMONRETURNVALUE]     = OakOldManHandleChosenMonReturnValue,
-    [CONTROLLER_ONERETURNVALUE]           = OakOldManHandleOneReturnValue,
-    [CONTROLLER_ONERETURNVALUE_DUPLICATE] = OakOldManHandleOneReturnValue_Duplicate,
-    [CONTROLLER_CLEARUNKVAR]              = OakOldManHandleCmd37,
-    [CONTROLLER_SETUNKVAR]                = OakOldManHandleCmd38,
-    [CONTROLLER_CLEARUNKFLAG]             = OakOldManHandleCmd39,
-    [CONTROLLER_TOGGLEUNKFLAG]            = OakOldManHandleCmd40,
-    [CONTROLLER_HITANIMATION]             = OakOldManHandleHitAnimation,
-    [CONTROLLER_CANTSWITCH]               = OakOldManHandleCmd42,
-    [CONTROLLER_PLAYSE]                   = OakOldManHandlePlaySE,
-    [CONTROLLER_PLAYFANFARE]              = OakOldManHandlePlayFanfare,
-    [CONTROLLER_FAINTINGCRY]              = OakOldManHandleFaintingCry,
-    [CONTROLLER_INTROSLIDE]               = OakOldManHandleIntroSlide,
-    [CONTROLLER_INTROTRAINERBALLTHROW]    = OakOldManHandleIntroTrainerBallThrow,
-    [CONTROLLER_DRAWPARTYSTATUSSUMMARY]   = OakOldManHandleDrawPartyStatusSummary,
-    [CONTROLLER_HIDEPARTYSTATUSSUMMARY]   = OakOldManHandleHidePartyStatusSummary,
-    [CONTROLLER_ENDBOUNCE]                = OakOldManHandleEndBounceEffect,
-    [CONTROLLER_SPRITEINVISIBILITY]       = OakOldManHandleSpriteInvisibility,
-    [CONTROLLER_BATTLEANIMATION]          = OakOldManHandleBattleAnimation,
-    [CONTROLLER_LINKSTANDBYMSG]           = OakOldManHandleLinkStandbyMsg,
-    [CONTROLLER_RESETACTIONMOVESELECTION] = OakOldManHandleResetActionMoveSelection,
-    [CONTROLLER_ENDLINKBATTLE]            = OakOldManHandleCmd55,
-    [CONTROLLER_TERMINATOR_NOP]           = OakOldManCmdEnd,
+    [CONTROLLER_GETMONDATA]               = BtlController_HandleGetMonData,
+    [CONTROLLER_GETRAWMONDATA]            = BtlController_HandleGetRawMonData,
+    [CONTROLLER_SETMONDATA]               = BtlController_HandleSetMonData,
+    [CONTROLLER_SETRAWMONDATA]            = BtlController_HandleSetRawMonData,
+    //[CONTROLLER_LOADMONSPRITE]            = BtlController_HandleLoadMonSprite,
+    //[CONTROLLER_SWITCHINANIM]             = BtlController_HandleSwitchInAnim,
+    [CONTROLLER_RETURNMONTOBALL]          = BtlController_HandleReturnMonToBall,
+    //[CONTROLLER_DRAWTRAINERPIC]           = BtlController_HandleDrawTrainerPic,
+    //[CONTROLLER_TRAINERSLIDE]             = BtlController_HandleTrainerSlide,
+    //[CONTROLLER_TRAINERSLIDEBACK]         = BtlController_HandleTrainerSlideBack,
+    [CONTROLLER_FAINTANIMATION]           = BtlController_HandleFaintAnimation,
+    [CONTROLLER_PALETTEFADE]              = BtlController_Empty,
+    //[CONTROLLER_SUCCESSBALLTHROWANIM]     = BtlController_HandleSuccessBallThrowAnim,
+    //[CONTROLLER_BALLTHROWANIM]            = BtlController_HandleBallThrowAnim,
+    [CONTROLLER_PAUSE]                    = BtlController_Empty,
+    [CONTROLLER_MOVEANIMATION]            = BtlController_Empty,
+    [CONTROLLER_PRINTSTRING]              = BtlController_Empty,
+    [CONTROLLER_PRINTSTRINGPLAYERONLY]    = BtlController_Empty,
+    [CONTROLLER_CHOOSEACTION]             = BtlController_Empty,
+    [CONTROLLER_YESNOBOX]                 = BtlController_Empty,
+    [CONTROLLER_CHOOSEMOVE]               = BtlController_Empty,
+    [CONTROLLER_OPENBAG]                  = BtlController_Empty,
+    [CONTROLLER_CHOOSEPOKEMON]            = BtlController_Empty,
+    [CONTROLLER_23]                       = BtlController_Empty,
+    [CONTROLLER_HEALTHBARUPDATE]          = BtlController_Empty,
+    [CONTROLLER_EXPUPDATE]                = BtlController_Empty, // Partner's player gets experience the same way as the player.
+    [CONTROLLER_STATUSICONUPDATE]         = BtlController_Empty,
+    [CONTROLLER_STATUSANIMATION]          = BtlController_Empty,
+    [CONTROLLER_STATUSXOR]                = BtlController_Empty,
+    [CONTROLLER_DATATRANSFER]             = BtlController_Empty,
+    [CONTROLLER_DMA3TRANSFER]             = BtlController_Empty,
+    [CONTROLLER_PLAYBGM]                  = BtlController_Empty,
+    [CONTROLLER_32]                       = BtlController_Empty,
+    [CONTROLLER_TWORETURNVALUES]          = BtlController_Empty,
+    [CONTROLLER_CHOSENMONRETURNVALUE]     = BtlController_Empty,
+    [CONTROLLER_ONERETURNVALUE]           = BtlController_Empty,
+    [CONTROLLER_ONERETURNVALUE_DUPLICATE] = BtlController_Empty,
+    [CONTROLLER_CLEARUNKVAR]              = BtlController_Empty,
+    [CONTROLLER_SETUNKVAR]                = BtlController_Empty,
+    [CONTROLLER_CLEARUNKFLAG]             = BtlController_Empty,
+    [CONTROLLER_TOGGLEUNKFLAG]            = BtlController_Empty,
+    [CONTROLLER_HITANIMATION]             = BtlController_Empty,
+    [CONTROLLER_CANTSWITCH]               = BtlController_Empty,
+    [CONTROLLER_PLAYSE]                   = BtlController_Empty,
+    [CONTROLLER_PLAYFANFAREORBGM]         = BtlController_Empty,
+    [CONTROLLER_FAINTINGCRY]              = BtlController_Empty,
+    [CONTROLLER_INTROSLIDE]               = BtlController_Empty,
+    [CONTROLLER_INTROTRAINERBALLTHROW]    = BtlController_Empty,
+    [CONTROLLER_DRAWPARTYSTATUSSUMMARY]   = BtlController_Empty,
+    [CONTROLLER_HIDEPARTYSTATUSSUMMARY]   = BtlController_Empty,
+    [CONTROLLER_ENDBOUNCE]                = BtlController_Empty,
+    [CONTROLLER_SPRITEINVISIBILITY]       = BtlController_Empty,
+    [CONTROLLER_BATTLEANIMATION]          = BtlController_Empty,
+    [CONTROLLER_LINKSTANDBYMSG]           = BtlController_Empty,
+    [CONTROLLER_RESETACTIONMOVESELECTION] = BtlController_Empty,
+    [CONTROLLER_ENDLINKBATTLE]            = BtlController_Empty,
+    [CONTROLLER_DEBUGMENU]                = BtlController_Empty,
+    [CONTROLLER_TERMINATOR_NOP]           = BtlController_TerminatorNop
 };
 
-static void OakOldManDummy(void)
+/*static void OakOldManDummy(void)
 {
+}*/
+
+void SetControllerToOakOrOldMan(u32 batler)
+{
+    //gBattlerControllerFuncs[gActiveBattler] = OakOldManBufferRunCommand;
+    //gBattleStruct->simulatedInputState[0] = 0;
+    //gBattleStruct->simulatedInputState[1] = 0;
+    //gBattleStruct->simulatedInputState[2] = 0;
+    //gBattleStruct->simulatedInputState[3] = 0;
 }
 
-void SetControllerToOakOrOldMan(void)
+static void OakOldManBufferRunCommand(u32 battler)
 {
-    gBattlerControllerFuncs[gActiveBattler] = OakOldManBufferRunCommand;
-    gBattleStruct->simulatedInputState[0] = 0;
-    gBattleStruct->simulatedInputState[1] = 0;
-    gBattleStruct->simulatedInputState[2] = 0;
-    gBattleStruct->simulatedInputState[3] = 0;
-}
-
-static void OakOldManBufferRunCommand(void)
-{
-    if (gBattleControllerExecFlags & gBitTable[gActiveBattler])
+    /*if (gBattleControllerExecFlags & gBitTable[gActiveBattler])
     {
         if (gBattleBufferA[gActiveBattler][0] < NELEMS(sOakOldManBufferCommands))
             sOakOldManBufferCommands[gBattleBufferA[gActiveBattler][0]]();
         else
             OakOldManBufferExecCompleted();
-    }
+    }*/
 }
 
-static void HandleInputChooseAction(void)
+/*static void HandleInputChooseAction(void)
 {
     // Like player, but specifically for Rival in Oak's Lab
     u16 itemId = gBattleBufferA[gActiveBattler][2] | (gBattleBufferA[gActiveBattler][3] << 8);
@@ -2291,3 +2292,4 @@ void BtlCtrl_RemoveVoiceoverMessageFrame(void)
     FillBgTilemapBufferRect(0, 0x10, 0x1C, 0x13, 1,     1,      pal);
     FillBgTilemapBufferRect(0, 0x11, 0x1D, 0x13, 1,     1,      pal);
 }
+*/

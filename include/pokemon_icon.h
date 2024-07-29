@@ -6,8 +6,8 @@
 extern const u8 *const gMonIconTable[];
 extern const struct SpritePalette gMonIconPaletteTable[];
 
-const u8 *GetMonIconPtr(u16 speciesId, u32 personality, u32 frameNo);
-const u8 *GetMonIconTiles(u16 iconSpecies, bool32 extra);
+const u8 *GetMonIconPtr(u16 speciesId, u32 personality);
+const u8 *GetMonIconTiles(u16 iconSpecies);
 const u16 *GetValidMonIconPalettePtr(u16 speciesId);
 void LoadMonIconPalettes(void);
 void FreeMonIconPalettes(void);

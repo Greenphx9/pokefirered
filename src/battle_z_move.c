@@ -25,7 +25,6 @@
 #include "battle_message.h"
 #include "pokedex.h"
 #include "palette.h"
-#include "international_string_util.h"
 #include "safari_zone.h"
 #include "battle_anim.h"
 #include "constants/battle_anim.h"
@@ -173,7 +172,7 @@ bool32 IsViableZMove(u8 battler, u16 move)
         return FALSE;
 
     // Add '| BATTLE_TYPE_FRONTIER' to below if issues occur
-    if (gBattleTypeFlags & (BATTLE_TYPE_SAFARI | BATTLE_TYPE_WALLY_TUTORIAL))
+    if (gBattleTypeFlags & (BATTLE_TYPE_SAFARI | BATTLE_TYPE_POKEDUDE | BATTLE_TYPE_OLD_MAN_TUTORIAL))
         return FALSE;
 
     if ((GetBattlerPosition(battler) == B_POSITION_PLAYER_LEFT || (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && GetBattlerPosition(battler) == B_POSITION_PLAYER_RIGHT)) && !CheckBagHasItem(ITEM_Z_POWER_RING, 1))
@@ -402,7 +401,7 @@ bool32 MoveSelectionDisplayZMove(u16 zmove, u32 battler)
         for (i = 0; i < MAX_MON_MOVES; ++i)
         {
             MoveSelectionDestroyCursorAt(i);
-            StringCopy(gDisplayedStringBattle, gText_EmptyString2);
+            StringCopy(gDisplayedStringBattle, gText_EmptyString3);
             BattlePutTextOnWindow(gDisplayedStringBattle, i + 3);
         }
 

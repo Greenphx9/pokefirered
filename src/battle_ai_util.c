@@ -6,14 +6,12 @@
 #include "battle_ai_util.h"
 #include "battle_ai_main.h"
 #include "battle_ai_switch_items.h"
-#include "battle_factory.h"
 #include "battle_setup.h"
 #include "event_data.h"
 #include "data.h"
 #include "item.h"
 #include "pokemon.h"
 #include "random.h"
-#include "recorded_battle.h"
 #include "util.h"
 #include "constants/abilities.h"
 #include "constants/battle_ai.h"
@@ -2596,10 +2594,7 @@ bool32 CanKnockOffItem(u32 battler, u32 item)
         return FALSE;
 
     if (!(gBattleTypeFlags & (BATTLE_TYPE_EREADER_TRAINER
-      | BATTLE_TYPE_FRONTIER
       | BATTLE_TYPE_LINK
-      | BATTLE_TYPE_RECORDED_LINK
-      | BATTLE_TYPE_SECRET_BASE
       | (B_TRAINERS_KNOCK_OFF_ITEMS == TRUE ? BATTLE_TYPE_TRAINER : 0)
       )) && GetBattlerSide(battler) == B_SIDE_PLAYER)
         return FALSE;

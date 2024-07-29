@@ -1,12 +1,10 @@
 #include "global.h"
 #include "battle_anim.h"
-#include "item_menu_icons.h"
 #include "sprite.h"
 #include "random.h"
 #include "gpu_regs.h"
 #include "item.h"
-#include "rtc.h"
-#include "item_icon.h"
+#include "item_menu_icons.h"
 #include "sound.h"
 #include "menu.h"
 #include "malloc.h"
@@ -8436,11 +8434,14 @@ void AnimTask_GetTimeOfDay(u8 taskId)
 {
     gBattleAnimArgs[0] = 0; //Daytime is default
 
+    // TODO: Implement RTC
+    /*
     RtcCalcLocalTime();
     if (gLocalTime.hours >= 20 || gLocalTime.hours < 4)
         gBattleAnimArgs[0] = 1;
     else if (gLocalTime.hours >= 17 && gLocalTime.hours < 20)
-        gBattleAnimArgs[0] = 2;
+        gBattleAnimArgs[0] = 2
+    */
 
     DestroyAnimVisualTask(taskId);
 }
@@ -8527,7 +8528,7 @@ void CoreEnforcerLoadBeamTarget(struct Sprite *sprite)
 
 void AnimTask_CreateBestowItem(u8 taskId)
 {
-    u8 iconSpriteId = AddItemIconSprite(ANIM_TAG_ITEM_BAG, ANIM_TAG_ITEM_BAG, gLastUsedItem);
+    u8 iconSpriteId = AddItemIconObject(ANIM_TAG_ITEM_BAG, ANIM_TAG_ITEM_BAG, gLastUsedItem);
 
     if (iconSpriteId != MAX_SPRITES)
     {

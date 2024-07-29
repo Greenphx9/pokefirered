@@ -181,16 +181,7 @@ const u8 gBattleBackgroundTerrainNames[][26] =
 #define tConfirm   data[DATAIDX_CONFIRM]
 #define tWindowId  data[8]
 
-enum {
-    SELECTION_DAYS = 1,
-    SELECTION_HOURS,
-    SELECTION_MINS,
-    SELECTION_SECS,
-    SELECTION_CONFIRM,
-    SELECTION_NONE
-};
-
-static const struct OamData sOamData_Arrow =
+const struct OamData sOamData_Arrow =
 {
     .y = 0,
     .affineMode = ST_OAM_AFFINE_OFF,
@@ -207,9 +198,9 @@ static const struct OamData sOamData_Arrow =
     .affineParam = 0,
 };
 
-static const u8 sArrowDown_Gfx[] = INCBIN_U8("graphics/pokemon_debug/arrow_down.4bpp");
-static const u8 sArrowRight_Gfx[] = INCBIN_U8("graphics/pokemon_debug/arrow_right.4bpp");
-static const u16 sArrow_Pal[] = INCBIN_U16("graphics/pokemon_debug/arrow.gbapal");
+const u8 sArrowDown_Gfx[] = INCBIN_U8("graphics/pokemon_debug/arrow_down.4bpp");
+const u8 sArrowRight_Gfx[] = INCBIN_U8("graphics/pokemon_debug/arrow_right.4bpp");
+const u16 sArrow_Pal[] = INCBIN_U16("graphics/pokemon_debug/arrow.gbapal");
 
 static const struct SpriteFrameImage sPicTable_Arrow[] =
 {
@@ -267,7 +258,7 @@ const struct SpriteTemplate gSpriteTemplate_Arrow =
 #define sTaskId data[0]
 #define sState  data[1]
 
-static void SpriteCB_Cursor_UpOrRight(struct Sprite *sprite)
+void SpriteCB_Cursor_UpOrRight(struct Sprite *sprite)
 {
     int state = gTasks[sprite->sTaskId].tSelection;
     if (state != sprite->sState)
@@ -317,7 +308,7 @@ static void SpriteCB_Cursor_UpOrRight(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_Cursor_Down(struct Sprite *sprite)
+void SpriteCB_Cursor_Down(struct Sprite *sprite)
 {
     int state = gTasks[sprite->sTaskId].tSelection;
     if (state != sprite->sState)
@@ -365,7 +356,7 @@ static void SpriteCB_Cursor_Down(struct Sprite *sprite)
     }
 }
 
-static void CreateCursor(u8 taskId)
+void CreateCursor(u8 taskId)
 {
     u32 spriteId;
 
@@ -382,7 +373,7 @@ static void CreateCursor(u8 taskId)
     gSprites[spriteId].sState = -1;
 }
 
-static void FreeCursorPalette(void)
+void FreeCursorPalette(void)
 {
     FreeSpritePaletteByTag(gSpritePalette_Arrow.tag);
 }
@@ -1114,7 +1105,7 @@ void CB2_Debug_Pokemon(void)
             palette = GetMonSpritePalStructCustom(species, data->isFemale, data->isShiny);
             LoadCompressedSpritePaletteWithTag(palette, species);
             //Front
-            HandleLoadSpecialPokePic(TRUE, gMonSpritesGfxPtr->sprites[1], species, (data->isFemale ? FEMALE_PERSONALITY : MALE_PERSONALITY));
+            HandleLoadSpecialPokePic(TRUE, gMonSpritesGfxPtr->spritesGfx[1], species, (data->isFemale ? FEMALE_PERSONALITY : MALE_PERSONALITY));
             data->isShiny = FALSE;
             data->isFemale = FALSE;
             BattleLoadOpponentMonSpriteGfxCustom(species, data->isFemale, data->isShiny, 1);
@@ -1129,7 +1120,7 @@ void CB2_Debug_Pokemon(void)
             LoadAndCreateEnemyShadowSpriteCustom(data, species);
 
             //Back
-            HandleLoadSpecialPokePic(FALSE, gMonSpritesGfxPtr->sprites[2], species, (data->isFemale ? FEMALE_PERSONALITY : MALE_PERSONALITY));
+            HandleLoadSpecialPokePic(FALSE, gMonSpritesGfxPtr->spritesGfx[2], species, (data->isFemale ? FEMALE_PERSONALITY : MALE_PERSONALITY));
             BattleLoadOpponentMonSpriteGfxCustom(species, data->isFemale, data->isShiny, 4);
             SetMultiuseSpriteTemplateToPokemon(species, 2);
             offset_y = gSpeciesInfo[species].backPicYOffset;
@@ -1676,7 +1667,7 @@ static void ReloadPokemonSprites(struct PokemonDebugMenu *data)
     palette = GetMonSpritePalStructCustom(species, data->isFemale, data->isShiny);
     LoadCompressedSpritePaletteWithTag(palette, species);
     //Front
-    HandleLoadSpecialPokePic(TRUE, gMonSpritesGfxPtr->sprites[1], species, (data->isFemale ? FEMALE_PERSONALITY : MALE_PERSONALITY));
+    HandleLoadSpecialPokePic(TRUE, gMonSpritesGfxPtr->spritesGfx[1], species, (data->isFemale ? FEMALE_PERSONALITY : MALE_PERSONALITY));
     BattleLoadOpponentMonSpriteGfxCustom(species, data->isFemale, data->isShiny, 1);
     SetMultiuseSpriteTemplateToPokemon(species, 1);
     gMultiuseSpriteTemplate.paletteTag = species;
@@ -1689,7 +1680,7 @@ static void ReloadPokemonSprites(struct PokemonDebugMenu *data)
     LoadAndCreateEnemyShadowSpriteCustom(data, species);
 
     //Back
-    HandleLoadSpecialPokePic(FALSE, gMonSpritesGfxPtr->sprites[2], species, (data->isFemale ? FEMALE_PERSONALITY : MALE_PERSONALITY));
+    HandleLoadSpecialPokePic(FALSE, gMonSpritesGfxPtr->spritesGfx[2], species, (data->isFemale ? FEMALE_PERSONALITY : MALE_PERSONALITY));
     BattleLoadOpponentMonSpriteGfxCustom(species, data->isFemale, data->isShiny, 5);
     SetMultiuseSpriteTemplateToPokemon(species, 2);
     offset_y = gSpeciesInfo[species].backPicYOffset;

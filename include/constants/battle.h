@@ -36,6 +36,7 @@
 
 #define B_SIDE_PLAYER     0
 #define B_SIDE_OPPONENT   1
+#define NUM_BATTLE_SIDES  2
 
 #define B_FLANK_LEFT 0
 #define B_FLANK_RIGHT 1
@@ -65,10 +66,11 @@
 #define BATTLE_TYPE_WILD_SCRIPTED      (1 << 17) // Used in pokeemerald as BATTLE_TYPE_PALACE.
 #define BATTLE_TYPE_LEGENDARY_FRLG     (1 << 18) // Used in pokeemerald as BATTLE_TYPE_ARENA.
 #define BATTLE_TYPE_TRAINER_TOWER      (1 << 19) // Used in pokeemerald as BATTLE_TYPE_FACTORY.
+#define BATTLE_TYPE_INGAME_PARTNER     (1 << 20)
 
 #define WILD_DOUBLE_BATTLE ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER))))
-#define RECORDED_WILD_BATTLE ((gBattleTypeFlags & BATTLE_TYPE_RECORDED) && !(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FRONTIER)))
-#define BATTLE_TWO_VS_ONE_OPPONENT ((gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gTrainerBattleOpponent_B == 0xFFFF))
+// TODO: Implement partner / 2v1 battles
+#define BATTLE_TWO_VS_ONE_OPPONENT ((gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER /*&& gTrainerBattleOpponent_B == 0xFFFF*/ ))
 #define BATTLE_TYPE_HAS_AI          (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_SAFARI | BATTLE_TYPE_ROAMER | BATTLE_TYPE_INGAME_PARTNER)
 
 #define IS_BATTLE_TYPE_GHOST_WITHOUT_SCOPE(flags) ((flags) & BATTLE_TYPE_GHOST && !((flags) & BATTLE_TYPE_GHOST_UNVEILED))
@@ -185,6 +187,7 @@
 // Not really sure what a "hitmarker" is.
 #define HITMARKER_WAKE_UP_CLEAR         (1 << 4) // Cleared when waking up. Never set or checked.
 #define HITMARKER_SKIP_DMG_TRACK        (1 << 5)
+#define HITMARKER_IGNORE_BIDE           (1 << 5)
 #define HITMARKER_DESTINYBOND           (1 << 6)
 #define HITMARKER_NO_ANIMATIONS         (1 << 7)   // set from battleSceneOff. Never changed during battle
 #define HITMARKER_IGNORE_SUBSTITUTE     (1 << 8)
@@ -306,7 +309,7 @@
 #define ENUM_WEATHER_SNOW                 8
 
 // Move Effects
-define MOVE_EFFECT_SLEEP               1
+#define MOVE_EFFECT_SLEEP               1
 #define MOVE_EFFECT_POISON              2
 #define MOVE_EFFECT_BURN                3
 #define MOVE_EFFECT_FREEZE              4
@@ -395,26 +398,42 @@ define MOVE_EFFECT_SLEEP               1
 #define MOVE_EFFECT_CONTINUE            0x8000
 
 // Battle terrain defines for gBattleTerrain.
-#define BATTLE_TERRAIN_GRASS        0
-#define BATTLE_TERRAIN_LONG_GRASS   1
-#define BATTLE_TERRAIN_SAND         2
-#define BATTLE_TERRAIN_UNDERWATER   3
-#define BATTLE_TERRAIN_WATER        4
-#define BATTLE_TERRAIN_POND         5
-#define BATTLE_TERRAIN_MOUNTAIN     6
-#define BATTLE_TERRAIN_CAVE         7
-#define BATTLE_TERRAIN_BUILDING     8
-#define BATTLE_TERRAIN_PLAIN        9
-#define BATTLE_TERRAIN_LINK        10
-#define BATTLE_TERRAIN_GYM         11
-#define BATTLE_TERRAIN_LEADER      12
-#define BATTLE_TERRAIN_INDOOR_2    13
-#define BATTLE_TERRAIN_INDOOR_1    14
-#define BATTLE_TERRAIN_LORELEI     15
-#define BATTLE_TERRAIN_BRUNO       16
-#define BATTLE_TERRAIN_AGATHA      17
-#define BATTLE_TERRAIN_LANCE       18
-#define BATTLE_TERRAIN_CHAMPION    19
+#define BATTLE_TERRAIN_GRASS            0
+#define BATTLE_TERRAIN_LONG_GRASS       1
+#define BATTLE_TERRAIN_SAND             2
+#define BATTLE_TERRAIN_UNDERWATER       3
+#define BATTLE_TERRAIN_WATER            4
+#define BATTLE_TERRAIN_POND             5
+#define BATTLE_TERRAIN_MOUNTAIN         6
+#define BATTLE_TERRAIN_CAVE             7
+#define BATTLE_TERRAIN_BUILDING         8
+#define BATTLE_TERRAIN_PLAIN            9
+#define BATTLE_TERRAIN_LINK             10
+#define BATTLE_TERRAIN_GYM              11
+#define BATTLE_TERRAIN_LEADER           12
+#define BATTLE_TERRAIN_INDOOR_2         13
+#define BATTLE_TERRAIN_INDOOR_1         14
+#define BATTLE_TERRAIN_LORELEI          15
+#define BATTLE_TERRAIN_BRUNO            16
+#define BATTLE_TERRAIN_AGATHA           17
+#define BATTLE_TERRAIN_LANCE            18
+#define BATTLE_TERRAIN_CHAMPION         19
+
+// New battle terrains are used for Secret Power but not fully implemented.
+#define BATTLE_TERRAIN_SOARING          20
+#define BATTLE_TERRAIN_SKY_PILLAR       21
+#define BATTLE_TERRAIN_BURIAL_GROUND    22
+#define BATTLE_TERRAIN_PUDDLE           23
+#define BATTLE_TERRAIN_MARSH            24
+#define BATTLE_TERRAIN_SWAMP            25
+#define BATTLE_TERRAIN_SNOW             26
+#define BATTLE_TERRAIN_ICE              27
+#define BATTLE_TERRAIN_VOLCANO          28
+#define BATTLE_TERRAIN_DISTORTION_WORLD 29
+#define BATTLE_TERRAIN_SPACE            30
+#define BATTLE_TERRAIN_ULTRA_SPACE      31
+
+#define BATTLE_TERRAIN_COUNT            32
 
 #define B_WAIT_TIME_LONG        (B_WAIT_TIME_MULTIPLIER * 4)
 #define B_WAIT_TIME_MED         (B_WAIT_TIME_MULTIPLIER * 3)

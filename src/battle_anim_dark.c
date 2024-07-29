@@ -1,6 +1,5 @@
 #include "global.h"
 #include "battle_anim.h"
-#include "contest.h"
 #include "gpu_regs.h"
 #include "graphics.h"
 #include "palette.h"
@@ -927,17 +926,10 @@ void AnimTask_MetallicShine(u8 taskId)
         }
     }
 
-    if (IsContest())
-    {
-        species = gContestResources->moveAnim->species;
-    }
+    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
+        species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattleAnimAttacker]], MON_DATA_SPECIES);
     else
-    {
-        if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
-            species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattleAnimAttacker]], MON_DATA_SPECIES);
-        else
-            species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gBattleAnimAttacker]], MON_DATA_SPECIES);
-    }
+        species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gBattleAnimAttacker]], MON_DATA_SPECIES);
 
     spriteId = GetAnimBattlerSpriteId(ANIM_ATTACKER);
     newSpriteId = CreateInvisibleSpriteCopy(gBattleAnimAttacker, spriteId, species);

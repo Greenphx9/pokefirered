@@ -8,9 +8,11 @@
 #include "gflib.h"
 #include "data.h"
 #include "link.h"
+#include "link_rfu.h"
 #include "m4a.h"
 #include "pokeball.h"
 #include "task.h"
+#include "trainer_pokemon_sprites.h"
 #include "util.h"
 #include "constants/battle_anim.h"
 #include "constants/songs.h"
@@ -393,10 +395,11 @@ static void LinkOpponentHandleDrawTrainerPic(u32 battler)
 
         if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
         {
-            if (battler == B_POSITION_OPPONENT_LEFT)
+            // TODO: Implement partner / 2v1 battles
+            //if (battler == B_POSITION_OPPONENT_LEFT)
                 trainerPicId = GetFrontierTrainerFrontSpriteId(gTrainerBattleOpponent_A);
-            else
-                trainerPicId = GetFrontierTrainerFrontSpriteId(gTrainerBattleOpponent_B);
+            //else
+            //    trainerPicId = GetFrontierTrainerFrontSpriteId(gTrainerBattleOpponent_B);
         }
         else
         {
@@ -412,13 +415,13 @@ static void LinkOpponentHandleDrawTrainerPic(u32 battler)
                      || (gLinkPlayers[GetBattlerMultiplayerId(battler)].version & 0xFF) == VERSION_SAPPHIRE)
             {
                 if (gLinkPlayers[GetBattlerMultiplayerId(battler)].gender != MALE)
-                    trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_RS_MAY];
+                    trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_LEAF];
                 else
-                    trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_RS_BRENDAN];
+                    trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_RED];
             }
             else
             {
-                trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetBattlerMultiplayerId(battler)].gender);
+                trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetBattlerMultiplayerId(battler)].gender, TRUE);
             }
         }
     }
@@ -441,13 +444,13 @@ static void LinkOpponentHandleDrawTrainerPic(u32 battler)
                  || (gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].version & 0xFF) == VERSION_SAPPHIRE)
         {
             if (gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender != MALE)
-                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_RS_MAY];
+                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_LEAF];
             else
-                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_RS_BRENDAN];
+                trainerPicId = gFacilityClassToPicIndex[FACILITY_CLASS_RED];
         }
         else
         {
-            trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender);
+            trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender, TRUE);
         }
     }
 
@@ -458,10 +461,11 @@ static void LinkOpponentHandleTrainerSlide(u32 battler)
 {
     u32 trainerPicId;
 
-    if (battler == B_POSITION_OPPONENT_LEFT)
+    // TODO: Implement partner / 2v1 battles
+    //if (battler == B_POSITION_OPPONENT_LEFT)
         trainerPicId = GetFrontierTrainerFrontSpriteId(gTrainerBattleOpponent_A);
-    else
-        trainerPicId = GetFrontierTrainerFrontSpriteId(gTrainerBattleOpponent_B);
+    //else
+    //    trainerPicId = GetFrontierTrainerFrontSpriteId(gTrainerBattleOpponent_B);
 
     BtlController_HandleTrainerSlide(battler, trainerPicId);
     LinkOpponentBufferExecCompleted(battler); // Possibly a bug, because execution should be completed after the slide in finishes. See Controller_WaitForTrainerPic.
@@ -475,6 +479,11 @@ static void LinkOpponentHandleTrainerSlideBack(u32 battler)
 static void LinkOpponentHandleMoveAnimation(u32 battler)
 {
     BtlController_HandleMoveAnimation(battler, TRUE);
+}
+
+static void LinkOpponentHandlePrintString(u32 battler)
+{
+    BtlController_HandlePrintString(battler, TRUE, FALSE);
 }
 
 static void LinkOpponentHandleHealthBarUpdate(u32 battler)

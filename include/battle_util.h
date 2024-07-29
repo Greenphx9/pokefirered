@@ -89,6 +89,7 @@ enum
     CANCELLER_IMPRISONED,
     CANCELLER_CONFUSED,
     CANCELLER_PARALYSED,
+    CANCELLER_GHOST,
     CANCELLER_IN_LOVE,
     CANCELLER_BIDE,
     CANCELLER_THAW,
@@ -146,6 +147,17 @@ u8 AtkCanceller_UnableToUseMove2(void);
 bool32 HasNoMonsToSwitch(u32 battler, u8 r1, u8 r2);
 bool32 TryChangeBattleWeather(u32 battler, u32 weatherEnumId, bool32 viaAbility);
 u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 moveArg);
+bool32 TryPrimalReversion(u32 battler);
+bool32 IsNeutralizingGasOnField(void);
+bool32 IsMoldBreakerTypeAbility(u32 ability);
+u32 GetBattlerAbility(u32 battler);
+u32 IsAbilityOnSide(u32 battler, u32 ability);
+u32 IsAbilityOnOpposingSide(u32 battler, u32 ability);
+u32 IsAbilityOnField(u32 ability);
+u32 IsAbilityOnFieldExcept(u32 battler, u32 ability);
+u32 IsAbilityPreventingEscape(u32 battler);
+bool32 IsBattlerProtected(u32 battlerAtk, u32 battlerDef, u32 move);
+bool32 CanBattlerEscape(u32 battler); // no ability check
 void BattleScriptExecute(const u8 *BS_ptr);
 void BattleScriptPushCursorAndCallback(const u8 *BS_ptr);
 u8 ItemBattleEffects(u8 caseID, u32 battler, bool32 moveTurn);

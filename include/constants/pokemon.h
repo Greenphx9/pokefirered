@@ -136,6 +136,23 @@
 #define FRIENDSHIP_EVENT_FAINT_OUTSIDE_BATTLE 8
 #define FRIENDSHIP_EVENT_FAINT_LARGE          9
 
+// Constants for GetLeadMonFriendshipScore
+#define FRIENDSHIP_NONE        0
+#define FRIENDSHIP_1_TO_49     1
+#define FRIENDSHIP_50_TO_99    2
+#define FRIENDSHIP_100_TO_149  3
+#define FRIENDSHIP_150_TO_199  4
+#define FRIENDSHIP_200_TO_254  5
+#define FRIENDSHIP_MAX         6
+
+// Constants for GetBattlerAffectionHearts (based on friendship value)
+#define AFFECTION_NO_HEARTS     0 // 0-79 friendship
+#define AFFECTION_ONE_HEART     1 // 80-129 friendship
+#define AFFECTION_TWO_HEARTS    2 // 130-179 friendship
+#define AFFECTION_THREE_HEARTS  3 // 180-219 friendship
+#define AFFECTION_FOUR_HEARTS   4 // 220-254 friendship
+#define AFFECTION_FIVE_HEARTS   5 // Max friendship
+
 // Friendship value that the majority of species use.
 #define STANDARD_FRIENDSHIP ((P_UPDATED_FRIENDSHIP >= GEN_8) ? 50 : 70)
 
@@ -149,6 +166,11 @@
 #define MAX_PER_STAT_EVS 255
 #define MAX_TOTAL_EVS 510
 #define EV_ITEM_RAISE_LIMIT 100
+
+// Move category defines.
+#define DAMAGE_CATEGORY_PHYSICAL    0
+#define DAMAGE_CATEGORY_SPECIAL     1
+#define DAMAGE_CATEGORY_STATUS      2
 
 // Battle move flags
 #define FLAG_MAKES_CONTACT          (1 << 0)
@@ -243,6 +265,9 @@
 #define MON_PIC_WIDTH 64
 #define MON_PIC_HEIGHT 64
 #define MON_PIC_SIZE (MON_PIC_WIDTH * MON_PIC_HEIGHT / 2)
+
+#define BATTLE_ALIVE_EXCEPT_BATTLER  0
+#define BATTLE_ALIVE_SIDE            1
 
 #define NUM_ABILITY_SLOTS (NUM_NORMAL_ABILITY_SLOTS + NUM_HIDDEN_ABILITY_SLOTS)
 #define NUM_NORMAL_ABILITY_SLOTS 2

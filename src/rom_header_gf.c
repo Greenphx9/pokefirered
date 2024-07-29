@@ -90,7 +90,7 @@ static const struct GFRomHeader sGFRomHeader = {
 #else
     .gameName = "pokemon green version",
 #endif
-    .moveNames = gMoveNames,
+    //.moveNames = gMoveNames,
     .decorations = gDecorations,
     .flagsOffset = offsetof(struct SaveBlock1, flags),
     .varsOffset = offsetof(struct SaveBlock1, vars),

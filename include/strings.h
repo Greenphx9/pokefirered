@@ -196,6 +196,15 @@ extern const u8 gText_BadEgg[];
 extern const u8 gText_PkmnsXPreventsSwitching[];
 extern const u8 *const gStatNamesTable[];
 
+extern const u8 gText_HP2[];
+extern const u8 gText_Attack2[];
+extern const u8 gText_Defense2[];
+extern const u8 gText_Speed[];
+extern const u8 gText_SpAtk2[];
+extern const u8 gText_SpDef2[];
+extern const u8 gText_Accuracy[];
+extern const u8 gText_Evasiveness[];
+
 // diploma
 extern const u8 gText_Diploma_Player[];
 extern const u8 gText_Diploma_ThisDocument[];

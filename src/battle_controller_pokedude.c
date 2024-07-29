@@ -39,7 +39,7 @@ struct PokedudeBattlePartyInfo
     u8 gender;
 };
 
-static void PokedudeHandleGetMonData(void);
+/*static void PokedudeHandleGetMonData(void);
 static void PokedudeHandleGetRawMonData(void);
 static void PokedudeHandleSetMonData(void);
 static void PokedudeHandleSetRawMonData(void);
@@ -101,8 +101,9 @@ static void PokedudeAction_PrintVoiceoverMessage(void);
 static void PokedudeAction_PrintMessageWithHealthboxPals(void);
 static void PokedudeBufferExecCompleted(void);
 static void PokedudeSimulateInputChooseAction(void);
-static void PokedudeBufferRunCommand(void);
-static bool8 HandlePokedudeVoiceoverEtc(void);
+*/
+static void PokedudeBufferRunCommand(u32 battler);
+/*static bool8 HandlePokedudeVoiceoverEtc(void);
 static void PokedudeSimulateInputChooseMove(void);
 static void WaitForMonSelection(void);
 static void CompleteWhenChoseItem(void);
@@ -118,91 +119,92 @@ static void SetPokedudeMonData(u8 monId);
 static void StartSendOutAnim(u8 battlerId);
 static void PokedudeDoMoveAnimation(void);
 static void Task_StartSendOutAnim(u8 taskId);
-static const u8 *GetPokedudeText(void);
+static const u8 *GetPokedudeText(void);*/
 
-static void (*const sPokedudeBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
+static void (*const sPokedudeBufferCommands[CONTROLLER_CMDS_COUNT])(u32 battler) =
 {
-    [CONTROLLER_GETMONDATA]               = PokedudeHandleGetMonData,
-    [CONTROLLER_GETRAWMONDATA]            = PokedudeHandleGetRawMonData,
-    [CONTROLLER_SETMONDATA]               = PokedudeHandleSetMonData,
-    [CONTROLLER_SETRAWMONDATA]            = PokedudeHandleSetRawMonData,
-    [CONTROLLER_LOADMONSPRITE]            = PokedudeHandleLoadMonSprite,
-    [CONTROLLER_SWITCHINANIM]             = PokedudeHandleSwitchInAnim,
-    [CONTROLLER_RETURNMONTOBALL]          = PokedudeHandleReturnMonToBall,
-    [CONTROLLER_DRAWTRAINERPIC]           = PokedudeHandleDrawTrainerPic,
-    [CONTROLLER_TRAINERSLIDE]             = PokedudeHandleTrainerSlide,
-    [CONTROLLER_TRAINERSLIDEBACK]         = PokedudeHandleTrainerSlideBack,
-    [CONTROLLER_FAINTANIMATION]           = PokedudeHandleFaintAnimation,
-    [CONTROLLER_PALETTEFADE]              = PokedudeHandlePaletteFade,
-    [CONTROLLER_SUCCESSBALLTHROWANIM]     = PokedudeHandleSuccessBallThrowAnim,
-    [CONTROLLER_BALLTHROWANIM]            = PokedudeHandleBallThrowAnim,
-    [CONTROLLER_PAUSE]                    = PokedudeHandlePause,
-    [CONTROLLER_MOVEANIMATION]            = PokedudeHandleMoveAnimation,
-    [CONTROLLER_PRINTSTRING]              = PokedudeHandlePrintString,
-    [CONTROLLER_PRINTSTRINGPLAYERONLY]    = PokedudeHandlePrintSelectionString,
-    [CONTROLLER_CHOOSEACTION]             = PokedudeHandleChooseAction,
-    [CONTROLLER_UNKNOWNYESNOBOX]          = PokedudeHandleUnknownYesNoBox,
-    [CONTROLLER_CHOOSEMOVE]               = PokedudeHandleChooseMove,
-    [CONTROLLER_OPENBAG]                  = PokedudeHandleChooseItem,
-    [CONTROLLER_CHOOSEPOKEMON]            = PokedudeHandleChoosePokemon,
-    [CONTROLLER_23]                       = PokedudeHandleCmd23,
-    [CONTROLLER_HEALTHBARUPDATE]          = PokedudeHandleHealthBarUpdate,
-    [CONTROLLER_EXPUPDATE]                = PokedudeHandleExpUpdate,
-    [CONTROLLER_STATUSICONUPDATE]         = PokedudeHandleStatusIconUpdate,
-    [CONTROLLER_STATUSANIMATION]          = PokedudeHandleStatusAnimation,
-    [CONTROLLER_STATUSXOR]                = PokedudeHandleStatusXor,
-    [CONTROLLER_DATATRANSFER]             = PokedudeHandleDataTransfer,
-    [CONTROLLER_DMA3TRANSFER]             = PokedudeHandleDMA3Transfer,
-    [CONTROLLER_PLAYBGM]                  = PokedudeHandlePlayBGM,
-    [CONTROLLER_32]                       = PokedudeHandleCmd32,
-    [CONTROLLER_TWORETURNVALUES]          = PokedudeHandleTwoReturnValues,
-    [CONTROLLER_CHOSENMONRETURNVALUE]     = PokedudeHandleChosenMonReturnValue,
-    [CONTROLLER_ONERETURNVALUE]           = PokedudeHandleOneReturnValue,
-    [CONTROLLER_ONERETURNVALUE_DUPLICATE] = PokedudeHandleOneReturnValue_Duplicate,
-    [CONTROLLER_CLEARUNKVAR]              = PokedudeHandleCmd37,
-    [CONTROLLER_SETUNKVAR]                = PokedudeHandleCmd38,
-    [CONTROLLER_CLEARUNKFLAG]             = PokedudeHandleCmd39,
-    [CONTROLLER_TOGGLEUNKFLAG]            = PokedudeHandleCmd40,
-    [CONTROLLER_HITANIMATION]             = PokedudeHandleHitAnimation,
-    [CONTROLLER_CANTSWITCH]               = PokedudeHandleCmd42,
-    [CONTROLLER_PLAYSE]                   = PokedudeHandlePlaySE,
-    [CONTROLLER_PLAYFANFARE]              = PokedudeHandlePlayFanfare,
-    [CONTROLLER_FAINTINGCRY]              = PokedudeHandleFaintingCry,
-    [CONTROLLER_INTROSLIDE]               = PokedudeHandleIntroSlide,
-    [CONTROLLER_INTROTRAINERBALLTHROW]    = PokedudeHandleIntroTrainerBallThrow,
-    [CONTROLLER_DRAWPARTYSTATUSSUMMARY]   = PokedudeHandleDrawPartyStatusSummary,
-    [CONTROLLER_HIDEPARTYSTATUSSUMMARY]   = PokedudeHandleHidePartyStatusSummary,
-    [CONTROLLER_ENDBOUNCE]                = PokedudeHandleEndBounceEffect,
-    [CONTROLLER_SPRITEINVISIBILITY]       = PokedudeHandleSpriteInvisibility,
-    [CONTROLLER_BATTLEANIMATION]          = PokedudeHandleBattleAnimation,
-    [CONTROLLER_LINKSTANDBYMSG]           = PokedudeHandleLinkStandbyMsg,
-    [CONTROLLER_RESETACTIONMOVESELECTION] = PokedudeHandleResetActionMoveSelection,
-    [CONTROLLER_ENDLINKBATTLE]            = PokedudeHandleCmd55,
-    [CONTROLLER_TERMINATOR_NOP]           = PokedudeCmdEnd,
+    [CONTROLLER_GETMONDATA]               = BtlController_HandleGetMonData,
+    [CONTROLLER_GETRAWMONDATA]            = BtlController_HandleGetRawMonData,
+    [CONTROLLER_SETMONDATA]               = BtlController_HandleSetMonData,
+    [CONTROLLER_SETRAWMONDATA]            = BtlController_HandleSetRawMonData,
+    //[CONTROLLER_LOADMONSPRITE]            = BtlController_HandleLoadMonSprite,
+    //[CONTROLLER_SWITCHINANIM]             = BtlController_HandleSwitchInAnim,
+    [CONTROLLER_RETURNMONTOBALL]          = BtlController_HandleReturnMonToBall,
+    //[CONTROLLER_DRAWTRAINERPIC]           = BtlController_HandleDrawTrainerPic,
+    //[CONTROLLER_TRAINERSLIDE]             = BtlController_HandleTrainerSlide,
+    //[CONTROLLER_TRAINERSLIDEBACK]         = BtlController_HandleTrainerSlideBack,
+    [CONTROLLER_FAINTANIMATION]           = BtlController_HandleFaintAnimation,
+    [CONTROLLER_PALETTEFADE]              = BtlController_Empty,
+    //[CONTROLLER_SUCCESSBALLTHROWANIM]     = BtlController_HandleSuccessBallThrowAnim,
+    //[CONTROLLER_BALLTHROWANIM]            = BtlController_HandleBallThrowAnim,
+    [CONTROLLER_PAUSE]                    = BtlController_Empty,
+    [CONTROLLER_MOVEANIMATION]            = BtlController_Empty,
+    [CONTROLLER_PRINTSTRING]              = BtlController_Empty,
+    [CONTROLLER_PRINTSTRINGPLAYERONLY]    = BtlController_Empty,
+    [CONTROLLER_CHOOSEACTION]             = BtlController_Empty,
+    [CONTROLLER_YESNOBOX]                 = BtlController_Empty,
+    [CONTROLLER_CHOOSEMOVE]               = BtlController_Empty,
+    [CONTROLLER_OPENBAG]                  = BtlController_Empty,
+    [CONTROLLER_CHOOSEPOKEMON]            = BtlController_Empty,
+    [CONTROLLER_23]                       = BtlController_Empty,
+    [CONTROLLER_HEALTHBARUPDATE]          = BtlController_Empty,
+    [CONTROLLER_EXPUPDATE]                = BtlController_Empty, // Partner's player gets experience the same way as the player.
+    [CONTROLLER_STATUSICONUPDATE]         = BtlController_Empty,
+    [CONTROLLER_STATUSANIMATION]          = BtlController_Empty,
+    [CONTROLLER_STATUSXOR]                = BtlController_Empty,
+    [CONTROLLER_DATATRANSFER]             = BtlController_Empty,
+    [CONTROLLER_DMA3TRANSFER]             = BtlController_Empty,
+    [CONTROLLER_PLAYBGM]                  = BtlController_Empty,
+    [CONTROLLER_32]                       = BtlController_Empty,
+    [CONTROLLER_TWORETURNVALUES]          = BtlController_Empty,
+    [CONTROLLER_CHOSENMONRETURNVALUE]     = BtlController_Empty,
+    [CONTROLLER_ONERETURNVALUE]           = BtlController_Empty,
+    [CONTROLLER_ONERETURNVALUE_DUPLICATE] = BtlController_Empty,
+    [CONTROLLER_CLEARUNKVAR]              = BtlController_Empty,
+    [CONTROLLER_SETUNKVAR]                = BtlController_Empty,
+    [CONTROLLER_CLEARUNKFLAG]             = BtlController_Empty,
+    [CONTROLLER_TOGGLEUNKFLAG]            = BtlController_Empty,
+    [CONTROLLER_HITANIMATION]             = BtlController_Empty,
+    [CONTROLLER_CANTSWITCH]               = BtlController_Empty,
+    [CONTROLLER_PLAYSE]                   = BtlController_Empty,
+    [CONTROLLER_PLAYFANFAREORBGM]         = BtlController_Empty,
+    [CONTROLLER_FAINTINGCRY]              = BtlController_Empty,
+    [CONTROLLER_INTROSLIDE]               = BtlController_Empty,
+    [CONTROLLER_INTROTRAINERBALLTHROW]    = BtlController_Empty,
+    [CONTROLLER_DRAWPARTYSTATUSSUMMARY]   = BtlController_Empty,
+    [CONTROLLER_HIDEPARTYSTATUSSUMMARY]   = BtlController_Empty,
+    [CONTROLLER_ENDBOUNCE]                = BtlController_Empty,
+    [CONTROLLER_SPRITEINVISIBILITY]       = BtlController_Empty,
+    [CONTROLLER_BATTLEANIMATION]          = BtlController_Empty,
+    [CONTROLLER_LINKSTANDBYMSG]           = BtlController_Empty,
+    [CONTROLLER_RESETACTIONMOVESELECTION] = BtlController_Empty,
+    [CONTROLLER_ENDLINKBATTLE]            = BtlController_Empty,
+    [CONTROLLER_DEBUGMENU]                = BtlController_Empty,
+    [CONTROLLER_TERMINATOR_NOP]           = BtlController_TerminatorNop
 };
 
 // unknown unused data
-static const u8 sUnused[] = { 0x48, 0x48, 0x20, 0x5a, 0x50, 0x50, 0x50, 0x58 };
+/*static const u8 sUnused[] = { 0x48, 0x48, 0x20, 0x5a, 0x50, 0x50, 0x50, 0x58 };
+
+static void PokedudeDummy(void)
+{
+}*/
 
 #define pdHealthboxPal1  simulatedInputState[0]
 #define pdHealthboxPal2  simulatedInputState[1]
 #define pdScriptNum      simulatedInputState[2]
 #define pdMessageNo      simulatedInputState[3]
 
-static void PokedudeDummy(void)
+void SetControllerToPokedude(u32 battler)
 {
+    //gBattlerControllerFuncs[gActiveBattler] = PokedudeBufferRunCommand;
+    //*(&gBattleStruct->pdScriptNum) = gSpecialVar_0x8004;
+    //gBattleStruct->pdMessageNo = 0;
 }
 
-void SetControllerToPokedude(void)
+static void PokedudeBufferRunCommand(u32 battler)
 {
-    gBattlerControllerFuncs[gActiveBattler] = PokedudeBufferRunCommand;
-    *(&gBattleStruct->pdScriptNum) = gSpecialVar_0x8004;
-    gBattleStruct->pdMessageNo = 0;
-}
-
-static void PokedudeBufferRunCommand(void)
-{
-    if (gBattleControllerExecFlags & gBitTable[gActiveBattler])
+    /*if (gBattleControllerExecFlags & gBitTable[gActiveBattler])
     {
         if (gBattleBufferA[gActiveBattler][0] < NELEMS(sPokedudeBufferCommands))
         {
@@ -213,10 +215,10 @@ static void PokedudeBufferRunCommand(void)
         {
             PokedudeBufferExecCompleted();
         }
-    }
+    }*/
 }
 
-static void HandleInputChooseAction(void)
+/*static void HandleInputChooseAction(void)
 {
     PokedudeSimulateInputChooseAction();
 }
@@ -2423,9 +2425,9 @@ static const struct PokedudeBattlePartyInfo *const sPokedudeBattlePartyPointers[
     [TTVSCR_MATCHUPS] = sParties_Matchups,
     [TTVSCR_CATCHING] = sParties_Catching,
 };
-
+*/
 struct PokedudeBattlerState *gPokedudeBattlerStates[MAX_BATTLERS_COUNT];
-
+/*
 static void PokedudeSimulateInputChooseAction(void)
 {
     const struct PokedudeInputScript *script_p = sInputScripts_ChooseAction[gBattleStruct->pdScriptNum];
@@ -2696,3 +2698,4 @@ void InitPokedudePartyAndOpponent(void)
             SetMonMoveSlot(mon, data[i].moves[j], j);
     } while (data[++i].side != 0xFF);
 }
+*/

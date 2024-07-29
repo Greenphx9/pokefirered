@@ -3,6 +3,15 @@
 
 #include "constants/pokemon_debug.h"
 
+enum {
+    SELECTION_DAYS = 1,
+    SELECTION_HOURS,
+    SELECTION_MINS,
+    SELECTION_SECS,
+    SELECTION_CONFIRM,
+    SELECTION_NONE
+};
+
 //Structs
 struct PokemonDebugModifyArrows
 {
@@ -66,6 +75,10 @@ struct PokemonDebugMenu
     u8 currentSubmenu;
     u8 submenuYpos[3];
 };
+
+extern const struct OamData sOamData_Arrow;
+extern const struct SpriteTemplate gSpriteTemplate_Arrow;
+extern const struct SpritePalette gSpritePalette_Arrow;
 
 void CB2_Debug_Pokemon(void);
 

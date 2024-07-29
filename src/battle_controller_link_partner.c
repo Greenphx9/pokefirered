@@ -221,7 +221,7 @@ static void LinkPartnerHandleDrawTrainerPic(u32 battler)
 
     trainerPicId = LinkPlayerGetTrainerPicId(GetBattlerMultiplayerId(battler));
     BtlController_HandleDrawTrainerPic(battler, trainerPicId, FALSE,
-                                       xPos, 80 + 4 * (8 - gTrainerBacksprites[trainerPicId].coordinates.size),
+                                       xPos, 80 + 4 * (8 - gTrainerBackPicCoords[trainerPicId].size),
                                        -1);
 }
 
@@ -248,9 +248,9 @@ static void LinkPartnerHandleHealthBarUpdate(u32 battler)
 static void LinkPartnerHandleIntroTrainerBallThrow(u32 battler)
 {
     u32 trainerPicId = LinkPlayerGetTrainerPicId(GetBattlerMultiplayerId(battler));
-    const u32 *trainerPal = gTrainerBacksprites[trainerPicId].palette.data;
+    const u32 *trainerPal = gTrainerBackPicPaletteTable[trainerPicId].data;
     // Link partner uses the same intro sequence as the player partner.
-    BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F9, trainerPal, 24, Controller_PlayerPartnerShowIntroHealthbox);
+    //BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F9, trainerPal, 24, Controller_PlayerPartnerShowIntroHealthbox);
 }
 
 static void LinkPartnerHandleDrawPartyStatusSummary(u32 battler)
@@ -271,7 +271,6 @@ static void LinkPartnerHandleLinkStandbyMsg(u32 battler)
 static void LinkPartnerHandleEndLinkBattle(u32 battler)
 {
     gBattleOutcome = gBattleResources->bufferA[battler][1];
-    gSaveBlock2Ptr->frontier.disableRecordBattle = gBattleResources->bufferA[battler][2];
     FadeOutMapMusic(5);
     BeginFastPaletteFade(3);
     LinkPartnerBufferExecCompleted(battler);

@@ -1,6 +1,7 @@
 #include "global.h"
 #include "gflib.h"
 #include "battle.h"
+#include "battle_anim.h"
 #include "battle_bg.h"
 #include "battle_message.h"
 #include "decompress.h"
@@ -10,6 +11,7 @@
 #include "overworld.h"
 #include "text_window.h"
 #include "trig.h"
+#include "constants/battle_anim.h"
 #include "constants/maps.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
@@ -690,7 +692,7 @@ void LoadBattleMenuWindowGfx(void)
     gPlttBufferUnfaded[BG_PLTT_ID(5) + 15] = RGB( 26,  26,  25);
     CpuCopy16(&gPlttBufferUnfaded[BG_PLTT_ID(5) + 12], &gPlttBufferFaded[BG_PLTT_ID(5) + 12], PLTT_SIZEOF(4));
 
-    if (gBattleTypeFlags & (BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_POKEDUDE))
+    if (gBattleTypeFlags & (BATTLE_TYPE_OLD_MAN_TUTORIAL| BATTLE_TYPE_POKEDUDE))
     {
         Menu_LoadStdPalAt(BG_PLTT_ID(7));
         LoadMenuMessageWindowGfx(0, 0x030, BG_PLTT_ID(7));
@@ -997,7 +999,7 @@ void DrawBattleEntryBackground(void)
     {
         LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_BUILDING);
     }
-    else if (gBattleTypeFlags & BATTLE_TYPE_KYOGRE_GROUDON)
+    else if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
     {
         if (gGameVersion == VERSION_FIRE_RED)
         {
@@ -1100,3 +1102,26 @@ bool8 LoadChosenBattleElement(u8 caseId)
     }
     return ret;
 }
+
+void DrawTerrainTypeBattleBackground(void)
+{
+    switch (gFieldStatuses & STATUS_FIELD_TERRAIN_ANY)
+    {
+    case STATUS_FIELD_GRASSY_TERRAIN:
+        LoadMoveBg(BG_GRASSY_TERRAIN);
+        break;
+    case STATUS_FIELD_MISTY_TERRAIN:
+        LoadMoveBg(BG_MISTY_TERRAIN);
+        break;
+    case STATUS_FIELD_ELECTRIC_TERRAIN:
+        LoadMoveBg(BG_ELECTRIC_TERRAIN);
+        break;
+    case STATUS_FIELD_PSYCHIC_TERRAIN:
+        LoadMoveBg(BG_PSYCHIC_TERRAIN);
+        break;
+    default:
+        DrawMainBattleBackground();
+        break;
+    }
+}
+

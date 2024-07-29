@@ -17,18 +17,18 @@
 #include "window.h"
 #include "text.h"
 #include "text_window.h"
-#include "international_string_util.h"
+//#include "international_string_util.h"
 #include "strings.h"
 #include "battle_ai_main.h"
 #include "battle_ai_util.h"
 #include "list_menu.h"
 #include "decompress.h"
+#include "pokemon_debug.h"
 #include "trainer_pokemon_sprites.h"
 #include "malloc.h"
 #include "string_util.h"
 #include "util.h"
 #include "data.h"
-#include "reset_rtc_screen.h"
 #include "reshow_battle_screen.h"
 #include "constants/abilities.h"
 #include "constants/party_menu.h"
@@ -383,11 +383,11 @@ static const struct ListMenuItem sStatsListItems[] =
 {
     {sText_CurrHp, 0},
     {sText_MaxHp, 1},
-    {gText_Attack, 2},
-    {gText_Defense, 3},
+    {gText_Attack2, 2},
+    {gText_Defense2, 3},
     {gText_Speed, 4},
-    {gText_SpAtk, 5},
-    {gText_SpDef, 6},
+    {gText_SpAtk2, 5},
+    {gText_SpDef2, 6},
 };
 
 static const struct ListMenuItem sStatus1ListItems[] =
@@ -680,7 +680,7 @@ void CB2_BattleDebugMenu(void)
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
         ResetBgsAndClearDma3BusyFlags(0);
         InitBgsFromTemplates(0, sBgTemplates, ARRAY_COUNT(sBgTemplates));
-        ResetAllBgsCoordinates();
+        ResetAllBgsCoordinatesAndBgCntRegs();
         FreeAllWindowBuffers();
         DeactivateAllTextPrinters();
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
@@ -697,7 +697,7 @@ void CB2_BattleDebugMenu(void)
         break;
     case 3:
         LoadPalette(sBgColor, 0, 2);
-        LoadPalette(GetOverworldTextboxPalettePtr(), 0xf0, 16);
+        //LoadPalette(GetOverworldTextboxPalettePtr(), 0xf0, 16);
         gMain.state++;
         break;
     case 4:
@@ -773,7 +773,7 @@ static void CleanUpAiInfoWindow(u8 taskId)
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
     {
         if (data->spriteIds.aiIconSpriteIds[i] != 0xFF)
-            FreeAndDestroyMonIconSprite(&gSprites[data->spriteIds.aiIconSpriteIds[i]]);
+            DestroyMonIcon(&gSprites[data->spriteIds.aiIconSpriteIds[i]]);
     }
     FreeAndDestroyMonPicSprite(data->aiMonSpriteId);
     ClearWindowTilemap(data->aiMovesWindowId);
@@ -809,7 +809,7 @@ static void Task_ShowAiPoints(u8 taskId)
             {
                 data->spriteIds.aiIconSpriteIds[i] = CreateMonIcon(gBattleMons[i].species,
                                                          SpriteCallbackDummy,
-                                                         95 + (count * 60), 17, 0, 0);
+                                                         95 + (count * 60), 17, 0, 0, FALSE);
                 gSprites[data->spriteIds.aiIconSpriteIds[i]].data[0] = i; // battler id
                 count++;
             }
@@ -825,7 +825,7 @@ static void Task_ShowAiPoints(u8 taskId)
                                                  GetMonData(mon, MON_DATA_IS_SHINY),
                                                  gBattleMons[data->aiBattlerId].personality,
                                                  TRUE,
-                                                 39, 130, 15, TAG_NONE);
+                                                 39, 130, 15, TAG_NONE, FALSE);
         data->aiViewState++;
         break;
     // Put text
@@ -935,27 +935,27 @@ static void PutAiPartyText(struct BattleDebugMenu *data)
             else if (aiMons[i].gender == MON_FEMALE)
                 *txtPtr++ = CHAR_FEMALE;
             *txtPtr = EOS;
-            AddTextPrinterParameterized5(data->aiMovesWindowId, FONT_SMALL_NARROW, text, i * 41, 0, 0, NULL, 0, 0);
+            AddTextPrinterParameterized5(data->aiMovesWindowId, FONT_SMALL, text, i * 41, 0, 0, NULL, 0, 0);
         }
 
         txtPtr = StringCopyN(text, gAbilitiesInfo[aiMons[i].ability].name, 7); // The screen is too small to fit the whole string, so we need to drop the last letters.
         *txtPtr = EOS;
-        AddTextPrinterParameterized5(data->aiMovesWindowId, FONT_SMALL_NARROW, text, i * 41, 15, 0, NULL, 0, 0);
+        AddTextPrinterParameterized5(data->aiMovesWindowId, FONT_SMALL, text, i * 41, 15, 0, NULL, 0, 0);
 
         for (j = 0; j < MAX_MON_MOVES; j++)
         {
             txtPtr = StringCopyN(text, GetMoveName(aiMons[i].moves[j]), 8);
             *txtPtr = EOS;
-            AddTextPrinterParameterized5(data->aiMovesWindowId, FONT_SMALL_NARROW, text, i * 41, 35 + j * 15, 0, NULL, 0, 0);
+            AddTextPrinterParameterized5(data->aiMovesWindowId, FONT_SMALL, text, i * 41, 35 + j * 15, 0, NULL, 0, 0);
         }
 
         txtPtr = StringCopyN(text, GetHoldEffectName(aiMons[i].heldEffect), 7);
         *txtPtr = EOS;
-        AddTextPrinterParameterized5(data->aiMovesWindowId, FONT_SMALL_NARROW, text, i * 41, 35 + j * 15, 0, NULL, 0, 0);
+        AddTextPrinterParameterized5(data->aiMovesWindowId, FONT_SMALL, text, i * 41, 35 + j * 15, 0, NULL, 0, 0);
 
         txtPtr = ConvertIntToDecimalStringN(text, aiMons[i].switchInCount, STR_CONV_MODE_LEFT_ALIGN, 2);
         *txtPtr = EOS;
-        AddTextPrinterParameterized5(data->aiMovesWindowId, FONT_SMALL_NARROW, text, i * 41, 35 + (j + 1) * 15, 0, NULL, 0, 0);
+        AddTextPrinterParameterized5(data->aiMovesWindowId, FONT_SMALL, text, i * 41, 35 + (j + 1) * 15, 0, NULL, 0, 0);
     }
 
     CopyWindowToVram(data->aiMovesWindowId, COPYWIN_FULL);
@@ -990,7 +990,7 @@ static void Task_ShowAiKnowledge(u8 taskId)
             {
                 data->spriteIds.aiIconSpriteIds[i] = CreateMonIcon(gBattleMons[i].species,
                                                          SpriteCallbackDummy,
-                                                         95 + (count * 80), 17, 0, 0);
+                                                         95 + (count * 80), 17, 0, 0, FALSE);
                 gSprites[data->spriteIds.aiIconSpriteIds[i]].data[0] = i; // battler id
                 count++;
             }
@@ -1006,7 +1006,7 @@ static void Task_ShowAiKnowledge(u8 taskId)
                                                  GetMonData(mon, MON_DATA_IS_SHINY),
                                                  gBattleMons[data->aiBattlerId].personality,
                                                  TRUE,
-                                                 39, 130, 15, TAG_NONE);
+                                                 39, 130, 15, TAG_NONE, FALSE);
         data->aiViewState++;
         break;
     // Put text
@@ -1054,7 +1054,7 @@ static void Task_ShowAiParty(u8 taskId)
             u16 species = SPECIES_NONE; // Question mark
             if (aiMons[i].wasSentInBattle && aiMons[i].species)
                 species = aiMons[i].species;
-            data->spriteIds.aiPartyIcons[i] = CreateMonIcon(species, SpriteCallbackDummy, (i * 41) + 15, 7, 1, 0);
+            data->spriteIds.aiPartyIcons[i] = CreateMonIcon(species, SpriteCallbackDummy, (i * 41) + 15, 7, 1, 0, FALSE);
             gSprites[data->spriteIds.aiPartyIcons[i]].oam.priority = 0;
 
             gSprites[data->spriteIds.aiPartyIcons[i]].sConditionSpriteId = CreateSprite(&gSpriteTemplate_StatusIcons, (i * 41) + 15, 7, 0);
@@ -1117,7 +1117,7 @@ static void SwitchToDebugViewFromAiParty(u8 taskId)
         if (data->spriteIds.aiPartyIcons[i] != 0xFF)
         {
             DestroySpriteAndFreeResources(&gSprites[gSprites[data->spriteIds.aiPartyIcons[i]].sConditionSpriteId]);
-            FreeAndDestroyMonIconSprite(&gSprites[data->spriteIds.aiPartyIcons[i]]);
+            DestroyMonIcon(&gSprites[data->spriteIds.aiPartyIcons[i]]);
         }
     }
     ClearWindowTilemap(data->aiMovesWindowId);

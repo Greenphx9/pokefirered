@@ -3,6 +3,7 @@
 #include "task.h"
 #include "overworld.h"
 #include "malloc.h"
+#include "battle.h"
 #include "palette.h"
 #include "trig.h"
 #include "random.h"
@@ -547,7 +548,6 @@ static const u16 sMugshotPal_Pink[]   = INCBIN_U16("graphics/battle_transitions/
 static const u16 sMugshotPal_Blue[]   = INCBIN_U16("graphics/battle_transitions/blue_bg.gbapal");
 static const u16 sMugshotPal_Yellow[] = INCBIN_U16("graphics/battle_transitions/yellow_bg.gbapal");
 static const u16 sMugshotPal_Red[]    = INCBIN_U16("graphics/battle_transitions/red_bg.gbapal");
-static const u16 sMugshotPal_Green[]  = INCBIN_U16("graphics/battle_transitions/green_bg.gbapal");
 
 static const u16 *const sOpponentMugshotsPals[MUGSHOT_COLOR_COUNT] =
 {
@@ -2087,8 +2087,8 @@ static void Mugshots_CreateTrainerPics(struct Task *task)
     gReservedSpritePaletteCount = 10;
     
     task->tOpponentSpriteId = CreateTrainerSprite(trainerPicId,
-                                                  gTrainerSprites[trainerPicId].mugshotCoords.x - 32,
-                                                  gTrainerSprites[trainerPicId].mugshotCoords.y + 42,
+                                                  32,
+                                                  42,
                                                   0, gDecompressionBuffer);
     gReservedSpritePaletteCount = 12;
     task->tPlayerSpriteId = CreateTrainerSprite(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender, TRUE),
@@ -2117,7 +2117,7 @@ static void Mugshots_CreateTrainerPics(struct Task *task)
     CalcCenterToCornerVec(opponentSprite, SPRITE_SHAPE(64x32), SPRITE_SIZE(64x32), ST_OAM_AFFINE_DOUBLE);
     CalcCenterToCornerVec(playerSprite, SPRITE_SHAPE(64x32), SPRITE_SIZE(64x32), ST_OAM_AFFINE_DOUBLE);
 
-    opponentRotationScales = gTrainerSprites[trainerPicId].mugshotRotation;
+    opponentRotationScales = 0x200;
 
     SetOamMatrixRotationScaling(opponentSprite->oam.matrixNum, opponentRotationScales, opponentRotationScales, 0);
     SetOamMatrixRotationScaling(playerSprite->oam.matrixNum, -512, 512, 0);
