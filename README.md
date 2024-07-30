@@ -154,3 +154,6 @@ For now, these features have been implemeneted:
     - Gen6+'s EV cap.
     - ~~All bugfixes from pret included.~~
     - ~~Fixed overworld snow effect.~~
+ 
+[Click here to join the RHH Discord Server!](https://discord.gg/6CzjAG6GZk)
+
