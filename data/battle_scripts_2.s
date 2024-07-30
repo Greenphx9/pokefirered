@@ -147,7 +147,12 @@ BattleScript_ItemIncreaseAllStats::
 	end
 
 BattleScript_BallThrow::
+	jumpifbattletype BATTLE_TYPE_OLD_MAN_TUTORIAL, BattleScript_OldManThrowBall
 	printstring STRINGID_PLAYERUSEDITEM
+	handleballthrow
+
+BattleScript_OldManThrowBall::
+	printstring STRINGID_OLDMANUSEDITEM
 	handleballthrow
 
 BattleScript_SafariBallThrow::

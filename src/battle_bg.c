@@ -351,11 +351,11 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] = {
     },
     [B_WIN_OAK_OLD_MAN] = {
         .bg = 0,
-        .tilemapLeft = 2,
+        .tilemapLeft = 1,
         .tilemapTop = 15,
-        .width = 26,
+        .width = 28,
         .height = 4,
-        .paletteNum = 7,
+        .paletteNum = 0,
         .baseBlock = 0x090
     },
     DUMMY_WIN_TEMPLATE

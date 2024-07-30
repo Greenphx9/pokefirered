@@ -3625,7 +3625,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] = {
         .shadowColor = 6,
     },
     [B_WIN_OAK_OLD_MAN] = {
-        .fillValue = PIXEL_FILL(0x1),
+        /*.fillValue = PIXEL_FILL(0x1),
         .fontId = FONT_MALE,
         .x = 0,
         .y = 1,
@@ -3634,7 +3634,17 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] = {
         .speed = 1,
         .fgColor = 2,
         .bgColor = 1,
-        .shadowColor = 3,
+        .shadowColor = 3,*/
+        .fillValue = PIXEL_FILL(0xf),
+        .fontId = FONT_NORMAL,
+        .x = 2,
+        .y = 2,
+        .letterSpacing = 0,
+        .lineSpacing = 2,
+        .speed = 1,
+        .fgColor = 1,
+        .bgColor = 15,
+        .shadowColor = 6,
     }
 };
 

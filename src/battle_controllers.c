@@ -156,8 +156,8 @@ static void InitSinglePlayerBtlControllers(void)
 
         if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
             gBattlerControllerFuncs[0] = SetControllerToSafari;
-       // else if (gBattleTypeFlags & BATTLE_TYPE_OLD_MAN_TUTORIAL)
-        //    gBattlerControllerFuncs[0] = SentControllerToOakOldMan;
+        else if (gBattleTypeFlags & (BATTLE_TYPE_OLD_MAN_TUTORIAL | BATTLE_TYPE_FIRST_BATTLE))
+            gBattlerControllerFuncs[0] = SetControllerToOakOldMan;
         //else if (gBattleTypeFlags & BATTLE_TYPE_POKEDUDE)
         //    gBattlerControllerFuncs[0] = SentControllerToPokedude;
         //else if (IsAiVsAiBattle())

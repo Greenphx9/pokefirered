@@ -341,7 +341,9 @@ void SetControllerToPokedude(u32 battler);
 void InitPokedudePartyAndOpponent(void);
 
 // oak and old man controller
-void SetControllerToOakOrOldMan(u32 battler);
+void SetControllerToOakOldMan(u32 battler);
+void OakOldManHandleBallThrowAnim(u32 battler);
+void OakOldManHandleExpUpdate(u32 battler);
 
 // These flags are set to signal that the indicated message
 // was already emitted
@@ -357,10 +359,10 @@ void SetControllerToOakOrOldMan(u32 battler);
 
 bool8 BtlCtrl_OakOldMan_TestState2Flag(u8 mask);
 void BtlCtrl_OakOldMan_SetState2Flag(u8 mask);
-void PrintOakText_InflictingDamageIsKey(void);
-void PrintOakText_HowDisappointing(void);
-void PrintOakText_OakNoRunningFromATrainer(void);
-void OakOldManHandleInputChooseMove(void);
+void PrintOakText_InflictingDamageIsKey(u32 battler);
+void PrintOakText_HowDisappointing(u32 battler);
+void PrintOakText_OakNoRunningFromATrainer(u32 battler);
+void OakOldManHandleInputChooseMove(u32 battler);
 void BtlCtrl_DrawVoiceoverMessageFrame(void);
 void BtlCtrl_RemoveVoiceoverMessageFrame(void);
 

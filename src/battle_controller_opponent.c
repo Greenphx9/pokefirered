@@ -643,9 +643,54 @@ static u8 CountAIAliveNonEggMonsExcept(u8 slotToIgnore)
     return count;
 }
 
+static void Controller_WaitForHealthBar_Opponent(u32 battler)
+{
+    s16 hpValue = MoveBattleBar(battler, gHealthboxSpriteIds[battler], HEALTH_BAR, 0);
+
+    SetHealthboxSpriteVisible(gHealthboxSpriteIds[battler]);
+    if (hpValue != -1)
+    {
+        UpdateHpTextInHealthbox(gHealthboxSpriteIds[battler], HP_CURRENT, hpValue, gBattleMons[battler].maxHP);
+    }
+    else
+    {
+        if (GetBattlerSide(battler) == B_SIDE_PLAYER)
+            HandleLowHpMusicChange(&gPlayerParty[gBattlerPartyIndexes[battler]], battler);
+        if (!BtlCtrl_OakOldMan_TestState2Flag(1) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
+        {
+            BtlCtrl_OakOldMan_SetState2Flag(1);
+            gBattlerControllerFuncs[battler] = PrintOakText_InflictingDamageIsKey;
+        }
+        else
+        {
+            OpponentBufferExecCompleted(battler);
+        }
+    }
+}
+
 static void OpponentHandleHealthBarUpdate(u32 battler)
 {
-    BtlController_HandleHealthBarUpdate(battler, FALSE);
+    s32 maxHP, curHP;
+    s16 hpVal;
+    struct Pokemon *party = GetBattlerParty(battler);
+
+    LoadBattleBarGfx(0);
+    hpVal = gBattleResources->bufferA[battler][2] | (gBattleResources->bufferA[battler][3] << 8);
+    maxHP = GetMonData(&party[gBattlerPartyIndexes[battler]], MON_DATA_MAX_HP);
+    curHP = GetMonData(&party[gBattlerPartyIndexes[battler]], MON_DATA_HP);
+
+    if (hpVal != INSTANT_HP_BAR_DROP)
+    {
+        SetBattleBarStruct(battler, gHealthboxSpriteIds[battler], maxHP, curHP, hpVal);
+        TestRunner_Battle_RecordHP(battler, curHP, min(maxHP, max(0, curHP - hpVal)));
+    }
+    else
+    {
+        SetBattleBarStruct(battler, gHealthboxSpriteIds[battler], maxHP, 0, hpVal);
+        TestRunner_Battle_RecordHP(battler, curHP, 0);
+    }
+
+    gBattlerControllerFuncs[battler] = Controller_WaitForHealthBar_Opponent;
 }
 
 static void OpponentHandleIntroTrainerBallThrow(u32 battler)
