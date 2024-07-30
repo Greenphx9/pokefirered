@@ -6102,13 +6102,27 @@ static u8 GetPartyLayoutFromBattleType(void)
 
 void OpenPartyMenuInTutorialBattle(u8 partyAction)
 {
-    InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE,
-                    GetPartyLayoutFromBattleType(),
-                    partyAction,
-                    FALSE,
-                    PARTY_MSG_CHOOSE_MON,
-                    Task_HandleChooseMonInput,
-                    SetCB2ToReshowScreenAfterMenu);
+    if (!BtlCtrl_OakOldMan_TestState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
+    {
+        InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE,
+                      GetPartyLayoutFromBattleType(),
+                      partyAction,
+                      FALSE,
+                      PARTY_MSG_NONE,
+                      Task_FirstBattleEnterParty_WaitFadeIn,
+                      SetCB2ToReshowScreenAfterMenu);
+        BtlCtrl_OakOldMan_SetState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU);
+    }
+    else
+    {
+        InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE,
+                      GetPartyLayoutFromBattleType(),
+                      partyAction,
+                      FALSE,
+                      PARTY_MSG_CHOOSE_MON,
+                      Task_HandleChooseMonInput,
+                      SetCB2ToReshowScreenAfterMenu);
+    }
     ReshowBattleScreenDummy();
     UpdatePartyToBattleOrder();
 }
