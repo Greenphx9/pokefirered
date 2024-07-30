@@ -23,12 +23,12 @@ For now, these features have been implemeneted:
     - [Debug configurations](https://github.com/rh-hideout/pokeemerald-expansion/blob/master/include/config/debug.h)
 - ***Upgraded battle engine.***
     - Gen5+ damage calculation.
-    ~~- 2v2 Wild battles support.~~
-    ~~- 1v2/2v1 battles support.~~
+    - ~~2v2 Wild battles support.~~
+    - ~~1v2/2v1 battles support.~~
     - Fairy Type (configurable).
     - Physical/Special/Status Category (configurable).
     - New moves and abilities up to Scarlet and Violet.
-        ~~- Custom Contest data up to SwSh, newer moves are WIP. ([source](https://pokemonurpg.com/info/contests/rse-move-list/))~~ (Not in Fire Red)
+        - ~~Custom Contest data up to SwSh, newer moves are WIP. ([source](https://pokemonurpg.com/info/contests/rse-move-list/))~~ (Not in Fire Red)
     - Battle gimmick support:
         - Mega Evolution
         - Primal Reversion
@@ -38,17 +38,17 @@ For now, these features have been implemeneted:
             ~~- Gen 8+ status moves have no additional effects, like Healing Wish.~~ (implemented but untested)
         ~~- Dynamax and Gigantamax~~ (implemented but untested)
     - Initial battle parameters
-        ~~- Queueing stat boosts (aka, Totem Boosts)~~ (implemented but untested)
-        ~~- Setting Terrains.~~ (implemented but untested)
+        - ~~Queueing stat boosts (aka, Totem Boosts)~~ (implemented but untested)
+        - ~~Setting Terrains.~~ (implemented but untested)
     - Mid-turn speed recalculation.
     - Quick Poké Ball selection in Wild Battles
         - Hold `R` to change selection with the D-Pad.
         - Press `R` to use last selected Poké Ball.
-    ~~- Run option shortcut~~
+    - ~~Run option shortcut~~
     - Faster battle intro - Message and animation/cry happens at the same time.
     - Faster HP drain.
-    ~~- Battle Debug menu.~~
-        ~~- Accessed by pressing `Select` on the "Fight/Bag/Pokémon/Run" menu.~~
+    - ~~Battle Debug menu.~~
+        - ~~Accessed by pressing `Select` on the "Fight/Bag/Pokémon/Run" menu.~~
     - Option to use AI flags in wild Pokémon battles.
     - FRLG/Gen4+ whiteout money calculation.
     - Configurable experience settings
@@ -63,12 +63,12 @@ For now, these features have been implemeneted:
     - Removed badge boosts (configurable).
     - Recalculating stats at the end of every battle.
     - Level 100 Pokémon can earn EVs.
-    ~~- Inverse battle support.~~
+    - ~~Inverse battle support.~~
     - TONS of other features listed [here](https://github.com/rh-hideout/pokeemerald-expansion/blob/master/include/config/battle.h).
 - ***Full Trainer customization***
     - Nickname, EVs, IVs, moves, ability, ball, friendship, nature, gender, shininess.
-    ~~- Custom tag battle support (teaming up an NPC in a double battle).~~
-    ~~- Sliding trainer messages.~~
+    - ~~Custom tag battle support (teaming up an NPC in a double battle).~~
+    - ~~Sliding trainer messages.~~
     - Upgraded Trainer AI
         - Considers newer move effects.
         - New flag options to let you customize the intelligence of your trainers.
@@ -108,18 +108,18 @@ For now, these features have been implemeneted:
     - HP Threshold (eg. Darmanitan)
     - Weather (eg. Castform)
     - End of turn (eg. Morpeko)
-    ~~- Time of day (eg. Shaymin)~~ (No RTC yet)
-    ~~- Fusions (eg. Kyurem)~~
+    - ~~Time of day (eg. Shaymin)~~ (No RTC yet)
+    - ~~Fusions (eg. Kyurem)~~
 - ***Breeding Improvements***
-    ~~- Incense Baby Pokémon now happen automatically (configurable).~~
-    ~~- Level 1 eggs (configurable).~~
-    ~~- Poké Ball inheriting (configurable).~~
-    ~~- Egg Move Transfer, including Mirror Herb (configurable).~~
-    ~~- Nature inheriting 100% of the time with Everstone (configurable)~~
-    ~~- Gen6+ Ability inheriting (configurable).~~
+    - ~~Incense Baby Pokémon now happen automatically (configurable).~~
+    - ~~Level 1 eggs (configurable).~~
+    - ~~Poké Ball inheriting (configurable).~~
+    - ~~Egg Move Transfer, including Mirror Herb (configurable).~~
+    - ~~Nature inheriting 100% of the time with Everstone (configurable)~~
+    - ~~Gen6+ Ability inheriting (configurable).~~
 - ***Items from newer Generations. Full list [here](https://github.com/rh-hideout/pokeemerald-expansion/blob/master/include/constants/items.h).***
-    ~~- ***Gen 6+ Exp. Share*** (configurable)~~
-    ~~- Berserk Gene~~
+    - ~~***Gen 6+ Exp. Share*** (configurable)~~
+    - ~~Berserk Gene~~
     - Most battle items from Gen 4+
     - Existing item data but missing effects:
         - Gimmighoul Coin
@@ -127,30 +127,30 @@ For now, these features have been implemeneted:
         - Tera Shards
         - Tera Orb
 - ***Feature branches incorporated (with permission):***
-    ~~- [RHH intro credits](https://github.com/Xhyzi/pokeemerald/tree/rhh-intro-credits) by @Xhyzi.~~ (this won't be added unless this becomes an official RHH project)
-        ~~- A small signature from all of us to show the collective effort in the project :)~~
+    - ~~[RHH intro credits](https://github.com/Xhyzi/pokeemerald/tree/rhh-intro-credits) by @Xhyzi.~~ (this won't be added unless this becomes an official RHH project)
+        - ~~A small signature from all of us to show the collective effort in the project :)~~
     - [Overworld debug](https://github.com/TheXaman/pokeemerald/tree/tx_debug_system) by @TheXaman
         - May be disabled.
         - Accesible by pressing `R + Start` in the overworld by default.
         - **Additional features**:
             - *Clear Boxes*: cleans every Pokémon from the Boxes.
             - *Hatch an Egg*: lets you choose an Egg in your party and immediately hatch it.
-    ~~- [HGSS Pokédex](https://github.com/TheXaman/pokeemerald/tree/tx_pokedexPlus_hgss) by @TheXaman~~
-        ~~- May be disabled.~~
-        ~~- **Additional features**:~~
-            ~~- *Support for new evolution methods*.~~
-            ~~- *Dark Mode*.~~
+    - ~~[HGSS Pokédex](https://github.com/TheXaman/pokeemerald/tree/tx_pokedexPlus_hgss) by @TheXaman~~
+        - ~~May be disabled.~~
+        - ~~**Additional features**:~~
+            - ~~*Support for new evolution methods*.~~
+            - ~~*Dark Mode*.~~
     - [Nature Colors](https://github.com/DizzyEggg/pokeemerald/tree/nature_color) in summary screen by @DizzyEggg (adapted for Fire Red)
     - [Dynamic Multichoice](https://github.com/SBird1337/pokeemerald/tree/feature/dynmulti) by @SBird1337 (adapted for Fire Red)
     - [Saveblock Cleansing](https://github.com/ghoulslash/pokeemerald/tree/saveblock) by @ghoulslash (adapted for Fire Red)
 - ***Other features***
-    ~~- Pressing B while holding a Pokémon drops them like in modern games (configurable).~~
-    ~~- Running indoors (configurable).~~
-    ~~- Configurable overworld poison damage.~~
-    ~~- Configurable flags for disabling Wild encounters and Trainer battles.~~
-    ~~- Configurable flags for forcing or disabling Shinies.~~
+    - ~~Pressing B while holding a Pokémon drops them like in modern games (configurable).~~
+    - ~~Running indoors (configurable).~~
+    - ~~Configurable overworld poison damage.~~
+    - ~~Configurable flags for disabling Wild encounters and Trainer battles.~~
+    - ~~Configurable flags for forcing or disabling Shinies.~~
     - Reusable TM (configurable).
     - B2W2+ Repel system that also supports LGPE's Lures
     - Gen6+'s EV cap.
-    ~~- All bugfixes from pret included.~~
-    ~~- Fixed overworld snow effect.~~
+    - ~~All bugfixes from pret included.~~
+    - ~~Fixed overworld snow effect.~~
